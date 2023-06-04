@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7828068020436197706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5348347875780024611}
+  - component: {fileID: 3061650811200072958}
+  m_Layer: 0
+  m_Name: fieldSample
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5348347875780024611
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7828068020436197706}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3061650811200072958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7828068020436197706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe0b0fe618210545819e0968648b75c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selected: 0
+  woodType: 0
+  ironType: 0
+  eleType: 0
+  eleType2: 0
+  checkState: 0
+  fieldSelectPrefab: {fileID: 3856420350723147276, guid: 4583568cd33dad7459eb10b7209e28f7,
+    type: 3}
+  mergeEnablePrefab: {fileID: 3856420350723147276, guid: d0d9aca96047852468b63efbadf04885,
+    type: 3}
+  woodPrefab:
+  - {fileID: 4746951154318545335, guid: bd4fbb816b2464f4a9c4d491880add76, type: 3}
+  - {fileID: 2038707701449096810, guid: f64f7be388e353546bbcc0ad40d30455, type: 3}
+  - {fileID: 8713219425728071048, guid: 315c257c95155e44385ce573210e5cfd, type: 3}
+  ironPrefab:
+  - {fileID: 2888420355023301278, guid: fbc3dc3fca3a9eb42b4169444b3f312c, type: 3}
+  - {fileID: 566133099119094488, guid: 5ecb38ddf94d5464d889edf5ee56bd79, type: 3}
+  - {fileID: 3842673808087913001, guid: 12eca760d752617478239f5adfff15f4, type: 3}
+  elecPrefab:
+  - {fileID: 7350975138785341900, guid: 0b061a34be4aeff49814d002836cf79d, type: 3}
+  - {fileID: 1940372403511101621, guid: e3a3849d4b0680e43856211fc8d2e81e, type: 3}
+  - {fileID: 1197196885427198644, guid: 7d691f2823ad27a40a6780858baa23a6, type: 3}
+  woodSObj: {fileID: 11400000, guid: 4831304427c37bc4995e60bf79f80745, type: 2}
+  ironSObj: {fileID: 11400000, guid: f3a30f0b6c81cc544892d92e881ddf02, type: 2}
+  eleSObj: {fileID: 11400000, guid: fe7530a7af1595342a674f0dc66ad443, type: 2}
+  towerType: 
+  globalVar: {fileID: 11400000, guid: 6d4667f1aaade694385f899cb0598745, type: 2}
