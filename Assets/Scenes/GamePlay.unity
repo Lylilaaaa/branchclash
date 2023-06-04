@@ -19251,11 +19251,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1371181751}
     m_Modifications:
-    - target: {fileID: 1598899873907528714, guid: 8c3b1d46c74f0224d86edc175fad7c70,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 2.871
-      objectReference: {fileID: 0}
     - target: {fileID: 1957561983734174493, guid: 8c3b1d46c74f0224d86edc175fad7c70,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -19266,20 +19261,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5445326213878597013, guid: 8c3b1d46c74f0224d86edc175fad7c70,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.194
-      objectReference: {fileID: 0}
     - target: {fileID: 5484001341741283344, guid: 8c3b1d46c74f0224d86edc175fad7c70,
         type: 3}
       propertyPath: m_Name
       value: jellyfish
-      objectReference: {fileID: 0}
-    - target: {fileID: 5484001341741283344, guid: 8c3b1d46c74f0224d86edc175fad7c70,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5484001341741283347, guid: 8c3b1d46c74f0224d86edc175fad7c70,
         type: 3}

@@ -321,9 +321,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20737a9151e98fa428e35dfa24218785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MonsterHealth: 100
+  MonsterHealth: 80
   healthBar: {fileID: 2213857774823850731}
-  totalHealth: 100
+  totalHealth: 80
   BodyHitGameObj: {fileID: 6348993963554309143, guid: e402b7049fb113841abe6d3fe3e122d6,
     type: 3}
 --- !u!114 &341344238688243151
@@ -454,7 +454,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.023, y: 1.929}
+  m_AnchoredPosition: {x: -0.023, y: 2.871}
   m_SizeDelta: {x: 640, y: 480}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4756932779719267349
@@ -614,7 +614,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.252
+      value: 1.194
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}
