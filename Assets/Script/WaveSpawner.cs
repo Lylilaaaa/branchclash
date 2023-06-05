@@ -5,12 +5,15 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
-
 public class WaveSpawner : MonoBehaviour
 {
     public Transform startPosition;
 
-    public GameObject enemyPrefab;
+    public  List<GameObject> EnemeList;
+    public List<Transform> SpawnPos;
+    //1.Cake 2.JellyFish
+    
+    private List<int> myList;
     public GameObject selectPanal;
     public int enemyNum;
 
@@ -75,10 +78,12 @@ public class WaveSpawner : MonoBehaviour
 
     void spawnEnemy(int j)
     {
-        GameObject enemySpawn = Instantiate(enemyPrefab,startPosition.position,startPosition.rotation);
+        int randomIndex = UnityEngine.Random.Range(0, EnemeList.Count);
+        GameObject enemySpawn = Instantiate(EnemeList[randomIndex],SpawnPos[randomIndex].position,SpawnPos[randomIndex].rotation);
         enemySpawn.name = j.ToString() + "enemy";
-        enemySpawn.transform.SetParent(transform);
-        enemySpawn.transform.localScale = new Vector3(1f,1f,1f);
+        enemySpawn.transform.rotation = Quaternion.Euler(Vector3.zero);
+        //enemySpawn.transform.SetParent(transform);
+        //enemySpawn.transform.localScale = new Vector3(1f,1f,1f);
     }
 
     public void startGame()

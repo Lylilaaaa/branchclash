@@ -305,10 +305,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.47495645
-  m_Height: 1.0400698
+  m_Radius: 0.47495642
+  m_Height: 1.4930925
   m_Direction: 1
-  m_Center: {x: 0.085148156, y: -0.480837, z: 0}
+  m_Center: {x: 0.08514818, y: -0.27766466, z: 0}
 --- !u!114 &1704485414550062649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,7 +454,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.023, y: 2.871}
+  m_AnchoredPosition: {x: -0.023, y: 1.672}
   m_SizeDelta: {x: 640, y: 480}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4756932779719267349
@@ -614,7 +614,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.194
+      value: -1.131
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}

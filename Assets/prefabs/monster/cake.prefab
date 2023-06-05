@@ -282,8 +282,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5882442, y: 1.2387085, z: 1.4944667}
-  m_Center: {x: -0.012788137, y: 1.5089729, z: -0.0682021}
+  m_Size: {x: 1.6147159, y: 1.1681207, z: 1.4944667}
+  m_Center: {x: 0.00044759116, y: 0.4324573, z: -0.0682021}
 --- !u!114 &984009922988702828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,7 +414,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.107, y: 2.234333}
+  m_AnchoredPosition: {x: -0.107, y: 1.4000001}
   m_SizeDelta: {x: 640, y: 480}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &984009923914786742
@@ -613,7 +613,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 1174cb4a70bd92f48af985a4d84a6bb7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.88
+      value: -0.157
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1174cb4a70bd92f48af985a4d84a6bb7,
         type: 3}

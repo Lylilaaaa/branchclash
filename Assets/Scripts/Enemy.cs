@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
 
     public float hitPoint = 500f;
     public bool isRotate;
-    private float angleSpeed = 0.5f;
+    private float angleSpeed = 0.1f;
 
     public void GetDamage(float damage)
     {
@@ -29,7 +29,8 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        Vector3 dir = target.position - transform.position;
+        Vector3 target_plane = new Vector3(target.position.x, transform.position.y, target.position.z);
+        Vector3 dir = target_plane - transform.position;
         
         Quaternion rotate = Quaternion.LookRotation(dir);
         if (Vector3.Angle(dir, transform.forward) < 0.1f)
@@ -45,9 +46,10 @@ public class Enemy : MonoBehaviour
             transform.localRotation = Quaternion.Slerp(transform.localRotation, rotate, angleSpeed);
             print(rotate);
         }
+        
         transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
 
-        if (Vector3.Distance(transform.position, target.position) <= 0.1f)
+        if (Vector3.Distance(transform.position, target_plane) <= 1f)
         {
             GetNextWaypoint();
         }
