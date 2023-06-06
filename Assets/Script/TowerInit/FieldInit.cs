@@ -29,9 +29,12 @@ public class FieldInit : MonoBehaviour
     public string towerType;
     public LevelData globalVar;
     
+    private Collider selectedCollider;
+    
     // Update is called once per frame
     private void Start()
     {
+        selectedCollider = transform.GetComponent<BoxCollider>();
         towerType = "";
     }
 
@@ -252,6 +255,24 @@ public class FieldInit : MonoBehaviour
         if (checkState == 0 && selected == false && woodType == 0 && ironType == 0 && eleType == 0)
         {
             deletExcept("hihi");
+        }
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            
+            if (hit.collider == selectedCollider)
+            {
+                print("yes, miao!");
+                if (checkState == 0 && selected == false && woodType == 0 && ironType == 0 && eleType == 0)
+                {
+                    selected = true;
+                }
+            }
+            else
+            {
+                selected = false;
+            }
         }
     }
 

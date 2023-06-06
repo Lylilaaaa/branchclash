@@ -4,8 +4,27 @@ using UnityEngine;
 
 public class GlobalVar : MonoBehaviour
 {
+    public static GlobalVar _instance;
+    public enum GameState
+    {
+        MainStart,
+        Viewing,
+        ChooseFiled,
+        AddTowerUI,
+        GameOver
+    }
+    public static GameState currentGameState;
+    private void Start()
+    {
+        // 初始化游戏状态
+        currentGameState = GameState.MainStart;
+    }
+    private void Awake()
+    {
+        _instance = this;
+    }
     // Start is called before the first frame update
-    void Start()
+    public void ChangeState()
     {
         
     }

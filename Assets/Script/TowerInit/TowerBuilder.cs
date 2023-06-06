@@ -29,10 +29,10 @@ public class TowerBuilder : MonoBehaviour
                 {
                     FieldInit fieldInit = thisField.GetComponent<FieldInit>();
                     fieldInit.towerType = setTowerType;
-                    if (fieldInit.selected == false && fieldInit.woodType==0 && fieldInit.ironType==0 && fieldInit.eleType==0)
-                    {
-                        fieldInit.selected = true;
-                    }
+                    // if (fieldInit.selected == false && fieldInit.woodType==0 && fieldInit.ironType==0 && fieldInit.eleType==0)
+                    // {
+                    //     fieldInit.selected = true;
+                    // }
                 }
             }
         }
