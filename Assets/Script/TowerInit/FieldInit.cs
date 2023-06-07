@@ -22,6 +22,7 @@ public class FieldInit : MonoBehaviour
     public GameObject[] ironPrefab;
     public GameObject[] elecPrefab;
 
+
     public TowerData woodSObj;
     public TowerData ironSObj;
     public TowerData eleSObj;
@@ -29,12 +30,9 @@ public class FieldInit : MonoBehaviour
     public string towerType;
     public LevelData globalVar;
     
-    private Collider selectedCollider;
-    
     // Update is called once per frame
     private void Start()
     {
-        selectedCollider = transform.GetComponent<BoxCollider>();
         towerType = "";
     }
 
@@ -256,26 +254,35 @@ public class FieldInit : MonoBehaviour
         {
             deletExcept("hihi");
         }
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (selected == true)
         {
-            
-            if (hit.collider == selectedCollider)
+            if (Input.GetMouseButtonDown(0))
             {
-                print("yes, miao!");
-                if (checkState == 0 && selected == false && woodType == 0 && ironType == 0 && eleType == 0)
+                if (GlobalVar._instance.GetState() == GlobalVar.GameState.ChooseField)
                 {
-                    selected = true;
+                    GlobalVar._instance.ChangeState("AddTowerUI");
+                    GlobalVar._instance.chooseField(transform.name);
                 }
-            }
-            else
-            {
-                selected = false;
             }
         }
     }
+    private void OnMouseEnter()
+    {
+        if (GlobalVar._instance.GetState() == GlobalVar.GameState.ChooseField)
+        {
+            if (checkState == 100 && selected == false && woodType == 0 && ironType == 0 && eleType == 0)
+            {
+                selected = true;
+            }
+        }
 
+    }
+
+    private void OnMouseExit()
+    {
+        //print("yes, miao!");
+        selected = false;
+    }
     private bool checkExsit(string checkObj)
     {
         for (int i = 0; i < transform.childCount; i++)
