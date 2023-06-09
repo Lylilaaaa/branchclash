@@ -262,6 +262,7 @@ public class FieldInit : MonoBehaviour
                 {
                     GlobalVar._instance.ChangeState("AddTowerUI");
                     GlobalVar._instance.chooseField(transform.name);
+                    selected = false;
                 }
             }
         }

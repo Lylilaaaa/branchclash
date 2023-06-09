@@ -1668,6 +1668,18 @@ MonoBehaviour:
           m_StringArgument: wood
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 753596591}
+        m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
+        m_MethodName: changeStateChoseField
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &91522485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2513,8 +2525,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 136.6, y: -52.1}
-  m_SizeDelta: {x: 60, y: -70}
+  m_AnchoredPosition: {x: 136.51, y: -48.1}
+  m_SizeDelta: {x: -68.23, y: -100.3121}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &186587266
 MonoBehaviour:
@@ -2572,7 +2584,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -3729,8 +3741,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 49.999947, y: -13.4}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 33.052185, y: -10.700009}
+  m_SizeDelta: {x: 166.1045, y: 44.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &259286650
 MonoBehaviour:
@@ -5477,8 +5489,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 151.09998, y: -3.9}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 94.493, y: -1.3286}
+  m_SizeDelta: {x: 58.483, y: 43.5714}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &419487011
 MonoBehaviour:
@@ -12337,6 +12349,18 @@ MonoBehaviour:
           m_StringArgument: iron
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 753596591}
+        m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
+        m_MethodName: changeStateChoseField
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1034735598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13296,8 +13320,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 49.999947, y: -66.3}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 33.05101, y: -66.3}
+  m_SizeDelta: {x: 166.1, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1089055388
 MonoBehaviour:
@@ -15101,8 +15125,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 136.60004, y: 56.970013}
-  m_SizeDelta: {x: 60, y: -70}
+  m_AnchoredPosition: {x: 136.86075, y: 60.7}
+  m_SizeDelta: {x: -67.5281, y: -99.6776}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1228349168
 MonoBehaviour:
@@ -15160,7 +15184,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -16297,8 +16321,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 49.999973, y: 36.7}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 33.052, y: 36.65}
+  m_SizeDelta: {x: 166.1, y: 50.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1376027126
 MonoBehaviour:
@@ -16724,8 +16748,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 151.09998, y: -58}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 91.852776, y: -55.14721}
+  m_SizeDelta: {x: 51.882, y: 42.868}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1416351071
 MonoBehaviour:
@@ -20575,8 +20599,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 151.1, y: 48.7}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 91.89391, y: 55.335007}
+  m_SizeDelta: {x: 51.9848, y: 33.412}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1781009819
 MonoBehaviour:
@@ -21446,6 +21470,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: elec
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 753596591}
+        m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
+        m_MethodName: changeStateChoseField
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1839474026
@@ -23033,8 +23069,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 136.60004, y: 1.5}
-  m_SizeDelta: {x: 60, y: -70}
+  m_AnchoredPosition: {x: 136.5081, y: 2.2}
+  m_SizeDelta: {x: -68.2285, y: -99.4519}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2015742230
 MonoBehaviour:
