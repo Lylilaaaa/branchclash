@@ -7,6 +7,7 @@ public class GlobalVar : MonoBehaviour
 {
     public static GlobalVar _instance;
     public string targetField="";
+    public bool chooseSedElec;
     public string gameStateShown="";
     public enum GameState
     {
@@ -61,6 +62,11 @@ public class GlobalVar : MonoBehaviour
         }
         
         currentGameState = newState;
+    }
+
+    public void changeEleMode(bool choseEle)
+    {
+        chooseSedElec = choseEle;
     }
 
     // Update is called once per frame

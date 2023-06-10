@@ -29,6 +29,8 @@ public class FieldInit : MonoBehaviour
 
     public string towerType;
     public LevelData globalVar;
+
+    public bool mouseEnter;
     
     // Update is called once per frame
     private void Start()
@@ -176,13 +178,20 @@ public class FieldInit : MonoBehaviour
             if (checkExsit("ele" + eleType) == false)
             {
                 closeSelected();
+                GlobalVar._instance.changeEleMode(true);
                 List<Transform> neighborhood = findNeighborhood(transform);
                 foreach (Transform pos in neighborhood)
                 {
                     FieldInit neighborhoodFI = pos.GetComponent<FieldInit>();
                     neighborhoodFI.selected = true;
-                    ClikField neighborhoodCF = pos.GetChild(0).GetComponent<ClikField>();
-                    neighborhoodCF.isElecTwice = true;
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        if (neighborhoodFI.mouseEnter == true)
+                        {
+                            neighborhoodFI.eleType2 = 1;
+                            neighborhoodFI.selected = false;
+                        }
+                    }
                     //继续检测直到点击了第二次
                     if (neighborhoodFI.eleType2 == 1)
                     {
@@ -236,6 +245,7 @@ public class FieldInit : MonoBehaviour
                         }
                         setData(eleSObj);
                         towerType = "elec";
+                        GlobalVar._instance.changeEleMode(false);
                         break;
                     }
                 }
@@ -254,11 +264,11 @@ public class FieldInit : MonoBehaviour
         {
             deletExcept("hihi");
         }
-        if (selected == true)
+        if (selected == true && woodType == 0 && ironType == 0 && eleType == 0 && eleType2 == 0)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (GlobalVar._instance.GetState() == GlobalVar.GameState.ChooseField)
+                if (GlobalVar._instance.GetState() == GlobalVar.GameState.ChooseField && GlobalVar._instance.chooseSedElec == false)
                 {
                     GlobalVar._instance.ChangeState("AddTowerUI");
                     GlobalVar._instance.chooseField(transform.name);
@@ -269,6 +279,7 @@ public class FieldInit : MonoBehaviour
     }
     private void OnMouseEnter()
     {
+        mouseEnter = true;
         if (GlobalVar._instance.GetState() == GlobalVar.GameState.ChooseField)
         {
             if (checkState == 100 && selected == false && woodType == 0 && ironType == 0 && eleType == 0)
@@ -281,6 +292,7 @@ public class FieldInit : MonoBehaviour
 
     private void OnMouseExit()
     {
+        mouseEnter = false;
         //print("yes, miao!");
         selected = false;
     }
