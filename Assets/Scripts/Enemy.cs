@@ -44,7 +44,6 @@ public class Enemy : MonoBehaviour
         if (isRotate)
         {
             transform.localRotation = Quaternion.Slerp(transform.localRotation, rotate, angleSpeed);
-            print(rotate);
         }
         
         transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
