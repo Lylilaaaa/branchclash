@@ -9,6 +9,8 @@ public class GlobalVar : MonoBehaviour
     public string targetField="";
     public bool chooseSedElec;
     public string gameStateShown="";
+    public GameState initialGameState;
+    public static GameState currentGameState;
     public enum GameState
     {
         MainStart,
@@ -20,6 +22,7 @@ public class GlobalVar : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+        
     }
 
     private void Update()
@@ -27,11 +30,11 @@ public class GlobalVar : MonoBehaviour
         gameStateShown = GetState().ToString();
     }
 
-    public static GameState currentGameState;
+    
     private void Start()
     {
         // 初始化游戏状态
-        currentGameState = GameState.ChooseField;
+        currentGameState = initialGameState;
     }
 
     // Start is called before the first frame update

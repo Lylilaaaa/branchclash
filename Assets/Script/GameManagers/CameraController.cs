@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,13 @@ public class CameraController : MonoBehaviour
 {    public float zoomSpeed = 5f;   // 相机缩放速度
     public float moveSpeed = 10f;  // 相机移动速度
     public float rotationSpeed = 5f; // 相机旋转速度
-
+    public Vector3 scrollAxis = new Vector3(0, 1, 0);
     private float zoomAmount = 0f;
     private float lastScrollWheel = 0f;
+
+    private void Start()
+    {
+    }
 
     private void Update()
     {
@@ -19,7 +24,7 @@ public class CameraController : MonoBehaviour
         {
             zoomAmount -= deltaScrollWheel * zoomSpeed;
             zoomAmount = Mathf.Clamp(zoomAmount, -10f, 10f);
-            transform.position = new Vector3(transform.position.x, transform.position.y + zoomAmount, transform.position.z);
+            transform.position = transform.position + scrollAxis*zoomAmount;
 
             lastScrollWheel = scrollWheel;
         }
