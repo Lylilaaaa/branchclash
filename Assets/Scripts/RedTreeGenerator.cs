@@ -1,6 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/*
+ Description:       Randonly instantiate nodes of downward tree, set nodes propety
+ Unity Version:     2020.3.15f2c1
+ Author:            ZHUANG Yan
+ Date:              01/01/2023
+ Last Modified:     06/12/2023
+ */
 
 public class RedTreeGenerator : MonoBehaviour
 {
@@ -71,6 +78,7 @@ public class RedTreeGenerator : MonoBehaviour
     //层数，层内序号，父节点层内序号，子节点数量
     public static int[] redNodes;
     public GameObject prefab;
+    public GameObject link;
     public int layerHeight = 5;
 
     private int layerNum;
@@ -81,7 +89,7 @@ public class RedTreeGenerator : MonoBehaviour
     private void Start()
     {
         
-        redNodes = new int[] {0,0,0,5,1,0,0,0,1,1,0,1,1,2,0,3,1,3,0,3,1,4,0,0,2,0,1,0,2,1,2,0,2,2,2,0,2,3,2,0,2,4,3,0,2,5,3,0,2,6,3,0};
+        redNodes = new int[] {0,0,0,5,1,0,0,1,1,1,0,0,1,2,0,3,1,3,0,3,1,4,0,0,2,0,0,0,2,1,2,0,2,2,2,0,2,3,2,0,2,4,3,0,2,5,3,0,2,6,3,0};
         layerNum = GetLayer();
         nodePos = new List<Vector3>();
         layerWidth = new int[layerNum + 1];
@@ -92,7 +100,7 @@ public class RedTreeGenerator : MonoBehaviour
             return;
         }
 
-        nodePos.Add(new Vector3(0, 0, 0));
+        nodePos.Add(new Vector3(0, -1, 0));
         layerWidth[0] = 0;
 
         FindPos();
@@ -142,11 +150,11 @@ public class RedTreeGenerator : MonoBehaviour
 
             for (int k = 0; k < nodeNum; k++)
             {
-                curPos = new Vector3(Random.Range(-width, width + 1), -i * layerHeight, Random.Range(-width, width + 1));
+                curPos = new Vector3(Random.Range(-width, width + 1), -i * layerHeight - 1, Random.Range(-width, width + 1));
                 
                 while (nodePos.Contains(curPos))
                 {
-                    curPos = new Vector3(Random.Range(-width, width + 1), -i * layerHeight, Random.Range(-width, width + 1));
+                    curPos = new Vector3(Random.Range(-width, width + 1), -i * layerHeight - 1, Random.Range(-width, width + 1));
                 }
 
                 nodePos.Add(curPos);
@@ -235,13 +243,13 @@ public class RedTreeGenerator : MonoBehaviour
         {
             if(i == 0)
             {
-                //ran = Random.Range(-1, 2);
-                //GameObject n = Instantiate(prefab, nodePos[0] + new Vector3(0, ran, 0), transform.rotation);
-                //TreeNode tn = n.GetComponent<TreeNode>();
-                //tn.layer = 0;
-                //tn.num = 0;
-                //tn.father = 0;
-                //n.name = i.ToString() + "-" + 0.ToString();
+                GameObject n = Instantiate(prefab, nodePos[0], transform.rotation);
+                Instantiate(link, new Vector3(0, -0.125f, 0), transform.rotation);
+                RedTreeNode tn = n.GetComponent<RedTreeNode>();
+                tn.layer = 0;
+                tn.num = 0;
+                tn.father = 0;
+                n.name = i.ToString() + "-" + 0.ToString() + "_red";
                 nodePos.RemoveAt(0);
             }
             else if(i == 1)
@@ -253,8 +261,8 @@ public class RedTreeGenerator : MonoBehaviour
                         ran = Random.Range(-1, 2);
                         GameObject n = Instantiate(prefab, nodePos[0] + new Vector3(0, ran, 0), transform.rotation);
                         n.name = i.ToString() + "-" + redNodes[4 * j + 1].ToString()+"_red";
-                        GameObject father = GameObject.Find("0-0");
-                        //n.transform.SetParent(father.transform);
+                        GameObject father = GameObject.Find("0-0_red");
+                        n.transform.SetParent(father.transform);
                         nodePos.RemoveAt(0);
                         RedTreeNode tn = n.GetComponent<RedTreeNode>();
                         tn.layer = i;

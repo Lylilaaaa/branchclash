@@ -1,6 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/*
+ Description:       Each node in downward tree finds a way, prepares for connection
+ Unity Version:     2020.3.15f2c1
+ Author:            ZHUANG Yan
+ Date:              01/01/2023
+ Last Modified:     06/12/2023
+ */
 
 public class RedTreeNode : MonoBehaviour
 {
@@ -8,6 +15,7 @@ public class RedTreeNode : MonoBehaviour
     public int num;
     public int father;
 
+    private bool isMajor = false;
     private GameObject line;
     private GameObject corner;
     private Transform fatherTransform;
@@ -15,10 +23,15 @@ public class RedTreeNode : MonoBehaviour
 
     private void Start()
     {
-        if (layer != 1)
+        if (layer != 0)
         {
             fatherTransform = transform.parent;
             fatherNode = fatherTransform.gameObject.GetComponent<RedTreeNode>();
+        }
+
+        if(num == 0)
+        {
+            isMajor = true;
         }
 
 
@@ -26,10 +39,27 @@ public class RedTreeNode : MonoBehaviour
         GenerateLine();
     }
 
+    private void AddMajorPos(Vector3 pos)
+    {
+        if (!isMajor)
+        {
+            return;
+        }
+
+        if (RedLineGenerator.majorChain.Contains(pos))
+        {
+            return;
+        }
+        else
+        {
+            RedLineGenerator.majorChain.Add(pos);
+        }
+    }
+
 
     private void GenerateLine()
     {
-        if (layer == 1)
+        if (layer == 0)
         {
             return;
         }
@@ -44,6 +74,7 @@ public class RedTreeNode : MonoBehaviour
         while (currentPos.y != yTarget)
         {
             currentPos += yOffset;
+            AddMajorPos(currentPos);
             if(!RedLineGenerator.lineMap.ContainsKey(currentPos))
             {
                 RedLineGenerator.lineMap.Add(currentPos,12);
@@ -61,6 +92,7 @@ public class RedTreeNode : MonoBehaviour
             if (currentPos.x > fatherPos.x)
             {
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                 {
                     RedLineGenerator.lineMap.Add(currentPos, 12);
@@ -72,13 +104,14 @@ public class RedTreeNode : MonoBehaviour
                 //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                 currentPos += yOffset;
                 //y+,x-,011000
+                AddMajorPos(currentPos);
                 if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                 {
-                    RedLineGenerator.lineMap.Add(currentPos, 24);
+                    RedLineGenerator.lineMap.Add(currentPos, 20);
                 }
                 else
                 {
-                    RedLineGenerator.lineMap[currentPos] |= 0b011000;
+                    RedLineGenerator.lineMap[currentPos] |= 0b010100;
                 }
                 //Instantiate(corner, currentPos, Quaternion.Euler(0, 180, 0));
 
@@ -89,6 +122,7 @@ public class RedTreeNode : MonoBehaviour
                 {
                     currentPos += xOffset;
                     //110000
+                    AddMajorPos(currentPos);
                     if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                     {
                         RedLineGenerator.lineMap.Add(currentPos, 48);
@@ -103,6 +137,7 @@ public class RedTreeNode : MonoBehaviour
             else if(currentPos.x < fatherPos.x)
             {
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                 {
                     RedLineGenerator.lineMap.Add(currentPos, 12);
@@ -113,13 +148,14 @@ public class RedTreeNode : MonoBehaviour
                 }
                 //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                 {
-                    RedLineGenerator.lineMap.Add(currentPos, 40);
+                    RedLineGenerator.lineMap.Add(currentPos, 36);
                 }
                 else
                 {
-                    RedLineGenerator.lineMap[currentPos] |= 0b101000;
+                    RedLineGenerator.lineMap[currentPos] |= 0b100100;
                 }
                 //Instantiate(corner, currentPos, Quaternion.Euler(0, 0, 0));
 
@@ -129,6 +165,7 @@ public class RedTreeNode : MonoBehaviour
                 while (currentPos.x != xTarget)
                 {
                     currentPos += xOffset;
+                    AddMajorPos(currentPos);
                     if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                     {
                         RedLineGenerator.lineMap.Add(currentPos, 48);
@@ -160,6 +197,7 @@ public class RedTreeNode : MonoBehaviour
                     if (currentPos.x > fatherPos.x)
                     {
                         currentPos += new Vector3(-0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 48);
@@ -170,6 +208,7 @@ public class RedTreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 90));
                         currentPos += new Vector3(-0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 33);
@@ -183,6 +222,7 @@ public class RedTreeNode : MonoBehaviour
                     else if (currentPos.x < fatherPos.x)
                     {
                         currentPos += new Vector3(0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 48);
@@ -193,6 +233,7 @@ public class RedTreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 90));
                         currentPos += new Vector3(0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 17);
@@ -206,6 +247,7 @@ public class RedTreeNode : MonoBehaviour
                     else
                     {
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 12);
@@ -216,13 +258,14 @@ public class RedTreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
-                            RedLineGenerator.lineMap.Add(currentPos, 9);
+                            RedLineGenerator.lineMap.Add(currentPos, 5);
                         }
                         else
                         {
-                            RedLineGenerator.lineMap[currentPos] |= 0b001001;
+                            RedLineGenerator.lineMap[currentPos] |= 0b000101;
                         }
                         //Instantiate(corner, currentPos, Quaternion.Euler(0, 90, 0));
                     }
@@ -233,6 +276,7 @@ public class RedTreeNode : MonoBehaviour
                     while (currentPos.z != zTarget)
                     {
                         currentPos += zOffset;
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 3);
@@ -251,6 +295,7 @@ public class RedTreeNode : MonoBehaviour
                     if (currentPos.x > fatherPos.x)
                     {
                         currentPos += new Vector3(-0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 48);
@@ -261,6 +306,7 @@ public class RedTreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 90));
                         currentPos += new Vector3(-0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 34);
@@ -274,6 +320,7 @@ public class RedTreeNode : MonoBehaviour
                     else if (currentPos.x < fatherPos.x)
                     {
                         currentPos += new Vector3(0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 48);
@@ -284,6 +331,7 @@ public class RedTreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 90));
                         currentPos += new Vector3(0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 18);
@@ -297,6 +345,7 @@ public class RedTreeNode : MonoBehaviour
                     else
                     {
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 12);
@@ -306,14 +355,15 @@ public class RedTreeNode : MonoBehaviour
                             RedLineGenerator.lineMap[currentPos] |= 0b001100;
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
+                        AddMajorPos(currentPos);
                         currentPos += yOffset;
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
-                            RedLineGenerator.lineMap.Add(currentPos, 10);
+                            RedLineGenerator.lineMap.Add(currentPos, 6);
                         }
                         else
                         {
-                            RedLineGenerator.lineMap[currentPos] |= 0b001010;
+                            RedLineGenerator.lineMap[currentPos] |= 0b000110;
                         }
                         //Instantiate(corner, currentPos, Quaternion.Euler(0, -90, 0));
                     }
@@ -324,6 +374,7 @@ public class RedTreeNode : MonoBehaviour
                     while (currentPos.z != zTarget)
                     {
                         currentPos += zOffset;
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 3);
@@ -349,6 +400,7 @@ public class RedTreeNode : MonoBehaviour
             if (currentPos.z > fatherPos.z)
             {
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                 {
                     RedLineGenerator.lineMap.Add(currentPos, 12);
@@ -359,13 +411,14 @@ public class RedTreeNode : MonoBehaviour
                 }
                 //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                 {
-                    RedLineGenerator.lineMap.Add(currentPos, 9);
+                    RedLineGenerator.lineMap.Add(currentPos, 5);
                 }
                 else
                 {
-                    RedLineGenerator.lineMap[currentPos] |= 0b001001;
+                    RedLineGenerator.lineMap[currentPos] |= 0b000101;
                 }
                 //Instantiate(corner, currentPos, Quaternion.Euler(0, 90, 0));
 
@@ -374,6 +427,7 @@ public class RedTreeNode : MonoBehaviour
                 while (currentPos.z != zTarget)
                 {
                     currentPos += zOffset;
+                    AddMajorPos(currentPos);
                     if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                     {
                         RedLineGenerator.lineMap.Add(currentPos, 3);
@@ -388,6 +442,7 @@ public class RedTreeNode : MonoBehaviour
             else if (currentPos.z < fatherPos.z)
             {
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                 {
                     RedLineGenerator.lineMap.Add(currentPos, 12);
@@ -398,13 +453,14 @@ public class RedTreeNode : MonoBehaviour
                 }
                 //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                 {
-                    RedLineGenerator.lineMap.Add(currentPos, 10);
+                    RedLineGenerator.lineMap.Add(currentPos, 6);
                 }
                 else
                 {
-                    RedLineGenerator.lineMap[currentPos] |= 0b001010;
+                    RedLineGenerator.lineMap[currentPos] |= 0b000110;
                 }
                 //Instantiate(corner, currentPos, Quaternion.Euler(0, -90, 0));
 
@@ -413,6 +469,7 @@ public class RedTreeNode : MonoBehaviour
                 while (currentPos.z != zTarget)
                 {
                     currentPos += zOffset;
+                    AddMajorPos(currentPos);
                     if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                     {
                         RedLineGenerator.lineMap.Add(currentPos, 3);
@@ -444,6 +501,7 @@ public class RedTreeNode : MonoBehaviour
                     if (currentPos.z > fatherPos.z)
                     {
                         currentPos += new Vector3(0, 0, -0.5f);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 3);
@@ -454,6 +512,7 @@ public class RedTreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(90, 0, 0));
                         currentPos += new Vector3(0, 0, -0.5f);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 18);
@@ -467,6 +526,7 @@ public class RedTreeNode : MonoBehaviour
                     else if (currentPos.z < fatherPos.z)
                     {
                         currentPos += new Vector3(0, 0, 0.5f);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 3);
@@ -477,6 +537,7 @@ public class RedTreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(90, 0, 0));
                         currentPos += new Vector3(0, 0, 0.5f);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 17);
@@ -490,6 +551,7 @@ public class RedTreeNode : MonoBehaviour
                     else
                     {
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 12);
@@ -500,13 +562,14 @@ public class RedTreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
-                            RedLineGenerator.lineMap.Add(currentPos, 24);
+                            RedLineGenerator.lineMap.Add(currentPos, 20);
                         }
                         else
                         {
-                            RedLineGenerator.lineMap[currentPos] |= 0b011000;
+                            RedLineGenerator.lineMap[currentPos] |= 0b010100;
                         }
                         //Instantiate(corner, currentPos, Quaternion.Euler(0, 180, 0));
                     }
@@ -517,6 +580,7 @@ public class RedTreeNode : MonoBehaviour
                     while (currentPos.x != xTarget)
                     {
                         currentPos += xOffset;
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 48);
@@ -535,6 +599,7 @@ public class RedTreeNode : MonoBehaviour
                     if (currentPos.z > fatherPos.z)
                     {
                         currentPos += new Vector3(0, 0, -0.5f);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 3);
@@ -545,6 +610,7 @@ public class RedTreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(90, 0, 0));
                         currentPos += new Vector3(0, 0, -0.5f);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 34);
@@ -558,6 +624,7 @@ public class RedTreeNode : MonoBehaviour
                     else if (currentPos.z < fatherPos.z)
                     {
                         currentPos += new Vector3(0, 0, 0.5f);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 3);
@@ -568,6 +635,7 @@ public class RedTreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(90, 0, 0));
                         currentPos += new Vector3(0, 0, 0.5f);
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 33);
@@ -581,6 +649,7 @@ public class RedTreeNode : MonoBehaviour
                     else
                     {
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 12);
@@ -591,13 +660,14 @@ public class RedTreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
-                            RedLineGenerator.lineMap.Add(currentPos, 40);
+                            RedLineGenerator.lineMap.Add(currentPos, 36);
                         }
                         else
                         {
-                            RedLineGenerator.lineMap[currentPos] |= 0b101000;
+                            RedLineGenerator.lineMap[currentPos] |= 0b100100;
                         }
                         //Instantiate(corner, currentPos, Quaternion.Euler(0, 0, 0));
                     }
@@ -608,6 +678,7 @@ public class RedTreeNode : MonoBehaviour
                     while (currentPos.x != xTarget)
                     {
                         currentPos += xOffset;
+                        AddMajorPos(currentPos);
                         if (!RedLineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             RedLineGenerator.lineMap.Add(currentPos, 48);

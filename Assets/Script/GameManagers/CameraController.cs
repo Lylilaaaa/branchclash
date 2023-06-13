@@ -4,15 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
-{    public float zoomSpeed = 5f;   // 相机缩放速度
-    public float moveSpeed = 10f;  // 相机移动速度
+{
+    public static CameraController _instance;
+    public float zoomSpeed = 5f; // 相机缩放速度
+    public float moveSpeed = 10f; // 相机移动速度
+    public float CursorZoomSpeed = 3f;
     public float rotationSpeed = 5f; // 相机旋转速度
-    public Vector3 scrollAxis = new Vector3(0, 1, 0);
     private float zoomAmount = 0f;
+    public bool isMoving = false;
     private float lastScrollWheel = 0f;
+    public float approachDistance = 5f;
 
-    private void Start()
+    private void Awake()
     {
+        _instance = this;
     }
 
     private void Update()
@@ -24,7 +29,7 @@ public class CameraController : MonoBehaviour
         {
             zoomAmount -= deltaScrollWheel * zoomSpeed;
             zoomAmount = Mathf.Clamp(zoomAmount, -10f, 10f);
-            transform.position = transform.position + scrollAxis*zoomAmount;
+            transform.localPosition = transform.localPosition - transform.forward * zoomAmount;
 
             lastScrollWheel = scrollWheel;
         }
@@ -33,7 +38,7 @@ public class CameraController : MonoBehaviour
             // 当滚轮停止滚动时停止缩放
             zoomAmount = 0;
             zoomAmount = Mathf.Clamp(zoomAmount, -10f, 10f);
-            transform.position = new Vector3(transform.position.x, transform.position.y + zoomAmount, transform.position.z);
+            transform.localPosition = transform.localPosition - transform.forward * zoomAmount;
             lastScrollWheel = 0f;
         }
 
@@ -53,6 +58,31 @@ public class CameraController : MonoBehaviour
             float mouseY = Input.GetAxis("Mouse Y");
             Vector3 rotation = new Vector3(-mouseY, mouseX, 0f) * rotationSpeed;
             transform.eulerAngles += rotation;
+        }
+    }
+
+    public void LookUpNode(Transform targetNode)
+    {
+        isMoving = true;
+        Vector3 targetPosition = targetNode.position - transform.forward * approachDistance;
+        Quaternion targetRotation = Quaternion.LookRotation(targetNode.position - transform.position, Vector3.up);
+        StartCoroutine(MoveCamera(targetPosition, targetRotation));
+    }
+
+    private System.Collections.IEnumerator MoveCamera(Vector3 targetPosition, Quaternion targetRotation)
+    {
+        while (Vector3.Distance(transform.position, targetPosition) > 0.5f ||
+               Quaternion.Angle(transform.rotation, targetRotation) > 1f)
+        {
+            if (isMoving == true)
+            {
+                // 使用插值方法逐渐移动相机位置和旋转朝向
+                transform.position = Vector3.Lerp(transform.position, targetPosition, CursorZoomSpeed * Time.deltaTime);
+                transform.rotation =
+                    Quaternion.Lerp(transform.rotation, targetRotation, CursorZoomSpeed * Time.deltaTime);
+            }
+
+            yield return null;
         }
     }
 }

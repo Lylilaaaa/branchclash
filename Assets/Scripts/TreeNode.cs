@@ -1,6 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/*
+ Description:       Each node in upward tree finds a way, prepares for connection
+ Unity Version:     2020.3.15f2c1
+ Author:            ZHUANG Yan
+ Date:              01/01/2023
+ Last Modified:     06/12/2023
+ */
 
 public class TreeNode : MonoBehaviour
 {
@@ -8,6 +15,7 @@ public class TreeNode : MonoBehaviour
     public int num;
     public int father;
 
+    private bool isMajor = false;
     private GameObject line;
     private GameObject corner;
     private Transform fatherTransform;
@@ -21,9 +29,29 @@ public class TreeNode : MonoBehaviour
             fatherNode = fatherTransform.gameObject.GetComponent<TreeNode>();
         }
         
-        
+        if(num == 0)
+        {
+            isMajor = true;
+        }
 
         GenerateLine();
+    }
+
+    private void AddMajorPos(Vector3 pos)
+    {
+        if(!isMajor)
+        {
+            return;
+        }
+
+        if(LineGenerator.majorChain.Contains(pos))
+        {
+            return;
+        }
+        else
+        {
+            LineGenerator.majorChain.Add(pos);
+        }
     }
 
 
@@ -44,6 +72,7 @@ public class TreeNode : MonoBehaviour
         while (currentPos.y != yTarget)
         {
             currentPos += yOffset;
+            AddMajorPos(currentPos);
             if(!LineGenerator.lineMap.ContainsKey(currentPos))
             {
                 LineGenerator.lineMap.Add(currentPos,12);
@@ -61,6 +90,7 @@ public class TreeNode : MonoBehaviour
             if (currentPos.x > fatherPos.x)
             {
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!LineGenerator.lineMap.ContainsKey(currentPos))
                 {
                     LineGenerator.lineMap.Add(currentPos, 12);
@@ -72,6 +102,7 @@ public class TreeNode : MonoBehaviour
                 //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                 currentPos += yOffset;
                 //y+,x-,011000
+                AddMajorPos(currentPos);
                 if (!LineGenerator.lineMap.ContainsKey(currentPos))
                 {
                     LineGenerator.lineMap.Add(currentPos, 24);
@@ -89,6 +120,7 @@ public class TreeNode : MonoBehaviour
                 {
                     currentPos += xOffset;
                     //110000
+                    AddMajorPos(currentPos);
                     if (!LineGenerator.lineMap.ContainsKey(currentPos))
                     {
                         LineGenerator.lineMap.Add(currentPos, 48);
@@ -103,6 +135,7 @@ public class TreeNode : MonoBehaviour
             else if(currentPos.x < fatherPos.x)
             {
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!LineGenerator.lineMap.ContainsKey(currentPos))
                 {
                     LineGenerator.lineMap.Add(currentPos, 12);
@@ -113,6 +146,7 @@ public class TreeNode : MonoBehaviour
                 }
                 //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!LineGenerator.lineMap.ContainsKey(currentPos))
                 {
                     LineGenerator.lineMap.Add(currentPos, 40);
@@ -129,6 +163,7 @@ public class TreeNode : MonoBehaviour
                 while (currentPos.x != xTarget)
                 {
                     currentPos += xOffset;
+                    AddMajorPos(currentPos);
                     if (!LineGenerator.lineMap.ContainsKey(currentPos))
                     {
                         LineGenerator.lineMap.Add(currentPos, 48);
@@ -160,6 +195,7 @@ public class TreeNode : MonoBehaviour
                     if (currentPos.x > fatherPos.x)
                     {
                         currentPos += new Vector3(-0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 48);
@@ -170,6 +206,7 @@ public class TreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 90));
                         currentPos += new Vector3(-0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 33);
@@ -183,6 +220,7 @@ public class TreeNode : MonoBehaviour
                     else if (currentPos.x < fatherPos.x)
                     {
                         currentPos += new Vector3(0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 48);
@@ -193,6 +231,7 @@ public class TreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 90));
                         currentPos += new Vector3(0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 17);
@@ -206,6 +245,7 @@ public class TreeNode : MonoBehaviour
                     else
                     {
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 12);
@@ -216,6 +256,7 @@ public class TreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 9);
@@ -233,6 +274,7 @@ public class TreeNode : MonoBehaviour
                     while (currentPos.z != zTarget)
                     {
                         currentPos += zOffset;
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 3);
@@ -251,6 +293,7 @@ public class TreeNode : MonoBehaviour
                     if (currentPos.x > fatherPos.x)
                     {
                         currentPos += new Vector3(-0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 48);
@@ -261,6 +304,7 @@ public class TreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 90));
                         currentPos += new Vector3(-0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 34);
@@ -274,6 +318,7 @@ public class TreeNode : MonoBehaviour
                     else if (currentPos.x < fatherPos.x)
                     {
                         currentPos += new Vector3(0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 48);
@@ -284,6 +329,7 @@ public class TreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 90));
                         currentPos += new Vector3(0.5f, 0, 0);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 18);
@@ -297,6 +343,7 @@ public class TreeNode : MonoBehaviour
                     else
                     {
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 12);
@@ -307,6 +354,7 @@ public class TreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 10);
@@ -324,6 +372,7 @@ public class TreeNode : MonoBehaviour
                     while (currentPos.z != zTarget)
                     {
                         currentPos += zOffset;
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 3);
@@ -349,6 +398,7 @@ public class TreeNode : MonoBehaviour
             if (currentPos.z > fatherPos.z)
             {
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!LineGenerator.lineMap.ContainsKey(currentPos))
                 {
                     LineGenerator.lineMap.Add(currentPos, 12);
@@ -359,6 +409,7 @@ public class TreeNode : MonoBehaviour
                 }
                 //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!LineGenerator.lineMap.ContainsKey(currentPos))
                 {
                     LineGenerator.lineMap.Add(currentPos, 9);
@@ -374,6 +425,7 @@ public class TreeNode : MonoBehaviour
                 while (currentPos.z != zTarget)
                 {
                     currentPos += zOffset;
+                    AddMajorPos(currentPos);
                     if (!LineGenerator.lineMap.ContainsKey(currentPos))
                     {
                         LineGenerator.lineMap.Add(currentPos, 3);
@@ -388,6 +440,7 @@ public class TreeNode : MonoBehaviour
             else if (currentPos.z < fatherPos.z)
             {
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!LineGenerator.lineMap.ContainsKey(currentPos))
                 {
                     LineGenerator.lineMap.Add(currentPos, 12);
@@ -398,6 +451,7 @@ public class TreeNode : MonoBehaviour
                 }
                 //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                 currentPos += yOffset;
+                AddMajorPos(currentPos);
                 if (!LineGenerator.lineMap.ContainsKey(currentPos))
                 {
                     LineGenerator.lineMap.Add(currentPos, 10);
@@ -413,6 +467,7 @@ public class TreeNode : MonoBehaviour
                 while (currentPos.z != zTarget)
                 {
                     currentPos += zOffset;
+                    AddMajorPos(currentPos);
                     if (!LineGenerator.lineMap.ContainsKey(currentPos))
                     {
                         LineGenerator.lineMap.Add(currentPos, 3);
@@ -444,6 +499,7 @@ public class TreeNode : MonoBehaviour
                     if (currentPos.z > fatherPos.z)
                     {
                         currentPos += new Vector3(0, 0, -0.5f);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 3);
@@ -454,6 +510,7 @@ public class TreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(90, 0, 0));
                         currentPos += new Vector3(0, 0, -0.5f);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 18);
@@ -467,6 +524,7 @@ public class TreeNode : MonoBehaviour
                     else if (currentPos.z < fatherPos.z)
                     {
                         currentPos += new Vector3(0, 0, 0.5f);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 3);
@@ -477,6 +535,7 @@ public class TreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(90, 0, 0));
                         currentPos += new Vector3(0, 0, 0.5f);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 17);
@@ -490,6 +549,7 @@ public class TreeNode : MonoBehaviour
                     else
                     {
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 12);
@@ -500,6 +560,7 @@ public class TreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 24);
@@ -517,6 +578,7 @@ public class TreeNode : MonoBehaviour
                     while (currentPos.x != xTarget)
                     {
                         currentPos += xOffset;
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 48);
@@ -535,6 +597,7 @@ public class TreeNode : MonoBehaviour
                     if (currentPos.z > fatherPos.z)
                     {
                         currentPos += new Vector3(0, 0, -0.5f);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 3);
@@ -545,6 +608,7 @@ public class TreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(90, 0, 0));
                         currentPos += new Vector3(0, 0, -0.5f);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 34);
@@ -558,6 +622,7 @@ public class TreeNode : MonoBehaviour
                     else if (currentPos.z < fatherPos.z)
                     {
                         currentPos += new Vector3(0, 0, 0.5f);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 3);
@@ -568,6 +633,7 @@ public class TreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(90, 0, 0));
                         currentPos += new Vector3(0, 0, 0.5f);
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 33);
@@ -581,6 +647,7 @@ public class TreeNode : MonoBehaviour
                     else
                     {
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 12);
@@ -591,6 +658,7 @@ public class TreeNode : MonoBehaviour
                         }
                         //Instantiate(line, currentPos, Quaternion.Euler(0, 0, 0));
                         currentPos += yOffset;
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 40);
@@ -608,6 +676,7 @@ public class TreeNode : MonoBehaviour
                     while (currentPos.x != xTarget)
                     {
                         currentPos += xOffset;
+                        AddMajorPos(currentPos);
                         if (!LineGenerator.lineMap.ContainsKey(currentPos))
                         {
                             LineGenerator.lineMap.Add(currentPos, 48);

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Road
+  - outline
   layers:
   - Default
   - TransparentFX

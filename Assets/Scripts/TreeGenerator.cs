@@ -1,6 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/*
+ Description:       Randonly instantiate nodes of upward tree, set nodes propety
+ Unity Version:     2020.3.15f2c1
+ Author:            ZHUANG Yan
+ Date:              01/01/2023
+ Last Modified:     06/12/2023
+ */
 
 public class TreeGenerator : MonoBehaviour
 {
@@ -71,6 +78,7 @@ public class TreeGenerator : MonoBehaviour
     //层数，层内序号，父节点层内序号，子节点数量
     public static int[] nodes;
     public GameObject prefab;
+    public GameObject link;
     public int layerHeight = 5;
 
     private int layerNum;
@@ -81,8 +89,8 @@ public class TreeGenerator : MonoBehaviour
     private void Start()
     {
         
-        nodes = new int[] {0,0,0,5,1,0,0,1,1,1,0,0,1,2,0,3,1,3,0,5,1,4,0,0,2,0,1,2,2,1,2,4,2,2,2,2,2,3,2,0,2,4,3,4,2,5,3,0,2,6,3,2,2,7,3,0,2,8,3,3,
-                            3,0,1,0,3,1,1,0,3,2,1,0,3,3,1,0,3,4,2,0,3,5,2,0,3,6,4,0,3,7,4,0,3,8,4,0,3,9,4,0,3,10,8,0,3,11,8,0,3,12,8,0,3,13,6,0,3,14,6,0,3,15,0,0,3,16,0,0};
+        nodes = new int[] {0,0,0,5,1,0,0,2,1,1,0,0,1,2,0,3,1,3,0,5,1,4,0,0,2,0,0,3,2,1,2,3,2,2,2,2,2,3,2,0,2,4,3,4,2,5,3,0,2,6,3,2,2,7,3,0,2,8,3,3,
+                            3,0,0,0,3,1,1,0,3,2,1,0,3,3,1,0,3,4,2,0,3,5,2,0,3,6,4,0,3,7,4,0,3,8,4,0,3,9,4,0,3,10,8,0,3,11,8,0,3,12,8,0,3,13,6,0,3,14,6,0,3,15,0,0,3,16,0,0};
         layerNum = GetLayer();
         nodePos = new List<Vector3>();
         layerWidth = new int[layerNum + 1];
@@ -93,7 +101,7 @@ public class TreeGenerator : MonoBehaviour
             return;
         }
 
-        nodePos.Add(new Vector3(0, 0, 0));
+        nodePos.Add(new Vector3(0, 1, 0));
         layerWidth[0] = 0;
 
         FindPos();
@@ -143,11 +151,11 @@ public class TreeGenerator : MonoBehaviour
 
             for (int k = 0; k < nodeNum; k++)
             {
-                curPos = new Vector3(Random.Range(-width, width + 1), i * layerHeight, Random.Range(-width, width + 1));
+                curPos = new Vector3(Random.Range(-width, width + 1), i * layerHeight + 1, Random.Range(-width, width + 1));
                 
                 while (nodePos.Contains(curPos))
                 {
-                    curPos = new Vector3(Random.Range(-width, width + 1), i * layerHeight, Random.Range(-width, width + 1));
+                    curPos = new Vector3(Random.Range(-width, width + 1), i * layerHeight + 1, Random.Range(-width, width + 1));
                 }
 
                 nodePos.Add(curPos);
@@ -236,8 +244,8 @@ public class TreeGenerator : MonoBehaviour
         {
             if(i == 0)
             {
-                ran = Random.Range(-1, 2);
-                GameObject n = Instantiate(prefab, nodePos[0] + new Vector3(0, ran, 0), transform.rotation);
+                GameObject n = Instantiate(prefab, nodePos[0], transform.rotation);
+                Instantiate(link, new Vector3(0, 0.125f, 0), transform.rotation);
                 TreeNode tn = n.GetComponent<TreeNode>();
                 tn.layer = 0;
                 tn.num = 0;
