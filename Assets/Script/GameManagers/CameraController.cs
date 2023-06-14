@@ -10,10 +10,12 @@ public class CameraController : MonoBehaviour
     public float moveSpeed = 10f; // 相机移动速度
     public float CursorZoomSpeed = 3f;
     public float rotationSpeed = 5f; // 相机旋转速度
+    public float approachDistance = 3f;
+    public bool canMove;
+    
     private float zoomAmount = 0f;
-    public bool isMoving = false;
     private float lastScrollWheel = 0f;
-    public float approachDistance = 5f;
+
 
     private void Awake()
     {
@@ -63,26 +65,23 @@ public class CameraController : MonoBehaviour
 
     public void LookUpNode(Transform targetNode)
     {
-        isMoving = true;
         Vector3 targetPosition = targetNode.position - transform.forward * approachDistance;
-        Quaternion targetRotation = Quaternion.LookRotation(targetNode.position - transform.position, Vector3.up);
+        Quaternion targetRotation = Quaternion.LookRotation(targetNode.position - transform.position);
+
         StartCoroutine(MoveCamera(targetPosition, targetRotation));
     }
 
     private System.Collections.IEnumerator MoveCamera(Vector3 targetPosition, Quaternion targetRotation)
     {
-        while (Vector3.Distance(transform.position, targetPosition) > 0.5f ||
-               Quaternion.Angle(transform.rotation, targetRotation) > 1f)
+        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f || Vector3.Distance(transform.position, targetPosition) > 0.1f)
         {
-            if (isMoving == true)
+            if (canMove)
             {
-                // 使用插值方法逐渐移动相机位置和旋转朝向
-                transform.position = Vector3.Lerp(transform.position, targetPosition, CursorZoomSpeed * Time.deltaTime);
-                transform.rotation =
-                    Quaternion.Lerp(transform.rotation, targetRotation, CursorZoomSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime*10);
+                transform.position = Vector3.Lerp(transform.position, targetPosition, CursorZoomSpeed * Time.deltaTime*10);
             }
-
             yield return null;
         }
+        yield return null;
     }
 }

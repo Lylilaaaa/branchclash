@@ -296,6 +296,39 @@ Transform:
   m_Father: {fileID: 1561972226}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &56696445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 56696446}
+  m_Layer: 0
+  m_Name: Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &56696446
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56696445}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.3017689, y: -3.623914, z: 1.338351}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 111358045}
+  - {fileID: 1827824272}
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &100022523
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,9 +433,8 @@ GameObject:
   - component: {fileID: 111358047}
   - component: {fileID: 111358048}
   - component: {fileID: 111358049}
-  - component: {fileID: 111358050}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: TreeGenManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -430,13 +462,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 111358043}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3017689, y: -3.623914, z: 1.338351}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 56696446}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &111358046
 MonoBehaviour:
@@ -525,22 +557,6 @@ MonoBehaviour:
   type4_3_m: {fileID: 0}
   type5_1_m: {fileID: 0}
   type6_1_m: {fileID: 0}
---- !u!114 &111358050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 111358043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9340983a0d366147979713ebbfc2c66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetField: 
-  chooseSedElec: 0
-  gameStateShown: 
-  initialGameState: 0
 --- !u!1 &148576856
 GameObject:
   m_ObjectHideFlags: 0
@@ -2758,8 +2774,8 @@ MonoBehaviour:
   moveSpeed: 10
   CursorZoomSpeed: 3
   rotationSpeed: 5
-  isMoving: 0
   approachDistance: 5
+  canMove: 0
 --- !u!1 &995206400
 GameObject:
   m_ObjectHideFlags: 0
@@ -4548,6 +4564,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792689437}
   m_CullTransparentMesh: 1
+--- !u!1 &1827824271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1827824272}
+  - component: {fileID: 1827824273}
+  m_Layer: 0
+  m_Name: TreeDataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1827824272
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827824271}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 56696446}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1827824273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827824271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9340983a0d366147979713ebbfc2c66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetField: 
+  chooseSedElec: 0
+  gameStateShown: 
+  initialGameState: 0
+  treeData: {fileID: 11400000, guid: 062e5fbc12770914fb8ff15e8c2cf297, type: 2}
+  TreeGen: 
 --- !u!1 &1851378609
 GameObject:
   m_ObjectHideFlags: 0

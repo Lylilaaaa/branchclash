@@ -8,14 +8,13 @@ public class CursorOutlines : MonoBehaviour
     private GameObject outlineGbj;
 
     public bool mouseEnter;
+
+    public bool cursorZoomIn=false;
     // Start is called before the first frame update
     void Start()
     {
         mouseEnter = false;
         outlineGbj = FindChildWithTag(transform, "outline").gameObject;
-        int childNum = transform.childCount;
-        outlineGbj = transform.GetChild(childNum - 1).gameObject;
-        outlineGbj.SetActive(false);
     }
     private Transform FindChildWithTag(Transform parent, string tag)
     {
@@ -40,12 +39,24 @@ public class CursorOutlines : MonoBehaviour
     {
         if (mouseEnter == true)
         {
-            CameraController._instance.LookUpNode(transform);
+            if (Input.GetMouseButtonDown(0))
+            {
+                cursorZoomIn = true;
+            }
         }
-        else
+        if (cursorZoomIn == true)
         {
-            CameraController._instance.isMoving = false;
+            CameraController._instance.LookUpNode(transform);
+            CameraController._instance.canMove = true;
+           // StartCoroutine(ChangeVariableAfterDelay());
+            cursorZoomIn = false;
         }
+    }
+    private IEnumerator ChangeVariableAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
+
+        CameraController._instance.canMove = false; 
     }
 
     // Update is called once per frame
@@ -56,7 +67,6 @@ public class CursorOutlines : MonoBehaviour
         {
             outlineGbj.SetActive(true);
         }
-
     }
     private void OnMouseExit()
     {
