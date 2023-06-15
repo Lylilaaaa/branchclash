@@ -7,16 +7,24 @@ using UnityEngine.UI;
 public class TreeNodeDataInit : MonoBehaviour
 {
     public TreeData treeData;
+    public List<NodeData> previousNodeData;
 
     private void Start()
     {
+        previousNodeData = GlobalVar._instance.nodeDataList;
         treeData.nodeDictionary = new Dictionary<string, NodeData>();
         treeData.InitNodeData = initNodeData(treeData.InitNodeData);
         treeData.nodeDictionary.Add("0,1",treeData.InitNodeData);
         treeData.treeNodeCount += 1;
-        fake_preAdd("0,1");
-        fake_preAdd("0,1");
-        fake_preAdd("0,1");
+        foreach (NodeData _nodeData in previousNodeData)
+        {
+            treeData.nodeDictionary.Add(_nodeData.nodeLayer.ToString()+','+_nodeData.nodeIndex.ToString(),_nodeData);
+            treeData.treeNodeCount += 1;
+        }
+        //加node操作
+        // fake_preAdd("0,1");
+        // fake_preAdd("0,1");
+        // fake_preAdd("0,1");
         
         GlobalVar._instance._convert2TreeGen(treeData);
         TreeGenerator._instance.InitTree();
@@ -41,7 +49,7 @@ public class TreeNodeDataInit : MonoBehaviour
         return initNode;
     }
     //先假设预先生成几个node再说,真的加节点需要刷新树
-    private void fake_preAdd(string father)
+    private void _preAdd(string father)
     {
         if (!treeData.nodeDictionary.ContainsKey(father))
         {

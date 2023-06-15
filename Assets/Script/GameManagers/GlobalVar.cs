@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 
 public class GlobalVar : MonoBehaviour
@@ -14,6 +12,7 @@ public class GlobalVar : MonoBehaviour
     public static GameState CurrentGameState;
 
     public TreeData treeData;
+    public List<NodeData> nodeDataList;
     public int[] TreeGen;
     public enum GameState
     {
@@ -39,6 +38,22 @@ public class GlobalVar : MonoBehaviour
     {
         // 初始化游戏状态
         CurrentGameState = initialGameState;
+        nodeDataList = new List<NodeData>();
+        ReadData();
+    }
+
+    private void ReadData()
+    {
+        string[] assetPaths = UnityEditor.AssetDatabase.FindAssets("t:NodeData", new[] { "Assets/ScriptableObj/NodeDataObj/" });
+        
+        foreach (string assetPath in assetPaths)
+        {
+            NodeData nodeData = UnityEditor.AssetDatabase.LoadAssetAtPath<NodeData>(UnityEditor.AssetDatabase.GUIDToAssetPath(assetPath));
+            
+            nodeDataList.Add(nodeData);
+        }
+        
+        Debug.Log("Loaded NodeData count: " + nodeDataList.Count);
     }
 
     public void UpdateTreeGen(TreeData newTreeDate)
