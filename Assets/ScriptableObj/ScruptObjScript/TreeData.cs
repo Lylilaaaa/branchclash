@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TreeData",menuName = "ScriptableObjects/Tree")]
 public class TreeData : ScriptableObject
 {
-    public Dictionary<string, NodeData> nodeDictionary;
+    public Dictionary<string, NodeData> nodeDictionary = new Dictionary<string, NodeData>();
     public NodeData InitNodeData;
+    public int treeNodeCount;
 }

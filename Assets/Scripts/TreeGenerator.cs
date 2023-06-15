@@ -74,7 +74,7 @@ public class TreeGenerator : MonoBehaviour
 
     #endregion
 
-
+    public static TreeGenerator _instance;
     //层数，层内序号，父节点层内序号，子节点数量
     public static int[] nodes;
     public GameObject prefab;
@@ -85,12 +85,21 @@ public class TreeGenerator : MonoBehaviour
     private List<Vector3> nodePos;
     //每一层节点平面范围的半边长
     private int[] layerWidth;
-
+    private void Awake()
+    {
+        _instance = this;
+        
+    }
     private void Start()
     {
         
-        nodes = new int[] {0,0,0,5,1,0,0,2,1,1,0,0,1,2,0,3,1,3,0,5,1,4,0,0,2,0,0,3,2,1,2,3,2,2,2,2,2,3,2,0,2,4,3,4,2,5,3,0,2,6,3,2,2,7,3,0,2,8,3,3,
-                            3,0,0,0,3,1,1,0,3,2,1,0,3,3,1,0,3,4,2,0,3,5,2,0,3,6,4,0,3,7,4,0,3,8,4,0,3,9,4,0,3,10,8,0,3,11,8,0,3,12,8,0,3,13,6,0,3,14,6,0,3,15,0,0,3,16,0,0};
+    }
+
+    public void InitTree()
+    {
+        //nodes = new int[] {0,0,0,5,1,0,0,2,1,1,0,0,1,2,0,3,1,3,0,5,1,4,0,0,2,0,0,3,2,1,2,3,2,2,2,2,2,3,2,0,2,4,3,4,2,5,3,0,2,6,3,2,2,7,3,0,2,8,3,3,
+        //3,0,0,0,3,1,1,0,3,2,1,0,3,3,1,0,3,4,2,0,3,5,2,0,3,6,4,0,3,7,4,0,3,8,4,0,3,9,4,0,3,10,8,0,3,11,8,0,3,12,8,0,3,13,6,0,3,14,6,0,3,15,0,0,3,16,0,0};
+        nodes =GlobalVar._instance.TreeGen;    
         layerNum = GetLayer();
         nodePos = new List<Vector3>();
         layerWidth = new int[layerNum + 1];
@@ -107,9 +116,6 @@ public class TreeGenerator : MonoBehaviour
         FindPos();
 
         DistributePos();
-
-        
-        
     }
 
 

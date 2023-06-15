@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: TreeData
   m_EditorClassIdentifier: 
   InitNodeData: {fileID: 11400000, guid: 59ba45e97a7d88d4fa8d51e148073ed8, type: 2}
+  treeNodeCount: 2

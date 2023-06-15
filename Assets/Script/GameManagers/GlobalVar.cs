@@ -39,7 +39,6 @@ public class GlobalVar : MonoBehaviour
     {
         // 初始化游戏状态
         CurrentGameState = initialGameState;
-        _convert2TreeGen(treeData);
     }
 
     public void UpdateTreeGen(TreeData newTreeDate)
@@ -47,7 +46,7 @@ public class GlobalVar : MonoBehaviour
         _convert2TreeGen(newTreeDate);
     }
 
-    private void _convert2TreeGen(TreeData inputTreeData)
+    public void _convert2TreeGen(TreeData inputTreeData)
     {
         List<int[]> inputList = new List<int[]>();
         inputList = SortSequence(inputTreeData);
