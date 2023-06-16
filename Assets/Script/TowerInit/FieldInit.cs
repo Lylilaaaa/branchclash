@@ -32,6 +32,9 @@ public class FieldInit : MonoBehaviour
 
     public bool mouseEnter;
     
+    public string mapStructure;
+    public GameObject[] showingPrefab;
+    
     // Update is called once per frame
     private void Start()
     {
@@ -40,241 +43,197 @@ public class FieldInit : MonoBehaviour
 
     void Update()
     {
-        if (checkState == 0)
+        if (GlobalVar._instance.GetState() == GlobalVar.GameState.Viewing)
         {
-            Destroy(findChild("able"));
-            checkState = 100;
-        }
-        if (checkState == 1)
-        {
-            if (woodType >= 1 || ironType>=1 || eleType>=1)
-            {
-                GameObject mergeSeleted = Instantiate(mergeEnablePrefab);
-                mergeSeleted.transform.SetParent(transform);
-                mergeSeleted.transform.localPosition = new Vector3(0f,150f,0f);
-                mergeSeleted.transform.localScale = new Vector3(1.2f,1.2f,1.2f);
-                mergeSeleted.transform.name = transform.name+"mergable";
-                checkState = 2;
-            }
-        }
-
-        if (checkState == 3)
-        {
-            if (globalVar.MergeMem.Count == 2)
-            {
-                if (globalVar.MergeMem[1] == transform.name.Substring(0, 3))
-                {
-                    int mergeFromRow = findRowCol(globalVar.MergeMem[0])[0];
-                    int mergeFromCol = findRowCol(globalVar.MergeMem[0])[1];
-                    Transform mergeFromTrans = transform.parent.parent.GetChild(mergeFromRow).GetChild(mergeFromCol);
-                    print(mergeFromTrans);
-                    FieldInit mergeFromTransFI = mergeFromTrans.GetComponent<FieldInit>();
-                    if (towerType == "wood" && (woodType==mergeFromTransFI.woodType))
-                    {
-                        woodType += 1;
-                        mergeFromTransFI.woodType = 0;
-                        mergeFromTransFI.deletExcept("wod"+woodType);
-                    }
-                    else if (towerType == "iron"&& (ironType==mergeFromTransFI.ironType))
-                    {
-                        ironType += 1;
-                        mergeFromTransFI.ironType = 0;
-                        mergeFromTransFI.deletExcept("iro"+woodType);
-                    }
-                    else if (towerType == "elec"&& (eleType==mergeFromTransFI.eleType))
-                    {
-                        eleType += 1;
-                        mergeFromTransFI.eleType = 0;
-                        mergeFromTransFI.deletExcept("ele"+eleType);
-                    }
-                    else
-                    {
-                        print("wrong merging!");
-                    }
-                    for (int i = 0; i < 9; i++)
-                    {
-                        for (int j = 0; j < 18; j++)
-                        {
-                            GameObject thisField = transform.parent.parent.GetChild(i).GetChild(j).gameObject;
-                            print(thisField);
-                            if (thisField.tag != "Road")
-                            {
-                                FieldInit fieldInit = thisField.GetComponent<FieldInit>();
-                                //print(fieldInit.name+ fieldInit.selected);
-                                fieldInit.checkState = 0;
-                            }
-                        }
-                    }
-                }
-            }
-           
-        }
-        if (selected == true)
-        {
-            if (checkExsit("fild") == false)
-            {
-                GameObject fieldSeleted = Instantiate(fieldSelectPrefab);
-                fieldSeleted.transform.SetParent(transform);
-                fieldSeleted.transform.localPosition = Vector3.zero;
-                fieldSeleted.transform.localScale = Vector3.one;
-                fieldSeleted.transform.name = transform.name+"fild";
-            }
-        }
-        else
-        {
-            if (checkExsit("fild") == true)
-            {
-                Destroy(findChild("fild"));
-            }
-        }
-
-        if (woodType != 0)
-        {
-            if (checkExsit("wod" + woodType) == false)
-            {
-                GameObject fieldSeleted = Instantiate(woodPrefab[woodType-1]);
-                fieldSeleted.transform.SetParent(transform);
-                fieldSeleted.transform.localPosition = Vector3.zero;
-                fieldSeleted.transform.localScale = new Vector3(50,50,50);
-                fieldSeleted.transform.name = transform.name+"wod"+woodType;
-                deletExcept("wod"+woodType);    
-                closeSelected();
-                setData(woodSObj);
-                towerType = "wood";
-            }
             
         }
-        else
+        if (GlobalVar._instance.GetState() == GlobalVar.GameState.ChooseField ||
+            GlobalVar._instance.GetState() == GlobalVar.GameState.AddTowerUI)
         {
-            if (checkExsit("wod" + 1) == true || checkExsit("wod" + 2) == true || checkExsit("wod" + 3) == true)
-            {
-                Destroy(findChild("wod"+woodType));
-            }
-        }
-        if (ironType != 0)
-        {
-            if (checkExsit("iro" + ironType) == false)
-            {
-                GameObject fieldSeleted = Instantiate(ironPrefab[ironType-1]);
-                fieldSeleted.transform.SetParent(transform);
-                fieldSeleted.transform.localPosition = Vector3.zero;
-                fieldSeleted.transform.localScale = new Vector3(50,50,50);
-                fieldSeleted.transform.name = transform.name+"iro"+ironType;
-                deletExcept("iro"+ironType);  
-                closeSelected();
-                setData(ironSObj);
-                towerType = "iron";
-            }
-        }
-        else
-        {
-            if (checkExsit("iro" + 1) == true || checkExsit("iro" + 2) == true || checkExsit("iro" + 3) == true)
-            {
-                Destroy(findChild("iro"+ironType));
-            }
-        }
-        if (eleType != 0)
-        {
-            if (checkExsit("ele" + eleType) == false)
-            {
-                closeSelected();
-                GlobalVar._instance.changeEleMode(true);
-                List<Transform> neighborhood = findNeighborhood(transform);
-                foreach (Transform pos in neighborhood)
+            if (checkState == 0)
                 {
-                    FieldInit neighborhoodFI = pos.GetComponent<FieldInit>();
-                    neighborhoodFI.selected = true;
+                    Destroy(findChild("able"));
+                    checkState = 100;
+                }
+                if (checkState == 1)
+                {
+                    if (woodType >= 1 || ironType>=1 || eleType>=1)
+                    {
+                        GameObject mergeSeleted = Instantiate(mergeEnablePrefab);
+                        mergeSeleted.transform.SetParent(transform);
+                        mergeSeleted.transform.localPosition = new Vector3(0f,150f,0f);
+                        mergeSeleted.transform.localScale = new Vector3(1.2f,1.2f,1.2f);
+                        mergeSeleted.transform.name = transform.name+"mergable";
+                        checkState = 2;
+                    }
+                }
+                if (selected == true)
+                {
+                    if (checkExsit("fild") == false)
+                    {
+                        GameObject fieldSeleted = Instantiate(fieldSelectPrefab);
+                        fieldSeleted.transform.SetParent(transform);
+                        fieldSeleted.transform.localPosition = Vector3.zero;
+                        fieldSeleted.transform.localScale = Vector3.one;
+                        fieldSeleted.transform.name = transform.name+"fild";
+                    }
+                }
+                else
+                {
+                    if (checkExsit("fild") == true)
+                    {
+                        Destroy(findChild("fild"));
+                    }
+                }
+        
+                if (woodType != 0)
+                {
+                    if (checkExsit("wod" + woodType) == false)
+                    {
+                        GameObject fieldSeleted = Instantiate(woodPrefab[woodType-1]);
+                        fieldSeleted.transform.SetParent(transform);
+                        fieldSeleted.transform.localPosition = Vector3.zero;
+                        fieldSeleted.transform.localScale = new Vector3(50,50,50);
+                        fieldSeleted.transform.name = transform.name+"wod"+woodType;
+                        deletExcept("wod"+woodType);    
+                        closeSelected();
+                        setData(woodSObj);
+                        towerType = "wood";
+                    }
+                    
+                }
+                else
+                {
+                    if (checkExsit("wod" + 1) == true || checkExsit("wod" + 2) == true || checkExsit("wod" + 3) == true)
+                    {
+                        Destroy(findChild("wod"+woodType));
+                    }
+                }
+                if (ironType != 0)
+                {
+                    if (checkExsit("iro" + ironType) == false)
+                    {
+                        GameObject fieldSeleted = Instantiate(ironPrefab[ironType-1]);
+                        fieldSeleted.transform.SetParent(transform);
+                        fieldSeleted.transform.localPosition = Vector3.zero;
+                        fieldSeleted.transform.localScale = new Vector3(50,50,50);
+                        fieldSeleted.transform.name = transform.name+"iro"+ironType;
+                        deletExcept("iro"+ironType);  
+                        closeSelected();
+                        setData(ironSObj);
+                        towerType = "iron";
+                    }
+                }
+                else
+                {
+                    if (checkExsit("iro" + 1) == true || checkExsit("iro" + 2) == true || checkExsit("iro" + 3) == true)
+                    {
+                        Destroy(findChild("iro"+ironType));
+                    }
+                }
+                if (eleType != 0)
+                {
+                    if (checkExsit("ele" + eleType) == false)
+                    {
+                        closeSelected();
+                        GlobalVar._instance.changeEleMode(true);
+                        List<Transform> neighborhood = findNeighborhood(transform);
+                        foreach (Transform pos in neighborhood)
+                        {
+                            FieldInit neighborhoodFI = pos.GetComponent<FieldInit>();
+                            neighborhoodFI.selected = true;
+                            if (Input.GetMouseButtonDown(0))
+                            {
+                                if (neighborhoodFI.mouseEnter == true)
+                                {
+                                    neighborhoodFI.eleType2 = 1;
+                                    neighborhoodFI.selected = false;
+                                }
+                            }
+                            //继续检测直到点击了第二次
+                            if (neighborhoodFI.eleType2 == 1)
+                            {
+                                string relaventPos = checkRelavent(transform, pos);
+                                if (relaventPos == "up")
+                                {
+                                    GameObject fieldSeleted = Instantiate(elecPrefab[eleType-1]);
+                                    fieldSeleted.transform.SetParent(transform);
+                                    fieldSeleted.transform.localPosition = Vector3.zero;
+                                    fieldSeleted.transform.localScale = new Vector3(50,50,50);
+                                    fieldSeleted.transform.localRotation = Quaternion.Euler(90f,0f,0f);
+                                    fieldSeleted.transform.name = transform.name+"ele"+eleType;
+                                    deletExcept("ele"+eleType);   
+                                }
+                                else if (relaventPos == "down")
+                                {
+                                    GameObject fieldSeleted = Instantiate(elecPrefab[eleType-1]);
+                                    fieldSeleted.transform.SetParent(transform);
+                                    fieldSeleted.transform.localPosition = Vector3.zero;
+                                    fieldSeleted.transform.localScale = new Vector3(50,50,50);
+                                    fieldSeleted.transform.localRotation = Quaternion.Euler(90f,0f,180f);
+                                    fieldSeleted.transform.name = transform.name+"ele"+eleType;
+                                    deletExcept("ele"+eleType);
+                                }
+                                else if (relaventPos == "right")
+                                {
+                                    GameObject fieldSeleted = Instantiate(elecPrefab[eleType-1]);
+                                    fieldSeleted.transform.SetParent(transform);
+                                    fieldSeleted.transform.localPosition = Vector3.zero;
+                                    fieldSeleted.transform.localScale = new Vector3(50,50,50);
+                                    fieldSeleted.transform.localRotation = Quaternion.Euler(90f,0f,270f);
+                                    fieldSeleted.transform.name = transform.name+"ele"+eleType;
+                                    deletExcept("ele"+eleType);
+                                }
+                                else if (relaventPos == "left")
+                                {
+                                    GameObject fieldSeleted = Instantiate(elecPrefab[eleType-1]);
+                                    fieldSeleted.transform.SetParent(transform);
+                                    fieldSeleted.transform.localPosition = Vector3.zero;
+                                    fieldSeleted.transform.localScale = new Vector3(50,50,50);
+                                    fieldSeleted.transform.localRotation = Quaternion.Euler(90f,0f,90f);
+                                    fieldSeleted.transform.name = transform.name+"ele"+eleType;
+                                    deletExcept("ele"+eleType);
+                                }
+        
+                                foreach (Transform posend in neighborhood)
+                                {
+                                    FieldInit neighborhoodendFI = posend.GetComponent<FieldInit>();
+                                    //print(posend.gameObject.name);
+                                    neighborhoodendFI.selected = false;
+                                }
+                                setData(eleSObj);
+                                towerType = "elec";
+                                GlobalVar._instance.changeEleMode(false);
+                                break;
+                            }
+                        }
+         
+                    }
+                }
+                else
+                {
+                    if (checkExsit("ele" + 1) == true || checkExsit("ele" + 2) == true || checkExsit("ele" + 3) == true)
+                    {
+                        Destroy(findChild("ele"+eleType));
+                    }
+                }
+        
+                if (checkState == 0 && selected == false && woodType == 0 && ironType == 0 && eleType == 0)
+                {
+                    deletExcept("hihi");
+                }
+                if (selected == true && woodType == 0 && ironType == 0 && eleType == 0 && eleType2 == 0)
+                {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        if (neighborhoodFI.mouseEnter == true)
+                        if (GlobalVar._instance.GetState() == GlobalVar.GameState.ChooseField && GlobalVar._instance.chooseSedElec == false)
                         {
-                            neighborhoodFI.eleType2 = 1;
-                            neighborhoodFI.selected = false;
+                            GlobalVar._instance.ChangeState("AddTowerUI");
+                            GlobalVar._instance.chooseField(transform.name);
+                            selected = false;
                         }
                     }
-                    //继续检测直到点击了第二次
-                    if (neighborhoodFI.eleType2 == 1)
-                    {
-                        string relaventPos = checkRelavent(transform, pos);
-                        if (relaventPos == "up")
-                        {
-                            GameObject fieldSeleted = Instantiate(elecPrefab[eleType-1]);
-                            fieldSeleted.transform.SetParent(transform);
-                            fieldSeleted.transform.localPosition = Vector3.zero;
-                            fieldSeleted.transform.localScale = new Vector3(50,50,50);
-                            fieldSeleted.transform.localRotation = Quaternion.Euler(90f,0f,0f);
-                            fieldSeleted.transform.name = transform.name+"ele"+eleType;
-                            deletExcept("ele"+eleType);   
-                        }
-                        else if (relaventPos == "down")
-                        {
-                            GameObject fieldSeleted = Instantiate(elecPrefab[eleType-1]);
-                            fieldSeleted.transform.SetParent(transform);
-                            fieldSeleted.transform.localPosition = Vector3.zero;
-                            fieldSeleted.transform.localScale = new Vector3(50,50,50);
-                            fieldSeleted.transform.localRotation = Quaternion.Euler(90f,0f,180f);
-                            fieldSeleted.transform.name = transform.name+"ele"+eleType;
-                            deletExcept("ele"+eleType);
-                        }
-                        else if (relaventPos == "right")
-                        {
-                            GameObject fieldSeleted = Instantiate(elecPrefab[eleType-1]);
-                            fieldSeleted.transform.SetParent(transform);
-                            fieldSeleted.transform.localPosition = Vector3.zero;
-                            fieldSeleted.transform.localScale = new Vector3(50,50,50);
-                            fieldSeleted.transform.localRotation = Quaternion.Euler(90f,0f,270f);
-                            fieldSeleted.transform.name = transform.name+"ele"+eleType;
-                            deletExcept("ele"+eleType);
-                        }
-                        else if (relaventPos == "left")
-                        {
-                            GameObject fieldSeleted = Instantiate(elecPrefab[eleType-1]);
-                            fieldSeleted.transform.SetParent(transform);
-                            fieldSeleted.transform.localPosition = Vector3.zero;
-                            fieldSeleted.transform.localScale = new Vector3(50,50,50);
-                            fieldSeleted.transform.localRotation = Quaternion.Euler(90f,0f,90f);
-                            fieldSeleted.transform.name = transform.name+"ele"+eleType;
-                            deletExcept("ele"+eleType);
-                        }
-
-                        foreach (Transform posend in neighborhood)
-                        {
-                            FieldInit neighborhoodendFI = posend.GetComponent<FieldInit>();
-                            //print(posend.gameObject.name);
-                            neighborhoodendFI.selected = false;
-                        }
-                        setData(eleSObj);
-                        towerType = "elec";
-                        GlobalVar._instance.changeEleMode(false);
-                        break;
-                    }
                 }
- 
-            }
-        }
-        else
-        {
-            if (checkExsit("ele" + 1) == true || checkExsit("ele" + 2) == true || checkExsit("ele" + 3) == true)
-            {
-                Destroy(findChild("ele"+eleType));
-            }
-        }
-
-        if (checkState == 0 && selected == false && woodType == 0 && ironType == 0 && eleType == 0)
-        {
-            deletExcept("hihi");
-        }
-        if (selected == true && woodType == 0 && ironType == 0 && eleType == 0 && eleType2 == 0)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (GlobalVar._instance.GetState() == GlobalVar.GameState.ChooseField && GlobalVar._instance.chooseSedElec == false)
-                {
-                    GlobalVar._instance.ChangeState("AddTowerUI");
-                    GlobalVar._instance.chooseField(transform.name);
-                    selected = false;
-                }
-            }
         }
     }
     private void OnMouseEnter()

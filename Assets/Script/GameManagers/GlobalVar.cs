@@ -12,6 +12,8 @@ public class GlobalVar : MonoBehaviour
     public static GameState CurrentGameState;
 
     public TreeData treeData;
+    public NodeData chosenNodeData;
+    public string[] mapmapList;
     public List<NodeData> nodeDataList;
     public int[] TreeGen;
     public enum GameState
@@ -31,6 +33,19 @@ public class GlobalVar : MonoBehaviour
     private void Update()
     {
         gameStateShown = GetState().ToString();
+        if (chosenNodeData != null)
+        {
+            if (mapmapList.Length == 0)
+            {
+                _getMapmapList();
+            }
+        }
+    }
+
+    private void _getMapmapList()
+    {
+        string totalString = chosenNodeData.mapStructure;
+        
     }
 
     
@@ -53,7 +68,6 @@ public class GlobalVar : MonoBehaviour
             nodeDataList.Add(nodeData);
         }
         
-        Debug.Log("Loaded NodeData count: " + nodeDataList.Count);
     }
 
     public void UpdateTreeGen(TreeData newTreeDate)

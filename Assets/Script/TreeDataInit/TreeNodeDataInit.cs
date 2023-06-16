@@ -2,12 +2,14 @@ using System;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TreeNodeDataInit : MonoBehaviour
 {
     public TreeData treeData;
     public List<NodeData> previousNodeData;
+    public string levelName = "GamePlay";
 
     private void Start()
     {
@@ -25,6 +27,7 @@ public class TreeNodeDataInit : MonoBehaviour
         // fake_preAdd("0,1");
         // fake_preAdd("0,1");
         // fake_preAdd("0,1");
+        SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
         
         GlobalVar._instance._convert2TreeGen(treeData);
         TreeGenerator._instance.InitTree();

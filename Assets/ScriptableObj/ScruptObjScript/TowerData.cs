@@ -16,6 +16,9 @@ public class TowerData : ScriptableObject
     public int gradeRange2 = 5;
     public int gradeRange3 = 10;
 
+    public int performGrade2 = 5;
+    public int performGrade3 = 10;
+
     public int upgradeSpeedRate = 1;
     public int upgradeAttackRate = 1;
     public int gradeSpeedToAttack = 5;
