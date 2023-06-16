@@ -8,10 +8,12 @@ public class TestSpiltString : MonoBehaviour
 
     public string[] mapmapStringList;
     public string[][] mapList;
+    public int mapmapRowCount;
+    public int mapmapColCount;
     public int rowIndex;
     void Start()
     {
-        string[] rows = input.Split('\n');
+        string[] rows = input.Split("/n");
         string[][] stringList = new string[rows.Length][];
         for (int i = 0; i < rows.Length; i++)
         {
@@ -23,28 +25,23 @@ public class TestSpiltString : MonoBehaviour
             stringList[i] = stringList[stringList.Length - 1 - i];
             stringList[stringList.Length - 1 - i] = temp;
         }
-
-        string[][] withoutNull;
-        withoutNull = new string[rows.Length][];
+        
         for (int i = 0; i < stringList.Length; i++)
         {
             if (stringList[i] != null)
             {
                 string[] row = stringList[i];
                 List<string> newRow = new List<string>();
-                int newIndex = 0;
 
                 for (int j = 0; j < row.Length; j++)
                 {
-                    if (row[j] != null)
+                    if (row[j] != null&&row[j] != "")
                     {
-                        newRow[newIndex] = row[j];
-                        newIndex++;
+                        newRow.Add(row[j]);
                     }
                 }
-
                 // ¸²¸ÇÔ­Ê¼ÐÐ
-                //stringList[i] = newRow;
+                stringList[i] = newRow.ToArray();
             }
         }
         mapmapStringList = stringList[0];
@@ -55,5 +52,7 @@ public class TestSpiltString : MonoBehaviour
     void Update()
     {
         mapmapStringList = mapList[rowIndex];
+        mapmapRowCount = mapList.Length;
+        mapmapColCount = mapList[0].Length;
     }
 }

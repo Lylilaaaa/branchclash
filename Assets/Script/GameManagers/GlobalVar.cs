@@ -13,7 +13,9 @@ public class GlobalVar : MonoBehaviour
 
     public TreeData treeData;
     public NodeData chosenNodeData;
-    public string[] mapmapList;
+    public string[][] mapmapList;
+    private NodeData _previousNodeData;
+    
     public List<NodeData> nodeDataList;
     public int[] TreeGen;
     public enum GameState
@@ -29,33 +31,66 @@ public class GlobalVar : MonoBehaviour
         _instance = this;
         
     }
+    private void Start()
+    {
+        // 初始化游戏状态
+        CurrentGameState = initialGameState;
+        _previousNodeData = chosenNodeData;
+        _getMapmapList();
+
+        nodeDataList = new List<NodeData>();
+        ReadData();
+    }
 
     private void Update()
     {
         gameStateShown = GetState().ToString();
-        if (chosenNodeData != null)
+        if (_previousNodeData.nodeIndex!= chosenNodeData.nodeIndex || _previousNodeData.nodeLayer!= chosenNodeData.nodeLayer )
         {
-            if (mapmapList.Length == 0)
-            {
-                _getMapmapList();
-            }
+            _getMapmapList();
+
         }
     }
 
     private void _getMapmapList()
     {
         string totalString = chosenNodeData.mapStructure;
+        string[] rows = totalString.Split("/n");
+        string[][] stringList = new string[rows.Length][];
+        for (int i = 0; i < rows.Length; i++)
+        {
+            stringList[i] = rows[i].Split(',');
+        }
+        for (int i = 0; i < stringList.Length / 2; i++)
+        {
+            string[] temp = stringList[i];
+            stringList[i] = stringList[stringList.Length - 1 - i];
+            stringList[stringList.Length - 1 - i] = temp;
+        }
         
+        for (int i = 0; i < stringList.Length; i++)
+        {
+            if (stringList[i] != null)
+            {
+                string[] row = stringList[i];
+                List<string> newRow = new List<string>();
+
+                for (int j = 0; j < row.Length; j++)
+                {
+                    if (row[j] != null&&row[j] != "")
+                    {
+                        newRow.Add(row[j]);
+                    }
+                }
+                // 覆盖原始行
+                stringList[i] = newRow.ToArray();
+            }
+        }
+        mapmapList = stringList;
     }
 
     
-    private void Start()
-    {
-        // 初始化游戏状态
-        CurrentGameState = initialGameState;
-        nodeDataList = new List<NodeData>();
-        ReadData();
-    }
+
 
     private void ReadData()
     {

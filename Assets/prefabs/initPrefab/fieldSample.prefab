@@ -77,6 +77,10 @@ MonoBehaviour:
   eleSObj: {fileID: 11400000, guid: fe7530a7af1595342a674f0dc66ad443, type: 2}
   towerType: 
   globalVar: {fileID: 11400000, guid: 6d4667f1aaade694385f899cb0598745, type: 2}
+  mouseEnter: 0
+  mapStructure: 
+  showingPrefab:
+  - {fileID: 5721588864495248267, guid: 24f05ff301c067247836d32cd94c8e68, type: 3}
 --- !u!65 &-4324939480039638320
 BoxCollider:
   m_ObjectHideFlags: 0

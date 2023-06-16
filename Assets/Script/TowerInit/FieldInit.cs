@@ -33,19 +33,34 @@ public class FieldInit : MonoBehaviour
     public bool mouseEnter;
     
     public string mapStructure;
+    private string _previousMapStr;
+    private bool _viewingInit = false;
+    
     public GameObject[] showingPrefab;
     
     // Update is called once per frame
     private void Start()
     {
         towerType = "";
+        mapStructure = "";
+        _previousMapStr = mapStructure;
     }
 
     void Update()
     {
         if (GlobalVar._instance.GetState() == GlobalVar.GameState.Viewing)
         {
-            
+            _initViewing();
+            if (_viewingInit == false)
+            {
+                _setViewing();
+                _viewingInit = true;
+            }
+            if (_previousMapStr != mapStructure)
+            {
+                _setViewing();
+            }
+            _previousMapStr = mapStructure;
         }
         if (GlobalVar._instance.GetState() == GlobalVar.GameState.ChooseField ||
             GlobalVar._instance.GetState() == GlobalVar.GameState.AddTowerUI)
@@ -246,7 +261,47 @@ public class FieldInit : MonoBehaviour
                 selected = true;
             }
         }
+    }
 
+    private void _setViewing()
+    {
+        deletExcept("haha");
+        if (mapStructure == "00")
+        {
+            return;
+        }
+        string typeViewingTower = mapStructure.Substring(0, 4);
+        int towerGrade = int.Parse(mapStructure.Substring(4));
+        if (typeViewingTower == "wood")
+        {
+            _initPerform(0,towerGrade);
+        }
+        else if (typeViewingTower == "iron")
+        {
+            _initPerform(1,towerGrade);
+        }
+        else if (typeViewingTower == "elec")
+        {
+            _initPerform(2,towerGrade);
+        }
+    }
+    private void _initPerform(int index,int grade)
+    {
+        GameObject performGObj = Instantiate(showingPrefab[index]);
+        performGObj.transform.SetParent(transform);
+        performGObj.transform.localPosition = Vector3.zero;
+        performGObj.transform.localScale = new Vector3(50,50,50);
+        TowerDataInit dataViewing = performGObj.GetComponent<TowerDataInit>();
+        dataViewing.towerGrade = grade;
+    }
+
+    private void _initViewing()
+    {
+        string fieldName = transform.gameObject.name;
+        List<int> row_col = findRowCol(fieldName);
+        int row = row_col[0];
+        int col = row_col[1];
+        mapStructure = GlobalVar._instance.mapmapList[row][col];
     }
 
     private void OnMouseExit()
