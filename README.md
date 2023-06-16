@@ -1,6 +1,9 @@
 # BoW2
 bow2
 
+![502b3ca355ab574ae22a9df93d6c09e](https://github.com/Lylilaaaa/BoW2/assets/93197170/a942b06d-76c2-47f6-a851-44b57836bb91)
+
+
 ![7bdc49ba16c19eca2afa31818f2db23](https://github.com/Lylilaaaa/BoW2/assets/93197170/e768251d-d75e-4e93-a712-e8b0d80d21c9)
 
 
