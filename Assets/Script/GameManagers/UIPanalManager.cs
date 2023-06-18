@@ -18,7 +18,7 @@ public class UIPanalManager : MonoBehaviour
         switch (_currentState)
         {
             case GlobalVar.GameState.MainStart:
-                AddPanal.SetActive(false);
+                //AddPanal.SetActive(false);
                 break;
             case GlobalVar.GameState.ChooseField:
                 AddPanal.SetActive(false);
@@ -27,7 +27,7 @@ public class UIPanalManager : MonoBehaviour
                 AddPanal.SetActive(true);
                 break;
             case GlobalVar.GameState.Viewing:
-                AddPanal.SetActive(false);
+                //AddPanal.SetActive(false);
                 break;
             case GlobalVar.GameState.GameOver:
                 AddPanal.SetActive(false);

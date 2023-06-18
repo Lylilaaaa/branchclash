@@ -88,27 +88,26 @@ public class RedTreeGenerator : MonoBehaviour
 
     private void Start()
     {
-        
-        redNodes = new int[] {0,0,0,5,1,0,0,1,1,1,0,0,1,2,0,3,1,3,0,3,1,4,0,0,2,0,0,0,2,1,2,0,2,2,2,0,2,3,2,0,2,4,3,0,2,5,3,0,2,6,3,0};
-        layerNum = GetLayer();
-        nodePos = new List<Vector3>();
-        layerWidth = new int[layerNum + 1];
-
-        if(layerNum == -1)
+        if (GlobalVar.CurrentGameState == GlobalVar.GameState.MainStart)
         {
-            Debug.Log("error");
-            return;
+            redNodes = new int[] {0,0,0,5,1,0,0,1,1,1,0,0,1,2,0,3,1,3,0,3,1,4,0,0,2,0,0,0,2,1,2,0,2,2,2,0,2,3,2,0,2,4,3,0,2,5,3,0,2,6,3,0};
+            layerNum = GetLayer();
+            nodePos = new List<Vector3>();
+            layerWidth = new int[layerNum + 1];
+    
+            if(layerNum == -1)
+            {
+                Debug.Log("error");
+                return;
+            }
+    
+            nodePos.Add(new Vector3(0, -1, 0));
+            layerWidth[0] = 0;
+    
+            FindPos();
+    
+            DistributePos();
         }
-
-        nodePos.Add(new Vector3(0, -1, 0));
-        layerWidth[0] = 0;
-
-        FindPos();
-
-        DistributePos();
-
-        
-        
     }
 
 

@@ -13,11 +13,16 @@ public class GlobalVar : MonoBehaviour
 
     public TreeData treeData;
     public NodeData chosenNodeData;
+    public TowerData woodTowerData;
+    public TowerData ironTowerData;
+    public TowerData elecTowerData;
     public string[][] mapmapList;
     private NodeData _previousNodeData;
     
     public List<NodeData> nodeDataList;
     public int[] TreeGen;
+
+    public bool isPreViewing = false;
     public enum GameState
     {
         MainStart,
@@ -88,10 +93,7 @@ public class GlobalVar : MonoBehaviour
         }
         mapmapList = stringList;
     }
-
     
-
-
     private void ReadData()
     {
         string[] assetPaths = UnityEditor.AssetDatabase.FindAssets("t:NodeData", new[] { "Assets/ScriptableObj/NodeDataObj/" });
@@ -102,7 +104,6 @@ public class GlobalVar : MonoBehaviour
             
             nodeDataList.Add(nodeData);
         }
-        
     }
 
     public void UpdateTreeGen(TreeData newTreeDate)

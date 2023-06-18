@@ -13,24 +13,26 @@ public class TreeNodeDataInit : MonoBehaviour
 
     private void Start()
     {
-        previousNodeData = GlobalVar._instance.nodeDataList;
-        treeData.nodeDictionary = new Dictionary<string, NodeData>();
-        treeData.InitNodeData = initNodeData(treeData.InitNodeData);
-        treeData.nodeDictionary.Add("0,1",treeData.InitNodeData);
-        treeData.treeNodeCount += 1;
-        foreach (NodeData _nodeData in previousNodeData)
+        if (GlobalVar.CurrentGameState == GlobalVar.GameState.MainStart)
         {
-            treeData.nodeDictionary.Add(_nodeData.nodeLayer.ToString()+','+_nodeData.nodeIndex.ToString(),_nodeData);
+            previousNodeData = GlobalVar._instance.nodeDataList;
+            treeData.nodeDictionary = new Dictionary<string, NodeData>();
+            treeData.InitNodeData = initNodeData(treeData.InitNodeData);
+            treeData.nodeDictionary.Add("0,1",treeData.InitNodeData);
             treeData.treeNodeCount += 1;
+            foreach (NodeData _nodeData in previousNodeData)
+            {
+                treeData.nodeDictionary.Add(_nodeData.nodeLayer.ToString()+','+_nodeData.nodeIndex.ToString(),_nodeData);
+                treeData.treeNodeCount += 1;
+            }
+            //加node操作
+            // fake_preAdd("0,1");
+            // fake_preAdd("0,1");
+            // fake_preAdd("0,1");
+            // SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
+            GlobalVar._instance._convert2TreeGen(treeData);
+            TreeGenerator._instance.InitTree();
         }
-        //加node操作
-        // fake_preAdd("0,1");
-        // fake_preAdd("0,1");
-        // fake_preAdd("0,1");
-        SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
-        
-        GlobalVar._instance._convert2TreeGen(treeData);
-        TreeGenerator._instance.InitTree();
     }
 
     private void Update()
@@ -45,7 +47,8 @@ public class TreeNodeDataInit : MonoBehaviour
         initNode.childCount = 0;
         initNode.nodeLayer = 0;
         initNode.nodeIndex = 1;
-        initNode.health = 100;
+        initNode.fullHealth = 100;
+        initNode.curHealth = 100;
         initNode.monsterCount = 2;
         initNode.money = 50;
         initNode.mapStructure = "00,H,00,00,00,00,00,00,00,00,00,00,00,00,00,00,R,00,/n,00,R,00,00,R,R,R,R,00,00,R,R,R,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,R,R,R,00,00,R,R,R,R,00,00,R,R,R,R,00,/n,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,/";
@@ -73,7 +76,8 @@ public class TreeNodeDataInit : MonoBehaviour
             newNodeData.nodeIndex = GetMaxSecondNumber(layer_index[0] + 1)+1;
             
             //处理layer升级之后的数据，待处理
-            newNodeData.health = baseNodeData.health;
+            newNodeData.curHealth = baseNodeData.curHealth;
+            newNodeData.fullHealth = baseNodeData.fullHealth;
             newNodeData.monsterCount = baseNodeData.monsterCount;
             newNodeData.money = baseNodeData.money;
             newNodeData.mapStructure = baseNodeData.mapStructure;

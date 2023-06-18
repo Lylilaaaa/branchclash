@@ -10,8 +10,9 @@ public class CameraController : MonoBehaviour
     public float moveSpeed = 10f; // 相机移动速度
     public float CursorZoomSpeed = 3f;
     public float rotationSpeed = 5f; // 相机旋转速度
-    public float approachDistance = 3f;
+    public float approachDistance = 10f;
     public bool canMove;
+    public bool camLock = false;
     
     private float zoomAmount = 0f;
     private float lastScrollWheel = 0f;
@@ -24,47 +25,52 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        // 鼠标滚轮放大缩小
-        float scrollWheel = Input.GetAxisRaw("Mouse ScrollWheel");
-        float deltaScrollWheel = scrollWheel - lastScrollWheel;
-        if (scrollWheel != 0f)
+        if (camLock == false)
         {
-            zoomAmount -= deltaScrollWheel * zoomSpeed;
-            zoomAmount = Mathf.Clamp(zoomAmount, -10f, 10f);
-            transform.localPosition = transform.localPosition - transform.forward * zoomAmount;
+            // 鼠标滚轮放大缩小
+            float scrollWheel = Input.GetAxisRaw("Mouse ScrollWheel");
+            float deltaScrollWheel = scrollWheel - lastScrollWheel;
+            if (scrollWheel != 0f)
+            {
+                zoomAmount -= deltaScrollWheel * zoomSpeed;
+                zoomAmount = Mathf.Clamp(zoomAmount, -10f, 10f);
+                transform.localPosition = transform.localPosition - transform.forward * zoomAmount;
+    
+                lastScrollWheel = scrollWheel;
+            }
+            else
+            {
+                // 当滚轮停止滚动时停止缩放
+                zoomAmount = 0;
+                zoomAmount = Mathf.Clamp(zoomAmount, -10f, 10f);
+                transform.localPosition = transform.localPosition - transform.forward * zoomAmount;
+                lastScrollWheel = 0f;
+            }
+    
+            // 按住中键移动视角
+            if (Input.GetMouseButton(2))
+            {
+                float mouseX = Input.GetAxis("Mouse X");
+                float mouseY = Input.GetAxis("Mouse Y");
+                Vector3 moveDirection = new Vector3(-mouseX, -mouseY, 0f) * moveSpeed * Time.deltaTime;
+                transform.Translate(moveDirection, Space.Self);
+            }
+    
+            // 按住右键转动视角
+            if (Input.GetMouseButton(1))
+            {
+                float mouseX = Input.GetAxis("Mouse X");
+                float mouseY = Input.GetAxis("Mouse Y");
+                Vector3 rotation = new Vector3(-mouseY, mouseX, 0f) * rotationSpeed;
+                transform.eulerAngles += rotation;
+            }
+        }
 
-            lastScrollWheel = scrollWheel;
-        }
-        else
-        {
-            // 当滚轮停止滚动时停止缩放
-            zoomAmount = 0;
-            zoomAmount = Mathf.Clamp(zoomAmount, -10f, 10f);
-            transform.localPosition = transform.localPosition - transform.forward * zoomAmount;
-            lastScrollWheel = 0f;
-        }
-
-        // 按住中键移动视角
-        if (Input.GetMouseButton(2))
-        {
-            float mouseX = Input.GetAxis("Mouse X");
-            float mouseY = Input.GetAxis("Mouse Y");
-            Vector3 moveDirection = new Vector3(-mouseX, -mouseY, 0f) * moveSpeed * Time.deltaTime;
-            transform.Translate(moveDirection, Space.Self);
-        }
-
-        // 按住右键转动视角
-        if (Input.GetMouseButton(1))
-        {
-            float mouseX = Input.GetAxis("Mouse X");
-            float mouseY = Input.GetAxis("Mouse Y");
-            Vector3 rotation = new Vector3(-mouseY, mouseX, 0f) * rotationSpeed;
-            transform.eulerAngles += rotation;
-        }
     }
 
     public void LookUpNode(Transform targetNode)
     {
+        targetNode = targetNode.GetComponent<CursorOutlines>().previewLevelInfoPenal.transform.GetChild(0).GetChild(0);
         Vector3 targetPosition = targetNode.position - transform.forward * approachDistance;
         Quaternion targetRotation = Quaternion.LookRotation(targetNode.position - transform.position);
 

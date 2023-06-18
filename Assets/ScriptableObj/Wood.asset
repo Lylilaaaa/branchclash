@@ -16,8 +16,10 @@ MonoBehaviour:
   baseBulletAttack: 4
   baseBulletNumberPerSecond: 1
   basicRange: 6
-  gradeRange2: 100
-  gradeRange3: 100
+  gradeRange2: 6
+  gradeRange3: 6
+  performGrade2: 5
+  performGrade3: 10
   upgradeSpeedRate: 1
   upgradeAttackRate: 1
   gradeSpeedToAttack: 5
