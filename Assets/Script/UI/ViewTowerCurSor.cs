@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEditor.Searcher;
 
 public class ViewTowerCurSor : MonoBehaviour
 {
     private GameObject outlineGbj;
     public bool mouseEnter;
+    private bool _canDisappear = true;
     public GameObject previewLevelInfoPenal;
     private bool _finish=false;
     public GameObject[] rangeList;
@@ -19,41 +19,55 @@ public class ViewTowerCurSor : MonoBehaviour
     private TextMeshProUGUI _damage;
     private TextMeshProUGUI _speed;
     private TextMeshProUGUI _towerName;
+    private TextMeshProUGUI _discription;
     private Transform _rangeParent;
     public TowerType ThisTowerType;
     public enum TowerType
     {
         wood,
         iron,
-        elec
+        elec,
+        wpro,
+        ipro,
+        epro
     }
     void Start()
     {
+        _canDisappear = true;
         mouseEnter = false;
         outlineGbj = transform.GetChild(2).gameObject;
-        print(outlineGbj);
+        //print(outlineGbj);
         previewLevelInfoPenal.gameObject.SetActive(false);
-        _range = previewLevelInfoPenal.transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-        _damage = previewLevelInfoPenal.transform.GetChild(2).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
-        _speed = previewLevelInfoPenal.transform.GetChild(2).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
-        _towerName = previewLevelInfoPenal.transform.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>();
-        _rangeParent = previewLevelInfoPenal.transform.GetChild(2).GetChild(0);
+        if (ThisTowerType == TowerType.wood || ThisTowerType == TowerType.iron || ThisTowerType == TowerType.elec)
+        {
+            _range = previewLevelInfoPenal.transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+            _damage = previewLevelInfoPenal.transform.GetChild(2).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
+            _speed = previewLevelInfoPenal.transform.GetChild(2).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
+            _towerName = previewLevelInfoPenal.transform.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>();
+            _rangeParent = previewLevelInfoPenal.transform.GetChild(2).GetChild(0);
+        }
+        else
+        {
+            _towerName = previewLevelInfoPenal.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+            _discription = previewLevelInfoPenal.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>();
+        }
+
         outlineGbj.SetActive(false);
 
     }
 
     private void Update()
     {
-        if (CurNodeDataSummary._instance.dictionaryFinish == true && _finish == false)
+        if (CurNodeDataSummary._instance.dictionaryFinish == true && _finish == false && GlobalVar.CurrentGameState == GlobalVar.GameState.Viewing)
         {
             _grade = transform.parent.GetComponent<TowerDataInit>().towerGrade;
             if (ThisTowerType == TowerType.wood)
             {
-                GameObject woodRange = Instantiate(rangeList[0], _rangeParent);
+                GameObject woodRange = Instantiate(rangeList[0], _rangeParent.GetChild(0));
             }
             else if(ThisTowerType == TowerType.iron)
             {
-                GameObject ironRange = Instantiate(rangeList[1], _rangeParent);
+                GameObject ironRange = Instantiate(rangeList[1], _rangeParent.GetChild(1));
             }
             string _a, _s, _r;
             if (ThisTowerType == TowerType.wood)
@@ -80,6 +94,11 @@ public class ViewTowerCurSor : MonoBehaviour
                 _speed.text = _s;
                 _range.text = "3x4";
             }
+            else if (ThisTowerType == TowerType.wpro)
+            {
+                _towerName.text = "Wood Protector Level "+_grade.ToString();
+                _discription.text = "Increase wooden tower's resistance to debuffs by " + _grade.ToString() + "%";
+            }
 
             _finish = true;
         }
@@ -87,6 +106,15 @@ public class ViewTowerCurSor : MonoBehaviour
         if (Input.GetMouseButtonDown(0)&&mouseEnter ==true)
         {
             previewLevelInfoPenal.gameObject.SetActive(true);
+            _canDisappear = false;
+        }
+
+        if (_canDisappear == true && mouseEnter == false)
+        {
+            if (GlobalVar._instance.GetState() == GlobalVar.GameState.Viewing)
+            {
+                outlineGbj.SetActive(false);
+            }
         }
 
     }
@@ -119,14 +147,11 @@ public class ViewTowerCurSor : MonoBehaviour
     private void OnMouseExit()
     {
         mouseEnter = false;
-        if (GlobalVar._instance.GetState() == GlobalVar.GameState.Viewing)
-        {
-            outlineGbj.SetActive(false);
-        }
     }
 
     public void ClosePenal()
     {
+        _canDisappear = true;
         previewLevelInfoPenal.gameObject.SetActive(false);
     }
 }

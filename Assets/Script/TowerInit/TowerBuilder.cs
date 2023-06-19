@@ -1,10 +1,41 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerBuilder : MonoBehaviour
 {
-    
+    private bool _finish=false;
+    private string[][] _mapmapList;
+    private void Update()
+    {
+        if (GlobalVar._instance.mapmapList != null && _finish == false)
+        {
+            _mapmapList = GlobalVar._instance.mapmapList;
+            for (int i = 0; i < _mapmapList.Length; i++)
+            {
+                for (int j = 0; j < _mapmapList[i].Length; j++)
+                {
+                    if (_mapmapList[i][j].Length >= 5)
+                    {
+                        String towerType = _mapmapList[i][j].Substring(0, 4);
+                        int towerGrade = _mapmapList[i][j].Length - 4;
+                        if (j <= 9)
+                        {
+                            GlobalVar._instance.targetField = i.ToString() + "0" + j.ToString();
+                        }
+                        else
+                        {
+                            GlobalVar._instance.targetField = i.ToString() + j.ToString();
+                        }
+                        PreSet(towerType,towerGrade);
+                    }
+                }
+            }
+            _finish = true;
+        }
+    }
+
     private void setField(GameObject thisPos,bool selectedUI, int _woodType, int _ironType, int _eleType)
     {
         FieldInit fieldInit = thisPos.GetComponent<FieldInit>();
@@ -17,6 +48,40 @@ public class TowerBuilder : MonoBehaviour
         }
     }
 
+    public void PreSet(string setTowerType,int _grade)
+    {
+        string rowColStr = GlobalVar._instance.targetField;
+        List<int> row_col;
+        row_col = findRowCol(rowColStr);
+        GameObject thisField = transform.GetChild(row_col[0]).GetChild(row_col[1]).gameObject;
+        //print(thisField);
+        if (thisField.tag != "Road")
+        {
+            FieldInit fieldInit = thisField.GetComponent<FieldInit>();
+            fieldInit.towerType = setTowerType;
+            if (fieldInit.selected == false && fieldInit.woodType==0 && fieldInit.ironType==0 && fieldInit.eleType==0)
+            {
+                if (setTowerType == "wood")
+                {
+                    fieldInit.woodType = _grade;
+                }
+                else if (setTowerType == "iron")
+                {
+                    fieldInit.ironType = _grade;
+                }
+                else if (setTowerType == "elec")
+                {
+                    fieldInit.eleType = _grade;
+                }
+                else if(setTowerType == "wpro")
+                {
+                    fieldInit.wproType = _grade;
+                }
+            }
+        }
+
+    }
+    
     public void Set(string setTowerType)
     {
         string rowColStr = GlobalVar._instance.targetField;
@@ -33,6 +98,7 @@ public class TowerBuilder : MonoBehaviour
                 if (setTowerType == "wood")
                 {
                     fieldInit.woodType = 1;
+                    ContractInteraction._instance.EditAddTower();
                 }
                 else if (setTowerType == "iron")
                 {

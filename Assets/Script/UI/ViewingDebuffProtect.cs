@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class ViewingDebuffProtect : MonoBehaviour
 {
@@ -91,6 +93,7 @@ public class ViewingDebuffProtect : MonoBehaviour
             debuffWood.value = _debufflist[0];
             debuffIron.value = _debufflist[1];
             debuffElec.value = _debufflist[2];
+            
             proWood.maxValue = _debufflist[0];
             proIron.maxValue = _debufflist[1];
             proElec.maxValue = _debufflist[2];
@@ -100,5 +103,12 @@ public class ViewingDebuffProtect : MonoBehaviour
             _counted = true;
         }
 
+    }
+
+    public void ExitThisNode()
+    {
+        ContractInteraction._instance.InEdit();
+        GlobalVar._instance.ChangeState("ChooseField");
+        SceneManager.LoadScene("GamePlay");
     }
 }

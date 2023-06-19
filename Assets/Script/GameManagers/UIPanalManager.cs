@@ -5,12 +5,7 @@ using UnityEngine;
 
 public class UIPanalManager : MonoBehaviour
 {
-    public static UIPanalManager _instance;
     public GameObject AddPanal;
-    private void Awake()
-    {
-        _instance = this;
-    }
 
     private void Update()
     {

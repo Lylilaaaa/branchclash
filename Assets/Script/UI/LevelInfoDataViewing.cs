@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LevelInfoDataViewing : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class LevelInfoDataViewing : MonoBehaviour
     private GameObject[] _debuffTower;
     private GameObject[] _towerNum;
     private GameObject[] _protectNum;
+    
 
     private bool _hasInit = false;
     
@@ -85,6 +87,26 @@ public class LevelInfoDataViewing : MonoBehaviour
         healthSlider.maxValue = thisNodeData.fullHealth;
         healthSlider.value = thisNodeData.curHealth;
         healthSlider.minValue = 0;
+        
+        //暂时先这样写
+        
+
+        Slider WdebuffSlider = _debuffSlider[0].GetComponent<Slider>();
+        WdebuffSlider.maxValue = 4;
+        WdebuffSlider.value = 3;
+        WdebuffSlider.minValue = 0;
+        Slider IdebuffSlider = _debuffSlider[1].GetComponent<Slider>();
+        IdebuffSlider.maxValue = 4;
+        IdebuffSlider.value = 0;
+        IdebuffSlider.minValue = 0;
+        Slider EdebuffSlider = _debuffSlider[2].GetComponent<Slider>();
+        EdebuffSlider.maxValue = 3;
+        EdebuffSlider.value = 0;
+        EdebuffSlider.minValue = 0;
+        _debuffTower[0].GetComponent<TextMeshProUGUI>().text = "75%";
+        _debuffTower[1].GetComponent<TextMeshProUGUI>().text = "0%";
+        _debuffTower[2].GetComponent<TextMeshProUGUI>().text = "0%";
+            
         _hasInit = true;
     }
 
@@ -173,6 +195,15 @@ public class LevelInfoDataViewing : MonoBehaviour
     {
         if (GlobalVar._instance.isPreViewing == true)
         {
+            if (transform.parent.parent.name.Length > 3)
+            {
+                transform.parent.parent.GetComponent<CursorOutlinesPure>()._canDisappear = true;
+            }
+            else
+            {
+                transform.parent.parent.GetComponent<CursorOutlines>()._canDisappear = true;
+            }
+            //transform.parent.parent.GetComponent<CursorOutlines>()._canDisappear = true;
             transform.GetChild(0).gameObject.SetActive(false);
             GlobalVar._instance.isPreViewing = false;
             CameraController._instance.camLock = false;
@@ -181,6 +212,7 @@ public class LevelInfoDataViewing : MonoBehaviour
     }
     public void OpenViewingScene()
     {
-        
+        GlobalVar._instance.ChangeState("Viewing");
+        SceneManager.LoadScene("ExhibExample");
     }
 }

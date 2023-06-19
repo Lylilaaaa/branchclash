@@ -76,6 +76,7 @@ public class RedTreeGenerator : MonoBehaviour
 
 
     //层数，层内序号，父节点层内序号，子节点数量
+    public static RedTreeGenerator _instance;
     public static int[] redNodes;
     public GameObject prefab;
     public GameObject link;
@@ -86,11 +87,16 @@ public class RedTreeGenerator : MonoBehaviour
     //每一层节点平面范围的半边长
     private int[] layerWidth;
 
-    private void Start()
+    private void Awake()
+    {
+        _instance = this;
+    }
+
+    public void InitDownTree()
     {
         if (GlobalVar.CurrentGameState == GlobalVar.GameState.MainStart)
         {
-            redNodes = new int[] {0,0,0,5,1,0,0,1,1,1,0,0,1,2,0,3,1,3,0,3,1,4,0,0,2,0,0,0,2,1,2,0,2,2,2,0,2,3,2,0,2,4,3,0,2,5,3,0,2,6,3,0};
+            redNodes = GlobalVar._instance.redTreeGen;
             layerNum = GetLayer();
             nodePos = new List<Vector3>();
             layerWidth = new int[layerNum + 1];

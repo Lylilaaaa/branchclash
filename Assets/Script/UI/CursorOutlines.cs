@@ -10,6 +10,7 @@ public class CursorOutlines : MonoBehaviour
     private GameObject outlineGbj;
 
     public bool mouseEnter;
+    public bool _canDisappear = true;
     public bool cursorZoomIn=false;
     public GameObject previewLevelInfoPenal;
     
@@ -17,6 +18,7 @@ public class CursorOutlines : MonoBehaviour
     void Start()
     {
         mouseEnter = false;
+        _canDisappear = true;
         outlineGbj = FindChildWithTag(transform, "outline").gameObject;
         previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(false);
     }
@@ -41,10 +43,26 @@ public class CursorOutlines : MonoBehaviour
 
     private void Update()
     {
+        if (transform.name == "3-2" && GlobalVar._instance.tempZoom3_2 == true)
+        {
+            GlobalVar._instance.tempZoom3_2 = false;
+            cursorZoomIn = true;
+            if (GlobalVar._instance.isPreViewing == false) //不能同时打开两个viewing //load viewing Scene传入数据 //改变Global node
+            {
+                previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
+                GlobalVar._instance.chosenNodeData =
+                    previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData;
+                //CameraController._instance.camLock = true;
+                //SceneManager.LoadScene("ExhibExample", LoadSceneMode.Additive);
+                GlobalVar._instance.ChangeState("Viewing");
+                GlobalVar._instance.isPreViewing = true;
+            }
+        }
         if (mouseEnter == true)
         {
             if (Input.GetMouseButtonDown(0))
             {
+                _canDisappear = false;
                 cursorZoomIn = true;
                 if (GlobalVar._instance.isPreViewing == false) //不能同时打开两个viewing //load viewing Scene传入数据 //改变Global node
                 {
@@ -87,6 +105,11 @@ public class CursorOutlines : MonoBehaviour
                 }
             }
         }
+
+        if (mouseEnter == false && _canDisappear == true)
+        {
+            outlineGbj.SetActive(false);
+        }
     }
     private IEnumerator ChangeVariableAfterDelay()
     {
@@ -99,17 +122,12 @@ public class CursorOutlines : MonoBehaviour
     private void OnMouseEnter()
     {
         mouseEnter = true;
-        if (GlobalVar._instance.GetState() == GlobalVar.GameState.MainStart)
-        {
-            outlineGbj.SetActive(true);
-        }
+
+        outlineGbj.SetActive(true);
+
     }
     private void OnMouseExit()
     {
         mouseEnter = false;
-        if (GlobalVar._instance.GetState() == GlobalVar.GameState.MainStart)
-        {
-            outlineGbj.SetActive(false);
-        }
     }
 }

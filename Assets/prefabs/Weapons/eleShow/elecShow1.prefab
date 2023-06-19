@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4023343135653744568}
   m_Layer: 0
-  m_Name: elec1
+  m_Name: elecShow1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

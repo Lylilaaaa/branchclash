@@ -8,19 +8,29 @@ public class GlobalVar : MonoBehaviour
     public string targetField="";
     public bool chooseSedElec;
     public string gameStateShown="";
+    public bool tempZoom3_2 = false;
+    
     public GameState initialGameState;
     public static GameState CurrentGameState;
 
     public TreeData treeData;
+    public DownTreeData downTreeData;
     public NodeData chosenNodeData;
+    public DownNodeData downChosenNodeData;
     public TowerData woodTowerData;
     public TowerData ironTowerData;
     public TowerData elecTowerData;
     public string[][] mapmapList;
+    public int mapmapRow;
+    public int indexMapMapCol;
+    public string[] mapmapCol;
     private NodeData _previousNodeData;
+    private DownNodeData _previousDownNodeData;
     
     public List<NodeData> nodeDataList;
+    public List<DownNodeData> downNodeDataList;
     public int[] TreeGen;
+    public int[] redTreeGen;
 
     public bool isPreViewing = false;
     public enum GameState
@@ -41,20 +51,29 @@ public class GlobalVar : MonoBehaviour
         // 初始化游戏状态
         CurrentGameState = initialGameState;
         _previousNodeData = chosenNodeData;
+        _previousDownNodeData = downChosenNodeData;
         _getMapmapList();
 
         nodeDataList = new List<NodeData>();
+        downNodeDataList = new List<DownNodeData>();
         ReadData();
     }
 
     private void Update()
     {
+        //Debug.Log(Camera.main);
+        mapmapRow = mapmapList.Length;
+        mapmapCol = mapmapList[indexMapMapCol];
         gameStateShown = GetState().ToString();
         if (_previousNodeData.nodeIndex!= chosenNodeData.nodeIndex || _previousNodeData.nodeLayer!= chosenNodeData.nodeLayer )
         {
             _getMapmapList();
-
         }
+    }
+
+    public void Zoom3_2()
+    {
+        tempZoom3_2 = true;
     }
 
     private void _getMapmapList()
@@ -66,13 +85,7 @@ public class GlobalVar : MonoBehaviour
         {
             stringList[i] = rows[i].Split(',');
         }
-        for (int i = 0; i < stringList.Length / 2; i++)
-        {
-            string[] temp = stringList[i];
-            stringList[i] = stringList[stringList.Length - 1 - i];
-            stringList[stringList.Length - 1 - i] = temp;
-        }
-        
+
         for (int i = 0; i < stringList.Length; i++)
         {
             if (stringList[i] != null)
@@ -96,19 +109,33 @@ public class GlobalVar : MonoBehaviour
     
     private void ReadData()
     {
-        string[] assetPaths = UnityEditor.AssetDatabase.FindAssets("t:NodeData", new[] { "Assets/ScriptableObj/NodeDataObj/" });
-        
-        foreach (string assetPath in assetPaths)
+        NodeData[] allMyDataObjects = Resources.LoadAll<NodeData>("");
+        foreach (NodeData VARIABLE in allMyDataObjects)
         {
-            NodeData nodeData = UnityEditor.AssetDatabase.LoadAssetAtPath<NodeData>(UnityEditor.AssetDatabase.GUIDToAssetPath(assetPath));
-            
-            nodeDataList.Add(nodeData);
+            nodeDataList.Add(VARIABLE);
         }
+        DownNodeData[] downAllMyDataObjects = Resources.LoadAll<DownNodeData>("");
+        foreach (DownNodeData _VARIABLE in downAllMyDataObjects)
+        {
+            downNodeDataList.Add(_VARIABLE);
+        }
+        // nodeDataList.Add(Resources.Load<NodeData>("1,1"));
+        // nodeDataList.Add(Resources.Load<NodeData>("1,2"));
+        // nodeDataList.Add(Resources.Load<NodeData>("1,3"));
+        // string[] assetPaths = UnityEditor.AssetDatabase.FindAssets("t:NodeData", new[] { "Assets/ScriptableObj/NodeDataObj/" });
+        //
+        // foreach (string assetPath in assetPaths)
+        // {
+        //     NodeData nodeData = UnityEditor.AssetDatabase.LoadAssetAtPath<NodeData>(UnityEditor.AssetDatabase.GUIDToAssetPath(assetPath));
+        //     
+        //     nodeDataList.Add(nodeData);
+        // }
     }
 
-    public void UpdateTreeGen(TreeData newTreeDate)
+    public void UpdateTreeGen(TreeData newTreeDate,DownTreeData newDowntreeData)
     {
         _convert2TreeGen(newTreeDate);
+        _downConvert2TreeGen(newDowntreeData);
     }
 
     public void _convert2TreeGen(TreeData inputTreeData)
@@ -134,6 +161,46 @@ public class GlobalVar : MonoBehaviour
         }
         TreeGen = genList.ToArray();
     }
+    public void _downConvert2TreeGen(DownTreeData inputDownTreeData)
+    {
+        List<int[]> inputList = new List<int[]>();
+        inputList = downSortSequence(inputDownTreeData);
+        List<int> genList = new List<int>();
+        foreach (int[] VARIABLE in inputList)
+        {
+            if (VARIABLE.Length == 2)
+            {
+                //层数，层内序号，父节点层内序号，子节点数量
+                genList.Add(VARIABLE[0]);
+                genList.Add(VARIABLE[1]);
+                DownNodeData curNodeData = inputDownTreeData.downNodeDictionary[VARIABLE[0].ToString()+','+VARIABLE[1]];
+                genList.Add(curNodeData.fatherIndex);
+                genList.Add(curNodeData.childCount);
+            }
+            else
+            {
+                Debug.LogError("树的key结构不正确!");
+            }
+        }
+        redTreeGen = genList.ToArray();
+    }
+    private List<int[]> downSortSequence(DownTreeData curTreeData)
+    {
+        List<int[]> sequence = new List<int[]>();
+        foreach (string key in curTreeData.downNodeDictionary.Keys)
+        {
+            int[] indexPair = convertStrInt(key);
+            sequence.Add(indexPair);
+        }
+        sequence.Sort((x, y) =>
+        {
+            if (x[0] != y[0])
+                return x[0].CompareTo(y[0]);
+            else
+                return x[1].CompareTo(y[1]);
+        });
+        return sequence;
+    }
     private List<int[]> SortSequence(TreeData curTreeData)
     {
         List<int[]> sequence = new List<int[]>();
@@ -153,6 +220,10 @@ public class GlobalVar : MonoBehaviour
     }
     private int[] convertStrInt(string layerIndex)
     {
+        if (layerIndex.Substring(0, 1) == "(")
+        {
+            layerIndex = layerIndex.Substring(1, layerIndex.Length - 2);
+        }
         List<int> genList = new List<int>();
         string[] parts = layerIndex.Split(',');
         if (parts.Length == 2)

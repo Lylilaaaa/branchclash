@@ -13,6 +13,9 @@ public class FieldInit : MonoBehaviour
     public int ironType=0;
     public int eleType=0;
     public int eleType2 = 0;
+    private bool hasInit = false;
+
+    public int wproType = 0;
 
     public int checkState = 0;
 
@@ -21,6 +24,7 @@ public class FieldInit : MonoBehaviour
     public GameObject[] woodPrefab;
     public GameObject[] ironPrefab;
     public GameObject[] elecPrefab;
+    public GameObject[] wprPrefab;
 
 
     public TowerData woodSObj;
@@ -232,8 +236,30 @@ public class FieldInit : MonoBehaviour
                         Destroy(findChild("ele"+eleType));
                     }
                 }
+                if (wproType != 0 && hasInit == false)
+                {
+                    if (checkExsit("wpr" + wproType) == false)
+                    {
+                        GameObject fieldSeleted = Instantiate(wprPrefab[wproType-1]);
+                        fieldSeleted.transform.SetParent(transform);
+                        fieldSeleted.transform.localPosition = Vector3.zero;
+                        fieldSeleted.transform.localScale = new Vector3(25,25,25);
+                        fieldSeleted.transform.name = transform.name+"wpro"+wproType;
+                        hasInit = true;
+                        deletExcept("wpro"+wproType);    
+                        closeSelected();
+                        towerType = "wpro";
+                    }
+                }
+                else
+                {
+                    if (checkExsit("wpr" + 1) == true || checkExsit("wpr" + 2) == true || checkExsit("wpr" + 3) == true)
+                    {
+                        Destroy(findChild("wpr"+woodType));
+                    }
+                }
         
-                if (checkState == 0 && selected == false && woodType == 0 && ironType == 0 && eleType == 0)
+                if (checkState == 0 && selected == false && woodType == 0 && ironType == 0 && eleType == 0 && wproType == 0)
                 {
                     deletExcept("hihi");
                 }
@@ -284,15 +310,31 @@ public class FieldInit : MonoBehaviour
         {
             _initPerform(2,towerGrade);
         }
+        else if (typeViewingTower == "wpro")
+        {
+            _initPerform(3,towerGrade);
+        }
     }
     private void _initPerform(int index,int grade)
     {
-        GameObject performGObj = Instantiate(showingPrefab[index]);
-        performGObj.transform.SetParent(transform);
-        performGObj.transform.localPosition = Vector3.zero;
-        performGObj.transform.localScale = new Vector3(50,50,50);
-        TowerDataInit dataViewing = performGObj.GetComponent<TowerDataInit>();
-        dataViewing.towerGrade = grade;
+        if (index <= 2)
+        {
+            GameObject performGObj = Instantiate(showingPrefab[index]);
+            performGObj.transform.SetParent(transform);
+            performGObj.transform.localPosition = Vector3.zero;
+            performGObj.transform.localScale = new Vector3(50,50,50);
+            TowerDataInit dataViewing = performGObj.GetComponent<TowerDataInit>();
+            dataViewing.towerGrade = grade;
+        }
+        else
+        {
+            GameObject performGObj = Instantiate(showingPrefab[index]);
+            performGObj.transform.SetParent(transform);
+            performGObj.transform.localPosition = Vector3.zero;
+            performGObj.transform.localScale = new Vector3(25,25,25);
+            TowerDataInit dataViewing = performGObj.GetComponent<TowerDataInit>();
+            dataViewing.towerGrade = grade;
+        }
     }
 
     private void _initViewing()
@@ -379,8 +421,9 @@ public class FieldInit : MonoBehaviour
         {
             GameObject child = transform.GetChild(i).gameObject;
             string childName = child.transform.name.Substring(child.transform.name.Length-4,4);
-            if (childName != deleObj)
+            if (childName != deleObj && child.transform.name!="100wpro1")
             {
+                print("destroy"+child.transform.name);
                 Destroy(child);
             }
         }

@@ -7,13 +7,62 @@ using UnityEngine.UI;
 
 public class TreeNodeDataInit : MonoBehaviour
 {
+    public static TreeNodeDataInit _instance;
     public TreeData treeData;
+    public DownTreeData downTreeData;
     public List<NodeData> previousNodeData;
+    public List<DownNodeData> previousDownNodeData;
     public string levelName = "GamePlay";
+    private GlobalVar.GameState _previousGameState;
+    public bool finish=false;
 
+    private void Awake()
+    {
+        _instance = this;
+        
+    }
     private void Start()
     {
         if (GlobalVar.CurrentGameState == GlobalVar.GameState.MainStart)
+        {
+            previousNodeData = GlobalVar._instance.nodeDataList;
+            previousDownNodeData = GlobalVar._instance.downNodeDataList;
+            
+            treeData.nodeDictionary = new Dictionary<string, NodeData>();
+            treeData.InitNodeData = initNodeData(treeData.InitNodeData);
+            treeData.nodeDictionary.Add("0,1",treeData.InitNodeData);
+            
+            downTreeData.downNodeDictionary = new Dictionary<string, DownNodeData>();
+            downTreeData.initDownNodeData = initDownNodeData(downTreeData.initDownNodeData);
+            downTreeData.downNodeDictionary.Add("0,1",downTreeData.initDownNodeData);
+            treeData.treeNodeCount += 1;
+            downTreeData.downTreeNodeCount += 1;
+            foreach (NodeData _nodeData in previousNodeData)
+            {
+                treeData.nodeDictionary.Add(_nodeData.nodeLayer.ToString()+','+_nodeData.nodeIndex.ToString(),_nodeData);
+                treeData.treeNodeCount += 1;
+            }
+            foreach (DownNodeData _downNodeData in previousDownNodeData)
+            {
+                downTreeData.downNodeDictionary.Add(_downNodeData.nodeLayer.ToString()+','+_downNodeData.nodeIndex.ToString(),_downNodeData);
+                treeData.treeNodeCount += 1;
+            }
+            //加node操作
+            // fake_preAdd("0,1");
+            // fake_preAdd("0,1");
+            // fake_preAdd("0,1");
+            // SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
+            GlobalVar._instance._convert2TreeGen(treeData);
+            GlobalVar._instance._downConvert2TreeGen(downTreeData);
+            TreeGenerator._instance.InitTree();
+            RedTreeGenerator._instance.InitDownTree();
+        }
+    }
+
+    private void Update()
+    {
+        if (_previousGameState != GlobalVar.CurrentGameState &&
+            GlobalVar.CurrentGameState == GlobalVar.GameState.MainStart && finish == false)
         {
             previousNodeData = GlobalVar._instance.nodeDataList;
             treeData.nodeDictionary = new Dictionary<string, NodeData>();
@@ -25,21 +74,25 @@ public class TreeNodeDataInit : MonoBehaviour
                 treeData.nodeDictionary.Add(_nodeData.nodeLayer.ToString()+','+_nodeData.nodeIndex.ToString(),_nodeData);
                 treeData.treeNodeCount += 1;
             }
-            //加node操作
-            // fake_preAdd("0,1");
-            // fake_preAdd("0,1");
-            // fake_preAdd("0,1");
-            // SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
             GlobalVar._instance._convert2TreeGen(treeData);
             TreeGenerator._instance.InitTree();
+            finish = true;
         }
-    }
-
-    private void Update()
-    {
+        
+        _previousGameState = GlobalVar.CurrentGameState;
         treeData.treeNodeCount = treeData.nodeDictionary.Count;
     }
-
+    private DownNodeData initDownNodeData(DownNodeData initNode)
+    {
+        initNode.fatherLayer = 0;
+        initNode.fatherIndex = 0;
+        initNode.childCount = 0;
+        initNode.nodeLayer = 0;
+        initNode.nodeIndex = 1;
+        initNode.debuffData = new int[3];
+        initNode.debuffData[0] =initNode.debuffData[1] =initNode.debuffData[2]= 0;
+        return initNode;
+    }
     private NodeData initNodeData(NodeData initNode)
     {
         initNode.fatherLayer = 0;
@@ -86,10 +139,10 @@ public class TreeNodeDataInit : MonoBehaviour
             treeData.nodeDictionary.Add(newNodeName, newNodeData);
             
             // 将新节点保存到文件夹路径中
-            string assetPath = "Assets/ScriptableObj/NodeDataObj/" + newNodeName + ".asset";
-            AssetDatabase.CreateAsset(newNodeData, assetPath);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            // string assetPath = "Assets/ScriptableObj/NodeDataObj/" + newNodeName + ".asset";
+            // AssetDatabase.CreateAsset(newNodeData, assetPath);
+            // AssetDatabase.SaveAssets();
+            // AssetDatabase.Refresh();
 
             Debug.Log("New node created and saved: " + newNodeName);
             treeData.treeNodeCount += 1;

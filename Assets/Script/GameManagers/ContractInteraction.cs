@@ -16,8 +16,8 @@ using TMPro;
 
 public class ContractInteraction : MonoBehaviour
 {
+    public static ContractInteraction _instance;
     // Show return info
-    public TMP_Text t;
     // Set chain: ethereum, moonbeam, polygon etc
     string chain = "ethereum";
     // Set network mainnet, testnet
@@ -28,7 +28,11 @@ public class ContractInteraction : MonoBehaviour
     string contract = "0x71e8e4436c85f0a41aa671DE7fB433c04Ff90728";
 
     /*========================Write Functions=============================*/
-
+    private void Awake()
+    {
+        _instance = this;
+        
+    }
     async public void InEdit()
     {
         // Smart contract method to call
@@ -59,7 +63,7 @@ public class ContractInteraction : MonoBehaviour
     {
         string method = "edit_addtower";
 
-        string args = "[\"23\",\"wood\"]";
+        string args = "[\"73\",\"wood\"]";
 
         string value = "0";
 
@@ -185,7 +189,8 @@ public class ContractInteraction : MonoBehaviour
         // Connects to user's browser wallet to call a transaction
         string response = await EVM.Call(chain, network, contract, abi, method, args);
         // Display response in game
-        t.text = response;
+        Debug.Log(response);
+        //t.text = response;
     }
 
     async public void SecCheckListLength()
@@ -196,7 +201,8 @@ public class ContractInteraction : MonoBehaviour
         
         string response = await EVM.Call(chain, network, contract, abi, method, args);
 
-        t.text = response;
+        Debug.Log(response);
+        //t.text = response;
     }
 
     async public void CheckList()
@@ -207,7 +213,8 @@ public class ContractInteraction : MonoBehaviour
         
         string response = await EVM.Call(chain, network, contract, abi, method, args);
 
-        t.text = response;
+        //t.text = response;
+        Debug.Log(response);
     }
 
     async public void SecCheckList()
@@ -218,7 +225,8 @@ public class ContractInteraction : MonoBehaviour
         
         string response = await EVM.Call(chain, network, contract, abi, method, args);
 
-        t.text = response;
+        //t.text = response;
+        Debug.Log(response);
     }
 
     async public void CheckFather()
@@ -229,7 +237,8 @@ public class ContractInteraction : MonoBehaviour
         
         string response = await EVM.Call(chain, network, contract, abi, method, args);
 
-        t.text = response;
+       //t.text = response;
+       Debug.Log(response);
     }
 
     async public void SecCheckFather()
@@ -240,7 +249,8 @@ public class ContractInteraction : MonoBehaviour
         
         string response = await EVM.Call(chain, network, contract, abi, method, args);
 
-        t.text = response;
+        //t.text = response;
+        Debug.Log(response);
     }
 
     async public void CheckNodesOwner()
@@ -251,7 +261,8 @@ public class ContractInteraction : MonoBehaviour
         
         string response = await EVM.Call(chain, network, contract, abi, method, args);
 
-        t.text = response;
+        //t.text = response;
+        Debug.Log(response);
     }
 
     async public void SecCheckNodesOwner()
@@ -262,7 +273,8 @@ public class ContractInteraction : MonoBehaviour
         
         string response = await EVM.Call(chain, network, contract, abi, method, args);
 
-        t.text = response;
+        //t.text = response;
+        Debug.Log(response);
     }
 
     async public void Check()
@@ -273,7 +285,8 @@ public class ContractInteraction : MonoBehaviour
         
         string response = await EVM.Call(chain, network, contract, abi, method, args);
 
-        t.text = response;
+        //t.text = response;
+        Debug.Log(response);
     }
 }
 

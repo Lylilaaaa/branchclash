@@ -29,10 +29,16 @@ public class RedTreeNode : MonoBehaviour
             fatherNode = fatherTransform.gameObject.GetComponent<RedTreeNode>();
         }
 
-        if(num == 0)
+        // if(num == 0)
+        // {
+        //     isMajor = true;
+        // }
+        if (transform.name == "0-1_red" || transform.name == "1-3_red" || transform.name == "2-1_red" || transform.name == "3-3_red" ||
+            transform.name == "4-1_red" )
         {
             isMajor = true;
         }
+
 
 
 

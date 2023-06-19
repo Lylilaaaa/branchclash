@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 3358582122084439047}
   - component: {fileID: 235736183445278942}
   m_Layer: 0
-  m_Name: metal2
+  m_Name: metalShow2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

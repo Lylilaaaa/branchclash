@@ -55,6 +55,7 @@ MonoBehaviour:
   ironType: 0
   eleType: 0
   eleType2: 0
+  wproType: 0
   checkState: 0
   fieldSelectPrefab: {fileID: 3856420350723147276, guid: 4583568cd33dad7459eb10b7209e28f7,
     type: 3}
@@ -72,6 +73,10 @@ MonoBehaviour:
   - {fileID: 7350975138785341900, guid: 0b061a34be4aeff49814d002836cf79d, type: 3}
   - {fileID: 1940372403511101621, guid: e3a3849d4b0680e43856211fc8d2e81e, type: 3}
   - {fileID: 1197196885427198644, guid: 7d691f2823ad27a40a6780858baa23a6, type: 3}
+  wprPrefab:
+  - {fileID: 4164335993271921266, guid: 28441b8eac4d0d6408b3f5828e9c0293, type: 3}
+  - {fileID: 3886676308904669296, guid: d775d1e90d44fb84cb08dc4e531a81e1, type: 3}
+  - {fileID: 8015983484762823410, guid: 581bec189de9aba42a54bd89d73c84db, type: 3}
   woodSObj: {fileID: 11400000, guid: 4831304427c37bc4995e60bf79f80745, type: 2}
   ironSObj: {fileID: 11400000, guid: f3a30f0b6c81cc544892d92e881ddf02, type: 2}
   eleSObj: {fileID: 11400000, guid: fe7530a7af1595342a674f0dc66ad443, type: 2}
@@ -81,6 +86,9 @@ MonoBehaviour:
   mapStructure: 
   showingPrefab:
   - {fileID: 5721588864495248267, guid: 24f05ff301c067247836d32cd94c8e68, type: 3}
+  - {fileID: 4225526880299772587, guid: 906fb3f94471c4146a475c6be0ab888f, type: 3}
+  - {fileID: 7350975138785341900, guid: 5d2337035be29674c8b55814c65e66da, type: 3}
+  - {fileID: 5049507231681919293, guid: 3fa113e46999ab9458d920664a0c366b, type: 3}
 --- !u!65 &-4324939480039638320
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public class CurNodeDataSummary : MonoBehaviour
 {
     public static CurNodeDataSummary _instance;
     public NodeData thisNodeData;
+    public NodeData previousNodeData;
     private string[][] _mapStruct;
     public Dictionary<int,int> woodCount; //grade, count
     public Dictionary<int,int> ironCount;
@@ -21,6 +22,7 @@ public class CurNodeDataSummary : MonoBehaviour
     private TowerData iData;
     private TowerData eData;
     private bool _initData = false;
+    public string wproCountShown;
     private void Awake()
     {
         _instance = this;
@@ -43,14 +45,40 @@ public class CurNodeDataSummary : MonoBehaviour
 
     private void Update()
     {
-        if (GlobalVar._instance.mapmapList != null && _initData == false)
+        if (GlobalVar.CurrentGameState == GlobalVar.GameState.Viewing)
         {
-            _mapStruct = GlobalVar._instance.mapmapList;
-            _checkTypeIndex();
-            _initData = true;
+            thisNodeData = GlobalVar._instance.chosenNodeData;
+            if (previousNodeData != thisNodeData)
+            {
+                _countDicInit();
+                debuffList = thisNodeData.towerDebuffList;
+                _mapStruct = GlobalVar._instance.mapmapList;
+                _checkTypeIndex();
+            }
+            if (GlobalVar._instance.mapmapList != null && _initData == false)
+            {
+                _countDicInit();
+                debuffList = thisNodeData.towerDebuffList;
+                _mapStruct = GlobalVar._instance.mapmapList;
+                _checkTypeIndex();
+                _initData = true;
+            }
+    
+            previousNodeData = thisNodeData;
         }
+
+        wproCountShown=CheckProtectBlood("wpro", 1);
     }
 
+    private void _countDicInit()
+    {
+        woodCount = new Dictionary<int, int>();
+        ironCount = new Dictionary<int, int>();
+        elecCount = new Dictionary<int, int>();
+        wproCount = new Dictionary<int, int>();
+        iproCount = new Dictionary<int, int>();
+        eproCount = new Dictionary<int, int>();
+    } 
     private void _checkTypeIndex()
     {
         for (int i = 0; i < _mapStruct.Length; i++)
@@ -138,7 +166,7 @@ public class CurNodeDataSummary : MonoBehaviour
         {
             int grade = kvp.Key;
             int count = kvp.Value;
-            print($"Grade: {grade}, Count: {count}");
+            //print($"Grade: {grade}, Count: {count}");
         }
         dictionaryFinish = true;
     }
@@ -209,27 +237,33 @@ public class CurNodeDataSummary : MonoBehaviour
     }
     public string CheckProtectBlood(string proType,int grade)
     {
-        int count = 0;
-        string countString = "";
-        switch (proType)
+        if (wproCount.ContainsKey(grade))
         {
-            case "wpro":
-                count = wproCount[grade];
-                countString = count.ToString();
-                break;
-            case "ipro":
-                count = iproCount[grade];
-                countString = count.ToString();
-                break;
-            case "elec":
-                count = eproCount[grade];
-                countString = count.ToString();
-                break;
-            default:
-                Console.WriteLine("Unknown");
-                break;
+            int count = 0;
+            string countString = "";
+            switch (proType)
+            {
+                case "wpro":
+                    count = wproCount[grade];
+                    countString = count.ToString();
+                    break;
+                case "ipro":
+                    count = iproCount[grade];
+                    countString = count.ToString();
+                    break;
+                case "elec":
+                    count = eproCount[grade];
+                    countString = count.ToString();
+                    break;
+                default:
+                    Console.WriteLine("Unknown");
+                    break;
+            }
+            return countString;
         }
-        return countString;
+
+        return null;
+
     }
     public int CheckTypeCount(string towerType, int grade)
     {

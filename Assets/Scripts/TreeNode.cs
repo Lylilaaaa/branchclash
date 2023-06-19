@@ -15,7 +15,7 @@ public class TreeNode : MonoBehaviour
     public int num;
     public int father;
 
-    private bool isMajor = false;
+    public bool isMajor = false;
     private GameObject line;
     private GameObject corner;
     private Transform fatherTransform;
@@ -29,7 +29,12 @@ public class TreeNode : MonoBehaviour
             fatherNode = fatherTransform.gameObject.GetComponent<TreeNode>();
         }
         
-        if(num == 0)
+        // if(num == 0)
+        // {
+        //     isMajor = true;
+        // }
+        if (transform.name == "0-1" || transform.name == "1-2" || transform.name == "2-2" || transform.name == "3-4" ||
+            transform.name == "4-2" || transform.name == "5-1")
         {
             isMajor = true;
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -100,5 +101,8 @@ public class WaveSpawner : MonoBehaviour
         selectPanal.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
         selectPanal.transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
         selectPanal.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
+        GlobalVar._instance.ChangeState("MainStart");
+        TreeNodeDataInit._instance.finish = false;
+        SceneManager.LoadScene("HomePage");
     }
 }
