@@ -2,10 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UIPanalManager : MonoBehaviour
 {
     public GameObject AddPanal;
+    public GameObject mergePanel1;
+    public GameObject mergePanel2;
+    public TextMeshProUGUI moneyTMP;
 
     private void Update()
     {
@@ -17,9 +21,32 @@ public class UIPanalManager : MonoBehaviour
                 break;
             case GlobalVar.GameState.ChooseField:
                 AddPanal.SetActive(false);
+                mergePanel1.SetActive(false);
+                mergePanel2.SetActive(false);
                 break;
             case GlobalVar.GameState.AddTowerUI:
                 AddPanal.SetActive(true);
+                mergePanel1.SetActive(false);
+                mergePanel2.SetActive(false);
+                break;
+            case GlobalVar.GameState.MergeTowerUI:
+                AddPanal.SetActive(false);
+                if (GlobalVar._instance.tempMerge1)
+                {
+                    mergePanel1.SetActive(true);
+                }
+                else if (!GlobalVar._instance.tempMerge1)
+                {
+                    mergePanel1.SetActive(false);
+                }
+                if (GlobalVar._instance.tempMerge2)
+                {
+                    mergePanel2.SetActive(true);
+                }
+                else if (!GlobalVar._instance.tempMerge2)
+                {
+                    mergePanel2.SetActive(false);
+                }
                 break;
             case GlobalVar.GameState.Viewing:
                 //AddPanal.SetActive(false);
@@ -32,5 +59,21 @@ public class UIPanalManager : MonoBehaviour
                 break;
         }
     }
-    
+
+    public void CloseMerge1()
+    {
+        GlobalVar._instance.tempMerge1 = false;
+        GlobalVar._instance.showMergable = true;
+        GlobalVar._instance.ChangeState("ChooseField");
+    }
+    public void CloseMerge2()
+    {
+        GlobalVar._instance.tempMerge2 = false;
+        GlobalVar._instance.showMergable = false;
+        GlobalVar._instance.ChangeState("ChooseField");
+    }
+    public void reduceMoney(int moneyAmount)
+    {
+        moneyTMP.text = (int.Parse(moneyTMP.text) + moneyAmount).ToString();
+    }
 }

@@ -20,9 +20,13 @@ public class RedTreeNode : MonoBehaviour
     private GameObject corner;
     private Transform fatherTransform;
     private RedTreeNode fatherNode;
+    public Material pinkMat;
+    public Material redMat;
+    private List<GameObject> _matCore;
 
     private void Start()
     {
+        _matCore = new List<GameObject>();
         if (layer != 0)
         {
             fatherTransform = transform.parent;
@@ -33,18 +37,61 @@ public class RedTreeNode : MonoBehaviour
         // {
         //     isMajor = true;
         // }
-        if (transform.name == "0-1_red" || transform.name == "1-3_red" || transform.name == "2-1_red" || transform.name == "3-3_red" ||
+        if (transform.name == "0-0_red" || transform.name == "1-3_red" || transform.name == "2-1_red" || transform.name == "3-3_red" ||
             transform.name == "4-1_red" )
         {
             isMajor = true;
         }
-
+        FindObjectsWithTag(transform, "redMat");
+        if (isMajor == true)
+        {
+            foreach (GameObject child in _matCore)
+            {
+                Renderer renderer = child.GetComponent<Renderer>();
+                
+                if (renderer != null && pinkMat != null)
+                {
+                    renderer.material = pinkMat;
+                }
+            }
+        }       
+        else
+        {
+            foreach (GameObject child in _matCore)
+            {
+                Renderer renderer = child.GetComponent<Renderer>();
+                
+                if (renderer != null && redMat != null)
+                {
+                    renderer.material = redMat;
+                }
+            }
+        }
 
 
 
         GenerateLine();
     }
-
+    private void FindObjectsWithTag(Transform parentTransform, string tag)
+    {
+        // int childCount = parentTransform.childCount;
+        // for (int i = 0; i < childCount; i++)
+        // {
+        //     if (parentTransform.GetChild(i).CompareTag(tag))
+        //     {
+        //         _matCore.Add
+        //     }
+        // }
+        foreach (Transform child in parentTransform)
+        {
+            if (child.CompareTag(tag))
+            {
+                _matCore.Add(child.gameObject);
+            }
+            
+            FindObjectsWithTag(child, tag);
+        }
+    }
     private void AddMajorPos(Vector3 pos)
     {
         if (!isMajor)

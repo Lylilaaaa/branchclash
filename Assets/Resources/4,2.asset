@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownerAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
   fatherLayer: 3
-  fatherIndex: 3
+  fatherIndex: 4
   childCount: 0
   nodeLayer: 4
   nodeIndex: 2

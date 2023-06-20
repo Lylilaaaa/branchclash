@@ -36,7 +36,7 @@ public class WebLogin : MonoBehaviour
         // reset login message
         SetConnectAccount("");
         // load next scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        //ceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void OnSkip()

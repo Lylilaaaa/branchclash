@@ -42,7 +42,7 @@ public class LevelInfoDataViewing : MonoBehaviour
         _basicInfo[1] = _textViewingParent.transform.GetChild(0).GetChild(1).gameObject; //node
         _basicInfo[2] = _textViewingParent.transform.GetChild(0).GetChild(2).gameObject; //blood
         _basicInfo[3] = _textViewingParent.transform.GetChild(0).GetChild(3).gameObject; //money
-        _basicInfo[4] = _textViewingParent.transform.GetChild(0).GetChild(4).gameObject; //ownerAddr
+        //_basicInfo[4] = _textViewingParent.transform.GetChild(0).GetChild(4).gameObject; //ownerAddr
         _debuffTower = new GameObject[3];
         _debuffTower[0] = _textViewingParent.transform.GetChild(1).GetChild(0).gameObject; //wood
         _debuffTower[1] = _textViewingParent.transform.GetChild(1).GetChild(1).gameObject; //iron
@@ -82,7 +82,7 @@ public class LevelInfoDataViewing : MonoBehaviour
         _basicInfo[1].GetComponent<TextMeshProUGUI>().text = "NODE: "+thisNodeData.nodeIndex.ToString();
         _basicInfo[2].GetComponent<TextMeshProUGUI>().text = thisNodeData.curHealth.ToString()+"/"+thisNodeData.fullHealth.ToString();
         _basicInfo[3].GetComponent<TextMeshProUGUI>().text = thisNodeData.money.ToString();
-        _basicInfo[4].GetComponent<TextMeshProUGUI>().text = thisNodeData.ownerAddr;
+        //_basicInfo[4].GetComponent<TextMeshProUGUI>().text = thisNodeData.ownerAddr;
         Slider healthSlider = _bloodSlider.GetComponent<Slider>();
         healthSlider.maxValue = thisNodeData.fullHealth;
         healthSlider.value = thisNodeData.curHealth;

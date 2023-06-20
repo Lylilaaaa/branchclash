@@ -9,6 +9,10 @@ public class GlobalVar : MonoBehaviour
     public bool chooseSedElec;
     public string gameStateShown="";
     public bool tempZoom3_2 = false;
+    public bool tempMerge1;
+    public bool tempMerge2;
+    public bool showMergable;
+    public bool canDeleteWoodMerge = false;
     
     public GameState initialGameState;
     public static GameState CurrentGameState;
@@ -39,6 +43,7 @@ public class GlobalVar : MonoBehaviour
         Viewing,
         ChooseField,
         AddTowerUI,
+        MergeTowerUI,
         GameOver
     }
     private void Awake()
@@ -265,6 +270,9 @@ public class GlobalVar : MonoBehaviour
                 break;
             case "GameOver":
                 newState = GameState.GameOver;
+                break;
+            case "MergeTowerUI":
+                newState = GameState.MergeTowerUI;
                 break;
             default:
                 newState = CurrentGameState;

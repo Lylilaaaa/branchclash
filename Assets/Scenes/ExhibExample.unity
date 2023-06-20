@@ -11296,7 +11296,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0xass...788
+  m_text: 0xb3a...890
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0c38d10b7cc00c742bb379f8e87efaf7, type: 2}
   m_sharedMaterial: {fileID: 3553368755267884775, guid: 0c38d10b7cc00c742bb379f8e87efaf7,
@@ -12173,6 +12173,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AddPanal: {fileID: 0}
+  mergePanel1: {fileID: 0}
+  mergePanel2: {fileID: 0}
+  moneyTMP: {fileID: 0}
 --- !u!114 &1201760400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12207,6 +12210,10 @@ MonoBehaviour:
   chooseSedElec: 0
   gameStateShown: 
   tempZoom3_2: 0
+  tempMerge1: 0
+  tempMerge2: 0
+  showMergable: 0
+  canDeleteWoodMerge: 0
   initialGameState: 1
   treeData: {fileID: 11400000, guid: 062e5fbc12770914fb8ff15e8c2cf297, type: 2}
   downTreeData: {fileID: 0}
@@ -21819,7 +21826,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Money: 321123'
+  m_text: 'Money: 50'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0c38d10b7cc00c742bb379f8e87efaf7, type: 2}
   m_sharedMaterial: {fileID: 3553368755267884775, guid: 0c38d10b7cc00c742bb379f8e87efaf7,
