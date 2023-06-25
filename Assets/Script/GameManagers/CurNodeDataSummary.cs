@@ -174,7 +174,7 @@ public class CurNodeDataSummary : MonoBehaviour
     public (string, string,string) CheckAttackSpeedRange(string towerType,int grade)
     {
         int attack = 0;
-        int speed = 0;
+        float speed = 0;
         int range = 0;
         string attackString = "";
         string speedString = "";

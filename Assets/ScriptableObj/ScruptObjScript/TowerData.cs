@@ -10,7 +10,7 @@ public class TowerData : ScriptableObject
 
     public int baseBulletAttack = 4;
 
-    public int baseBulletNumberPerSecond = 1;
+    public float baseBulletNumberPerSecond = 1;
     
     public int basicRange = 5;
     public int gradeRange2 = 5;

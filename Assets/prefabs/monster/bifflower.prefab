@@ -164,7 +164,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   hitPoint: 500
-  isRotate: 0
 --- !u!114 &5910887528784376136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,11 +176,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20737a9151e98fa428e35dfa24218785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MonsterHealth: 100
+  MonsterHealth: 15
   healthBar: {fileID: 9035108237162220310}
-  totalHealth: 100
+  totalHealth: 15
   BodyHitGameObj: {fileID: 6348993963554309143, guid: e402b7049fb113841abe6d3fe3e122d6,
     type: 3}
+  thisAnimator: {fileID: 3346532628997085975}
+  isBody: 0
 --- !u!54 &7146342066397371904
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -735,6 +736,7 @@ GameObject:
   - component: {fileID: 4800642071520312472}
   - component: {fileID: 8710245202822842853}
   - component: {fileID: 5520791425733056570}
+  - component: {fileID: 8639059768052081817}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -824,6 +826,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8639059768052081817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8435969102345445918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcf641b7ca728ed4ab0d9de8085a7ab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCameraTrans: {fileID: 0}
 --- !u!1001 &3346532631041462682
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -831,6 +846,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3346532629861233726}
     m_Modifications:
+    - target: {fileID: -9188942671874434198, guid: 2817a3592801b4645880e13f96bdc245,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.932161
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2817a3592801b4645880e13f96bdc245,
         type: 3}
       propertyPath: m_RootOrder
@@ -889,7 +909,7 @@ PrefabInstance:
     - target: {fileID: -4806550706997564434, guid: 2817a3592801b4645880e13f96bdc245,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.93216103
+      value: 0.932161
       objectReference: {fileID: 0}
     - target: {fileID: -4806550706997564434, guid: 2817a3592801b4645880e13f96bdc245,
         type: 3}
@@ -929,7 +949,7 @@ PrefabInstance:
     - target: {fileID: -4408721694806169603, guid: 2817a3592801b4645880e13f96bdc245,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.010203123
+      value: 0.01020312
       objectReference: {fileID: 0}
     - target: {fileID: -4408721694806169603, guid: 2817a3592801b4645880e13f96bdc245,
         type: 3}
@@ -1009,7 +1029,7 @@ PrefabInstance:
     - target: {fileID: 6555908648544932240, guid: 2817a3592801b4645880e13f96bdc245,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.010203123
+      value: 0.01020312
       objectReference: {fileID: 0}
     - target: {fileID: 6555908648544932240, guid: 2817a3592801b4645880e13f96bdc245,
         type: 3}

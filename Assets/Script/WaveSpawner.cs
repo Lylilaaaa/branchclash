@@ -27,11 +27,14 @@ public class WaveSpawner : MonoBehaviour
     private int hasSpawn = 0;
     private bool hasEnamy = false;
 
+    public Transform monsterContainer;
+    
+
     
 
     private void Update()
     {
-        checkChildNum = transform.childCount;
+        checkChildNum = monsterContainer.childCount;
         enemyNum = levelDate.deltaMonster + levelDate.levelNum * levelDate.deltaMonster;
 
         if (start == true)
@@ -49,7 +52,7 @@ public class WaveSpawner : MonoBehaviour
         if (_hasStart == true)
         {
             hasEnamy = false;
-            foreach (Transform child in transform)
+            foreach (Transform child in monsterContainer)
             {
                 if (child.tag == "Enemy")
                 {
@@ -83,14 +86,22 @@ public class WaveSpawner : MonoBehaviour
         GameObject enemySpawn = Instantiate(EnemeList[randomIndex],SpawnPos[randomIndex].position,SpawnPos[randomIndex].rotation);
         enemySpawn.name = j.ToString() + "enemy";
         enemySpawn.transform.rotation = Quaternion.Euler(Vector3.zero);
-        //enemySpawn.transform.SetParent(transform);
+        enemySpawn.transform.SetParent(monsterContainer);
         //enemySpawn.transform.localScale = new Vector3(1f,1f,1f);
     }
 
     public void startGame()
     {
+        StartCoroutine(WaitAndExecute());
+
+    }
+    private IEnumerator WaitAndExecute()
+    {
+        yield return new WaitForSeconds(10f);
+
         start = true;
         selectPanal.SetActive(false);
+        
     }
 
     public void endGame()
@@ -103,6 +114,6 @@ public class WaveSpawner : MonoBehaviour
         selectPanal.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
         GlobalVar._instance.ChangeState("MainStart");
         TreeNodeDataInit._instance.finish = false;
-        SceneManager.LoadScene("HomePage");
+        SceneManager.LoadScene("End");
     }
 }

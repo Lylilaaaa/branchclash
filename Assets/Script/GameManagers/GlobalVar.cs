@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Newtonsoft.Json.Serialization;
 
 
 public class GlobalVar : MonoBehaviour
@@ -9,10 +10,16 @@ public class GlobalVar : MonoBehaviour
     public bool chooseSedElec;
     public string gameStateShown="";
     public bool tempZoom3_2 = false;
+    public bool tempZoom4_4 = false;
     public bool tempMerge1;
     public bool tempMerge2;
     public bool showMergable;
     public bool canDeleteWoodMerge = false;
+
+    public bool finishiEditIn = false;
+    public bool finishAdd= false;
+    public bool finishMerge= false;
+    public bool finishSubmit= false;
     
     public GameState initialGameState;
     public static GameState CurrentGameState;
@@ -54,6 +61,11 @@ public class GlobalVar : MonoBehaviour
     private void Start()
     {
         // 初始化游戏状态
+        finishiEditIn = false;
+        finishAdd= false;
+        finishMerge= false;
+        finishSubmit= false;
+
         CurrentGameState = initialGameState;
         _previousNodeData = chosenNodeData;
         _previousDownNodeData = downChosenNodeData;
@@ -66,7 +78,16 @@ public class GlobalVar : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log(Camera.main);
+        // if (getResponse.Length == 66)
+        // {
+        //     Debug.Log("66666666666666666666666");
+        // }
+        //
+        // if (mergeGetResponse.Length == 66)
+        // {
+        //     Debug.Log("mergeGetResponse: 6666666");
+        // }
+
         mapmapRow = mapmapList.Length;
         mapmapCol = mapmapList[indexMapMapCol];
         gameStateShown = GetState().ToString();
@@ -79,6 +100,10 @@ public class GlobalVar : MonoBehaviour
     public void Zoom3_2()
     {
         tempZoom3_2 = true;
+    }
+    public void Zoom4_4()
+    {
+        tempZoom4_4 = true;
     }
 
     private void _getMapmapList()

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Wood
   m_EditorClassIdentifier: 
   towerType: wood
-  baseBulletAttack: 4
+  baseBulletAttack: 5
   baseBulletNumberPerSecond: 1
-  basicRange: 6
+  basicRange: 20
   gradeRange2: 6
   gradeRange3: 6
   performGrade2: 5

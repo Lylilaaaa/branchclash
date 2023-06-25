@@ -722,7 +722,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   hitPoint: 500
-  isRotate: 0
 --- !u!114 &468896318724507532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,11 +734,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20737a9151e98fa428e35dfa24218785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MonsterHealth: 100
+  MonsterHealth: 8
   healthBar: {fileID: 7252139785974903163}
-  totalHealth: 100
+  totalHealth: 8
   BodyHitGameObj: {fileID: 6348993963554309143, guid: e402b7049fb113841abe6d3fe3e122d6,
     type: 3}
+  thisAnimator: {fileID: 8596707892715647126}
+  isBody: 0
 --- !u!1001 &8596707892269972789
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -840,7 +841,7 @@ PrefabInstance:
     - target: {fileID: -8231921463088776207, guid: 2272b7c82f9f2804e8afeb6ca99285b4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8075890372252709778, guid: 2272b7c82f9f2804e8afeb6ca99285b4,
         type: 3}

@@ -6,8 +6,10 @@ public class Enemy : MonoBehaviour
 
     private Transform target;
     private int wavepointIndex = 0;
+    
 
     public float hitPoint = 500f;
+    
 
     public void GetDamage(float damage)
     {
@@ -27,12 +29,16 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        Vector3 dir = target.position - transform.position;
-        transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
-
-        if (Vector3.Distance(transform.position, target.position) <= 0.2f)
+        if (transform.GetComponent<EnemyData>().isBody == false)
         {
-            GetNextWaypoint();
+            Vector3 dir = target.position - transform.position;
+            dir.y = 0f;
+            transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
+            transform.rotation = Quaternion.LookRotation(dir);
+            if (Vector3.Distance(new Vector3(transform.position.x,transform.position.y,transform.position.z), new Vector3(target.position.x,transform.position.y,target.position.z)) <= 0.2f)
+            {
+                GetNextWaypoint();
+            }
         }
     }
 

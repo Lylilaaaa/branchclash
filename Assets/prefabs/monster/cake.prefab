@@ -254,7 +254,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   hitPoint: 500
-  isRotate: 0
 --- !u!54 &984009922988702830
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -296,11 +295,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20737a9151e98fa428e35dfa24218785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MonsterHealth: 100
+  MonsterHealth: 10
   healthBar: {fileID: 984009922005105322}
-  totalHealth: 100
+  totalHealth: 10
   BodyHitGameObj: {fileID: 6348993963554309143, guid: e402b7049fb113841abe6d3fe3e122d6,
     type: 3}
+  thisAnimator: {fileID: 984009922029449418}
+  isBody: 0
 --- !u!1 &984009923247147127
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +390,7 @@ GameObject:
   - component: {fileID: 984009923914786742}
   - component: {fileID: 984009923914786741}
   - component: {fileID: 984009923914786740}
+  - component: {fileID: 1338551428485691119}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -478,6 +480,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1338551428485691119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984009923914786746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcf641b7ca728ed4ab0d9de8085a7ab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCameraTrans: {fileID: 0}
 --- !u!1 &984009924065163853
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,7 +738,7 @@ PrefabInstance:
     - target: {fileID: 7707503809228495303, guid: 1174cb4a70bd92f48af985a4d84a6bb7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.12617779
+      value: -0.1261778
       objectReference: {fileID: 0}
     - target: {fileID: 7707503809228495303, guid: 1174cb4a70bd92f48af985a4d84a6bb7,
         type: 3}

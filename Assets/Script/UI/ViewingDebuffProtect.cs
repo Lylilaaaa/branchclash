@@ -27,6 +27,8 @@ public class ViewingDebuffProtect : MonoBehaviour
     public int woodTotalProtect=0;
     public int ironTotalProtect=0;
     public int elecTotalProtect=0;
+
+    public bool finish = false;
     
     void Start()
     {
@@ -103,12 +105,20 @@ public class ViewingDebuffProtect : MonoBehaviour
             _counted = true;
         }
 
+        if (GlobalVar._instance.finishiEditIn == true && finish == false)
+        {
+            finish = true;
+            GlobalVar._instance.ChangeState("ChooseField");
+            SceneManager.LoadScene("GamePlay");
+        }
     }
 
     public void ExitThisNode()
     {
         ContractInteraction._instance.InEdit();
-        GlobalVar._instance.ChangeState("ChooseField");
-        SceneManager.LoadScene("GamePlay");
+        
+        //comment build!!!
+         // GlobalVar._instance.ChangeState("ChooseField");
+         // SceneManager.LoadScene("GamePlay");
     }
 }

@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 20
-  shootingRate: 1
+  shootingRate: 0.5
   bulletAttack: 0
   partToRotate: {fileID: 6892357567994626911}
   target: {fileID: 0}

@@ -321,11 +321,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20737a9151e98fa428e35dfa24218785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MonsterHealth: 80
+  MonsterHealth: 12
   healthBar: {fileID: 2213857774823850731}
-  totalHealth: 80
+  totalHealth: 12
   BodyHitGameObj: {fileID: 6348993963554309143, guid: e402b7049fb113841abe6d3fe3e122d6,
     type: 3}
+  thisAnimator: {fileID: 5484001341819200120}
+  isBody: 0
 --- !u!114 &341344238688243151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,7 +342,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   hitPoint: 500
-  isRotate: 0
 --- !u!1 &6235609284759483789
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,6 +430,7 @@ GameObject:
   - component: {fileID: 4756932779719267349}
   - component: {fileID: 9099118769882208009}
   - component: {fileID: 4441785744928537476}
+  - component: {fileID: 1398036900126147018}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -518,6 +520,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1398036900126147018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7407432047607400541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcf641b7ca728ed4ab0d9de8085a7ab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCameraTrans: {fileID: 0}
 --- !u!1 &8183728855675701486
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,7 +689,7 @@ PrefabInstance:
     - target: {fileID: -5721917939262462694, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.39920753
+      value: -0.3992075
       objectReference: {fileID: 0}
     - target: {fileID: -5721917939262462694, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}
@@ -714,7 +729,7 @@ PrefabInstance:
     - target: {fileID: -2838212818857298353, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.25148064
+      value: 0.2514806
       objectReference: {fileID: 0}
     - target: {fileID: -2838212818857298353, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}
@@ -741,6 +756,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2342017289036245533, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.06241941
+      objectReference: {fileID: 0}
     - target: {fileID: 439240377374355549, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -754,7 +774,7 @@ PrefabInstance:
     - target: {fileID: 439240377374355549, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.40078193
+      value: 0.4007819
       objectReference: {fileID: 0}
     - target: {fileID: 439240377374355549, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}
@@ -949,7 +969,7 @@ PrefabInstance:
     - target: {fileID: 8581923075890774018, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.19921565
+      value: -0.1992157
       objectReference: {fileID: 0}
     - target: {fileID: 8581923075890774018, guid: 0a097e2e12aa5a449bef3ff17903e2f9,
         type: 3}

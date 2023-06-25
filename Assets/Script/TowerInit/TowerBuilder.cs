@@ -7,6 +7,8 @@ public class TowerBuilder : MonoBehaviour
 {
     private bool _finish=false;
     private string[][] _mapmapList;
+    public bool finish = false;
+    public UIPanalManager _UIPanalManager;
     private void Update()
     {
         if (GlobalVar._instance.mapmapList != null && _finish == false)
@@ -33,6 +35,14 @@ public class TowerBuilder : MonoBehaviour
                 }
             }
             _finish = true;
+        }
+        if (GlobalVar._instance.finishAdd==true && finish == false)
+        {
+            finish = true;
+            Set("wood");
+            changeStateChoseField();
+            _UIPanalManager.reduceMoney(-40);
+
         }
     }
 
@@ -98,7 +108,7 @@ public class TowerBuilder : MonoBehaviour
                 if (setTowerType == "wood")
                 {
                     fieldInit.woodType = 1;
-                    ContractInteraction._instance.EditAddTower();
+                    //ContractInteraction._instance.EditAddTower();
                 }
                 else if (setTowerType == "iron")
                 {
@@ -175,6 +185,14 @@ public class TowerBuilder : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void CallAddContract()
+    {
+        ContractInteraction._instance.EditAddTower();
+        // Set("wood");
+        // changeStateChoseField();
+        // _UIPanalManager.reduceMoney(-40);
     }
     
 }

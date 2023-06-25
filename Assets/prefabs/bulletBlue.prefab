@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5816377433698120069}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 56.661804, y: 1.38, z: 44.82}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5816377433698120069}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1072279776530052049
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -97,5 +97,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
-  impactEffect: {fileID: 6280504037888847377, guid: 9a6bff541d4a1e146aac82008ad900c1,
+  impactEffect: {fileID: 1835174905073365006, guid: adfd6c86cf180e64aaaa1bece2395926,
     type: 3}
+  attackData: 0

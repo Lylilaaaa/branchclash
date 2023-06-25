@@ -235,7 +235,7 @@ MonoBehaviour:
   bulletAttack: 0
   partToRotate: {fileID: 1073132008605855919}
   target: {fileID: 0}
-  bulletPrefab: {fileID: 5816377433698120069, guid: 1d93abf563a4d9f4fbad88cda4e386ad,
+  bulletPrefab: {fileID: 1704755523098355772, guid: e85992ff9cbf48348ad5a29cef2d89a6,
     type: 3}
   firePoint:
   - {fileID: 8786595725420284043}
@@ -267,8 +267,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseEnter: 0
   _canDisappear: 1
-  cursorZoomIn: 0
+  mergeFirst: 0
   mergeSecond: 0
+  finishmerge: 0
+  finish: 0
+  finish1: 0
   tempMergePenal: {fileID: 4814762677944936204}
 --- !u!1 &4814762677944936204
 GameObject:

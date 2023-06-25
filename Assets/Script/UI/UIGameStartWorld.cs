@@ -13,6 +13,7 @@ public class UIGameStartWorld : MonoBehaviour
 
     public TowerBuilder closeSelected;
     private bool chosen;
+    public bool finish;
 
     public GameObject _doorTMP;
     public GameObject _doorMat;
@@ -42,11 +43,22 @@ public class UIGameStartWorld : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 print("start!");
-                closeSelected.CloseSelected();
-                monsterStart.startGame();
+                ContractInteraction._instance.Submit();
+                
+                //comment when build!!
+                // closeSelected.CloseSelected();
+                // monsterStart.startGame();
+                
+                chosen = false;
             }
         }
-
+        if (GlobalVar._instance.finishSubmit==true && finish == false)
+        {
+            finish = true;
+            closeSelected.CloseSelected();
+            monsterStart.startGame();
+            Destroy(gameObject);
+        }
     }
     private void OnMouseEnter()
     {

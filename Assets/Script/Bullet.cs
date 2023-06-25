@@ -25,6 +25,7 @@ public class Bullet : MonoBehaviour
         }
 
         Vector3 dir = target.position - transform.position;
+        dir.y = 0f;
         float deltaMove = Time.deltaTime * speed;
 
         if (dir.magnitude <= deltaMove && hasAttack == false)
@@ -35,6 +36,7 @@ public class Bullet : MonoBehaviour
         }
         
         transform.Translate(dir.normalized*deltaMove,Space.World);
+        transform.rotation = Quaternion.LookRotation(dir);
     }
 
     private void HitTarget()

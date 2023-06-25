@@ -5,7 +5,7 @@ public class Turret : MonoBehaviour
 {
     [Header("Weapon Date")]
     public int range = 20;
-    public int shootingRate = 1;
+    public float shootingRate = 1;
     public int bulletAttack = 0;
     private float shootingCountDown = 0f;
 
@@ -77,7 +77,8 @@ public class Turret : MonoBehaviour
 
     private void shoot()
     {
-        //Debug.Log("SHOOT!");
+        
+        Debug.Log("SHOOT!"+bulletAttack.ToString());
         foreach (Transform fpt in firePoint)
         {
             GameObject BulletGo = (GameObject)Instantiate(bulletPrefab, fpt.position, fpt.rotation);

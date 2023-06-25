@@ -37,7 +37,7 @@ public class TreeNode : MonoBehaviour
         // {
         //     isMajor = true;
         // }
-        if (transform.name == "0-0"|| transform.name == "1-2" || transform.name == "2-2" || transform.name == "3-4" ||
+        if (transform.name == "0-0"|| transform.name == "1-1" || transform.name == "2-3" || transform.name == "3-1" ||
             transform.name == "4-2" || transform.name == "5-1")
         {
             isMajor = true;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class tempCurSorOutlineWood : MonoBehaviour
@@ -11,6 +12,8 @@ public class tempCurSorOutlineWood : MonoBehaviour
     public bool mergeFirst;
     public bool mergeSecond;
     public bool finishmerge = false;
+    public bool finish = false;
+    public bool finish1 = false;
 
     public GameObject tempMergePenal;
     // Start is called before the first frame update
@@ -25,10 +28,19 @@ public class tempCurSorOutlineWood : MonoBehaviour
 
     private void Update()
     {
+        if (GlobalVar._instance.finishMerge == true && finish1 == false)
+        {
+            tempMergePenal.SetActive(false);
+            GlobalVar._instance.showMergable = false;
+            GlobalVar._instance.canDeleteWoodMerge = true;
+            finishmerge = true;
+            finish1 = true;
+        }
         if (mouseEnter == false && _canDisappear == true)
         {
             outlineGbj.SetActive(false);
         }
+
         if (mouseEnter == true)
         {
             if (Input.GetMouseButtonDown(0) && GlobalVar._instance.showMergable == false)
@@ -38,21 +50,28 @@ public class tempCurSorOutlineWood : MonoBehaviour
                 mergeFirst = true;
             }
         }
+
         if (GlobalVar._instance.showMergable == true && mergeFirst != true)
         {
             tempMergePenal.SetActive(true);
             mergeSecond = true;
-            if (mouseEnter ==true && Input.GetMouseButtonDown(0))
+
+            //merge 成功
+            if (mouseEnter == true && Input.GetMouseButtonDown(0) && finish == false)
             {
-                tempMergePenal.SetActive(false);
-                GlobalVar._instance.showMergable = false;
-                GlobalVar._instance.canDeleteWoodMerge = true;
-                finishmerge = true;
-                //GlobalVar._instance.tempMerge2 = true;
+                ContractInteraction._instance.EditMergeTower();
+                
+                //commont when build!!!
+                // tempMergePenal.SetActive(false);
+                // GlobalVar._instance.showMergable = false;
+                // GlobalVar._instance.canDeleteWoodMerge = true;
+                // finishmerge = true;
+                
+                finish = true;
+                // GlobalVar._instance.tempMerge2 = true;
             }
             //enable mergeable
         }
-
         if (mouseEnter == true && mergeSecond == true && finishmerge == true)
         {
             if (Input.GetMouseButtonDown(1))
@@ -61,11 +80,10 @@ public class tempCurSorOutlineWood : MonoBehaviour
                 GlobalVar._instance.ChangeState("MergeTowerUI");
             }
         }
-
         if (GlobalVar._instance.canDeleteWoodMerge == true && mergeSecond == false)
         {
             transform.parent.GetComponent<FieldInit>().woodType = 0;
-            Destroy(transform.gameObject);
+            Destroy(gameObject);
         }
     }
 

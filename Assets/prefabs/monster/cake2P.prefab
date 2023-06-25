@@ -309,7 +309,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   hitPoint: 500
-  isRotate: 0
 --- !u!114 &5207366028777016434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,11 +321,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20737a9151e98fa428e35dfa24218785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MonsterHealth: 100
+  MonsterHealth: 12
   healthBar: {fileID: 4395488635471454518}
-  totalHealth: 100
+  totalHealth: 12
   BodyHitGameObj: {fileID: 6348993963554309143, guid: e402b7049fb113841abe6d3fe3e122d6,
     type: 3}
+  thisAnimator: {fileID: 7965423850161327227}
+  isBody: 0
 --- !u!1 &2235414626000566857
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,7 +816,7 @@ PrefabInstance:
     - target: {fileID: -3380748007788639068, guid: 4f84db42f40808b4ca94b207a79804a0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.40463752
+      value: 0.4046375
       objectReference: {fileID: 0}
     - target: {fileID: -3380748007788639068, guid: 4f84db42f40808b4ca94b207a79804a0,
         type: 3}
@@ -857,6 +858,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.4043012
       objectReference: {fileID: 0}
+    - target: {fileID: 4436805663696350335, guid: 4f84db42f40808b4ca94b207a79804a0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.4043012
+      objectReference: {fileID: 0}
     - target: {fileID: 5259689365771733409, guid: 4f84db42f40808b4ca94b207a79804a0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -870,7 +876,7 @@ PrefabInstance:
     - target: {fileID: 6025485676691366641, guid: 4f84db42f40808b4ca94b207a79804a0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.40463752
+      value: 0.4046375
       objectReference: {fileID: 0}
     - target: {fileID: 6025485676691366641, guid: 4f84db42f40808b4ca94b207a79804a0,
         type: 3}

@@ -15,7 +15,9 @@ public class EnemyBodyData : MonoBehaviour
         {
             //Debug.Log("body hit enemy!");
             other.gameObject.GetComponent<EnemyData>().MonsterHealth-=damageBody;
+            transform.parent.GetComponent<EnemyData>().desBody();
             Destroy(gameObject);
+            
         }
     }
 }

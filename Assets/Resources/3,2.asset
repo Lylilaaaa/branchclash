@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownerAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
   fatherLayer: 2
-  fatherIndex: 2
+  fatherIndex: 3
   childCount: 0
   nodeLayer: 3
   nodeIndex: 2
   curHealth: 100
   fullHealth: 100
   monsterCount: 2
-  money: 50
+  money: 150
   mapStructure: 00,H,00,00,00,00,00,00,00,00,00,00,00,00,00,00,R,00,/n,wpro1,R,00,00,R,R,R,R,00,00,R,R,R,R,00,00,R,iron1,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,wood1,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,R,R,R,00,00,R,R,R,R,00,00,R,R,R,R,00,/n,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,/
   towerDebuffList: 030000000000000000000000
   towerProtectList: 000000000000000000000000

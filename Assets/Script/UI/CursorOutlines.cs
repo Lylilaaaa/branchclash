@@ -58,6 +58,21 @@ public class CursorOutlines : MonoBehaviour
                 GlobalVar._instance.isPreViewing = true;
             }
         }
+        if (transform.name == "4-4" && GlobalVar._instance.tempZoom4_4 == true)
+        {
+            GlobalVar._instance.tempZoom4_4 = false;
+            cursorZoomIn = true;
+            if (GlobalVar._instance.isPreViewing == false) //不能同时打开两个viewing //load viewing Scene传入数据 //改变Global node
+            {
+                previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
+                GlobalVar._instance.chosenNodeData =
+                    previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData;
+                //CameraController._instance.camLock = true;
+                //SceneManager.LoadScene("ExhibExample", LoadSceneMode.Additive);
+                GlobalVar._instance.ChangeState("Viewing");
+                GlobalVar._instance.isPreViewing = true;
+            }
+        }
         if (mouseEnter == true)
         {
             if (Input.GetMouseButtonDown(0))

@@ -10,6 +10,15 @@ public class UIPanalManager : MonoBehaviour
     public GameObject mergePanel1;
     public GameObject mergePanel2;
     public TextMeshProUGUI moneyTMP;
+    public GameObject quitMerge;
+
+    private void Start()
+    {
+        AddPanal.SetActive(false);
+        mergePanel1.SetActive(false);
+        mergePanel2.SetActive(false);
+        quitMerge.SetActive(false);
+    }
 
     private void Update()
     {
@@ -58,6 +67,15 @@ public class UIPanalManager : MonoBehaviour
                 AddPanal.SetActive(false);
                 break;
         }
+
+        if (GlobalVar._instance.showMergable == true)
+        {
+            quitMerge.SetActive(true);
+        }
+        else
+        {
+            quitMerge.SetActive(false);
+        }
     }
 
     public void CloseMerge1()
@@ -65,6 +83,7 @@ public class UIPanalManager : MonoBehaviour
         GlobalVar._instance.tempMerge1 = false;
         GlobalVar._instance.showMergable = true;
         GlobalVar._instance.ChangeState("ChooseField");
+        //ContractInteraction._instance.EditMergeTower();
     }
     public void CloseMerge2()
     {

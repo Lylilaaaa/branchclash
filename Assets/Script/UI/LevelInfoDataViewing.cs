@@ -92,8 +92,8 @@ public class LevelInfoDataViewing : MonoBehaviour
         
 
         Slider WdebuffSlider = _debuffSlider[0].GetComponent<Slider>();
-        WdebuffSlider.maxValue = 4;
-        WdebuffSlider.value = 3;
+        WdebuffSlider.maxValue = 5;
+        WdebuffSlider.value = 4;
         WdebuffSlider.minValue = 0;
         Slider IdebuffSlider = _debuffSlider[1].GetComponent<Slider>();
         IdebuffSlider.maxValue = 4;
@@ -103,7 +103,7 @@ public class LevelInfoDataViewing : MonoBehaviour
         EdebuffSlider.maxValue = 3;
         EdebuffSlider.value = 0;
         EdebuffSlider.minValue = 0;
-        _debuffTower[0].GetComponent<TextMeshProUGUI>().text = "75%";
+        _debuffTower[0].GetComponent<TextMeshProUGUI>().text = "80%";
         _debuffTower[1].GetComponent<TextMeshProUGUI>().text = "0%";
         _debuffTower[2].GetComponent<TextMeshProUGUI>().text = "0%";
             
