@@ -5,12 +5,12 @@ using Newtonsoft.Json.Serialization;
 
 public class GlobalVar : MonoBehaviour
 {
+    public string userAddr="0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
     public static GlobalVar _instance;
     public string targetField="";
     public bool chooseSedElec;
     public string gameStateShown="";
-    public bool tempZoom3_2 = false;
-    public bool tempZoom4_4 = false;
+    public string zoomingPos = "";
     public bool tempMerge1;
     public bool tempMerge2;
     public bool showMergable;
@@ -61,6 +61,7 @@ public class GlobalVar : MonoBehaviour
     private void Start()
     {
         // 初始化游戏状态
+        userAddr = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
         finishiEditIn = false;
         finishAdd= false;
         finishMerge= false;
@@ -78,16 +79,6 @@ public class GlobalVar : MonoBehaviour
 
     private void Update()
     {
-        // if (getResponse.Length == 66)
-        // {
-        //     Debug.Log("66666666666666666666666");
-        // }
-        //
-        // if (mergeGetResponse.Length == 66)
-        // {
-        //     Debug.Log("mergeGetResponse: 6666666");
-        // }
-
         mapmapRow = mapmapList.Length;
         mapmapCol = mapmapList[indexMapMapCol];
         gameStateShown = GetState().ToString();
@@ -96,15 +87,7 @@ public class GlobalVar : MonoBehaviour
             _getMapmapList();
         }
     }
-
-    public void Zoom3_2()
-    {
-        tempZoom3_2 = true;
-    }
-    public void Zoom4_4()
-    {
-        tempZoom4_4 = true;
-    }
+    
 
     private void _getMapmapList()
     {

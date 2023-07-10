@@ -16,7 +16,7 @@ public class WebLogin : MonoBehaviour
     private static extern void SetConnectAccount(string value);
 
     private int expirationTime;
-    private string account; 
+    public string account; 
 
     public void OnLogin()
     {
@@ -33,6 +33,7 @@ public class WebLogin : MonoBehaviour
         };
         // save account for next scene
         PlayerPrefs.SetString("Account", account);
+        GlobalVar._instance.userAddr = account;
         // reset login message
         SetConnectAccount("");
         // load next scene

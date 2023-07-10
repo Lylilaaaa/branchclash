@@ -43,36 +43,7 @@ public class CursorOutlines : MonoBehaviour
 
     private void Update()
     {
-        if (transform.name == "3-2" && GlobalVar._instance.tempZoom3_2 == true)
-        {
-            GlobalVar._instance.tempZoom3_2 = false;
-            cursorZoomIn = true;
-            if (GlobalVar._instance.isPreViewing == false) //不能同时打开两个viewing //load viewing Scene传入数据 //改变Global node
-            {
-                previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
-                GlobalVar._instance.chosenNodeData =
-                    previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData;
-                //CameraController._instance.camLock = true;
-                //SceneManager.LoadScene("ExhibExample", LoadSceneMode.Additive);
-                GlobalVar._instance.ChangeState("Viewing");
-                GlobalVar._instance.isPreViewing = true;
-            }
-        }
-        if (transform.name == "4-4" && GlobalVar._instance.tempZoom4_4 == true)
-        {
-            GlobalVar._instance.tempZoom4_4 = false;
-            cursorZoomIn = true;
-            if (GlobalVar._instance.isPreViewing == false) //不能同时打开两个viewing //load viewing Scene传入数据 //改变Global node
-            {
-                previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
-                GlobalVar._instance.chosenNodeData =
-                    previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData;
-                //CameraController._instance.camLock = true;
-                //SceneManager.LoadScene("ExhibExample", LoadSceneMode.Additive);
-                GlobalVar._instance.ChangeState("Viewing");
-                GlobalVar._instance.isPreViewing = true;
-            }
-        }
+        ZoomCertainNode();
         if (mouseEnter == true)
         {
             if (Input.GetMouseButtonDown(0))
@@ -84,8 +55,6 @@ public class CursorOutlines : MonoBehaviour
                     previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
                     GlobalVar._instance.chosenNodeData =
                         previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData;
-                    //CameraController._instance.camLock = true;
-                    //SceneManager.LoadScene("ExhibExample", LoadSceneMode.Additive);
                     GlobalVar._instance.ChangeState("Viewing");
                     GlobalVar._instance.isPreViewing = true;
                 }
@@ -93,12 +62,12 @@ public class CursorOutlines : MonoBehaviour
         }
         if (cursorZoomIn == true)
         {
+            print(transform);
             CameraController._instance.LookUpNode(transform);
             CameraController._instance.canMove = true;
            // StartCoroutine(ChangeVariableAfterDelay());
             cursorZoomIn = false;
         }
-
         string[] layerIndex = transform.name.Split('-');
         if (layerIndex.Length == 2)
         {
@@ -124,6 +93,25 @@ public class CursorOutlines : MonoBehaviour
         if (mouseEnter == false && _canDisappear == true)
         {
             outlineGbj.SetActive(false);
+        }
+    }
+
+    public void ZoomCertainNode()
+    {
+        if (transform.name == GlobalVar._instance.zoomingPos)
+        {
+            GlobalVar._instance.zoomingPos = "";
+            cursorZoomIn = true;
+            if (GlobalVar._instance.isPreViewing == false) //不能同时打开两个viewing //load viewing Scene传入数据 //改变Global node
+            {
+                previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
+                GlobalVar._instance.chosenNodeData =
+                    previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData;
+                //CameraController._instance.camLock = true;
+                //SceneManager.LoadScene("ExhibExample", LoadSceneMode.Additive);
+                GlobalVar._instance.ChangeState("Viewing");
+                GlobalVar._instance.isPreViewing = true;
+            }
         }
     }
     private IEnumerator ChangeVariableAfterDelay()
