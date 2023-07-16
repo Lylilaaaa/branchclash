@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Serialization;
+using UnityEditor.Experimental.GraphView;
 
 
 public class GlobalVar : MonoBehaviour
@@ -28,9 +30,11 @@ public class GlobalVar : MonoBehaviour
     public DownTreeData downTreeData;
     public NodeData chosenNodeData;
     public DownNodeData downChosenNodeData;
+    
     public TowerData woodTowerData;
     public TowerData ironTowerData;
     public TowerData elecTowerData;
+    
     public string[][] mapmapList;
     public int mapmapRow;
     public int indexMapMapCol;
@@ -38,10 +42,12 @@ public class GlobalVar : MonoBehaviour
     private NodeData _previousNodeData;
     private DownNodeData _previousDownNodeData;
     
+    
     public List<NodeData> nodeDataList;
     public List<DownNodeData> downNodeDataList;
     public int[] TreeGen;
     public int[] redTreeGen;
+    public List<string> MajorNodeList;
 
     public bool isPreViewing = false;
     public enum GameState
@@ -75,6 +81,7 @@ public class GlobalVar : MonoBehaviour
         nodeDataList = new List<NodeData>();
         downNodeDataList = new List<DownNodeData>();
         ReadData();
+        MajorNodeList = _getMainNode();
     }
 
     private void Update()
@@ -118,6 +125,66 @@ public class GlobalVar : MonoBehaviour
             }
         }
         mapmapList = stringList;
+    }
+
+    private List<string> _getMainNode()
+    {
+        int maxLayer = 0;
+        int maxIndex = 0;
+        int maxChildCount = 0;
+        List<string> majorNodeList = new List<string>();
+        int curLayer = 0;
+
+        foreach (NodeData _node in nodeDataList)
+        {
+            if (_node.nodeLayer > maxLayer)
+            {
+                maxLayer = _node.nodeLayer;
+            }
+        }
+        //print(maxLayer);
+
+        curLayer = maxLayer;
+
+        foreach (NodeData _maxnode in nodeDataList)
+        {
+            if (_maxnode.nodeLayer == maxLayer)
+            {
+                if (_maxnode.childCount >= maxChildCount)
+                {
+                    maxChildCount = _maxnode.childCount;
+                    maxIndex = _maxnode.nodeIndex;
+                } 
+            }
+        }
+
+        while (curLayer >= 0)
+        {
+            print(curLayer);
+            majorNodeList.Add(maxLayer.ToString() + '-' + maxIndex.ToString());
+            NodeData majorNode = _findNodeData(maxLayer.ToString() + '-' + maxIndex.ToString());
+            if (curLayer != 0)
+            {
+                maxLayer = majorNode.fatherLayer;
+                maxIndex = majorNode.fatherIndex;
+                curLayer = maxLayer;
+            }
+        }
+
+        return majorNodeList;
+    }
+
+    private NodeData _findNodeData(string nodeName) //"1-2"
+    {
+        string[] layerIndex = nodeName.Split('-');
+        foreach (NodeData _maxnode in nodeDataList)
+        {
+            if (_maxnode.nodeLayer == int.Parse(layerIndex[0]) &&_maxnode.nodeIndex == int.Parse(layerIndex[1]))
+            {
+                return (_maxnode);
+            }
+        }
+        return null;
     }
     
     private void ReadData()
