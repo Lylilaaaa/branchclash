@@ -70,14 +70,16 @@ public class CameraController : MonoBehaviour
 
     public void LookUpNode(Transform targetNode)
     {
-        if (targetNode.name.Length > 3)
-        {
-            targetNode = targetNode.GetComponent<CursorOutlinesPure>().previewLevelInfoPenal.transform.GetChild(0).GetChild(0);
-        }
-        else
-        {
+        //print(targetNode.position);
+        // if (targetNode.name.Length > 3)
+        // {
+        //     targetNode = targetNode.GetComponent<CursorOutlinesPure>().previewLevelInfoPenal.transform.GetChild(0).GetChild(0);
+        // }
+        // else
+        // {
             targetNode = targetNode.GetComponent<CursorOutlines>().previewLevelInfoPenal.transform.GetChild(0).GetChild(0);
-        }
+            //print("hi here");
+        // }
         Vector3 targetPosition = targetNode.position - transform.forward * approachDistance;
         Quaternion targetRotation = Quaternion.LookRotation(targetNode.position - transform.position);
 

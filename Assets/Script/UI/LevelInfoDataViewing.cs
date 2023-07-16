@@ -195,14 +195,14 @@ public class LevelInfoDataViewing : MonoBehaviour
     {
         if (GlobalVar._instance.isPreViewing == true)
         {
-            if (transform.parent.parent.name.Length > 3)
-            {
-                transform.parent.parent.GetComponent<CursorOutlinesPure>()._canDisappear = true;
-            }
-            else
-            {
+            // if (transform.parent.parent.name.Length > 3)
+            // {
+            //     transform.parent.parent.GetComponent<CursorOutlinesPure>()._canDisappear = true;
+            // }
+            // else
+            // {
                 transform.parent.parent.GetComponent<CursorOutlines>()._canDisappear = true;
-            }
+            //}
             //transform.parent.parent.GetComponent<CursorOutlines>()._canDisappear = true;
             transform.GetChild(0).gameObject.SetActive(false);
             GlobalVar._instance.isPreViewing = false;

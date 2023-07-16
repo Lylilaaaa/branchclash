@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class HomePageSelectUI : MonoBehaviour
@@ -11,7 +12,8 @@ public class HomePageSelectUI : MonoBehaviour
     private Transform _upTreeNum;
     private Transform _downTreeNum;
     private bool _nodeFinish=false;
-    
+
+    public Sprite  yellowImage;
     public List<NodeData> yourNode;
     public TextMeshProUGUI textMeshPro;
     public GameObject yourNodePrefab;
@@ -49,7 +51,9 @@ public class HomePageSelectUI : MonoBehaviour
 
     public void ZoomX_X(string name)
     {
+        //print("button pressed!");
         string[] layerNode = name.Split(',');
+        //print(layerNode);
         GlobalVar._instance.zoomingPos = layerNode[0]+"-"+layerNode[1];
     }
 
@@ -59,6 +63,10 @@ public class HomePageSelectUI : MonoBehaviour
         foreach (NodeData node in yourNode)
         {
             GameObject thisNode = Instantiate(yourNodePrefab, yourNodeInitPos);
+            if (node.isMajor == true)
+            {
+                thisNode.transform.GetChild(0).GetComponent<Image>().sprite = yellowImage;
+            }
             thisNode.transform.localPosition = new Vector3(0, yPos, 0);
             thisNode.transform.localRotation = Quaternion.identity;
             thisNode.name = node.name;

@@ -37,6 +37,7 @@ public class GlobalVar : MonoBehaviour
     public string[] mapmapCol;
     private NodeData _previousNodeData;
     private DownNodeData _previousDownNodeData;
+    public List<string> MajorNodeList = new List<string>();
     
     public List<NodeData> nodeDataList;
     public List<DownNodeData> downNodeDataList;
@@ -75,6 +76,7 @@ public class GlobalVar : MonoBehaviour
         nodeDataList = new List<NodeData>();
         downNodeDataList = new List<DownNodeData>();
         ReadData();
+        _getMainNode();
     }
 
     private void Update()
@@ -86,6 +88,7 @@ public class GlobalVar : MonoBehaviour
         {
             _getMapmapList();
         }
+        //print("zommingPos:    "+zoomingPos);
     }
     
 
@@ -119,7 +122,63 @@ public class GlobalVar : MonoBehaviour
         }
         mapmapList = stringList;
     }
-    
+    private void _getMainNode()
+    {
+        int maxLayer = 0;
+        int maxIndex = 0;
+        int maxChildCount = 0;
+        int curLayer = 0;
+
+        foreach (NodeData _node in nodeDataList)
+        {
+            if (_node.nodeLayer > maxLayer)
+            {
+                maxLayer = _node.nodeLayer;
+            }
+        }
+        print(maxLayer);
+
+        curLayer = maxLayer;
+
+        foreach (NodeData _maxnode in nodeDataList)
+        {
+            if (_maxnode.nodeLayer == maxLayer)
+            {
+                if (_maxnode.childCount >= maxChildCount)
+                {
+                    maxChildCount = _maxnode.childCount;
+                    maxIndex = _maxnode.nodeIndex;
+                }
+            }
+        }
+        
+        while (curLayer > 0)
+        {
+            //print(curLayer);
+            MajorNodeList.Add(maxLayer.ToString() + '-' + maxIndex.ToString());
+            //print(maxLayer.ToString() + '-' + maxIndex.ToString());
+            NodeData majorNode = _findNodeData(maxLayer.ToString() + '-' + maxIndex.ToString());
+            majorNode.isMajor = true;
+
+            maxLayer = majorNode.fatherLayer;
+            maxIndex = majorNode.fatherIndex;
+            
+            curLayer = maxLayer;
+        }
+        
+    }
+    private NodeData _findNodeData(string nodeName) //"1-2"
+    {
+        string[] layerIndex = nodeName.Split('-');
+        foreach (NodeData _maxnode in nodeDataList)
+        {
+            if (_maxnode.nodeLayer == int.Parse(layerIndex[0]) &&_maxnode.nodeIndex == int.Parse(layerIndex[1]))
+            {
+                return (_maxnode);
+            }
+        }
+        return null;
+    }
     private void ReadData()
     {
         NodeData[] allMyDataObjects = Resources.LoadAll<NodeData>("");

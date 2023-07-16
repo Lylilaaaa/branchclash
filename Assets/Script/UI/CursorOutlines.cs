@@ -50,7 +50,7 @@ public class CursorOutlines : MonoBehaviour
             {
                 _canDisappear = false;
                 cursorZoomIn = true;
-                if (GlobalVar._instance.isPreViewing == false) //不能同时打开两个viewing //load viewing Scene传入数据 //改变Global node
+                if (GlobalVar._instance.isPreViewing == false) //????????????viewing //load viewing Scene???????? //???Global node
                 {
                     previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
                     GlobalVar._instance.chosenNodeData =
@@ -62,11 +62,12 @@ public class CursorOutlines : MonoBehaviour
         }
         if (cursorZoomIn == true)
         {
-            print(transform);
+            cursorZoomIn = false;
+            //print(transform);
             CameraController._instance.LookUpNode(transform);
             CameraController._instance.canMove = true;
            // StartCoroutine(ChangeVariableAfterDelay());
-            cursorZoomIn = false;
+            
         }
         string[] layerIndex = transform.name.Split('-');
         if (layerIndex.Length == 2)
@@ -100,9 +101,10 @@ public class CursorOutlines : MonoBehaviour
     {
         if (transform.name == GlobalVar._instance.zoomingPos)
         {
+            //print("zoom certain");
             GlobalVar._instance.zoomingPos = "";
             cursorZoomIn = true;
-            if (GlobalVar._instance.isPreViewing == false) //不能同时打开两个viewing //load viewing Scene传入数据 //改变Global node
+            if (GlobalVar._instance.isPreViewing == false)
             {
                 previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
                 GlobalVar._instance.chosenNodeData =
@@ -112,6 +114,7 @@ public class CursorOutlines : MonoBehaviour
                 GlobalVar._instance.ChangeState("Viewing");
                 GlobalVar._instance.isPreViewing = true;
             }
+            
         }
     }
     private IEnumerator ChangeVariableAfterDelay()

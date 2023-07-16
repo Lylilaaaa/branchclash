@@ -49,7 +49,7 @@ public class CursorOutlinesPure : MonoBehaviour
             {
                 _canDisappear = false;
                 cursorZoomIn = true;
-                if (GlobalVar._instance.isPreViewing == false) //不能同时打开两个viewing //load viewing Scene传入数据 //改变Global node
+                if (GlobalVar._instance.isPreViewing == false) //????????????viewing //load viewing Scene???????? //???Global node
                 {
                     previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
                     //CameraController._instance.camLock = true;
