@@ -37,18 +37,10 @@ public class TreeNode : MonoBehaviour
         // {
         //     isMajor = true;
         // }
-        // if (transform.name == "0-0"|| transform.name == "1-1" || transform.name == "2-3" || transform.name == "3-1" ||
-        //     transform.name == "4-2" || transform.name == "5-1")
-        // {
-        //     isMajor = true;
-        // }
-
-        foreach (string majorName in GlobalVar._instance.MajorNodeList)
+        if (transform.name == "0-0"|| transform.name == "1-1" || transform.name == "2-3" || transform.name == "3-1" ||
+            transform.name == "4-2" || transform.name == "5-1")
         {
-            if (transform.name == majorName)
-            {
-                isMajor = true;
-            }
+            isMajor = true;
         }
         FindObjectsWithTag(transform, "blueMat");
         if (isMajor == true)
