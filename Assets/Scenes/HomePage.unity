@@ -8003,6 +8003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6cec0b7941b734dbd507afb624777c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  yellowImage: {fileID: 21300000, guid: 223c095a78fa1ea428dae0cd6458853b, type: 3}
   yourNode: []
   textMeshPro: {fileID: 1144330747}
   yourNodePrefab: {fileID: 8448819771675659522, guid: 20d1085bb1208a94786f346823a805df,
@@ -12594,6 +12595,7 @@ MonoBehaviour:
   mapmapRow: 0
   indexMapMapCol: 0
   mapmapCol: []
+  MajorNodeList: []
   nodeDataList: []
   downNodeDataList: []
   TreeGen: 

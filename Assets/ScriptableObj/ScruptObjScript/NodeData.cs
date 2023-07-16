@@ -12,6 +12,7 @@ public class NodeData : ScriptableObject
 
     public int nodeLayer;
     public int nodeIndex;
+    public bool isMajor = false;
     
     //basicInfo
     public int curHealth;

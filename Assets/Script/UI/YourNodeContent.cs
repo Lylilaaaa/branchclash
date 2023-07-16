@@ -17,7 +17,7 @@ public class YourNodeContent : MonoBehaviour
 
     private void Update()
     {
-        print(childCount);
+        //print(childCount);
         childCount = transform.childCount;
         if (has == false && childCount!=0)
         {
