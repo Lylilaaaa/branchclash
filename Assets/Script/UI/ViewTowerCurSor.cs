@@ -60,6 +60,8 @@ public class ViewTowerCurSor : MonoBehaviour
     {
         if (CurNodeDataSummary._instance.dictionaryFinish == true && _finish == false && GlobalVar.CurrentGameState == GlobalVar.GameState.Viewing)
         {
+            _finish = true;
+            //print(transform.parent);
             _grade = transform.parent.GetComponent<TowerDataInit>().towerGrade;
             if (ThisTowerType == TowerType.wood)
             {
@@ -100,7 +102,7 @@ public class ViewTowerCurSor : MonoBehaviour
                 _discription.text = "Increase wooden tower's resistance to debuffs by " + _grade.ToString() + "%";
             }
 
-            _finish = true;
+            
         }
 
         if (Input.GetMouseButtonDown(0)&&mouseEnter ==true)

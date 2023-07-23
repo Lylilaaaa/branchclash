@@ -37,10 +37,17 @@ public class RedTreeNode : MonoBehaviour
         // {
         //     isMajor = true;
         // }
-        if (transform.name == "0-0_red" || transform.name == "1-3_red" || transform.name == "2-1_red" || transform.name == "3-1_red" ||
-            transform.name == "4-1_red" )
+        // if (transform.name == "0-0_red" || transform.name == "1-3_red" || transform.name == "2-1_red" || transform.name == "3-1_red" ||
+        //     transform.name == "4-1_red" )
+        // {
+        //     isMajor = true;
+        // }
+        foreach (string majorName in GlobalVar._instance.MajorNodeListDown)
         {
-            isMajor = true;
+            if (transform.name == majorName+"_red")
+            {
+                isMajor = true;
+            }
         }
         FindObjectsWithTag(transform, "redMat");
         if (isMajor == true)

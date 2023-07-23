@@ -12,6 +12,9 @@ public class HomePageSelectUI : MonoBehaviour
     private Transform _upTreeNum;
     private Transform _downTreeNum;
     private bool _nodeFinish=false;
+    private bool _messageFinish = false;
+    private bool _messageFix = false;
+    private bool _treeNumFinish = false;
 
     public Sprite  yellowImage;
     public List<NodeData> yourNode;
@@ -36,8 +39,92 @@ public class HomePageSelectUI : MonoBehaviour
             _initYourNodeUI();
             _nodeFinish = true;
         }
+        if (GlobalVar._instance.nodeDataList.Count != 0 && _messageFinish == false)
+        {
+            _InformationMessage.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Day: "+System.DateTime.Now.Day+"  Month: "+System.DateTime.Now.Month+"  Year: "+System.DateTime.Now.Year;
+            _InformationMessage.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = messagesShown();
+            _showMessageFix();
+            _messageFinish = true;
+        }
+        if (GlobalVar._instance.nodeDataList.Count != 0 && _treeNumFinish == false)
+        {
+            int upTreeNum = GlobalVar._instance.maxLevelTree;
+            int downTreeNum = GlobalVar._instance.maxLevelTreeDown;
+            if (upTreeNum > downTreeNum)
+            {
+                _upTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum;
+                _upTreeNum.GetChild(1).GetComponent<Slider>().value = upTreeNum;
+                _downTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum;
+                _downTreeNum.GetChild(1).GetComponent<Slider>().value = downTreeNum;
+            }
+            else
+            {
+                _upTreeNum.GetChild(1).GetComponent<Slider>().maxValue = downTreeNum;
+                _upTreeNum.GetChild(1).GetComponent<Slider>().value = upTreeNum;
+                _downTreeNum.GetChild(1).GetComponent<Slider>().maxValue = downTreeNum;
+                _downTreeNum.GetChild(1).GetComponent<Slider>().value = downTreeNum;
+            }
+
+            _upTreeNum.GetChild(3).GetComponent<TextMeshProUGUI>().text = "LAYER: " + upTreeNum;
+            _downTreeNum.GetChild(3).GetComponent<TextMeshProUGUI>().text = "LAYER: " + downTreeNum;
+            _treeNumFinish = true;
+        }
+        
     }
 
+    private string messagesShown()
+    {
+        string finalString = "";
+        foreach (NodeData node in GlobalVar._instance.nodeDataList)
+        {
+            int stringCounted = node.ownerAddr.Length;
+            finalString = finalString + node.ownerAddr.Substring(0, 5) + "..." +
+                          node.ownerAddr.Substring(stringCounted - 3, 3)+" created the "+node.nodeIndex+stndrdth(node.nodeIndex)+ " node on the "+node.nodeLayer+stndrdth(node.nodeLayer)+" layer of the upright tree.\n";
+        }
+        //0xb3a...890 created the 4th node on the 4th layer of the upright tree.
+        return finalString;
+    }
+
+    private void _showMessageFix()
+    {
+        RectTransform _rectTransform = _InformationMessage.GetChild(2).GetChild(0).GetComponent<RectTransform>();
+        int childCount = GlobalVar._instance.nodeDataList.Count;
+        if (_messageFix == false && childCount!=0)
+        {
+            
+            Vector2 sizeDelta = _rectTransform.sizeDelta;
+    
+            float newHeight = 10f*childCount; 
+            float newWidth = sizeDelta.x; 
+            sizeDelta.y = newHeight;
+            sizeDelta.x = newWidth;
+            
+            _rectTransform.sizeDelta = sizeDelta;
+            _messageFix = true;
+        }
+        
+    }
+
+
+    private string stndrdth(int num)
+    {
+        if (num == 1)
+        {
+            return "st";
+        }
+        else if (num == 2)
+        {
+            return "nd";
+        }
+        else if (num == 3)
+        {
+            return "rd";
+        }
+        else
+        {
+            return "th";
+        }
+    }
     private void _checkYourNode()
     {
         foreach (NodeData node in GlobalVar._instance.nodeDataList)

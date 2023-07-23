@@ -21,8 +21,9 @@ public class CurNodeDataSummary : MonoBehaviour
     private TowerData wData;
     private TowerData iData;
     private TowerData eData;
-    private bool _initData = false;
-    public string wproCountShown;
+    public bool _initData = false;
+    public bool changeData = false;
+    public List<int> DictionaryCount;
     private void Awake()
     {
         _instance = this;
@@ -48,12 +49,13 @@ public class CurNodeDataSummary : MonoBehaviour
         if (GlobalVar.CurrentGameState == GlobalVar.GameState.Viewing)
         {
             thisNodeData = GlobalVar._instance.chosenNodeData;
-            if (previousNodeData != thisNodeData)
+            if (previousNodeData != thisNodeData && changeData == false && _initData == true)
             {
                 _countDicInit();
                 debuffList = thisNodeData.towerDebuffList;
                 _mapStruct = GlobalVar._instance.mapmapList;
                 _checkTypeIndex();
+                changeData = true;
             }
             if (GlobalVar._instance.mapmapList != null && _initData == false)
             {
@@ -66,8 +68,7 @@ public class CurNodeDataSummary : MonoBehaviour
     
             previousNodeData = thisNodeData;
         }
-
-        wproCountShown=CheckProtectBlood("wpro", 1);
+        
     }
 
     private void _countDicInit()
@@ -162,13 +163,25 @@ public class CurNodeDataSummary : MonoBehaviour
                 }
             }
         }
-        foreach (var kvp in woodCount)
-        {
-            int grade = kvp.Key;
-            int count = kvp.Value;
-            //print($"Grade: {grade}, Count: {count}");
-        }
         dictionaryFinish = true;
+        foreach (int key in woodCount.Keys)
+        {
+            print("wood level "+key+": "+woodCount[key]);
+        }
+        foreach (int key in ironCount.Keys)
+        {
+            print("iron level "+key+": "+ironCount[key]);
+        }
+        foreach (int key in wproCount.Keys)
+        {
+            print("wpro level "+key+": "+wproCount[key]);
+        }
+        DictionaryCount.Add(woodCount.Count);
+        DictionaryCount.Add(ironCount.Count);
+        DictionaryCount.Add(elecCount.Count);
+        DictionaryCount.Add(wproCount.Count);
+        DictionaryCount.Add(iproCount.Count);
+        DictionaryCount.Add(eproCount.Count);
     }
 
     public (string, string,string) CheckAttackSpeedRange(string towerType,int grade)

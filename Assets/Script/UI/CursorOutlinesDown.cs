@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class CursorOutlinesPure : MonoBehaviour
+public class CursorOutlinesDown : MonoBehaviour
 {
     private GameObject outlineGbj;
 

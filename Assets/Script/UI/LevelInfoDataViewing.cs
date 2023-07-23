@@ -202,7 +202,7 @@ public class LevelInfoDataViewing : MonoBehaviour
             // else
             // {
                 transform.parent.parent.GetComponent<CursorOutlines>()._canDisappear = true;
-            //}
+            //  }
             //transform.parent.parent.GetComponent<CursorOutlines>()._canDisappear = true;
             transform.GetChild(0).gameObject.SetActive(false);
             GlobalVar._instance.isPreViewing = false;

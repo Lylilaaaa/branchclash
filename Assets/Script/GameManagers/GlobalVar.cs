@@ -15,6 +15,8 @@ public class GlobalVar : MonoBehaviour
     public bool tempMerge2;
     public bool showMergable;
     public bool canDeleteWoodMerge = false;
+    public int maxLevelTree;
+    public int maxLevelTreeDown;
 
     public bool finishiEditIn = false;
     public bool finishAdd= false;
@@ -31,6 +33,9 @@ public class GlobalVar : MonoBehaviour
     public TowerData woodTowerData;
     public TowerData ironTowerData;
     public TowerData elecTowerData;
+    public ProtectData ProWood;
+    public ProtectData ProIron;
+    public ProtectData ProElec;
     public string[][] mapmapList;
     public int mapmapRow;
     public int indexMapMapCol;
@@ -38,6 +43,7 @@ public class GlobalVar : MonoBehaviour
     private NodeData _previousNodeData;
     private DownNodeData _previousDownNodeData;
     public List<string> MajorNodeList = new List<string>();
+    public List<string> MajorNodeListDown = new List<string>();
     
     public List<NodeData> nodeDataList;
     public List<DownNodeData> downNodeDataList;
@@ -77,6 +83,7 @@ public class GlobalVar : MonoBehaviour
         downNodeDataList = new List<DownNodeData>();
         ReadData();
         _getMainNode();
+        _getMainNodeDown();
     }
 
     private void Update()
@@ -136,9 +143,10 @@ public class GlobalVar : MonoBehaviour
                 maxLayer = _node.nodeLayer;
             }
         }
-        print(maxLayer);
+        print("maxUpLayer: "+maxLayer);
 
         curLayer = maxLayer;
+        maxLevelTree = maxLayer;
 
         foreach (NodeData _maxnode in nodeDataList)
         {
@@ -167,10 +175,68 @@ public class GlobalVar : MonoBehaviour
         }
         
     }
+    private void _getMainNodeDown()
+    {
+        int maxLayer = 0;
+        int maxIndex = 0;
+        int maxChildCount = 0;
+        int curLayer = 0;
+
+        foreach (DownNodeData _node in downNodeDataList)
+        {
+            if (_node.nodeLayer > maxLayer)
+            {
+                maxLayer = _node.nodeLayer;
+            }
+        }
+        print("maxDownLayer: "+maxLayer);
+
+        curLayer = maxLayer;
+        maxLevelTreeDown = maxLayer;
+
+        foreach (DownNodeData _maxnode in downNodeDataList)
+        {
+            if (_maxnode.nodeLayer == maxLayer)
+            {
+                if (_maxnode.childCount >= maxChildCount)
+                {
+                    maxChildCount = _maxnode.childCount;
+                    maxIndex = _maxnode.nodeIndex;
+                }
+            }
+        }
+        
+        while (curLayer > 0)
+        {
+            //print(curLayer);
+            MajorNodeListDown.Add(maxLayer.ToString() + '-' + maxIndex.ToString());
+            //print(maxLayer.ToString() + '-' + maxIndex.ToString());
+            DownNodeData majorNode = _findNodeDataDown(maxLayer.ToString() + '-' + maxIndex.ToString());
+            majorNode.isMajor = true;
+
+            maxLayer = majorNode.fatherLayer;
+            maxIndex = majorNode.fatherIndex;
+            
+            curLayer = maxLayer;
+        }
+        
+    }
     private NodeData _findNodeData(string nodeName) //"1-2"
     {
         string[] layerIndex = nodeName.Split('-');
         foreach (NodeData _maxnode in nodeDataList)
+        {
+            if (_maxnode.nodeLayer == int.Parse(layerIndex[0]) &&_maxnode.nodeIndex == int.Parse(layerIndex[1]))
+            {
+                return (_maxnode);
+            }
+        }
+        return null;
+    }
+    private DownNodeData _findNodeDataDown(string nodeName) //"1-2"
+    {
+        string[] layerIndex = nodeName.Split('-');
+        foreach (DownNodeData _maxnode in downNodeDataList)
         {
             if (_maxnode.nodeLayer == int.Parse(layerIndex[0]) &&_maxnode.nodeIndex == int.Parse(layerIndex[1]))
             {

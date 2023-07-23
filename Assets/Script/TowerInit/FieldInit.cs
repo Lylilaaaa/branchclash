@@ -423,7 +423,7 @@ public class FieldInit : MonoBehaviour
             string childName = child.transform.name.Substring(child.transform.name.Length-4,4);
             if (childName != deleObj && child.transform.name!="100wpro1")
             {
-                print("destroy"+child.transform.name);
+                //print("destroy"+child.transform.name);
                 Destroy(child);
             }
         }

@@ -9,6 +9,7 @@ public class DownNodeData : ScriptableObject
     public int fatherLayer;
     public int fatherIndex;
     public int childCount;
+    public bool isMajor;
     
     public int nodeLayer;
     public int nodeIndex;
