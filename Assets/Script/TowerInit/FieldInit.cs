@@ -314,6 +314,14 @@ public class FieldInit : MonoBehaviour
         {
             _initPerform(3,towerGrade);
         }
+        else if (typeViewingTower == "ipro")
+        {
+            _initPerform(4,towerGrade);
+        }
+        else if (typeViewingTower == "epro")
+        {
+            _initPerform(5,towerGrade);
+        }
     }
     private void _initPerform(int index,int grade)
     {

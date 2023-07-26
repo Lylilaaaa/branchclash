@@ -1086,7 +1086,7 @@ MonoBehaviour:
   previewLevelInfoPenal: {fileID: 2799280258296594036}
   rangeList:
   - {fileID: 2895690394400866516, guid: ca6cfa41bc400d447a82eec2cf452c6c, type: 3}
-  - {fileID: 6806122733463692994, guid: a4ed30c963a33f046ac1873e29673532, type: 3}
+  - {fileID: 6806122733463692994, guid: 6cef923c083d5104b992923ab92ee2d3, type: 3}
   - {fileID: 3395194726454380767, guid: d0aa3fd185828b741876141ff4569f2c, type: 3}
   ThisTowerType: 0
 --- !u!65 &6279987750158235087
