@@ -21,7 +21,7 @@ public class TowerBuilder : MonoBehaviour
                     if (_mapmapList[i][j].Length >= 5)
                     {
                         String towerType = _mapmapList[i][j].Substring(0, 4);
-                        int towerGrade = _mapmapList[i][j].Length - 4;
+                        int towerGrade = int.Parse(_mapmapList[i][j].Substring(4, _mapmapList[i][j].Length - 4));
                         if (j <= 9)
                         {
                             GlobalVar._instance.targetField = i.ToString() + "0" + j.ToString();

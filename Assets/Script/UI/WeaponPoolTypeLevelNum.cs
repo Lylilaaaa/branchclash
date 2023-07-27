@@ -32,10 +32,6 @@ public class WeaponPoolTypeLevelNum : MonoBehaviour
 
     private bool _finishi=false;
     // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     private void Update()
     {

@@ -35,7 +35,17 @@ public class ViewTowerCurSor : MonoBehaviour
     {
         _canDisappear = true;
         mouseEnter = false;
-        outlineGbj = transform.GetChild(2).gameObject;
+        //outlineGbj = transform.GetChild(2).gameObject;
+        int childCount = transform.childCount;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).tag == "outline")
+            {
+                outlineGbj = transform.GetChild(i).gameObject;
+                outlineGbj.SetActive((false));
+                break;
+            }
+        }
         //print(outlineGbj);
         previewLevelInfoPenal.gameObject.SetActive(false);
         if (ThisTowerType == TowerType.wood || ThisTowerType == TowerType.iron || ThisTowerType == TowerType.elec)
@@ -51,13 +61,13 @@ public class ViewTowerCurSor : MonoBehaviour
             _towerName = previewLevelInfoPenal.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
             _discription = previewLevelInfoPenal.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>();
         }
-
-        outlineGbj.SetActive(false);
+        
 
     }
 
     private void Update()
     {
+        //print((outlineGbj));
         if (CurNodeDataSummary._instance.dictionaryFinish == true && _finish == false && GlobalVar.CurrentGameState == GlobalVar.GameState.Viewing)
         {
             _finish = true;
@@ -71,6 +81,7 @@ public class ViewTowerCurSor : MonoBehaviour
             {
                 GameObject ironRange = Instantiate(rangeList[1], _rangeParent.GetChild(1));
             }
+
             string _a, _s, _r;
             if (ThisTowerType == TowerType.wood)
             {
@@ -88,13 +99,27 @@ public class ViewTowerCurSor : MonoBehaviour
                 _speed.text = _s;
                 _range.text = "full map";
             }
-            else if (ThisTowerType == TowerType.iron)
+            else if (ThisTowerType == TowerType.elec)
             {
                 (_a, _s, _r) = CurNodeDataSummary._instance.CheckAttackSpeedRange("elec", _grade);
                 _towerName.text = "Electric Tower Level " + _grade.ToString();
                 _damage.text = _a;
                 _speed.text = _s;
-                _range.text = "3x4";
+                if (_r == "10")
+                {
+                    _range.text = "3x4";
+                    Instantiate(rangeList[2], _rangeParent.GetChild(2));
+                }
+                else if (_r == "28")
+                {
+                    _range.text = "5x6";
+                    Instantiate(rangeList[3], _rangeParent.GetChild(2));
+                }
+                else
+                {
+                    _range.text = "7x8";
+                    Instantiate(rangeList[4], _rangeParent.GetChild(2));
+                }
             }
             else if (ThisTowerType == TowerType.wpro)
             {

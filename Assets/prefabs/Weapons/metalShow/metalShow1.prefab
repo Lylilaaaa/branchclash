@@ -1364,7 +1364,7 @@ GameObject:
   - component: {fileID: 1266969450098700345}
   m_Layer: 7
   m_Name: outline
-  m_TagString: Untagged
+  m_TagString: outline
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

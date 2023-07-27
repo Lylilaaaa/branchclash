@@ -1588,7 +1588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseEnter: 0
-  previewLevelInfoPenal: {fileID: 4178565827540803133}
+  previewLevelInfoPenal: {fileID: 1258430751367880841}
   rangeList:
   - {fileID: 2895690394400866516, guid: ca6cfa41bc400d447a82eec2cf452c6c, type: 3}
   - {fileID: 6806122733463692994, guid: a4ed30c963a33f046ac1873e29673532, type: 3}

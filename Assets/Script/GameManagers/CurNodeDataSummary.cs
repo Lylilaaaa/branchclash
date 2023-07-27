@@ -89,7 +89,7 @@ public class CurNodeDataSummary : MonoBehaviour
                 if (_mapStruct[i][j].Length >= 5)
                 {
                     string mapType = _mapStruct[i][j].Substring(0, 4);
-                    int towerGrade = _mapStruct[i][j].Length - 4;
+                    int towerGrade = int.Parse(_mapStruct[i][j].Substring(4, _mapStruct[i][j].Length-4));
                     if (mapType == "wood")
                     {
                         if (!woodCount.ContainsKey(towerGrade))
@@ -114,6 +114,7 @@ public class CurNodeDataSummary : MonoBehaviour
                     }
                     else if (mapType == "elec")
                     {
+                        _mapStruct[i][j + 1] = "eleC"+towerGrade;
                         if (!elecCount.ContainsKey(towerGrade))
                         {
                             elecCount.Add(towerGrade, 1);
@@ -155,6 +156,10 @@ public class CurNodeDataSummary : MonoBehaviour
                         {
                             eproCount[towerGrade] += 1;
                         }
+                    }
+                    else if (mapType == "eleC")
+                    {
+                        continue;
                     }
                     else
                     {
@@ -238,6 +243,18 @@ public class CurNodeDataSummary : MonoBehaviour
                     attack = eData.baseBulletAttack + (grade-eData.gradeSpeedToAttack)*eData.upgradeAttackRate;
                 }
                 range = eData.basicRange;
+                if (grade < eData.gradeRange2)
+                {
+                    range = eData.basicRange;//10
+                }
+                else if(grade >= eData.gradeRange2 &&grade < eData.gradeRange3)
+                {
+                    range = eData.basicRange+18;//28
+                }
+                else
+                {
+                    range = eData.basicRange+18+26;//54
+                }
                 attackString = attack.ToString();
                 speedString = speed.ToString();
                 rangeString = range.ToString();

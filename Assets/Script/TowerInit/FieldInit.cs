@@ -292,12 +292,13 @@ public class FieldInit : MonoBehaviour
     private void _setViewing()
     {
         deletExcept("haha");
-        if (mapStructure == "00")
+        if (mapStructure == "00" || mapStructure == "R")
         {
             return;
         }
         string typeViewingTower = mapStructure.Substring(0, 4);
         int towerGrade = int.Parse(mapStructure.Substring(4));
+        //print(typeViewingTower+": "+towerGrade);
         if (typeViewingTower == "wood")
         {
             _initPerform(0,towerGrade);

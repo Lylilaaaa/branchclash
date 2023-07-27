@@ -15,9 +15,11 @@ MonoBehaviour:
   towerType: elec
   baseBulletAttack: 2
   baseBulletNumberPerSecond: 10
-  basicRange: 6
+  basicRange: 10
   gradeRange2: 7
   gradeRange3: 14
+  performGrade2: 5
+  performGrade3: 10
   upgradeSpeedRate: 5
   upgradeAttackRate: 1
   gradeSpeedToAttack: 5

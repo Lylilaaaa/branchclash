@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1790077818}
   - component: {fileID: 1790077820}
   - component: {fileID: 1790077819}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 3358582122084439047}
   - component: {fileID: 9123881745544969750}
   - component: {fileID: 7310596131080967581}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: metalShow2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseEnter: 0
-  previewLevelInfoPenal: {fileID: 2239493376047066527}
+  previewLevelInfoPenal: {fileID: 1334542000569237309}
   rangeList:
   - {fileID: 2895690394400866516, guid: ca6cfa41bc400d447a82eec2cf452c6c, type: 3}
   - {fileID: 6806122733463692994, guid: a4ed30c963a33f046ac1873e29673532, type: 3}
@@ -1538,7 +1538,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 155035692079930910}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: rotate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1637,7 +1637,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 430757943494271631}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1802,6 +1802,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: metal2head
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 69c78a1f59c4b8843aa524b01ffdab8a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69c78a1f59c4b8843aa524b01ffdab8a, type: 3}
@@ -1988,6 +1993,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: metal2base
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7e47ab0eee9fc3a4e9f3ed8429927a89,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e47ab0eee9fc3a4e9f3ed8429927a89, type: 3}

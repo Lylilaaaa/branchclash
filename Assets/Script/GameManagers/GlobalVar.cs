@@ -127,6 +127,23 @@ public class GlobalVar : MonoBehaviour
                 stringList[i] = newRow.ToArray();
             }
         }
+
+        for (int i = 0; i < stringList.Length; i++)
+        {
+            for (int j = 0; j < stringList[i].Length; j++)
+            {
+                if (stringList[i][j].Length >= 5)
+                {
+                    string mapType = stringList[i][j].Substring(0, 4);
+                    int towerGrade = int.Parse(stringList[i][j].Substring(4, stringList[i][j].Length - 4));
+                    if (mapType == "elec")
+                    {
+                        stringList[i][j + 1] = "eleC" + towerGrade;
+                    }
+                }
+            }
+        }
+
         mapmapList = stringList;
     }
     private void _getMainNode()
