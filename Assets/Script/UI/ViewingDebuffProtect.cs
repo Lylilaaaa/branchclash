@@ -115,10 +115,10 @@ public class ViewingDebuffProtect : MonoBehaviour
 
     public void ExitThisNode()
     {
-        ContractInteraction._instance.InEdit();
+        //ContractInteraction._instance.InEdit();
         
         //comment build!!!
-         // GlobalVar._instance.ChangeState("ChooseField");
-         // SceneManager.LoadScene("GamePlay");
+         GlobalVar._instance.ChangeState("ChooseField");
+         SceneManager.LoadScene("GamePlay");
     }
 }

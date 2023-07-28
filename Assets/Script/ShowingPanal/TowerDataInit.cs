@@ -6,6 +6,7 @@ using UnityEngine;
 public class TowerDataInit : MonoBehaviour
 {
     public TowerData towerTypeData;
+    public ProtectData proTypeDate;
 
     private FieldInit parentData;
     public int towerGrade=1;
@@ -24,28 +25,53 @@ public class TowerDataInit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         string stringWeapon = parentData.mapStructure;
         towerGrade = int.Parse(stringWeapon.Substring(4));
-        if (_previousGrade != towerGrade)
+        string weaponOrPro = stringWeapon.Substring(1, 3);
+        if (weaponOrPro == "pro")
         {
-            if (0 < towerGrade && towerGrade < towerTypeData.performGrade2)
+            if (_previousGrade != towerGrade)
             {
-                Destroy(transform.GetChild(0).gameObject);
-                _initPerform(0);
+                if (0 < towerGrade && towerGrade < proTypeDate.performGrade2)
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                    _initPerform(0);
+                }
+                else if(towerGrade >= proTypeDate.performGrade2 && towerGrade < proTypeDate.performGrade3)
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                    _initPerform(1);
+                }
+                else
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                    _initPerform(2);
+                }
             }
-            else if(towerGrade >= towerTypeData.performGrade2 && towerGrade < towerTypeData.performGrade3)
-            {
-                Destroy(transform.GetChild(0).gameObject);
-                _initPerform(1);
-            }
-            else
-            {
-                Destroy(transform.GetChild(0).gameObject);
-                _initPerform(2);
-            }
+            _previousGrade = towerGrade;
         }
-        _previousGrade = towerGrade;
+        else
+        {
+            if (_previousGrade != towerGrade)
+            {
+                if (0 < towerGrade && towerGrade < towerTypeData.performGrade2)
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                    _initPerform(0);
+                }
+                else if(towerGrade >= towerTypeData.performGrade2 && towerGrade < towerTypeData.performGrade3)
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                    _initPerform(1);
+                }
+                else
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                    _initPerform(2);
+                }
+            }
+            _previousGrade = towerGrade;
+        }
     }
 
     private void _initPerform(int index)

@@ -8,7 +8,6 @@ public class GlobalVar : MonoBehaviour
     public string userAddr="0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
     public static GlobalVar _instance;
     public string targetField="";
-    public bool chooseSedElec;
     public string gameStateShown="";
     public string zoomingPos = "";
     public bool tempMerge1;
@@ -432,10 +431,7 @@ public class GlobalVar : MonoBehaviour
         CurrentGameState = newState;
     }
 
-    public void changeEleMode(bool choseEle)
-    {
-        chooseSedElec = choseEle;
-    }
+
 
     // Update is called once per frame
     public GameState GetState()

@@ -87,15 +87,15 @@ public class WeaponPoolTypeLevelNum : MonoBehaviour
             {
                 level.text = "Electric Protector \n Level "+parts[1];
                 _poolTypeIndex = 1;
-                _weaponTypeIndex = 1;
-                _performTypeIndex=outputPerformIndexPro(iPro, int.Parse(parts[1]));
+                _weaponTypeIndex = 2;
+                _performTypeIndex=outputPerformIndexPro(ePro, int.Parse(parts[1]));
             }
             else if(thisName == "ipro")
             {
                 level.text = "Iron Protector \n Level "+parts[1];
                 _poolTypeIndex = 1;
-                _weaponTypeIndex = 2;
-                _performTypeIndex=outputPerformIndexPro(ePro, int.Parse(parts[1]));
+                _weaponTypeIndex = 1;
+                _performTypeIndex=outputPerformIndexPro(iPro, int.Parse(parts[1]));
             }
             rawImageDisplay.texture = changeTexture(_poolTypeIndex,_weaponTypeIndex,_performTypeIndex) ;
         }

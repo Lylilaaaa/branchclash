@@ -89,6 +89,8 @@ MonoBehaviour:
   - {fileID: 4225526880299772587, guid: 906fb3f94471c4146a475c6be0ab888f, type: 3}
   - {fileID: 4225526880299772587, guid: 06f2f6085369d9844bbc2a847c56e251, type: 3}
   - {fileID: 5049507231681919293, guid: 3fa113e46999ab9458d920664a0c366b, type: 3}
+  - {fileID: 5049507231681919293, guid: 3043e0a3919dc9341be4dc085d2bfeb9, type: 3}
+  - {fileID: 5049507231681919293, guid: cf9d7f34036f74f4c964b3619a810bc3, type: 3}
 --- !u!65 &-4324939480039638320
 BoxCollider:
   m_ObjectHideFlags: 0

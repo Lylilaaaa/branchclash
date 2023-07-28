@@ -26,7 +26,7 @@ public class MergeTower : MonoBehaviour
                 {
                     gameObject.GetComponent<Image>().color = Color.red;
                     FieldInit firstmerge = transform.parent.GetComponent<FieldInit>();
-                    firstmerge.checkState = 3;
+                    //firstmerge.checkState = 3;
                     globalVar.MergeMem.Add(transform.name.Substring(0,3));
                 }
             }

@@ -202,12 +202,12 @@ public class CurNodeDataSummary : MonoBehaviour
             case "wood":
                 if (grade <= wData.gradeSpeedToAttack)
                 {
-                    speed = wData.baseBulletNumberPerSecond + grade * wData.upgradeSpeedRate;
+                    speed = wData.baseBulletNumberPerSecond + (grade-1) * wData.upgradeSpeedRate;
                     attack = wData.baseBulletAttack;
                 }
                 else if(grade > wData.gradeSpeedToAttack)
                 {
-                    speed = wData.baseBulletNumberPerSecond + wData.gradeSpeedToAttack * wData.upgradeSpeedRate;
+                    speed = wData.baseBulletNumberPerSecond + (wData.gradeSpeedToAttack-1) * wData.upgradeSpeedRate;
                     attack = wData.baseBulletAttack + (grade-wData.gradeSpeedToAttack)*wData.upgradeAttackRate;
                 }
                 range = wData.basicRange;
@@ -218,12 +218,12 @@ public class CurNodeDataSummary : MonoBehaviour
             case "iron":
                 if (grade <= iData.gradeSpeedToAttack)
                 {
-                    speed = iData.baseBulletNumberPerSecond + grade * iData.upgradeSpeedRate;
+                    speed = iData.baseBulletNumberPerSecond + (grade-1) * iData.upgradeSpeedRate;
                     attack = iData.baseBulletAttack;
                 }
                 else if(grade > iData.gradeSpeedToAttack)
                 {
-                    speed = iData.baseBulletNumberPerSecond + iData.gradeSpeedToAttack * iData.upgradeSpeedRate;
+                    speed = iData.baseBulletNumberPerSecond + (iData.gradeSpeedToAttack-1) * iData.upgradeSpeedRate;
                     attack = iData.baseBulletAttack + (grade-iData.gradeSpeedToAttack)*iData.upgradeAttackRate;
                 }
                 range = iData.basicRange;
@@ -234,12 +234,12 @@ public class CurNodeDataSummary : MonoBehaviour
             case "elec":
                 if (grade <= eData.gradeSpeedToAttack)
                 {
-                    speed = eData.baseBulletNumberPerSecond + grade * eData.upgradeSpeedRate;
+                    speed = eData.baseBulletNumberPerSecond + (grade-1) * eData.upgradeSpeedRate;
                     attack = eData.baseBulletAttack;
                 }
                 else if(grade > eData.gradeSpeedToAttack)
                 {
-                    speed = eData.baseBulletNumberPerSecond + eData.gradeSpeedToAttack * eData.upgradeSpeedRate;
+                    speed = eData.baseBulletNumberPerSecond + (eData.gradeSpeedToAttack-1) * eData.upgradeSpeedRate;
                     attack = eData.baseBulletAttack + (grade-eData.gradeSpeedToAttack)*eData.upgradeAttackRate;
                 }
                 range = eData.basicRange;

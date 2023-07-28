@@ -69,7 +69,7 @@ public class TowerBuilder : MonoBehaviour
         {
             FieldInit fieldInit = thisField.GetComponent<FieldInit>();
             fieldInit.towerType = setTowerType;
-            if (fieldInit.selected == false && fieldInit.woodType==0 && fieldInit.ironType==0 && fieldInit.eleType==0)
+            if (fieldInit.selected == false && fieldInit.woodType==0 && fieldInit.ironType==0 && fieldInit.eleType==0 && fieldInit.eleCType==0)
             {
                 if (setTowerType == "wood")
                 {
@@ -86,6 +86,18 @@ public class TowerBuilder : MonoBehaviour
                 else if(setTowerType == "wpro")
                 {
                     fieldInit.wproType = _grade;
+                }
+                else if(setTowerType == "ipro")
+                {
+                    fieldInit.iproType = _grade;
+                }
+                else if(setTowerType == "epro")
+                {
+                    fieldInit.eproType = _grade;
+                }
+                else if (setTowerType == "eleC")
+                {
+                    fieldInit.eleCType = _grade;
                 }
             }
         }
@@ -180,7 +192,7 @@ public class TowerBuilder : MonoBehaviour
                     //print(fieldInit.name+ fieldInit.selected);
                     if (fieldInit.towerType == mergeTowerType)
                     {
-                        fieldInit.checkState = 1;
+                        //fieldInit.checkState = 1;
                     }
                 }
             }

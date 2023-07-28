@@ -124,10 +124,18 @@ public class ViewTowerCurSor : MonoBehaviour
             else if (ThisTowerType == TowerType.wpro)
             {
                 _towerName.text = "Wood Protector Level "+_grade.ToString();
-                _discription.text = "Increase wooden tower's resistance to debuffs by " + _grade.ToString() + "%";
+                _discription.text = "Increase wood tower's resistance to debuffs by " + _grade.ToString() + "%";
             }
-
-            
+            else if (ThisTowerType == TowerType.ipro)
+            {
+                _towerName.text = "Iron Protector Level "+_grade.ToString();
+                _discription.text = "Increase iron tower's resistance to debuffs by " + _grade.ToString() + "%";
+            }
+            else if (ThisTowerType == TowerType.epro)
+            {
+                _towerName.text = "Electric Protector Level "+_grade.ToString();
+                _discription.text = "Increase electric tower's resistance to debuffs by " + _grade.ToString() + "%";
+            }
         }
 
         if (Input.GetMouseButtonDown(0)&&mouseEnter ==true)
