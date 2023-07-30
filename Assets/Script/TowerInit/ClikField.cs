@@ -23,6 +23,7 @@ public class ClikField : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print("this is clikFiled");
         if (Input.GetMouseButtonDown(0)) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -36,6 +37,9 @@ public class ClikField : MonoBehaviour
                         _fieldInit.woodType = 1;
                         _fieldInit.ironType = 0;
                         _fieldInit.eleType = 0;
+                        _fieldInit.wproType = 0;
+                        _fieldInit.iproType = 0;
+                        _fieldInit.eproType = 0;
                         _fieldInit.selected = false;
                     }
                     else if (towerType == "iron")
@@ -43,6 +47,9 @@ public class ClikField : MonoBehaviour
                         _fieldInit.woodType = 0;
                         _fieldInit.ironType = 1;
                         _fieldInit.eleType = 0;
+                        _fieldInit.wproType = 0;
+                        _fieldInit.iproType = 0;
+                        _fieldInit.eproType = 0;
                         _fieldInit.selected = false;
                     }
                     else if (towerType == "elec")
@@ -52,7 +59,9 @@ public class ClikField : MonoBehaviour
                             _fieldInit.woodType = 0;
                             _fieldInit.ironType = 0;
                             _fieldInit.eleType = 1;
-                            _fieldInit.eleType2 = 0;
+                            _fieldInit.wproType = 0;
+                            _fieldInit.iproType = 0;
+                            _fieldInit.eproType = 0;
                             _fieldInit.selected = false;
                         }
                         else
@@ -60,7 +69,6 @@ public class ClikField : MonoBehaviour
                             _fieldInit.woodType = 0;
                             _fieldInit.ironType = 0;
                             _fieldInit.eleType = 0;
-                            _fieldInit.eleType2 = 1;
                             _fieldInit.selected = false;
                         }
                     }

@@ -169,18 +169,18 @@ public class CurNodeDataSummary : MonoBehaviour
             }
         }
         dictionaryFinish = true;
-        foreach (int key in woodCount.Keys)
-        {
-            print("wood level "+key+": "+woodCount[key]);
-        }
-        foreach (int key in ironCount.Keys)
-        {
-            print("iron level "+key+": "+ironCount[key]);
-        }
-        foreach (int key in wproCount.Keys)
-        {
-            print("wpro level "+key+": "+wproCount[key]);
-        }
+        // foreach (int key in woodCount.Keys)
+        // {
+        //     print("wood level "+key+": "+woodCount[key]);
+        // }
+        // foreach (int key in ironCount.Keys)
+        // {
+        //     print("iron level "+key+": "+ironCount[key]);
+        // }
+        // foreach (int key in wproCount.Keys)
+        // {
+        //     print("wpro level "+key+": "+wproCount[key]);
+        // }
         DictionaryCount.Add(woodCount.Count);
         DictionaryCount.Add(ironCount.Count);
         DictionaryCount.Add(elecCount.Count);

@@ -47,8 +47,6 @@ GameObject:
   - component: {fileID: 3856420350723147277}
   - component: {fileID: 3856420350723147280}
   - component: {fileID: 3856420350723147283}
-  - component: {fileID: 3856420350723147282}
-  - component: {fileID: 6351746107136062966}
   m_Layer: 0
   m_Name: 00field
   m_TagString: Untagged
@@ -115,30 +113,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!65 &3856420350723147282
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3856420350723147276}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 99.66731, y: 100.22132, z: 6.9}
-  m_Center: {x: -0.024199486, y: -0.14617443, z: -1.2711189e-15}
---- !u!114 &6351746107136062966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3856420350723147276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 431796f05367a8d48a9bc9705cc5cdb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isElecTwice: 0
-  towerType: 

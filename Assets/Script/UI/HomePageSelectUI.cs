@@ -108,15 +108,15 @@ public class HomePageSelectUI : MonoBehaviour
 
     private string stndrdth(int num)
     {
-        if (num == 1)
+        if (num%10 == 1)
         {
             return "st";
         }
-        else if (num == 2)
+        else if (num%10 == 2)
         {
             return "nd";
         }
-        else if (num == 3)
+        else if (num%10 == 3)
         {
             return "rd";
         }

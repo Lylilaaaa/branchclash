@@ -4367,7 +4367,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 333109521}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1276743634}
+        m_TargetAssemblyTypeName: ExhibUIButton, Assembly-CSharp
+        m_MethodName: QuitThisNode
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &333109521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13419,8 +13431,8 @@ RectTransform:
   - {fileID: 1211413633}
   - {fileID: 402315602}
   - {fileID: 16776913}
-  - {fileID: 1384196411}
   - {fileID: 1720854145}
+  - {fileID: 1384196411}
   - {fileID: 333109519}
   m_Father: {fileID: 1276743633}
   m_RootOrder: 0
@@ -13784,7 +13796,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
   targetField: 
-  chooseSedElec: 0
   gameStateShown: 
   zoomingPos: 
   tempMerge1: 0
@@ -14737,6 +14748,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1276743633}
+  - component: {fileID: 1276743634}
   m_Layer: 7
   m_Name: SelectCavas
   m_TagString: Untagged
@@ -14760,6 +14772,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1276743634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276743632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b90f8c2e99a9a8448a01edb11b4db0da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layInfo: {fileID: 872996381}
+  inidexInfo: {fileID: 23696004}
 --- !u!1 &1287418463
 GameObject:
   m_ObjectHideFlags: 0
@@ -15805,7 +15831,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1180414354}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15856,8 +15882,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2075878749}
-        m_TargetAssemblyTypeName: ViewingDebuffProtect, Assembly-CSharp
+      - m_Target: {fileID: 1276743634}
+        m_TargetAssemblyTypeName: ExhibUIButton, Assembly-CSharp
         m_MethodName: ExitThisNode
         m_Mode: 1
         m_Arguments:
@@ -19205,7 +19231,7 @@ RectTransform:
   - {fileID: 1355075561}
   - {fileID: 1248690551}
   m_Father: {fileID: 1180414354}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

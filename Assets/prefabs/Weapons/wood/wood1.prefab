@@ -130,7 +130,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4042996198373118729
 Transform:
   m_ObjectHideFlags: 0
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 1672043736489244169}
   - component: {fileID: 1702573057}
   - component: {fileID: 5120090263385582946}
-  - component: {fileID: 7241273542033318085}
+  - component: {fileID: 8869564720355829987}
   m_Layer: 0
   m_Name: wood1
   m_TagString: Untagged
@@ -253,7 +253,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.3562136, y: 1.8517663, z: 2.1908216}
   m_Center: {x: 0.09923506, y: 0.83109343, z: -0.03307838}
---- !u!114 &7241273542033318085
+--- !u!114 &8869564720355829987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -265,13 +265,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3aa35cf78792894d9d80961f9a7d253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 
+  weaponGrade: 0
+  sameWeaponPos: []
   mouseEnter: 0
-  _canDisappear: 1
-  mergeFirst: 0
-  mergeSecond: 0
-  finishmerge: 0
-  finish: 0
-  finish1: 0
+  isMergeToPotential: 0
   tempMergePenal: {fileID: 4814762677944936204}
 --- !u!1 &4814762677944936204
 GameObject:
@@ -288,7 +286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2477295180519418867
 Transform:
   m_ObjectHideFlags: 0

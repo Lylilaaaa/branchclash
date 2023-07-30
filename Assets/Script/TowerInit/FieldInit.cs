@@ -13,7 +13,9 @@ public class FieldInit : MonoBehaviour
     public int ironType=0;
     public int eleType=0;
     public int eleCType = 0;
-    private bool hasInit = false;
+
+    public bool canBuildElec = true;
+
 
     public int wproType = 0;
     public int iproType = 0;
@@ -27,10 +29,12 @@ public class FieldInit : MonoBehaviour
     public GameObject[] ironPrefab;
     public GameObject[] elecPrefab;
     public GameObject[] wprPrefab;
+    public GameObject[] iprPrefab;
+    public GameObject[] eprPrefab;
     
     public ProtectData wproSObj;
     public ProtectData iproSObj;
-    public ProtectData eproObj;
+    public ProtectData eproSObj;
     public TowerData woodSObj;
     public TowerData ironSObj;
     public TowerData eleSObj;
@@ -51,6 +55,7 @@ public class FieldInit : MonoBehaviour
     // Update is called once per frame
     private void Start()
     {
+        selected = false;
         towerType = "";
         mapStructure = "";
         _previousMapStr = mapStructure;
@@ -100,16 +105,18 @@ public class FieldInit : MonoBehaviour
             {
                 if (checkExsitExact("wod"+woodType) == false) //没有wood的武器
                 {
+                    //print("does exist: "+"wod"+woodType);
                     int performIndex = checkPerform(woodSObj, woodType);
                     GameObject fieldSeleted = Instantiate(woodPrefab[performIndex]);
                     fieldSeleted.transform.SetParent(transform);
                     fieldSeleted.transform.localPosition = Vector3.zero;
                     fieldSeleted.transform.localScale = new Vector3(50,50,50);
                     fieldSeleted.transform.name = transform.name+"wod"+woodType;
-                    deletExcept("wod"+woodType);    
-                    closeSelected();
+                    deletExcept("wod"+woodType);
+                    selected = false;
+                    //closeSelected();
                     setData(woodSObj);
-                    towerType = "wood";
+                    towerType = "wood"+woodType;
                 }
                     
             }
@@ -122,7 +129,7 @@ public class FieldInit : MonoBehaviour
             }
             if (ironType != 0)
             {
-                if (checkExsit("iro") == false)
+                if (checkExsitExact("iro"+ironType) == false)
                 {
                     int performIndex = checkPerformPro(wproSObj, ironType);
                     GameObject fieldSeleted = Instantiate(ironPrefab[performIndex]);
@@ -131,9 +138,9 @@ public class FieldInit : MonoBehaviour
                     fieldSeleted.transform.localScale = new Vector3(50,50,50);
                     fieldSeleted.transform.name = transform.name+"iro"+ironType;
                     deletExcept("iro"+ironType);  
-                    closeSelected();
+                    selected = false;
                     setData(ironSObj);
-                    towerType = "iron";
+                    towerType = "iron"+ironType;
                 }
             }
             else
@@ -146,11 +153,12 @@ public class FieldInit : MonoBehaviour
 
             if (eleCType != 0)
             {
-                closeSelected();
+                selected = false;
+                towerType = "eleC"+eleCType;
             }
             if (eleType != 0)
             {
-                if (checkExsit("ele" + eleType) == false)
+                if (checkExsitExact("ele"+eleType) == false)
                 {
                     int performIndex = checkPerform(eleSObj, eleType);
                     GameObject fieldSeleted = Instantiate(elecPrefab[performIndex]);
@@ -159,9 +167,9 @@ public class FieldInit : MonoBehaviour
                     fieldSeleted.transform.localScale = new Vector3(50,50,50);
                     fieldSeleted.transform.name = transform.name+"ele"+eleType;
                     deletExcept("ele"+eleType);  
-                    closeSelected();
+                    selected = false;
                     setData(eleSObj);
-                    towerType = "elec";
+                    towerType = "elec"+eleType;
                 }
             }
             else
@@ -173,32 +181,76 @@ public class FieldInit : MonoBehaviour
             }
             if (wproType != 0)
             {
-                if (checkExsit("wpr" + wproType) == false)
+                if (checkExsitExact("wpr"+wproType) == false)
                 {
-                    GameObject fieldSeleted = Instantiate(wprPrefab[wproType-1]);
+                    int performIndex = checkPerformPro(wproSObj, wproType);
+                    GameObject fieldSeleted = Instantiate(wprPrefab[performIndex]);
                     fieldSeleted.transform.SetParent(transform);
                     fieldSeleted.transform.localPosition = Vector3.zero;
                     fieldSeleted.transform.localScale = new Vector3(25,25,25);
-                    fieldSeleted.transform.name = transform.name+"wpro"+wproType;
-                    hasInit = true;
-                    deletExcept("wpro"+wproType);    
-                    closeSelected();
-                    towerType = "wpro";
+                    fieldSeleted.transform.name = transform.name+"wpr"+wproType;
+                    deletExcept("wpr"+wproType);    
+                    selected = false;
+                    towerType = "wpro"+wproType;
                 }
             }
             else
             {
-                if (checkExsit("wpr" + 1) == true || checkExsit("wpr" + 2) == true || checkExsit("wpr" + 3) == true)
+                if (checkExsit("wpr") == true )
                 {
-                    Destroy(findChild("wpr"+woodType));
+                    deletType("wpr");
+                }
+            }
+            if (iproType != 0)
+            {
+                if (checkExsitExact("ipr"+iproType) == false)
+                {
+                    int performIndex = checkPerformPro(iproSObj, iproType);
+                    GameObject fieldSeleted = Instantiate(iprPrefab[performIndex]);
+                    fieldSeleted.transform.SetParent(transform);
+                    fieldSeleted.transform.localPosition = Vector3.zero;
+                    fieldSeleted.transform.localScale = new Vector3(25,25,25);
+                    fieldSeleted.transform.name = transform.name+"ipr"+iproType;
+                    deletExcept("ipr"+iproType);    
+                    selected = false;
+                    towerType = "ipro"+iproType;
+                }
+            }
+            else
+            {
+                if (checkExsit("ipr") == true )
+                {
+                    deletType("ipr");
+                }
+            }
+            if (eproType != 0)
+            {
+                if (checkExsitExact("epr"+eproType) == false)
+                {
+                    int performIndex = checkPerformPro(eproSObj, eproType);
+                    GameObject fieldSeleted = Instantiate(eprPrefab[performIndex]);
+                    fieldSeleted.transform.SetParent(transform);
+                    fieldSeleted.transform.localPosition = Vector3.zero;
+                    fieldSeleted.transform.localScale = new Vector3(25,25,25);
+                    fieldSeleted.transform.name = transform.name+"epr"+eproType;
+                    deletExcept("epr"+eproType);    
+                    selected = false;
+                    towerType = "epro"+eproType;
+                }
+            }
+            else
+            {
+                if (checkExsit("epr") == true )
+                {
+                    deletType("epr");
                 }
             }
             
-            if (selected == false && woodType == 0 && ironType == 0 && eleType == 0 && wproType == 0)
+            if (selected == false && woodType == 0 && ironType == 0 && eleType == 0 && wproType == 0&& iproType == 0&& eproType == 0)
             {
                 deletExcept("hihi");
             }
-            if (selected == true && woodType == 0 && ironType == 0 && eleType == 0)
+            if (selected == true && woodType == 0 && ironType == 0 && eleType == 0 && wproType == 0&& iproType == 0&& eproType == 0)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -217,7 +269,7 @@ public class FieldInit : MonoBehaviour
         mouseEnter = true;
         if (GlobalVar._instance.GetState() == GlobalVar.GameState.ChooseField)
         {
-            if ( selected == false && woodType == 0 && ironType == 0 && eleType == 0)
+            if ( selected == false && woodType == 0 && ironType == 0 && eleType == 0&& wproType == 0 && iproType == 0 && eproType == 0)
             {
                 selected = true;
             }
@@ -455,54 +507,7 @@ public class FieldInit : MonoBehaviour
         row_col.Add(col);
         return row_col;
     }
-
-    private List<Transform> findNeighborhood(Transform thisPos)
-    {
-        List<Transform> neighborhoodField = new List<Transform>();
-        Transform posParent = thisPos.parent.parent;
-        string fieldName = thisPos.gameObject.name;
-        List<int> row_col = findRowCol(fieldName);
-        int row = row_col[0];
-        int col = row_col[1];
-
-        List<Transform> neighborhoodPos = new List<Transform>();
-        if (row >= 1)
-        {
-            Transform upPos = posParent.GetChild(row - 1).GetChild(col);
-            neighborhoodPos.Add(upPos);
-        }
-
-        if (row <= 7)
-        {
-            Transform downPos = posParent.GetChild(row + 1).GetChild(col);
-            neighborhoodPos.Add(downPos);
-        }
-        if (col >= 1)
-        {
-            Transform leftPos = posParent.GetChild(row).GetChild(col-1);
-            neighborhoodPos.Add(leftPos);
-        }
-        if (col <= 16)
-        {
-            Transform rightPos = posParent.GetChild(row).GetChild(col+1);
-            neighborhoodPos.Add(rightPos);
-        }
-        
-        foreach (Transform pos in neighborhoodPos)
-        {
-            if (pos.gameObject.tag != "Road")
-            {
-                FieldInit neighborFI = pos.GetComponent<FieldInit>();
-                if (neighborFI.selected == false && neighborFI.woodType==0 && neighborFI.ironType==0 && neighborFI.eleType==0)
-                {
-                    neighborhoodField.Add(pos);
-                }
-            }
-        }
-
-        return neighborhoodField;
-
-    }
+    
     private void closeSelected()
     {
         Transform posParent = transform.parent.parent;
@@ -516,59 +521,11 @@ public class FieldInit : MonoBehaviour
                 {
                     FieldInit fieldInit = thisField.GetComponent<FieldInit>();
                     fieldInit.selected = false;
+                    print("close select!!");
                 }
             }
         }
     }
-
-    private string checkRelavent(Transform me, Transform posChecked)
-    {
-        string mePosString = me.gameObject.name;
-        string checkPosString = posChecked.gameObject.name;
-        int meRow = int.Parse(mePosString.Substring(0, 1));
-        int meCol = 0;
-        if (mePosString.Substring(1, 1) == "0")
-        {
-            meCol = int.Parse(mePosString.Substring(2, 1));
-        }
-        else
-        {
-            meCol = int.Parse(mePosString.Substring(1, 2));
-        }
-        
-        int checkRow = int.Parse(checkPosString.Substring(0, 1));
-        int checkCol = 0;
-        if (checkPosString.Substring(1, 1) == "0")
-        {
-            checkCol = int.Parse(checkPosString.Substring(2, 1));
-        }
-        else
-        {
-            checkCol = int.Parse(checkPosString.Substring(1, 2));
-        }
-
-        if (meRow == checkRow)
-        {
-            if (meCol < checkCol)
-            {
-                return ("right");
-            }
-            else
-            {
-                return ("left");
-            }
-        }
-
-        if (meRow > checkRow)
-        {
-            return ("up");
-        }
-
-        if (meRow < checkRow)
-        {
-            return ("down");
-        }
-
-        return ("null");
-    }
+    
+    
 }

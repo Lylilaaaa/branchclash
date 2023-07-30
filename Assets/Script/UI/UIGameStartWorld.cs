@@ -52,10 +52,10 @@ public class UIGameStartWorld : MonoBehaviour
                 chosen = false;
             }
         }
-        if (GlobalVar._instance.finishSubmit==true && finish == false)
+        if (GlobalVar._instance.finishEdit==true && finish == false)
         {
             finish = true;
-            closeSelected.CloseSelected();
+            //closeSelected.CloseSelected();
             monsterStart.startGame();
             Destroy(gameObject);
         }

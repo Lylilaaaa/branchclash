@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 121830951784770569}
   - component: {fileID: 8068268645225961538}
+  - component: {fileID: 7031614263650127205}
   m_Layer: 0
   m_Name: elec3
   m_TagString: Untagged
@@ -24,15 +25,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1197196885427198644}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 5, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4703307323450254846}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -90}
 --- !u!114 &8068268645225961538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,6 +56,19 @@ MonoBehaviour:
   firePoint:
   - {fileID: 3167895273524616515}
   rotateSpeed: 10
+--- !u!65 &7031614263650127205
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197196885427198644}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.0396056, y: 4.312649, z: 3.449242}
+  m_Center: {x: -0.008811884, y: 1.3215374, z: -1.7003758}
 --- !u!1 &1279314544280597370
 GameObject:
   m_ObjectHideFlags: 0

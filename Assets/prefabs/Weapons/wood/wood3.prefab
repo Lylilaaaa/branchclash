@@ -334,6 +334,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7963540002019194143}
   - component: {fileID: 3558613789486129336}
+  - component: {fileID: 749876343999418553}
   m_Layer: 0
   m_Name: wood3
   m_TagString: Untagged
@@ -374,6 +375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 20
   shootingRate: 1
+  bulletAttack: 0
   partToRotate: {fileID: 3198248852464070004}
   target: {fileID: 0}
   bulletPrefab: {fileID: 5816377433698120069, guid: 1d93abf563a4d9f4fbad88cda4e386ad,
@@ -382,6 +384,19 @@ MonoBehaviour:
   - {fileID: 5038898515143678319}
   - {fileID: 7672530210851937042}
   rotateSpeed: 10
+--- !u!65 &749876343999418553
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8713219425728071048}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.0913706, y: 2.9833922, z: 2.1053655}
+  m_Center: {x: -0.0292058, y: 1.4228647, z: 0.0108372}
 --- !u!1001 &481575889537306055
 PrefabInstance:
   m_ObjectHideFlags: 0

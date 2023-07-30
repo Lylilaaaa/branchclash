@@ -125,6 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3358582122084439047}
   - component: {fileID: 235736183445278942}
+  - component: {fileID: 6041899662904435237}
   m_Layer: 0
   m_Name: metal2
   m_TagString: Untagged
@@ -141,7 +142,7 @@ Transform:
   m_GameObject: {fileID: 566133099119094488}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1.013, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 50, y: 50, z: 50}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6487932174185719733}
@@ -164,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 20
   shootingRate: 1
+  bulletAttack: 0
   partToRotate: {fileID: 155035692079930910}
   target: {fileID: 0}
   bulletPrefab: {fileID: 5816377433698120069, guid: 1d4e850759c0cfb4f962cd8b4ae892de,
@@ -171,6 +173,19 @@ MonoBehaviour:
   firePoint:
   - {fileID: 430757943494271631}
   rotateSpeed: 10
+--- !u!65 &6041899662904435237
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566133099119094488}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.0857153, y: 1.7522448, z: 2.0065365}
+  m_Center: {x: 0.051018238, y: 0.85122335, z: -0.011426213}
 --- !u!1 &5677436550296233791
 GameObject:
   m_ObjectHideFlags: 0

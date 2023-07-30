@@ -101,9 +101,12 @@ public class AddPanalManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is called once per frame  
+    public void closeAddPanal()
     {
-        
+        if (GlobalVar._instance.GetState() == GlobalVar.GameState.AddTowerUI)
+        {
+            GlobalVar._instance.ChangeState("ChooseField");
+        }
     }
 }

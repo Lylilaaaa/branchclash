@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
+
 
 
 public class ViewingDebuffProtect : MonoBehaviour
@@ -105,20 +105,13 @@ public class ViewingDebuffProtect : MonoBehaviour
             _counted = true;
         }
 
-        if (GlobalVar._instance.finishiEditIn == true && finish == false)
-        {
-            finish = true;
-            GlobalVar._instance.ChangeState("ChooseField");
-            SceneManager.LoadScene("GamePlay");
-        }
+        // if (GlobalVar._instance.finishiEditIn == true && finish == false)
+        // {
+        //     finish = true;
+        //     GlobalVar._instance.ChangeState("ChooseField");
+        //     SceneManager.LoadScene("GamePlay");
+        // }
     }
 
-    public void ExitThisNode()
-    {
-        //ContractInteraction._instance.InEdit();
-        
-        //comment build!!!
-         GlobalVar._instance.ChangeState("ChooseField");
-         SceneManager.LoadScene("GamePlay");
-    }
+
 }

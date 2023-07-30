@@ -54,9 +54,10 @@ MonoBehaviour:
   woodType: 0
   ironType: 0
   eleType: 0
-  eleType2: 0
+  eleCType: 0
   wproType: 0
-  checkState: 0
+  iproType: 0
+  eproType: 0
   fieldSelectPrefab: {fileID: 3856420350723147276, guid: 4583568cd33dad7459eb10b7209e28f7,
     type: 3}
   mergeEnablePrefab: {fileID: 3856420350723147276, guid: d0d9aca96047852468b63efbadf04885,
@@ -74,9 +75,20 @@ MonoBehaviour:
   - {fileID: 1940372403511101621, guid: e3a3849d4b0680e43856211fc8d2e81e, type: 3}
   - {fileID: 1197196885427198644, guid: 7d691f2823ad27a40a6780858baa23a6, type: 3}
   wprPrefab:
-  - {fileID: 4164335993271921266, guid: 28441b8eac4d0d6408b3f5828e9c0293, type: 3}
-  - {fileID: 3886676308904669296, guid: d775d1e90d44fb84cb08dc4e531a81e1, type: 3}
-  - {fileID: 8015983484762823410, guid: 581bec189de9aba42a54bd89d73c84db, type: 3}
+  - {fileID: 4164335993271921266, guid: 7fdcc85828bbb1345960c72a1586762e, type: 3}
+  - {fileID: 3886676308904669296, guid: 6e07af77a63d0dd4d8497f1d644bc45c, type: 3}
+  - {fileID: 8015983484762823410, guid: b447f85277bd33e418f32aedfea98bbd, type: 3}
+  iprPrefab:
+  - {fileID: 4164335993271921266, guid: 78d2aceafce9cce48b7c7f15642ae8b2, type: 3}
+  - {fileID: 590309788273462554, guid: e258e429c6d97e044b28fd8667c0b817, type: 3}
+  - {fileID: 4698786021526410657, guid: 6966fdf0a1974dc4eaa17df38891078c, type: 3}
+  eprPrefab:
+  - {fileID: 4164335993271921266, guid: 19cf8bcecdd4602488c126a8e21ecddf, type: 3}
+  - {fileID: 3729001581967682712, guid: 5b462be4e5e318948a60e14d8f0d003b, type: 3}
+  - {fileID: 7958342222724346641, guid: 4bf3cc618455297438d2c61563256d13, type: 3}
+  wproSObj: {fileID: 11400000, guid: 63195a08886bfee40b05658440548c27, type: 2}
+  iproSObj: {fileID: 11400000, guid: 69ca9da7b0bfa844ca7750648d29003c, type: 2}
+  eproSObj: {fileID: 11400000, guid: 3ecd20bb9a2591b499394b32e12086de, type: 2}
   woodSObj: {fileID: 11400000, guid: 4831304427c37bc4995e60bf79f80745, type: 2}
   ironSObj: {fileID: 11400000, guid: f3a30f0b6c81cc544892d92e881ddf02, type: 2}
   eleSObj: {fileID: 11400000, guid: fe7530a7af1595342a674f0dc66ad443, type: 2}

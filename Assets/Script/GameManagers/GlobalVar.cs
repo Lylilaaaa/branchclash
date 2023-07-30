@@ -8,26 +8,27 @@ public class GlobalVar : MonoBehaviour
     public string userAddr="0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
     public static GlobalVar _instance;
     public string targetField="";
-    public string gameStateShown="";
+    public NodeData chosenNodeData;
     public string zoomingPos = "";
-    public bool tempMerge1;
-    public bool tempMerge2;
-    public bool showMergable;
-    public bool canDeleteWoodMerge = false;
+    public string[][]  mapMapListEdit;
+    
     public int maxLevelTree;
     public int maxLevelTreeDown;
 
-    public bool finishiEditIn = false;
-    public bool finishAdd= false;
-    public bool finishMerge= false;
-    public bool finishSubmit= false;
+    public bool finishEdit;
     
     public GameState initialGameState;
     public static GameState CurrentGameState;
 
-    public TreeData treeData;
+    public string gameStateShown="";
     public DownTreeData downTreeData;
-    public NodeData chosenNodeData;
+    public int mapmapRow;
+    public string[] mapmapCol;
+    public int indexMapMapCol;
+    
+    
+    public TreeData treeData;
+    
     public DownNodeData downChosenNodeData;
     public TowerData woodTowerData;
     public TowerData ironTowerData;
@@ -36,9 +37,8 @@ public class GlobalVar : MonoBehaviour
     public ProtectData ProIron;
     public ProtectData ProElec;
     public string[][] mapmapList;
-    public int mapmapRow;
-    public int indexMapMapCol;
-    public string[] mapmapCol;
+
+    
     private NodeData _previousNodeData;
     private DownNodeData _previousDownNodeData;
     public List<string> MajorNodeList = new List<string>();
@@ -68,14 +68,11 @@ public class GlobalVar : MonoBehaviour
     {
         // 初始化游戏状态
         userAddr = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
-        finishiEditIn = false;
-        finishAdd= false;
-        finishMerge= false;
-        finishSubmit= false;
 
         CurrentGameState = initialGameState;
         _previousNodeData = chosenNodeData;
         _previousDownNodeData = downChosenNodeData;
+        
         _getMapmapList();
 
         nodeDataList = new List<NodeData>();
@@ -83,6 +80,7 @@ public class GlobalVar : MonoBehaviour
         ReadData();
         _getMainNode();
         _getMainNodeDown();
+        mapMapListEdit = mapmapList;
     }
 
     private void Update()
@@ -90,9 +88,11 @@ public class GlobalVar : MonoBehaviour
         mapmapRow = mapmapList.Length;
         mapmapCol = mapmapList[indexMapMapCol];
         gameStateShown = GetState().ToString();
+
         if (_previousNodeData.nodeIndex!= chosenNodeData.nodeIndex || _previousNodeData.nodeLayer!= chosenNodeData.nodeLayer )
         {
             _getMapmapList();
+            _previousNodeData = chosenNodeData;
         }
         //print("zommingPos:    "+zoomingPos);
     }
@@ -131,6 +131,7 @@ public class GlobalVar : MonoBehaviour
         {
             for (int j = 0; j < stringList[i].Length; j++)
             {
+                //print(stringList[i][j]);
                 if (stringList[i][j].Length >= 5)
                 {
                     string mapType = stringList[i][j].Substring(0, 4);
@@ -159,7 +160,7 @@ public class GlobalVar : MonoBehaviour
                 maxLayer = _node.nodeLayer;
             }
         }
-        print("maxUpLayer: "+maxLayer);
+        //print("maxUpLayer: "+maxLayer);
 
         curLayer = maxLayer;
         maxLevelTree = maxLayer;
@@ -205,7 +206,7 @@ public class GlobalVar : MonoBehaviour
                 maxLayer = _node.nodeLayer;
             }
         }
-        print("maxDownLayer: "+maxLayer);
+        //print("maxDownLayer: "+maxLayer);
 
         curLayer = maxLayer;
         maxLevelTreeDown = maxLayer;

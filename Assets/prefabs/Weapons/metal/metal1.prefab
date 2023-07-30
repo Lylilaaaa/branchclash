@@ -156,6 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4251565648918950604}
   - component: {fileID: 683701044472934818}
+  - component: {fileID: 8578986467015296923}
   m_Layer: 0
   m_Name: metal1
   m_TagString: Untagged
@@ -172,7 +173,7 @@ Transform:
   m_GameObject: {fileID: 2888420355023301278}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.861, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 50, y: 50, z: 50}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5262688472755702464}
@@ -203,6 +204,19 @@ MonoBehaviour:
   firePoint:
   - {fileID: 2598364976278880954}
   rotateSpeed: 10
+--- !u!65 &8578986467015296923
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2888420355023301278}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.04918, y: 1.7522452, z: 2.0689797}
+  m_Center: {x: -0.009897709, y: 0.8512233, z: 0.019795423}
 --- !u!1 &8593325767228540929
 GameObject:
   m_ObjectHideFlags: 0

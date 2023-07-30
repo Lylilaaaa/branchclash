@@ -51,7 +51,7 @@ public class ContractInteraction : MonoBehaviour
         try
         {
             string response = await Web3GL.SendContract(method, abi, contract, args, value, gasLimit, gasPrice);
-            GlobalVar._instance.finishiEditIn = true;
+            //GlobalVar._instance.finishiEditIn = true;
             Debug.Log("finish Here!!!!!!!!!!!!");
             Debug.Log(response);
         }
@@ -75,7 +75,7 @@ public class ContractInteraction : MonoBehaviour
         try
         {
             string response = await Web3GL.SendContract(method, abi, contract, args, value, gasLimit, gasPrice);
-            GlobalVar._instance.finishAdd = true;
+            //GlobalVar._instance.finishAdd = true;
             Debug.Log(response);
         }
         catch (Exception e)
@@ -100,7 +100,7 @@ public class ContractInteraction : MonoBehaviour
         try
         {
             string response = await Web3GL.SendContract(method, abi, contract, args, value, gasLimit, gasPrice);
-            GlobalVar._instance.finishMerge = true;
+            //GlobalVar._instance.finishMerge = true;
             Debug.Log(response);
         }
         catch (Exception e)
@@ -125,7 +125,7 @@ public class ContractInteraction : MonoBehaviour
         try
         {
             string response = await Web3GL.SendContract(method, abi, contract, args, value, gasLimit, gasPrice);
-            GlobalVar._instance.finishSubmit = true;
+            //GlobalVar._instance.finishSubmit = true;
             Debug.Log(response);
         }
         catch (Exception e)
