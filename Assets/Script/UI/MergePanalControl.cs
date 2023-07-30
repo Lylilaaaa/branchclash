@@ -32,7 +32,7 @@ public class MergePanalControl : MonoBehaviour
     public TextMeshProUGUI moneyNumProtect;
     
     [Header("-----------POSITION-----------")]
-    public Transform rangePosParent;
+    public GameObject rangePosParent;
     public RawImage rawImageDisplay;
     public RawImage rawImageDisplayProtect;
     
@@ -66,6 +66,8 @@ public class MergePanalControl : MonoBehaviour
 
     private void Update()
     {
+        weaponType = tb.targetWeaponType;
+        weaponGrade = tb.targetWeaponGrade;
         string tempString = weaponType;
         if (weaponType.Length == 4)
         {
@@ -127,32 +129,32 @@ public class MergePanalControl : MonoBehaviour
                 if (range == wData.basicRange.ToString())
                 {
                     range = "3x3";
-                    rangePosParent.GetChild(0).gameObject.SetActive(true);
-                    setActiveFalseExcept(0, rangePosParent);
+                    rangePosParent.transform.GetChild(0).gameObject.SetActive(true);
+                    setActiveFalseExcept(0, rangePosParent.transform);
                 }
-                else if(range == iData.basicRange.ToString())
+                else if(range ==  "full map")
                 {
                     range = "full map";
-                    rangePosParent.GetChild(1).gameObject.SetActive(true);
-                    setActiveFalseExcept(1, rangePosParent);
+                    rangePosParent.transform.GetChild(1).gameObject.SetActive(true);
+                    setActiveFalseExcept(1, rangePosParent.transform);
                 }
                 else if(range == (eData.basicRange).ToString())
                 {
                     range = "3x4";
-                    rangePosParent.GetChild(2).gameObject.SetActive(true);
-                    setActiveFalseExcept(2, rangePosParent);
+                    rangePosParent.transform.GetChild(2).gameObject.SetActive(true);
+                    setActiveFalseExcept(2, rangePosParent.transform);
                 }
                 else if(range == (eData.basicRange+18).ToString())
                 {
                     range = "5x6";
-                    rangePosParent.GetChild(3).gameObject.SetActive(true);
-                    setActiveFalseExcept(3, rangePosParent);
+                    rangePosParent.transform.GetChild(3).gameObject.SetActive(true);
+                    setActiveFalseExcept(3, rangePosParent.transform);
                 }
                 else if(range == (eData.basicRange+18+26).ToString())
                 {
                     range = "7x8";
-                    rangePosParent.GetChild(4).gameObject.SetActive(true);
-                    setActiveFalseExcept(4, rangePosParent);
+                    rangePosParent.transform.GetChild(4).gameObject.SetActive(true);
+                    setActiveFalseExcept(4, rangePosParent.transform);
                 }
                 infoStringWeapon.text = "Range: "+range+"\n"+"Damage: "+attack+"/shot"+"\n"+"Speed: "+ 1/float.Parse(speed)+"s";
                 if(weaponType == "wood")
@@ -210,6 +212,7 @@ public class MergePanalControl : MonoBehaviour
                 if (i != exceptIndex)
                 {
                     parentTrans.GetChild(i).gameObject.SetActive(false);
+                    //print(parentTrans.GetChild(i).gameObject.name+": false!");
                 }
             }
         }

@@ -3523,7 +3523,7 @@ MonoBehaviour:
   moneyNum: {fileID: 1522302561}
   moneyGObjProtect: {fileID: 518154315}
   moneyNumProtect: {fileID: 1014618474}
-  rangePosParent: {fileID: 871662322}
+  rangePosParent: {fileID: 871662321}
   rawImageDisplay: {fileID: 1585393256}
   rawImageDisplayProtect: {fileID: 1009859958}
 --- !u!1 &201326542
@@ -9860,9 +9860,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 753596591}
-        m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: CloseSelected
+      - m_Target: {fileID: 1276743634}
+        m_TargetAssemblyTypeName: UIPanalManager, Assembly-CSharp
+        m_MethodName: CloseMerge
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21506,6 +21506,7 @@ MonoBehaviour:
   AddPanal: {fileID: 13956028}
   MergePanel: {fileID: 200454916}
   moneyTMP: {fileID: 2100394617}
+  tp: {fileID: 753596591}
 --- !u!1001 &1295072560
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31038,9 +31039,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1276743634}
-        m_TargetAssemblyTypeName: UIPanalManager, Assembly-CSharp
-        m_MethodName: CloseMerge
+      - m_Target: {fileID: 753596591}
+        m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
+        m_MethodName: MergeButt
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

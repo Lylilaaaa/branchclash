@@ -9,6 +9,7 @@ public class UIPanalManager : MonoBehaviour
     public GameObject AddPanal;
     public GameObject MergePanel;
     public TextMeshProUGUI moneyTMP;
+    public TowerBuilder tp;
 
 
     private void Start()
@@ -34,8 +35,8 @@ public class UIPanalManager : MonoBehaviour
                 MergePanel.SetActive(false);
                 break;
             case GlobalVar.GameState.MergeTowerUI:
-                AddPanal.SetActive(false);
-                MergePanel.SetActive(true);
+                // AddPanal.SetActive(false);
+                // MergePanel.SetActive(true);
                 break;
             case GlobalVar.GameState.Viewing:
                 //AddPanal.SetActive(false);
@@ -62,6 +63,11 @@ public class UIPanalManager : MonoBehaviour
     {
         GlobalVar._instance.ChangeState("ChooseField");
         //ContractInteraction._instance.EditMergeTower();
+        tp.mergeButtConfirm = false;
+        tp.targetWeaponPos = new List<string>();
+        tp.mergeFromPos = new List<int>();
+        tp.mergeToPos = new List<int>();
+        tp.mergeChosen = false;
     }
 
     public void reduceMoney(int moneyAmount)

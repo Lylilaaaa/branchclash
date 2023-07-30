@@ -57,7 +57,7 @@ public class AddPanalManager : MonoBehaviour
 
     public void changeTowPro(string towPro)
     {
-        print("button pressed");
+        //print("button pressed");
         if (towPro == "tower")
         {
             displayTower.SetActive(true);

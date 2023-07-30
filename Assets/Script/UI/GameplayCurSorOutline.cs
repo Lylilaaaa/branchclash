@@ -46,7 +46,10 @@ public class GameplayCurSorOutline : MonoBehaviour
                 {
                     tb.mergeChosen = true;
                     GlobalVar._instance.ChangeState("MergeTowerUI");
-                    sameWeaponPos=tb.checkWeaponPos(weaponType, weaponGrade);
+                    tb._UIPanalManager.MergePanel.SetActive(true);
+                    List<int> thisPos;
+                    thisPos  = findRowCol( transform.name.Substring(0,3)); 
+                    sameWeaponPos=tb.checkWeaponPos(weaponType, weaponGrade,thisPos);
                     tb.targetWeaponPos = sameWeaponPos;
                     tb.targetWeaponType = weaponType;
                     tb.targetWeaponGrade = weaponGrade;
@@ -69,6 +72,11 @@ public class GameplayCurSorOutline : MonoBehaviour
                 {
                     tempMergePenal.SetActive(true);
                 }
+            }
+
+            if (isMergeToPotential == false)
+            {
+                tempMergePenal.SetActive(false);
             }
     }
     
