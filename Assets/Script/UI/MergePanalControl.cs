@@ -154,7 +154,7 @@ public class MergePanalControl : MonoBehaviour
                     rangePosParent.GetChild(4).gameObject.SetActive(true);
                     setActiveFalseExcept(4, rangePosParent);
                 }
-                infoStringWeapon.text = "Range: "+range+"\n"+"Damage: "+attack+"/shot"+"\n"+"Speed: "+ 1/int.Parse(speed)+"s";
+                infoStringWeapon.text = "Range: "+range+"\n"+"Damage: "+attack+"/shot"+"\n"+"Speed: "+ 1/float.Parse(speed)+"s";
                 if(weaponType == "wood")
                 {
                     _poolTypeIndex = 0;

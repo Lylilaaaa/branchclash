@@ -807,6 +807,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 87547901334303995, guid: bd4fbb816b2464f4a9c4d491880add76,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 989162879192632830, guid: bd4fbb816b2464f4a9c4d491880add76,
         type: 3}
       propertyPath: m_Layer
@@ -917,6 +922,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 4814762677944936204, guid: bd4fbb816b2464f4a9c4d491880add76,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6639896215436555829, guid: bd4fbb816b2464f4a9c4d491880add76,
         type: 3}
       propertyPath: m_Layer
@@ -946,6 +956,7 @@ PrefabInstance:
     - {fileID: 1702573057, guid: bd4fbb816b2464f4a9c4d491880add76, type: 3}
     - {fileID: 7241273542033318085, guid: bd4fbb816b2464f4a9c4d491880add76, type: 3}
     - {fileID: 5120090263385582946, guid: bd4fbb816b2464f4a9c4d491880add76, type: 3}
+    - {fileID: 8869564720355829987, guid: bd4fbb816b2464f4a9c4d491880add76, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bd4fbb816b2464f4a9c4d491880add76, type: 3}
 --- !u!4 &32937622 stripped
 Transform:
@@ -5139,6 +5150,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 191060888}
     m_Modifications:
+    - target: {fileID: 1335413577, guid: fbc3dc3fca3a9eb42b4169444b3f312c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1667993141, guid: fbc3dc3fca3a9eb42b4169444b3f312c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1688687245, guid: fbc3dc3fca3a9eb42b4169444b3f312c, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -5253,7 +5272,9 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2941784436813599429, guid: fbc3dc3fca3a9eb42b4169444b3f312c, type: 3}
+    - {fileID: 8578986467015296923, guid: fbc3dc3fca3a9eb42b4169444b3f312c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: fbc3dc3fca3a9eb42b4169444b3f312c, type: 3}
 --- !u!4 &399425097 stripped
 Transform:
@@ -9059,8 +9080,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 032e995e7bd8c29458823ca407609b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  finish: 0
   _UIPanalManager: {fileID: 0}
+  targetWeaponPos: []
+  mergeFromPos: 
+  mergeToPos: 
+  targetWeaponType: 
+  targetWeaponGrade: 0
+  mergeChosen: 0
+  mergeButtConfirm: 0
+  towerDataList: []
+  protectDataList: []
 --- !u!1 &767128392
 GameObject:
   m_ObjectHideFlags: 0
@@ -13760,10 +13789,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AddPanal: {fileID: 0}
-  mergePanel1: {fileID: 0}
-  mergePanel2: {fileID: 0}
+  MergePanel: {fileID: 0}
   moneyTMP: {fileID: 0}
-  quitMerge: {fileID: 0}
 --- !u!114 &1201760400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13796,22 +13823,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
   targetField: 
-  gameStateShown: 
+  chosenNodeData: {fileID: 11400000, guid: b8cd6931c87bc5e4aa8df7c3b7c508f4, type: 2}
   zoomingPos: 
-  tempMerge1: 0
-  tempMerge2: 0
-  showMergable: 0
-  canDeleteWoodMerge: 0
   maxLevelTree: 0
   maxLevelTreeDown: 0
-  finishiEditIn: 0
-  finishAdd: 0
-  finishMerge: 0
-  finishSubmit: 0
+  finishEdit: 0
   initialGameState: 1
-  treeData: {fileID: 11400000, guid: 062e5fbc12770914fb8ff15e8c2cf297, type: 2}
+  gameStateShown: 
   downTreeData: {fileID: 0}
-  chosenNodeData: {fileID: 11400000, guid: b8cd6931c87bc5e4aa8df7c3b7c508f4, type: 2}
+  mapmapRow: 0
+  mapmapCol: []
+  indexMapMapCol: 0
+  treeData: {fileID: 11400000, guid: 062e5fbc12770914fb8ff15e8c2cf297, type: 2}
   downChosenNodeData: {fileID: 0}
   woodTowerData: {fileID: 11400000, guid: 4831304427c37bc4995e60bf79f80745, type: 2}
   ironTowerData: {fileID: 11400000, guid: f3a30f0b6c81cc544892d92e881ddf02, type: 2}
@@ -13819,9 +13842,6 @@ MonoBehaviour:
   ProWood: {fileID: 0}
   ProIron: {fileID: 0}
   ProElec: {fileID: 0}
-  mapmapRow: 0
-  indexMapMapCol: 0
-  mapmapCol: []
   MajorNodeList: []
   MajorNodeListDown: []
   nodeDataList: []

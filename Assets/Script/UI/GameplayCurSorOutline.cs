@@ -25,47 +25,51 @@ public class GameplayCurSorOutline : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        weaponType = transform.name.Substring(0, 4);
-        weaponGrade = int.Parse(transform.name.Substring(4));
+        weaponType = "";
+        weaponGrade = 1;
         sameWeaponPos = new List<string>();
         tb = transform.parent.parent.parent.GetComponent<TowerBuilder>();
         
         mouseEnter = false;
         isMergeToPotential = false;
         tempMergePenal.SetActive(false);
+        outlineGbj.SetActive(false);
     }
 
     private void Update()
     {
-        if (mouseEnter == true && tb.mergeChosen == false)
-        {
-            //选中第一个merge from的塔
-            if (Input.GetMouseButtonDown(0))
-            {
-                tb.mergeChosen = true;
-                GlobalVar._instance.ChangeState("MergeTowerUI");
-                sameWeaponPos=tb.checkWeaponPos(weaponType, weaponGrade);
-                tb.targetWeaponPos = sameWeaponPos;
-                tb.targetWeaponType = weaponType;
-                tb.targetWeaponGrade = weaponGrade;
-                tb.mergeFromPos = findRowCol( transform.name.Substring(0,3)); 
-            }
-        }
 
-        if (tb.mergeChosen == true && isMergeToPotential == true)
-        {
-            if (mouseEnter == true && Input.GetMouseButtonDown(0))
+            if (mouseEnter == true && tb.mergeChosen == false)
             {
-               tb.mergeToPos = findRowCol( transform.name.Substring(0,3)); 
-               tb.Merge(tb.mergeFromPos,tb.mergeToPos);
+                //选中第一个merge from的塔
+                if (Input.GetMouseButtonDown(0))
+                {
+                    tb.mergeChosen = true;
+                    GlobalVar._instance.ChangeState("MergeTowerUI");
+                    sameWeaponPos=tb.checkWeaponPos(weaponType, weaponGrade);
+                    tb.targetWeaponPos = sameWeaponPos;
+                    tb.targetWeaponType = weaponType;
+                    tb.targetWeaponGrade = weaponGrade;
+                    tb.mergeFromPos = findRowCol( transform.name.Substring(0,3)); 
+                }
             }
-        }
-        
-        //merge按钮按下之后才可以显示“可merge”的塔
-        if (isMergeToPotential == true && tb.mergeButtConfirm == true)
-        {
-            tempMergePenal.SetActive(true);
-        }
+            if (GlobalVar._instance.GetState() == GlobalVar.GameState.MergeTowerUI)
+            {
+                if (tb.mergeChosen == true && isMergeToPotential == true)
+                {
+                    if (mouseEnter == true && Input.GetMouseButtonDown(0))
+                    {
+                        tb.mergeToPos = findRowCol( transform.name.Substring(0,3)); 
+                        tb.Merge(tb.mergeFromPos,tb.mergeToPos);
+                    }
+                }
+            
+                //merge按钮按下之后才可以显示“可merge”的塔
+                if (isMergeToPotential == true && tb.mergeButtConfirm == true)
+                {
+                    tempMergePenal.SetActive(true);
+                }
+            }
     }
     
     private void OnMouseEnter()
@@ -79,6 +83,7 @@ public class GameplayCurSorOutline : MonoBehaviour
     private void OnMouseExit()
     {
         mouseEnter = false;
+        outlineGbj.SetActive(false);
     }
     
     private List<int> findRowCol(string rowColString)

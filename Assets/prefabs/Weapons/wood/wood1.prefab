@@ -268,9 +268,10 @@ MonoBehaviour:
   weaponType: 
   weaponGrade: 0
   sameWeaponPos: []
-  mouseEnter: 0
   isMergeToPotential: 0
+  mouseEnter: 0
   tempMergePenal: {fileID: 4814762677944936204}
+  outlineGbj: {fileID: 87547901334303995}
 --- !u!1 &4814762677944936204
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +298,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7450979168857491882}
   m_Father: {fileID: 1672043736489244169}
@@ -314,6 +315,7 @@ GameObject:
   - component: {fileID: 7450979168857491882}
   - component: {fileID: 5580459784938663646}
   - component: {fileID: 4807136254667909713}
+  - component: {fileID: 6290700769555235054}
   m_Layer: 7
   m_Name: merge
   m_TagString: Untagged
@@ -330,7 +332,7 @@ RectTransform:
   m_GameObject: {fileID: 6639896215436555829}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 0.009, y: 0.009, z: 0.009}
+  m_LocalScale: {x: 0.007, y: 0.007, z: 0.007}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2477295180519418867}
@@ -363,7 +365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -379,6 +381,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6290700769555235054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6639896215436555829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc79be5898ec4a840974708fae9b1a93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  fadeDuration: 0.5
 --- !u!1 &7206821957973297235
 GameObject:
   m_ObjectHideFlags: 0

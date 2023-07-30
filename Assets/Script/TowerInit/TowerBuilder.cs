@@ -10,16 +10,16 @@ public class TowerBuilder : MonoBehaviour
     private string[][] _mapmapList;
     public UIPanalManager _UIPanalManager;
     
+    [Header("MERGE INFO")]
     public List<string> targetWeaponPos;
     public List<int> mergeFromPos;
     public List<int> mergeToPos;
     public string targetWeaponType;
     public int targetWeaponGrade;
-    
-    //merge Process control
     public bool mergeChosen = false;
     public bool mergeButtConfirm = false;
 
+    [Header("SCRIPTABLE OBJ")]
     public List<TowerData> towerDataList;
     public List<ProtectData> protectDataList;
     private void Update()
@@ -242,7 +242,8 @@ public class TowerBuilder : MonoBehaviour
                 {
                     GameObject thisField = transform.GetChild(i).GetChild(j).gameObject;
                     FieldInit fieldInit = thisField.GetComponent<FieldInit>();
-                    GameplayCurSorOutline gpCurSorOutline = thisField.GetComponent<GameplayCurSorOutline>();
+                    GameplayCurSorOutline gpCurSorOutline =
+                        thisField.transform.GetChild(0).GetComponent<GameplayCurSorOutline>();
                     _levelUpFI(fieldInit);
                     gpCurSorOutline.isMergeToPotential = false;
                 }
@@ -343,7 +344,8 @@ public class TowerBuilder : MonoBehaviour
     private void globalDataUpdate()
     {
         if (GlobalVar._instance.GetState() == GlobalVar.GameState.ChooseField ||
-            GlobalVar._instance.GetState() == GlobalVar.GameState.AddTowerUI)
+            GlobalVar._instance.GetState() == GlobalVar.GameState.AddTowerUI ||
+            GlobalVar._instance.GetState() == GlobalVar.GameState.MergeTowerUI)
         {
             string[][] newStringList = new string[9][];
             string[][] originStringList = new string[9][];
@@ -374,6 +376,18 @@ public class TowerBuilder : MonoBehaviour
                         if (towerRead.Length >= 5)
                         {
                             newStringList[i][j] = towerRead;
+                            if (thisField.transform.childCount!=0)
+                            {
+                                GameplayCurSorOutline gpCurSorOutline =
+                                    thisField.transform.GetChild(0).GetComponent<GameplayCurSorOutline>();
+                                if (towerRead.Length >= 5)
+                                {
+                                    print(gpCurSorOutline.transform.name);
+                                    gpCurSorOutline.weaponType = towerRead.Substring(0, 4);
+                                    gpCurSorOutline.weaponGrade = int.Parse(towerRead.Substring(4));
+                                }
+                            }
+
                         }
                     }
                 }
@@ -386,8 +400,7 @@ public class TowerBuilder : MonoBehaviour
     public List<string> checkWeaponPos(string weaponType, int weaponGrade)
     {
         List<string> sameTypeGrade = new List<string>();
-        if (GlobalVar._instance.GetState() == GlobalVar.GameState.ChooseField ||
-            GlobalVar._instance.GetState() == GlobalVar.GameState.AddTowerUI)
+        if (GlobalVar._instance.GetState() == GlobalVar.GameState.MergeTowerUI)
         {
             for (int i = 0; i < 9; i++)
             {
@@ -427,7 +440,7 @@ public class TowerBuilder : MonoBehaviour
 
     private void _setMergeToEnable(FieldInit fi)
     {
-        fi.transform.GetComponent<GameplayCurSorOutline>().isMergeToPotential = true;
+        fi.transform.GetChild(0).GetComponent<GameplayCurSorOutline>().isMergeToPotential = true;
     }
     
 }
