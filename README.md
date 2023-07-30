@@ -1,6 +1,10 @@
 # BoW2
 bow2
 
+merge的思路：Cursor---TowerBuild---UI&Buttom---FieldInit
+
+TowerBuild整理mergeFrom和mergeTo、mergeTarget等等，是中枢，由Cursor传入tb，tb传给UIControl，UIControl Butt响应之后等待Cursor，最后传给FirldInit，注意中途叉掉UI的情况、以及globalVar中GameState的情况
+
 ![502b3ca355ab574ae22a9df93d6c09e](https://github.com/Lylilaaaa/BoW2/assets/93197170/a942b06d-76c2-47f6-a851-44b57836bb91)
 
 
