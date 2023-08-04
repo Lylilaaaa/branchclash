@@ -43,26 +43,27 @@ public class UIGameStartWorld : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 print("start!");
-                ContractInteraction._instance.Submit();
+                // ContractInteraction._instance.Submit();
                 
                 //comment when build!!
-                // closeSelected.CloseSelected();
-                // monsterStart.startGame();
+                monsterStart.startGame();
+                GlobalVar._instance.ChangeState("GamePlay");
+                Destroy(gameObject);
                 
                 chosen = false;
             }
         }
-        if (GlobalVar._instance.finishEdit==true && finish == false)
-        {
-            finish = true;
-            //closeSelected.CloseSelected();
-            monsterStart.startGame();
-            Destroy(gameObject);
-        }
+        // if (GlobalVar._instance.finishEdit==true && finish == false)
+        // {
+        //     finish = true;
+        //     //closeSelected.CloseSelected();
+        //     monsterStart.startGame();
+        //     Destroy(gameObject);
+        // }
     }
     private void OnMouseEnter()
     {
-        print("mouseEnter!");
+        //print("mouseEnter!");
         _doorTMP.GetComponent<TextMeshProUGUI>().color = _emissionColor;
         _doorMat.GetComponent<Renderer>().material = lightRedDoor;
         _doorKuang.GetComponent<Renderer>().material = lightMetal;
@@ -71,7 +72,7 @@ public class UIGameStartWorld : MonoBehaviour
     }
     private void OnMouseExit()
     {
-        print("mouseExit!");
+        //print("mouseExit!");
         _doorTMP.GetComponent<TextMeshProUGUI>().color = _realRed;
         _doorMat.GetComponent<Renderer>().material = redDoor;
         _doorKuang.GetComponent<Renderer>().material = Metal;

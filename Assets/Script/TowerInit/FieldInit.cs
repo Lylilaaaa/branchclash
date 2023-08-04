@@ -7,24 +7,26 @@ using UnityEngine.Rendering;
 
 public class FieldInit : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [Header("--------GlobalVar--------")]
+    public GameObject fieldSelectPrefab;
+    public string mapStructure;
+    private string _previousMapStr;
+    public bool mouseEnter;
+    
+    
+    [Header("--------TowerTypeGrade---------")]
     public bool selected =true;
+    public string towerType;
     public int woodType=0;
     public int ironType=0;
     public int eleType=0;
     public int eleCType = 0;
-
-    public bool canBuildElec = true;
-
-
     public int wproType = 0;
     public int iproType = 0;
     public int eproType = 0;
-
     
-
-    public GameObject fieldSelectPrefab;
-    public GameObject mergeEnablePrefab;
+    
+    [Header("--------TowerPrefab---------")]
     public GameObject[] woodPrefab;
     public GameObject[] ironPrefab;
     public GameObject[] elecPrefab;
@@ -32,6 +34,7 @@ public class FieldInit : MonoBehaviour
     public GameObject[] iprPrefab;
     public GameObject[] eprPrefab;
     
+    [Header("--------TowerDataScriptableObj---------")]
     public ProtectData wproSObj;
     public ProtectData iproSObj;
     public ProtectData eproSObj;
@@ -39,18 +42,11 @@ public class FieldInit : MonoBehaviour
     public TowerData ironSObj;
     public TowerData eleSObj;
     
-
-
-    public string towerType;
-    public LevelData globalVar;
-
-    public bool mouseEnter;
-    
-    public string mapStructure;
-    private string _previousMapStr;
+    [Header("--------ExhibitMode--------")]
+    public GameObject[] showingPrefab;
     private bool _viewingInit = false;
     
-    public GameObject[] showingPrefab;
+    
     
     // Update is called once per frame
     private void Start()
@@ -114,8 +110,6 @@ public class FieldInit : MonoBehaviour
                     fieldSeleted.transform.name = transform.name+"wod"+woodType;
                     deletExcept("wod"+woodType);
                     selected = false;
-                    //closeSelected();
-                    setData(woodSObj);
                     towerType = "wood"+woodType;
                 }
                     
@@ -139,7 +133,6 @@ public class FieldInit : MonoBehaviour
                     fieldSeleted.transform.name = transform.name+"iro"+ironType;
                     deletExcept("iro"+ironType);  
                     selected = false;
-                    setData(ironSObj);
                     towerType = "iron"+ironType;
                 }
             }
@@ -168,7 +161,6 @@ public class FieldInit : MonoBehaviour
                     fieldSeleted.transform.name = transform.name+"ele"+eleType;
                     deletExcept("ele"+eleType);  
                     selected = false;
-                    setData(eleSObj);
                     towerType = "elec"+eleType;
                 }
             }
@@ -405,49 +397,7 @@ public class FieldInit : MonoBehaviour
             return 2;
         }
     }
-    private void setData(TowerData towerData)
-    {
-        int childNum = transform.childCount;
-        GameObject child = transform.GetChild(childNum-1).gameObject; //transform.name+"wod"+woodType;003wod12
-        string childName = child.transform.name.Substring(3); //wod12
-        string childType = childName.Substring(0,3);
-        int childGrade = int.Parse(childName.Substring(3));
-        if (childType != "fil")
-        {
-            Turret towerAttack = transform.GetChild(childNum-1).GetComponent<Turret>();
-            int towerGrade = childGrade;
-            if (towerGrade <= towerData.gradeSpeedToAttack)
-            {
-                towerAttack.shootingRate = towerData.baseBulletNumberPerSecond + (towerGrade-1) * towerData.upgradeSpeedRate;
-                towerAttack.bulletAttack = towerData.baseBulletAttack;
-            }
-            else if(towerGrade > towerData.gradeSpeedToAttack)
-            {
-                towerAttack.shootingRate = towerData.baseBulletNumberPerSecond + (towerData.gradeSpeedToAttack-1) * towerData.upgradeSpeedRate;
-                towerAttack.bulletAttack = towerData.baseBulletAttack + (towerGrade-towerData.gradeSpeedToAttack)*towerData.upgradeAttackRate;
-            }
 
-            if (childType == "wod" || childType == "iro")
-            {
-                towerAttack.range = towerData.basicRange;
-            }
-            else
-            {
-                if (towerGrade < towerData.gradeRange2)
-                {
-                    towerAttack.range = towerData.basicRange;
-                }
-                else if (towerGrade >= towerData.gradeRange2 && towerGrade<towerData.gradeRange3)
-                {
-                    towerAttack.range = towerData.basicRange + 5;
-                }
-                else if (towerGrade >= towerData.gradeRange3)
-                {
-                    towerAttack.range = towerData.basicRange + 10;
-                }
-            }
-        }
-    }
     private GameObject findChild(string findName)
     {
         for (int i = 0; i < transform.childCount; i++)

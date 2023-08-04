@@ -57,6 +57,7 @@ public class GlobalVar : MonoBehaviour
         ChooseField,
         AddTowerUI,
         MergeTowerUI,
+        GamePlay,
         GameOver
     }
     private void Awake()
@@ -423,6 +424,9 @@ public class GlobalVar : MonoBehaviour
                 break;
             case "MergeTowerUI":
                 newState = GameState.MergeTowerUI;
+                break;
+            case "GamePlay":
+                newState = GameState.GamePlay;
                 break;
             default:
                 newState = CurrentGameState;

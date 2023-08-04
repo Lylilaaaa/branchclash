@@ -84,6 +84,7 @@ public class TreeNodeDataInit : MonoBehaviour
     }
     private DownNodeData initDownNodeData(DownNodeData initNode)
     {
+        initNode.setUpTime = "";
         initNode.fatherLayer = 0;
         initNode.fatherIndex = 0;
         initNode.childCount = 0;
@@ -95,6 +96,7 @@ public class TreeNodeDataInit : MonoBehaviour
     }
     private NodeData initNodeData(NodeData initNode)
     {
+        initNode.setUpTime = "";
         initNode.fatherLayer = 0;
         initNode.fatherIndex = 0;
         initNode.childCount = 0;
@@ -108,7 +110,7 @@ public class TreeNodeDataInit : MonoBehaviour
         return initNode;
     }
     //先假设预先生成几个node再说,真的加节点需要刷新树
-    private void _preAdd(string father)
+    public void AddNode(string father)
     {
         if (!treeData.nodeDictionary.ContainsKey(father))
         {

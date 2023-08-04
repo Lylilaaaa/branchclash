@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
@@ -17,10 +18,73 @@ public class Turret : MonoBehaviour
     private string tagString = "Enemy";
     private GameObject[] enemies;
     public float rotateSpeed = 10f;
+
+    [Header("ReadData")] 
+    public GameplayCurSorOutline gpCurSorOutline;
+    public bool dataInit;
+
+    private string _weaponType;
+    private int _weaponGrade;
+    private string _range;
+    private string _attack;
+    private string _bulletPerSecond;
     
     void Start()
     {
+        gpCurSorOutline = transform.GetComponent<GameplayCurSorOutline>();
         InvokeRepeating("TargetUpdate",0f,0.5f);
+    }
+
+    private void Update()
+    {
+        if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && dataInit == false && gpCurSorOutline.weaponType!="" && CurNodeDataSummary._instance.gamePlayInitData == true)
+        {
+            dataInit = true;
+            _weaponType = gpCurSorOutline.weaponType;
+            _weaponGrade = gpCurSorOutline.weaponGrade;
+            if (_weaponType.Substring(1, 3) != "pro")
+            {
+                (_attack,_bulletPerSecond,_range) =
+                    CurNodeDataSummary._instance.CheckAttackSpeedRange(_weaponType, _weaponGrade);
+                if (_weaponType == "wood")
+                {
+                    bulletAttack = int.Parse(_attack)-_checkDebuff(0);
+                }
+                else if (_weaponType == "iron")
+                {
+                    bulletAttack = int.Parse(_attack)-_checkDebuff(1);
+                }
+                else if (_weaponType == "elec")
+                {
+                    bulletAttack = int.Parse(_attack)-_checkDebuff(2);
+                }
+                //bulletAttack = int.Parse(_attack);
+                if (_range == "full map")
+                {
+                    range = 20 * 100;
+                }
+                else
+                {
+                    range = 20 * int.Parse(_range);
+                }
+                shootingRate = float.Parse(_bulletPerSecond);
+            }
+        }
+
+    }
+
+    private int _checkDebuff(int weaponIndex)
+    {
+        float totalDebuff = CurNodeDataSummary._instance.debuffList[weaponIndex]*CurNodeDataSummary._instance.weaponBloodList[weaponIndex] -
+                            CurNodeDataSummary._instance.protectList[weaponIndex];
+        if (totalDebuff > 0)
+        {
+            return ((int)totalDebuff);
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     void TargetUpdate()
@@ -64,6 +128,7 @@ public class Turret : MonoBehaviour
 
         // Use Lerp to smoothly interpolate between the current rotation and the target rotation
         partToRotate.transform.rotation = Quaternion.Lerp(partToRotate.transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+        //partToRotate.transform.rotation = targetRotation;
 
         
         if (shootingCountDown <= 0f)
@@ -78,7 +143,7 @@ public class Turret : MonoBehaviour
     private void shoot()
     {
         
-        Debug.Log("SHOOT!"+bulletAttack.ToString());
+        //Debug.Log("SHOOT!"+bulletAttack.ToString());
         foreach (Transform fpt in firePoint)
         {
             GameObject BulletGo = (GameObject)Instantiate(bulletPrefab, fpt.position, fpt.rotation);

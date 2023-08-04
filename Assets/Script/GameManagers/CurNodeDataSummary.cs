@@ -7,29 +7,45 @@ using UnityEngine;
 public class CurNodeDataSummary : MonoBehaviour
 {
     public static CurNodeDataSummary _instance;
+    [Header("--------InitSettings--------")]
+    private TowerData wData;
+    private TowerData iData;
+    private TowerData eData;
+
+    [Header("--------GlobalDataRead--------")]
     public NodeData thisNodeData;
     public NodeData previousNodeData;
     private string[][] _mapStruct;
+    
+    
+    [Header("--------NumCount--------")]
     public Dictionary<int,int> woodCount; //grade, count
     public Dictionary<int,int> ironCount;
     public Dictionary<int,int> elecCount;
     public Dictionary<int,int> wproCount;
     public Dictionary<int,int> iproCount;
     public Dictionary<int,int> eproCount;
-    public bool dictionaryFinish = false;
+    public List<int> DictionaryCount;
     public int[] debuffList;
-    private TowerData wData;
-    private TowerData iData;
-    private TowerData eData;
+    public int[] protectList;
+    public int[] weaponBloodList;
+    
+    [Header("--------ProcessingBool--------")]
+    public bool dictionaryFinish = false;
     public bool _initData = false;
     public bool changeData = false;
-    public List<int> DictionaryCount;
+    public bool gamePlayInitData = false;
+    
     private void Awake()
     {
         _instance = this;
     }
     private void Start()
     {
+        dictionaryFinish = false;
+        _initData = false;
+        changeData = false;
+        gamePlayInitData = false;
         thisNodeData = GlobalVar._instance.chosenNodeData;
         wData = GlobalVar._instance.woodTowerData;
         iData = GlobalVar._instance.ironTowerData;
@@ -68,11 +84,30 @@ public class CurNodeDataSummary : MonoBehaviour
     
             previousNodeData = thisNodeData;
         }
-        
+        if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && gamePlayInitData == false)
+        {
+            _countDicInit();
+            debuffList = thisNodeData.towerDebuffList;
+            _mapStruct = GlobalVar._instance.mapmapList;
+            // foreach (var Mystring in _mapStruct)
+            // {
+            //     string thisRow="";
+            //     foreach (var VARIABLE  in Mystring )
+            //     {
+            //         thisRow+=VARIABLE;
+            //     }
+            //     print(thisRow);
+            // }
+            _checkTypeIndex();
+            gamePlayInitData = true;
+            protectList = _checkProtect();
+            weaponBloodList =_checkWeaponTotalBlood();
+        }
     }
 
     private void _countDicInit()
     {
+        DictionaryCount = new List<int>();
         woodCount = new Dictionary<int, int>();
         ironCount = new Dictionary<int, int>();
         elecCount = new Dictionary<int, int>();
@@ -80,6 +115,7 @@ public class CurNodeDataSummary : MonoBehaviour
         iproCount = new Dictionary<int, int>();
         eproCount = new Dictionary<int, int>();
     } 
+    
     private void _checkTypeIndex()
     {
         for (int i = 0; i < _mapStruct.Length; i++)
@@ -189,6 +225,24 @@ public class CurNodeDataSummary : MonoBehaviour
         DictionaryCount.Add(eproCount.Count);
     }
 
+    private int[] _checkProtect()
+    {
+        int[] _proList = new int[3];
+        foreach (int grade in wproCount.Keys)
+        {
+            _proList[0] += CheckProtectBlood("wpro", grade);
+        }
+        foreach (int grade in iproCount.Keys)
+        {
+            _proList[1] += CheckProtectBlood("ipro", grade);
+        }
+        foreach (int grade in eproCount.Keys)
+        {
+            _proList[2] += CheckProtectBlood("epro", grade);
+        }
+
+        return _proList;
+    }
     public (string, string,string) CheckAttackSpeedRange(string towerType,int grade)
     {
         int attack = 0;
@@ -265,7 +319,7 @@ public class CurNodeDataSummary : MonoBehaviour
         }
         return (attackString,speedString,rangeString);
     }
-    public string CheckProtectBlood(string proType,int grade)
+    public int CheckProtectBlood(string proType,int grade)
     {
         if (wproCount.ContainsKey(grade))
         {
@@ -275,53 +329,38 @@ public class CurNodeDataSummary : MonoBehaviour
             {
                 case "wpro":
                     count = wproCount[grade];
-                    countString = count.ToString();
                     break;
                 case "ipro":
                     count = iproCount[grade];
-                    countString = count.ToString();
                     break;
                 case "elec":
                     count = eproCount[grade];
-                    countString = count.ToString();
                     break;
                 default:
                     Console.WriteLine("Unknown");
                     break;
             }
-            return countString;
+            return count*grade;
         }
 
-        return null;
-
+        return 0;
     }
-    public int CheckTypeCount(string towerType, int grade)
+    private int[] _checkWeaponTotalBlood()
     {
-        int towerCount=0;
-        switch (towerType)
+        int[] _weaponBlood = new int[3];
+        foreach (int grade in woodCount.Keys)
         {
-            case "wood":
-                towerCount = woodCount[grade];
-                break;
-            case "iron":
-                towerCount = ironCount[grade];
-                break;
-            case "elec":
-                towerCount = elecCount[grade];
-                break;
-            case "wpro":
-                towerCount = wproCount[grade];
-                break;
-            case "epro":
-                towerCount = eproCount[grade];
-                break;
-            case "ipro":
-                towerCount = iproCount[grade];
-                break;
-            default:
-                Console.WriteLine("Unknown");
-                break;
+            _weaponBlood[0] += woodCount[grade]*grade;
         }
-        return towerCount;
+        foreach (int grade in ironCount.Keys)
+        {
+            _weaponBlood[1] += ironCount[grade] * grade;
+        }
+        foreach (int grade in elecCount.Keys)
+        {
+            _weaponBlood[2] += elecCount[grade] * grade;
+        }
+
+        return _weaponBlood;
     }
 }

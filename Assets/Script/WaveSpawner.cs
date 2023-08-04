@@ -93,11 +93,10 @@ public class WaveSpawner : MonoBehaviour
     public void startGame()
     {
         StartCoroutine(WaitAndExecute());
-
     }
     private IEnumerator WaitAndExecute()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(1f);
 
         start = true;
         selectPanal.SetActive(false);

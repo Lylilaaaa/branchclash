@@ -409,11 +409,17 @@ public class TowerBuilder : MonoBehaviour
                     {
                         rowColStr = i.ToString() + j.ToString();
                     }
-                    List<int> row_col;
+                    List<int> row_col = new List<int>();
                     row_col = findRowCol(rowColStr);
-
-                    if (row_col[0] != fromPos[0]&&row_col[1] != fromPos[1])
+                    // if (i == 3 && j == 8)
+                    // {
+                    //     print("i: "+i+", j: "+j);
+                    //     print("row_col[0]: "+row_col[0]+", row_col[1]: "+row_col[1]);
+                    //     print("fromPos[0]: "+fromPos[0]+", fromPos[1]: "+fromPos[1]);
+                    // }
+                    if (row_col[0] != fromPos[0] || row_col[1] != fromPos[1])
                     {
+
                         GameObject thisField = transform.GetChild(row_col[0]).GetChild(row_col[1]).gameObject;
                         if (thisField.tag != "Road")
                         {
@@ -421,6 +427,7 @@ public class TowerBuilder : MonoBehaviour
                             string towerRead = fieldInit.towerType;
                             if (towerRead.Length >= 5)
                             {
+                                // print(towerRead+": ("+row_col[0]+","+row_col[1]+")");
                                 if (towerRead == weaponType + (weaponGrade).ToString())
                                 {
                                     // string tempstring = "";

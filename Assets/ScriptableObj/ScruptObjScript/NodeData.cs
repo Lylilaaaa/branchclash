@@ -6,6 +6,7 @@ using UnityEditor;
 public class NodeData : ScriptableObject
 {
     public string ownerAddr;
+    public string setUpTime;
     public int fatherLayer;
     public int fatherIndex;
     public int childCount;
