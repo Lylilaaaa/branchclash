@@ -34,39 +34,42 @@ public class WaveSpawner : MonoBehaviour
 
     private void Update()
     {
-        checkChildNum = monsterContainer.childCount;
-        enemyNum = levelDate.deltaMonster + levelDate.levelNum * levelDate.deltaMonster;
-
-        if (start == true)
+        if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay)
         {
-            StartCoroutine(spawnWave());
-            start = false;
-        }
-
-        if (hasSpawn == enemyNum)
-        {
-            _hasStart = true;
-            hasSpawn = 0;
-        }
-
-        if (_hasStart == true)
-        {
-            hasEnamy = false;
-            foreach (Transform child in monsterContainer)
+            checkChildNum = monsterContainer.childCount;
+            enemyNum = levelDate.deltaMonster + levelDate.levelNum * levelDate.deltaMonster;
+            enemyNum = CurNodeDataSummary._instance.monsterCount;
+    
+            if (start == true)
             {
-                if (child.tag == "Enemy")
+                StartCoroutine(spawnWave());
+                start = false;
+            }
+    
+            if (hasSpawn == enemyNum)
+            {
+                _hasStart = true;
+                hasSpawn = 0;
+            }
+    
+            if (_hasStart == true)
+            {
+                hasEnamy = false;
+                foreach (Transform child in monsterContainer)
                 {
-                    hasEnamy = true;
+                    if (child.tag == "Enemy")
+                    {
+                        hasEnamy = true;
+                    }
+                }
+    
+                if (hasEnamy == false)
+                {
+                    endGame();
+                    _hasStart = false;
                 }
             }
-
-            if (hasEnamy == false)
-            {
-                endGame();
-                _hasStart = false;
-            }
         }
-
     }
     
 
@@ -111,7 +114,7 @@ public class WaveSpawner : MonoBehaviour
         selectPanal.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
         selectPanal.transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
         selectPanal.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
-        GlobalVar._instance.ChangeState("MainStart");
+        GlobalVar._instance.ChangeState("GameOver");
         TreeNodeDataInit._instance.finish = false;
         SceneManager.LoadScene("End");
     }

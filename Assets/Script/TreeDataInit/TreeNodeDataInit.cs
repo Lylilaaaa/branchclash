@@ -23,6 +23,11 @@ public class TreeNodeDataInit : MonoBehaviour
     }
     private void Start()
     {
+        ReStart();
+    }
+
+    public void ReStart()
+    {
         if (GlobalVar.CurrentGameState == GlobalVar.GameState.MainStart)
         {
             previousNodeData = GlobalVar._instance.nodeDataList;
@@ -110,7 +115,7 @@ public class TreeNodeDataInit : MonoBehaviour
         return initNode;
     }
     //先假设预先生成几个node再说,真的加节点需要刷新树
-    public void AddNode(string father)
+    public void AddNodeFather(string father)
     {
         if (!treeData.nodeDictionary.ContainsKey(father))
         {
@@ -150,6 +155,48 @@ public class TreeNodeDataInit : MonoBehaviour
             treeData.treeNodeCount += 1;
         }
     }
+
+    public void AddNodeData()
+    {
+        DateTime currentDateTime = DateTime.UtcNow;
+        string nowUTC = currentDateTime.ToString();
+        NodeData previousData = GlobalVar._instance.chosenNodeData;
+        NodeData newNodeData = new NodeData();
+        newNodeData.ownerAddr = GlobalVar._instance.userAddr;
+        newNodeData.setUpTime = nowUTC;
+        newNodeData.fatherLayer = previousData.nodeLayer;
+        newNodeData.fatherIndex = previousData.nodeIndex;
+        newNodeData.childCount = 0;
+        
+        newNodeData.nodeLayer = previousData.nodeLayer+1;
+        newNodeData.nodeIndex = GetMaxSecondNumber(previousData.nodeLayer+1)+1;
+        newNodeData.isMajor = false;
+        
+        //处理layer升级之后的数据，待处理
+        newNodeData.curHealth = (int)CurNodeDataSummary._instance.homeCurHealth;
+        newNodeData.fullHealth =(int)CurNodeDataSummary._instance.homeMaxHealth;
+        newNodeData.monsterCount = CurNodeDataSummary._instance.monsterCount;
+        newNodeData.money = (int)CurNodeDataSummary._instance.moneyLeft;
+        //newNodeData.mapStructure = 
+        //string newNodeName = newNodeData.nodeLayer.ToString() + ',' + newNodeData.nodeIndex.ToString();
+            
+        // treeData.nodeDictionary.Add(newNodeName, newNodeData);
+        //     
+        // // 将新节点保存到文件夹路径中
+        // // string assetPath = "Assets/ScriptableObj/NodeDataObj/" + newNodeName + ".asset";
+        // // AssetDatabase.CreateAsset(newNodeData, assetPath);
+        // // AssetDatabase.SaveAssets();
+        // // AssetDatabase.Refresh();
+        //
+        // Debug.Log("New node created and saved: " + newNodeName);
+        // treeData.treeNodeCount += 1;
+    }
+
+    // private string[][] getTotalString()
+    // {
+    //     return 
+    // }
+    
     private int GetMaxSecondNumber(int firstNumber)
     {
         List<int[]> sequence = new List<int[]>();

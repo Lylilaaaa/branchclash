@@ -9,6 +9,7 @@ TagManager:
   - outline
   - blueMat
   - redMat
+  - home
   layers:
   - Default
   - TransparentFX

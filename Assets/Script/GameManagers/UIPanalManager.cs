@@ -9,13 +9,19 @@ public class UIPanalManager : MonoBehaviour
     public GameObject AddPanal;
     public GameObject MergePanel;
     public TextMeshProUGUI moneyTMP;
+    public int money;
     public TowerBuilder tp;
 
-
-    private void Start()
+    public void ReStart()
     {
         AddPanal.SetActive(false);
         MergePanel.SetActive(false);
+        money = GlobalVar._instance.chosenNodeData.money;
+        moneyTMP.text = money.ToString();
+    }
+    private void Start()
+    {
+        ReStart();
     }
 
     private void Update()
@@ -42,6 +48,9 @@ public class UIPanalManager : MonoBehaviour
                 //AddPanal.SetActive(false);
                 break;
             case GlobalVar.GameState.GameOver:
+                AddPanal.SetActive(false);
+                break;
+            case GlobalVar.GameState.GamePlay:
                 AddPanal.SetActive(false);
                 break;
             default:
@@ -72,6 +81,8 @@ public class UIPanalManager : MonoBehaviour
 
     public void reduceMoney(int moneyAmount)
     {
+        money += moneyAmount;
         moneyTMP.text = (int.Parse(moneyTMP.text) + moneyAmount).ToString();
+        CurNodeDataSummary._instance.moneyLeft = money;
     }
 }

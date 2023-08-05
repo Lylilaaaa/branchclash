@@ -17,7 +17,6 @@ public class CurNodeDataSummary : MonoBehaviour
     public NodeData previousNodeData;
     private string[][] _mapStruct;
     
-    
     [Header("--------NumCount--------")]
     public Dictionary<int,int> woodCount; //grade, count
     public Dictionary<int,int> ironCount;
@@ -35,6 +34,12 @@ public class CurNodeDataSummary : MonoBehaviour
     public bool _initData = false;
     public bool changeData = false;
     public bool gamePlayInitData = false;
+
+    [Header("--------LevelReCord--------")]
+    public float homeMaxHealth;
+    public float homeCurHealth;
+    public float moneyLeft;
+    public int monsterCount;
     
     private void Awake()
     {
@@ -103,6 +108,7 @@ public class CurNodeDataSummary : MonoBehaviour
             protectList = _checkProtect();
             weaponBloodList =_checkWeaponTotalBlood();
         }
+        
     }
 
     private void _countDicInit()

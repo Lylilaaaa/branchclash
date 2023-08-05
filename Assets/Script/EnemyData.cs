@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class EnemyData : MonoBehaviour
     private int hitOfBody;
     public Animator thisAnimator;
     public bool isBody;
+    public Transform homePos;
     
     
     // Start is called before the first frame update
@@ -40,7 +42,16 @@ public class EnemyData : MonoBehaviour
             hitBody.transform.name = transform.name + "body";
             healthBar.gameObject.SetActive(false);
             hitBody.GetComponent<EnemyBodyData>().damageBody = hitOfBody;
+        }
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "home")
+        {
+            HomeDamage hd = other.gameObject.GetComponent<HomeDamage>();
+            hd.homeCurHealth -= MonsterHealth;
         }
     }
 

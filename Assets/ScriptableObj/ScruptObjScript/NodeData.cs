@@ -10,7 +10,6 @@ public class NodeData : ScriptableObject
     public int fatherLayer;
     public int fatherIndex;
     public int childCount;
-    public string createdTime;
 
     public int nodeLayer;
     public int nodeIndex;

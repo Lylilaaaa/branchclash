@@ -1,55 +1,58 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Newtonsoft.Json.Serialization;
+using UnityEngine.SceneManagement;
 
 
 public class GlobalVar : MonoBehaviour
 {
-    public string userAddr="0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
     public static GlobalVar _instance;
-    public string targetField="";
-    public NodeData chosenNodeData;
-    public string zoomingPos = "";
-    public string[][]  mapMapListEdit;
     
+    [Header("--------User--------")]
+    public string userAddr="0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
+    
+    [Header("--------Tree--------")]
     public int maxLevelTree;
     public int maxLevelTreeDown;
-
-    public bool finishEdit;
+    public List<string> MajorNodeList = new List<string>();
+    public List<string> MajorNodeListDown = new List<string>();
+    public List<NodeData> nodeDataList;
+    public List<DownNodeData> downNodeDataList;
+    public int[] TreeGen;
+    public int[] redTreeGen;
     
+    
+    [Header("--------Process--------")]
+    private NodeData _previousNodeData;
+    private DownNodeData _previousDownNodeData;
+    public NodeData chosenNodeData;
+    public DownNodeData downChosenNodeData;
     public GameState initialGameState;
     public static GameState CurrentGameState;
-
     public string gameStateShown="";
-    public DownTreeData downTreeData;
+    public bool isPreViewing = false;
+    //public bool finishEdit;
+
+    [Header("--------Map--------")]
+    public string[][] mapmapList;
     public int mapmapRow;
     public string[] mapmapCol;
     public int indexMapMapCol;
     
+    [Header("--------Camera--------")]
+    public string zoomingPos = "";
+    public string targetField="";
     
+    [Header("--------Setting--------")]
+    public DownTreeData downTreeData;
     public TreeData treeData;
-    
-    public DownNodeData downChosenNodeData;
     public TowerData woodTowerData;
     public TowerData ironTowerData;
     public TowerData elecTowerData;
     public ProtectData ProWood;
     public ProtectData ProIron;
     public ProtectData ProElec;
-    public string[][] mapmapList;
-
     
-    private NodeData _previousNodeData;
-    private DownNodeData _previousDownNodeData;
-    public List<string> MajorNodeList = new List<string>();
-    public List<string> MajorNodeListDown = new List<string>();
-    
-    public List<NodeData> nodeDataList;
-    public List<DownNodeData> downNodeDataList;
-    public int[] TreeGen;
-    public int[] redTreeGen;
 
-    public bool isPreViewing = false;
     public enum GameState
     {
         MainStart,
@@ -65,7 +68,13 @@ public class GlobalVar : MonoBehaviour
         _instance = this;
         
     }
-    private void Start()
+
+    void Start()
+    {
+        ReStart();
+    }
+
+    public void ReStart()
     {
         // 初始化游戏状态
         userAddr = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
@@ -81,7 +90,6 @@ public class GlobalVar : MonoBehaviour
         ReadData();
         _getMainNode();
         _getMainNodeDown();
-        mapMapListEdit = mapmapList;
     }
 
     private void Update()

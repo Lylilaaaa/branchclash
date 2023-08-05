@@ -343,9 +343,7 @@ public class TowerBuilder : MonoBehaviour
             GlobalVar._instance.GetState() == GlobalVar.GameState.AddTowerUI)
         {
             string[][] newStringList = new string[9][];
-            string[][] originStringList = new string[9][];
             newStringList = GlobalVar._instance.mapmapList;
-            originStringList = GlobalVar._instance.mapmapList;
             
             for (int i = 0; i < newStringList.Length; i++)
             {
@@ -386,8 +384,7 @@ public class TowerBuilder : MonoBehaviour
                     }
                 }
             }
-            GlobalVar._instance.mapMapListEdit = newStringList;
-            GlobalVar._instance.mapmapList = originStringList;
+            GlobalVar._instance.mapmapList = newStringList;
         }
     }
 

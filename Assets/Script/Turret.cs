@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
-    [Header("Weapon Date")]
+    [Header("========Weapon Date========")]
     public int range = 20;
     public float shootingRate = 1;
     public int bulletAttack = 0;
     private float shootingCountDown = 0f;
 
-    [Header("Unity SetUp Field")]
+    [Header("========Unity SetUp Field========")]
     public Transform partToRotate;
     public Transform target;
     public GameObject bulletPrefab;
@@ -19,7 +19,7 @@ public class Turret : MonoBehaviour
     private GameObject[] enemies;
     public float rotateSpeed = 10f;
 
-    [Header("ReadData")] 
+    [Header("========ReadData========")] 
     public GameplayCurSorOutline gpCurSorOutline;
     public bool dataInit;
 
