@@ -155,6 +155,29 @@ public class GlobalVar : MonoBehaviour
 
         mapmapList = stringList;
     }
+    public string _getMapmapString(string[][] stringList)
+    {
+        List<string> rows = new List<string>();
+
+        for (int i = 0; i < stringList.Length; i++)
+        {
+            if (stringList[i] != null)
+            {
+                string[] row = stringList[i];
+                List<string> newRow = new List<string>();
+
+                for (int j = 0; j < row.Length; j++)
+                {
+                    newRow.Add(row[j]);
+                }
+
+                string combinedRow = string.Join(",", newRow);
+                rows.Add(combinedRow);
+            }
+        }
+
+        return string.Join(",/n", rows);
+    }
     private void _getMainNode()
     {
         int maxLayer = 0;
@@ -455,5 +478,23 @@ public class GlobalVar : MonoBehaviour
     public void chooseField(string FieldPos)
     {
         targetField = FieldPos;
+    }
+    public void ReStartTree()
+    {
+        UploadData();
+        SceneManager.LoadScene("HomePage");
+        
+        ReStart();
+        TreeNodeDataInit._instance.ReStart();
+        
+        TreeGenerator._instance.InitTree();
+        RedTreeGenerator._instance.InitDownTree();
+        LineGenerator._instance.ReStart();
+        RedLineGenerator._instance.ReStart();
+    }
+
+    private void UploadData()
+    {
+        TreeNodeDataInit._instance.AddNodeData();
     }
 }

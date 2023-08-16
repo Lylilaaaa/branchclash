@@ -177,19 +177,16 @@ public class TreeNodeDataInit : MonoBehaviour
         newNodeData.fullHealth =(int)CurNodeDataSummary._instance.homeMaxHealth;
         newNodeData.monsterCount = CurNodeDataSummary._instance.monsterCount;
         newNodeData.money = (int)CurNodeDataSummary._instance.moneyLeft;
-        //newNodeData.mapStructure = 
-        //string newNodeName = newNodeData.nodeLayer.ToString() + ',' + newNodeData.nodeIndex.ToString();
-            
-        // treeData.nodeDictionary.Add(newNodeName, newNodeData);
-        //     
-        // // 将新节点保存到文件夹路径中
-        // // string assetPath = "Assets/ScriptableObj/NodeDataObj/" + newNodeName + ".asset";
-        // // AssetDatabase.CreateAsset(newNodeData, assetPath);
-        // // AssetDatabase.SaveAssets();
-        // // AssetDatabase.Refresh();
-        //
-        // Debug.Log("New node created and saved: " + newNodeName);
-        // treeData.treeNodeCount += 1;
+        newNodeData.mapStructure = GlobalVar._instance._getMapmapString(GlobalVar._instance.mapmapList);
+        string newNodeName = newNodeData.nodeLayer.ToString() + ',' + newNodeData.nodeIndex.ToString();
+
+        //将新节点保存到文件夹路径中
+        string assetPath = "Assets/Resources/" + newNodeName + ".asset";
+        AssetDatabase.CreateAsset(newNodeData, assetPath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        Debug.Log("New node created and saved: " + newNodeName);
     }
 
     // private string[][] getTotalString()

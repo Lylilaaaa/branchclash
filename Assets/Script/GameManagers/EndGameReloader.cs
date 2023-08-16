@@ -2,29 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class EndGameReloader : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Button endButton;
+
+    private void Start()
     {
-        
+        // 给按钮添加点击事件的监听器
+        endButton.onClick.AddListener(OnButtonClicked);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnButtonClicked()
     {
-        
-    }
-
-    public void ReStartTree()
-    {
-        UploadData();
-        SceneManager.LoadScene("HomePage");
-    }
-
-    private void UploadData()
-    {
-        TreeNodeDataInit._instance.AddNodeData();
+        GlobalVar._instance.ReStartTree();
     }
 }
+

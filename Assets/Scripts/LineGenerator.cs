@@ -11,6 +11,8 @@ using UnityEngine;
 
 public class LineGenerator : MonoBehaviour
 {
+    public static LineGenerator _instance;
+    
     //六位二进制表示有无，x+,x-,y+,y-,z+,z-
     public static Dictionary<Vector3, int> lineMap = new Dictionary<Vector3, int>();
     public static List<Vector3> majorChain = new List<Vector3>();
@@ -33,9 +35,17 @@ public class LineGenerator : MonoBehaviour
     public GameObject type4_3_m;
     public GameObject type5_1_m;
     public GameObject type6_1_m;
-
+    private void Awake()
+    {
+        _instance = this;
+        
+    }
 
     private void Start()
+    {
+        ReStart();
+    }
+    public void ReStart()
     {
         type2_1 = Resources.Load<GameObject>("2.1");
         type2_2 = Resources.Load<GameObject>("2.2");

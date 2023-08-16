@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DefaultLevel
   m_EditorClassIdentifier: 
   levelNum: 1
-  monsterInit: 0
+  monsterInit: 2
   deltaMonster: 4
-  homeHealth: 100
+  homeHealth: 1000
+  MergeMem: []

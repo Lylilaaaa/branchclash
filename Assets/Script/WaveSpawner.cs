@@ -8,8 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public Transform startPosition;
-
     public  List<GameObject> EnemeList;
     public List<Transform> SpawnPos;
     //1.Cake 2.JellyFish
@@ -28,9 +26,15 @@ public class WaveSpawner : MonoBehaviour
     private bool hasEnamy = false;
 
     public Transform monsterContainer;
-    
 
-    
+
+    private void Start()
+    {
+        _hasStart = false;
+        start = false;
+        hasEnamy = false;
+        hasSpawn = 0;
+    }
 
     private void Update()
     {
@@ -54,22 +58,25 @@ public class WaveSpawner : MonoBehaviour
     
             if (_hasStart == true)
             {
-                hasEnamy = false;
-                foreach (Transform child in monsterContainer)
-                {
-                    if (child.tag == "Enemy")
-                    {
-                        hasEnamy = true;
-                    }
-                }
-    
-                if (hasEnamy == false)
+                if (_hasEnemy(monsterContainer) == false)
                 {
                     endGame();
                     _hasStart = false;
                 }
             }
         }
+    }
+
+    private bool _hasEnemy(Transform parent)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.tag == "Enemy")
+            {
+                return true;
+            }
+        }
+        return false;
     }
     
 
@@ -116,6 +123,6 @@ public class WaveSpawner : MonoBehaviour
         selectPanal.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
         GlobalVar._instance.ChangeState("GameOver");
         TreeNodeDataInit._instance.finish = false;
-        SceneManager.LoadScene("End");
+        //SceneManager.LoadScene("End");
     }
 }
