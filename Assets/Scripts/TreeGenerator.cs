@@ -258,6 +258,8 @@ public class TreeGenerator : MonoBehaviour
                 tn.father = 0;
                 n.name = i.ToString() + "-" + 0.ToString();
                 nodePos.RemoveAt(0);
+                print("init"+ n.name);
+                tn.ReStart();
             }
             else if(i == 1)
             {
@@ -276,6 +278,8 @@ public class TreeGenerator : MonoBehaviour
                         tn.num = nodes[4 * j + 1];
                         tn.father = 0;
                         currentLayerNodes.Add(n);
+                        tn.ReStart();
+                        print("init"+ n.name);
                     }
                 }
                 lastLayerOrder = NodeSort(currentLayerNodes);
@@ -320,6 +324,8 @@ public class TreeGenerator : MonoBehaviour
                             tn.num = certainLayer[2 * n];
                             tn.father = lastLayerOrder[m];
                             nodePos.Remove(pos);
+                            tn.ReStart();
+                            print("init"+ c.name);
                         }
                     }
                 }

@@ -22,7 +22,7 @@ public class HomePageSelectUI : MonoBehaviour
     public GameObject yourNodePrefab;
     public Transform yourNodeInitPos;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _myNode = transform.GetChild(0).GetChild(1);
         _InformationMessage = transform.GetChild(0).GetChild(2);

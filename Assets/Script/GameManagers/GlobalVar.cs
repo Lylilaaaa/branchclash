@@ -76,6 +76,12 @@ public class GlobalVar : MonoBehaviour
 
     public void ReStart()
     {
+        //
+        
+        //TreeGenerator._instance.InitTree();
+        //RedTreeGenerator._instance.InitDownTree();
+
+        
         // 初始化游戏状态
         userAddr = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
 
@@ -90,6 +96,7 @@ public class GlobalVar : MonoBehaviour
         ReadData();
         _getMainNode();
         _getMainNodeDown();
+        TreeNodeDataInit._instance.ReStart();
     }
 
     private void Update()
@@ -175,8 +182,12 @@ public class GlobalVar : MonoBehaviour
                 rows.Add(combinedRow);
             }
         }
-
-        return string.Join(",/n", rows);
+        string temp = string.Join(",/n,", rows);
+        if (temp.EndsWith(",/n,"))
+        {
+            temp = temp.Substring(0, temp.Length - 1);
+        }
+        return temp;
     }
     private void _getMainNode()
     {
@@ -485,12 +496,7 @@ public class GlobalVar : MonoBehaviour
         SceneManager.LoadScene("HomePage");
         
         ReStart();
-        TreeNodeDataInit._instance.ReStart();
-        
-        TreeGenerator._instance.InitTree();
-        RedTreeGenerator._instance.InitDownTree();
-        LineGenerator._instance.ReStart();
-        RedLineGenerator._instance.ReStart();
+
     }
 
     private void UploadData()

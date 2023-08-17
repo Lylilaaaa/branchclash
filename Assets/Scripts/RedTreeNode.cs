@@ -24,7 +24,7 @@ public class RedTreeNode : MonoBehaviour
     public Material redMat;
     private List<GameObject> _matCore;
 
-    private void Start()
+    public void ReStart()
     {
         _matCore = new List<GameObject>();
         if (layer != 0)
@@ -78,6 +78,15 @@ public class RedTreeNode : MonoBehaviour
 
 
         GenerateLine();
+    }
+    private void Update()
+    {
+        if (GlobalVar.CurrentGameState != GlobalVar.GameState.MainStart &&
+            GlobalVar.CurrentGameState != GlobalVar.GameState.Viewing)
+        {
+            print("destroy"+transform.name);
+            Destroy(gameObject);
+        }
     }
     private void FindObjectsWithTag(Transform parentTransform, string tag)
     {

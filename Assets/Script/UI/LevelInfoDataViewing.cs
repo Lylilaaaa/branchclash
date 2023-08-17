@@ -145,9 +145,12 @@ public class LevelInfoDataViewing : MonoBehaviour
                     {
                         protectCount[2] += 1;
                     }
+                    else if (mapType == "eleC")
+                    {
+                    }
                     else
                     {
-                        Debug.LogError("incorrect Map String!!!");
+                        Debug.LogError(thisNodeData.nodeLayer+","+thisNodeData.nodeIndex+": incorrect Map String!!!");
                     }
                 }
             }

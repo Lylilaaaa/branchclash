@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 /*
  Description:       Each node in upward tree finds a way, prepares for connection
  Unity Version:     2020.3.15f2c1
@@ -24,7 +27,12 @@ public class TreeNode : MonoBehaviour
     public Material blueMat;
     private List<GameObject> _matCore;
 
-    private void Start()
+    // private void Start()
+    // {
+    //     ReStart();
+    // }
+
+    public void ReStart()
     {
         _matCore = new List<GameObject>();
         if (layer != 0)
@@ -33,15 +41,6 @@ public class TreeNode : MonoBehaviour
             fatherNode = fatherTransform.gameObject.GetComponent<TreeNode>();
         }
         
-        // if(num == 0)
-        // {
-        //     isMajor = true;
-        // }
-        // if (transform.name == "0-0"|| transform.name == "1-1" || transform.name == "2-3" || transform.name == "3-1" ||
-        //     transform.name == "4-2" || transform.name == "5-1")
-        // {
-        //     isMajor = true;
-        // }
         foreach (string majorName in GlobalVar._instance.MajorNodeList)
         {
             if (transform.name == majorName)
@@ -75,20 +74,22 @@ public class TreeNode : MonoBehaviour
                 }
             }
         }
-        
         GenerateLine();
     }
-    
+
+    private void Update()
+    {
+        print(transform.name);
+        if (GlobalVar.CurrentGameState != GlobalVar.GameState.MainStart &&
+            GlobalVar.CurrentGameState != GlobalVar.GameState.Viewing)
+        {
+            print("destroy"+transform.name);
+            Destroy(gameObject);
+        }
+    }
+
     private void FindObjectsWithTag(Transform parentTransform, string tag)
     {
-        // int childCount = parentTransform.childCount;
-        // for (int i = 0; i < childCount; i++)
-        // {
-        //     if (parentTransform.GetChild(i).CompareTag(tag))
-        //     {
-        //         _matCore.Add
-        //     }
-        // }
         foreach (Transform child in parentTransform)
         {
             if (child.CompareTag(tag))

@@ -23,7 +23,7 @@ public class TreeNodeDataInit : MonoBehaviour
     }
     private void Start()
     {
-        ReStart();
+        //ReStart();
     }
 
     public void ReStart()
@@ -61,6 +61,8 @@ public class TreeNodeDataInit : MonoBehaviour
             GlobalVar._instance._downConvert2TreeGen(downTreeData);
             TreeGenerator._instance.InitTree();
             RedTreeGenerator._instance.InitDownTree();
+            LineGenerator._instance.ReStart();
+            RedLineGenerator._instance.ReStart();
         }
     }
 

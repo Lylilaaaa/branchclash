@@ -42,7 +42,7 @@ public class WaveSpawner : MonoBehaviour
         {
             checkChildNum = monsterContainer.childCount;
             enemyNum = levelDate.deltaMonster + levelDate.levelNum * levelDate.deltaMonster;
-            enemyNum = CurNodeDataSummary._instance.monsterCount;
+            CurNodeDataSummary._instance.monsterCount = enemyNum;
     
             if (start == true)
             {
@@ -92,6 +92,7 @@ public class WaveSpawner : MonoBehaviour
 
     void spawnEnemy(int j)
     {
+        //print("spawn enemy");
         int randomIndex = UnityEngine.Random.Range(0, EnemeList.Count);
         GameObject enemySpawn = Instantiate(EnemeList[randomIndex],SpawnPos[randomIndex].position,SpawnPos[randomIndex].rotation);
         enemySpawn.name = j.ToString() + "enemy";
@@ -123,6 +124,6 @@ public class WaveSpawner : MonoBehaviour
         selectPanal.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
         GlobalVar._instance.ChangeState("GameOver");
         TreeNodeDataInit._instance.finish = false;
-        //SceneManager.LoadScene("End");
+        SceneManager.LoadScene("End");
     }
 }

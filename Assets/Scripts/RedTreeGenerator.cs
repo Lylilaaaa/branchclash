@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 /*
  Description:       Randonly instantiate nodes of downward tree, set nodes propety
  Unity Version:     2020.3.15f2c1
@@ -115,6 +118,8 @@ public class RedTreeGenerator : MonoBehaviour
             DistributePos();
         }
     }
+
+
 
 
     private int GetLayer()
@@ -256,6 +261,7 @@ public class RedTreeGenerator : MonoBehaviour
                 tn.father = 0;
                 n.name = i.ToString() + "-" + 0.ToString() + "_red";
                 nodePos.RemoveAt(0);
+                tn.ReStart();
             }
             else if(i == 1)
             {
@@ -274,6 +280,7 @@ public class RedTreeGenerator : MonoBehaviour
                         tn.num = redNodes[4 * j + 1];
                         tn.father = 0;
                         currentLayerNodes.Add(n);
+                        tn.ReStart();
                     }
                 }
                 lastLayerOrder = NodeSort(currentLayerNodes);
@@ -318,6 +325,7 @@ public class RedTreeGenerator : MonoBehaviour
                             tn.num = certainLayer[2 * n];
                             tn.father = lastLayerOrder[m];
                             nodePos.Remove(pos);
+                            tn.ReStart();
                         }
                     }
                 }
