@@ -34,6 +34,7 @@ public class TreeNode : MonoBehaviour
 
     public void ReStart()
     {
+        print("be restart!");
         _matCore = new List<GameObject>();
         if (layer != 0)
         {
@@ -79,7 +80,7 @@ public class TreeNode : MonoBehaviour
 
     private void Update()
     {
-        print(transform.name);
+        //print(transform.name);
         if (GlobalVar.CurrentGameState != GlobalVar.GameState.MainStart &&
             GlobalVar.CurrentGameState != GlobalVar.GameState.Viewing)
         {

@@ -52,16 +52,16 @@ public class HomePageSelectUI : MonoBehaviour
             int downTreeNum = GlobalVar._instance.maxLevelTreeDown;
             if (upTreeNum > downTreeNum)
             {
-                _upTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum;
+                _upTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum+downTreeNum;
                 _upTreeNum.GetChild(1).GetComponent<Slider>().value = upTreeNum;
-                _downTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum;
+                _downTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum+downTreeNum;
                 _downTreeNum.GetChild(1).GetComponent<Slider>().value = downTreeNum;
             }
             else
             {
-                _upTreeNum.GetChild(1).GetComponent<Slider>().maxValue = downTreeNum;
+                _upTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum+downTreeNum;
                 _upTreeNum.GetChild(1).GetComponent<Slider>().value = upTreeNum;
-                _downTreeNum.GetChild(1).GetComponent<Slider>().maxValue = downTreeNum;
+                _downTreeNum.GetChild(1).GetComponent<Slider>().maxValue = downTreeNum+upTreeNum;
                 _downTreeNum.GetChild(1).GetComponent<Slider>().value = downTreeNum;
             }
 

@@ -93,6 +93,8 @@ public class GlobalVar : MonoBehaviour
 
         nodeDataList = new List<NodeData>();
         downNodeDataList = new List<DownNodeData>();
+        MajorNodeList = new List<string>();
+        MajorNodeListDown = new List<string>();
         ReadData();
         _getMainNode();
         _getMainNodeDown();
@@ -494,6 +496,7 @@ public class GlobalVar : MonoBehaviour
     {
         UploadData();
         SceneManager.LoadScene("HomePage");
+        ChangeState("MainMenu");
         
         ReStart();
 
