@@ -13,6 +13,7 @@ public class CursorOutlines : MonoBehaviour
     public bool _canDisappear = true;
     public bool cursorZoomIn=false;
     public GameObject previewLevelInfoPenal;
+    public Transform cameraPos;
     
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,6 @@ public class CursorOutlines : MonoBehaviour
         _canDisappear = true;
         outlineGbj = FindChildWithTag(transform, "outline").gameObject;
         previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(false);
-        previewLevelInfoPenal.transform.parent.GetChild(0).gameObject.SetActive(false);
     }
     private Transform FindChildWithTag(Transform parent, string tag)
     {

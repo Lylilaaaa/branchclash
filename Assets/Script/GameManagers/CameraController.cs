@@ -10,7 +10,6 @@ public class CameraController : MonoBehaviour
     public float moveSpeed = 10f; // 相机移动速度
     public float CursorZoomSpeed = 3f;
     public float rotationSpeed = 5f; // 相机旋转速度
-    public float approachDistance = 10f;
     public bool canMove;
     public bool camLock = false;
     
@@ -77,21 +76,29 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            targetNode = targetNode.GetComponent<CursorOutlines>().previewLevelInfoPenal.transform.GetChild(0).GetChild(0);
+            targetNode = targetNode.GetComponent<CursorOutlines>().cameraPos;
         }
-        Vector3 targetPosition = targetNode.position - transform.forward * approachDistance;
-        Quaternion targetRotation = Quaternion.LookRotation(targetNode.position - transform.position);
 
+        Vector3 targetPosition = targetNode.position;
+        Quaternion targetRotation = targetNode.rotation;
+        //transform.rotation = targetRotation;
+        //transform.position = targetPosition;
+
+        // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime*10);
+        // transform.position = Vector3.Lerp(transform.position, targetPosition, CursorZoomSpeed * Time.deltaTime*10);
         StartCoroutine(MoveCamera(targetPosition, targetRotation));
     }
 
     private System.Collections.IEnumerator MoveCamera(Vector3 targetPosition, Quaternion targetRotation)
     {
-        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f || Vector3.Distance(transform.position, targetPosition) > 0.1f)
+        //
+        while ( Quaternion.Angle(transform.rotation, targetRotation) > 0.01f ||Vector3.Distance(transform.position, targetPosition) > 0.1f)
         {
             if (canMove)
             {
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime*10);
+                //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lerpSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime*10);
+                //transform.rotation = targetRotation;
                 transform.position = Vector3.Lerp(transform.position, targetPosition, CursorZoomSpeed * Time.deltaTime*10);
             }
             yield return null;
