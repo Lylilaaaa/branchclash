@@ -302,8 +302,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc43574baf667e42a0294fd5afd753e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Usage: 1
   col: {fileID: 0}
   col_down: {fileID: 4023684105339350367}
+  vtc: {fileID: 0}
   m_TriggerMethod: 0
   m_Persistent: 0
   m_OutlineColor: {r: 1, g: 1, b: 1, a: 1}

@@ -7475,8 +7475,6 @@ GameObject:
   - component: {fileID: 4251796401282855205}
   - component: {fileID: 4251796401282855207}
   - component: {fileID: 4251796401282855204}
-  - component: {fileID: 2381096835345847035}
-  - component: {fileID: 8914262208834107833}
   m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
@@ -7549,56 +7547,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2381096835345847035
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4251796401282855210}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8914262208834107833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4251796401282855210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fc43574baf667e42a0294fd5afd753e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  col: {fileID: 0}
-  col_down: {fileID: 0}
-  m_TriggerMethod: 0
-  m_Persistent: 1
-  m_OutlineColor: {r: 1, g: 1, b: 1, a: 1}
-  m_OutlineWidth: 4
-  m_OutlineFactor: 0
-  m_WriteZ: 1
-  m_BasedOnVertexColorR: 0
-  m_OutlineOnly: 0
-  m_DepthOffset: -8
-  m_StencilRefValue: 1
-  m_Dash: 0
-  m_DashSpeed: {x: 0, y: 0}
-  m_DashFrequency: 0.5
-  m_DashSpaceWidth: 0.2
-  m_OverlayColor: {r: 1, g: 0, b: 0, a: 1}
-  m_Overlay: 0
-  m_OverlayFlash: 0
-  m_OverlayFlashSpeed: 3
-  m_SdrOutlineOnly: {fileID: 4800000, guid: dadb2822bb9b02a4aa20fa234208adab, type: 3}
-  m_SdrOutlineStandard: {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71,
-    type: 3}
-  m_IsMouseOn: 0
-  ol_on: 0
 --- !u!1 &4251796401452155814
 GameObject:
   m_ObjectHideFlags: 0

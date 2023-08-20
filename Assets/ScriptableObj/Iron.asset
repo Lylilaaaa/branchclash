@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Iron
   m_EditorClassIdentifier: 
   towerType: iron
-  baseBulletAttack: 5
-  baseBulletNumberPerSecond: 0.5
+  baseBulletAttack: 30
+  baseBulletNumberPerSecond: 1
   basicRange: 100
   gradeRange2: 100
   gradeRange3: 100
@@ -23,6 +23,6 @@ MonoBehaviour:
   upgradeSpeedRate: 1
   upgradeAttackRate: 2
   gradeSpeedToAttack: 5
-  basePrice: 900
+  basePrice: 30
   gradePrice1_5: 190
   gradePrice_inf: 80

@@ -6,9 +6,8 @@ using TMPro;
 
 public class ViewTowerCurSor : MonoBehaviour
 {
-    private GameObject outlineGbj;
     public bool mouseEnter;
-    private bool _canDisappear = true;
+    public bool _canDisappear = true;
     public GameObject previewLevelInfoPenal;
     private bool _finish=false;
     public GameObject[] rangeList;
@@ -37,15 +36,6 @@ public class ViewTowerCurSor : MonoBehaviour
         mouseEnter = false;
         //outlineGbj = transform.GetChild(2).gameObject;
         int childCount = transform.childCount;
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            if (transform.GetChild(i).tag == "outline")
-            {
-                outlineGbj = transform.GetChild(i).gameObject;
-                outlineGbj.SetActive((false));
-                break;
-            }
-        }
         //print(outlineGbj);
         previewLevelInfoPenal.gameObject.SetActive(false);
         if (ThisTowerType == TowerType.wood || ThisTowerType == TowerType.iron || ThisTowerType == TowerType.elec)
@@ -143,14 +133,7 @@ public class ViewTowerCurSor : MonoBehaviour
             previewLevelInfoPenal.gameObject.SetActive(true);
             _canDisappear = false;
         }
-
-        if (_canDisappear == true && mouseEnter == false)
-        {
-            if (GlobalVar._instance.GetState() == GlobalVar.GameState.Viewing)
-            {
-                outlineGbj.SetActive(false);
-            }
-        }
+        
 
     }
 
@@ -174,10 +157,6 @@ public class ViewTowerCurSor : MonoBehaviour
     private void OnMouseEnter()
     {
         mouseEnter = true;
-        if (GlobalVar._instance.GetState() == GlobalVar.GameState.Viewing)
-        {
-            outlineGbj.SetActive(true);
-        }
     }
     private void OnMouseExit()
     {

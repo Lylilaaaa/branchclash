@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Wood
   m_EditorClassIdentifier: 
   towerType: wood
-  baseBulletAttack: 5
-  baseBulletNumberPerSecond: 1
+  baseBulletAttack: 10
+  baseBulletNumberPerSecond: 2
   basicRange: 20
   gradeRange2: 6
   gradeRange3: 6
@@ -23,6 +23,6 @@ MonoBehaviour:
   upgradeSpeedRate: 1
   upgradeAttackRate: 1
   gradeSpeedToAttack: 5
-  basePrice: 600
+  basePrice: 10
   gradePrice1_5: 200
   gradePrice_inf: 100

@@ -5,8 +5,11 @@ namespace SelectedEffectOutline
 	[RequireComponent(typeof(Renderer))]
 	public class Outline : MonoBehaviour
 	{
+		public enum Usage { Node_up = 0,Node_down, Viewing, Merge };
+		public Usage m_Usage = Usage.Node_up;
 		public CursorOutlines col;
 		public CursorOutlinesDown col_down;
+		public ViewTowerCurSor vtc;
 		public enum ETriggerMethod { MouseMove = 0, MouseRightPress, MouseLeftPress };
 		[Header("Trigger Method")]
 		public ETriggerMethod m_TriggerMethod = ETriggerMethod.MouseMove;
@@ -61,27 +64,43 @@ namespace SelectedEffectOutline
 				else
 					OutlineDisable();
 			}
-			
 
-			if (!m_IsMouseOn && ol_on == true)
+			if (m_Usage == Usage.Node_down || m_Usage == Usage.Node_up)
 			{
-				if (transform.parent.name.Substring(transform.parent.name.Length - 3, 3) == "red")
+				if (!m_IsMouseOn && ol_on == true)
 				{
-					if (col_down._canDisappear == true)
+					if (transform.parent.name.Substring(transform.parent.name.Length - 3, 3) == "red")
 					{
-						OutlineDisable();
+						if (col_down._canDisappear == true)
+						{
+							OutlineDisable();
+						}
+					}
+					else
+					{
+						if (col._canDisappear == true)
+						{
+							OutlineDisable();
+						}
 					}
 				}
-				else
-				{
-					if (col._canDisappear == true)
-					{
-						OutlineDisable();
-					}
-				}
-
 			}
 
+			if (m_Usage == Usage.Viewing)
+			{
+				if (vtc._canDisappear == true && vtc.mouseEnter == false)
+				{
+					if (GlobalVar._instance.GetState() == GlobalVar.GameState.Viewing)
+					{
+						OutlineDisable();
+					}
+				}
+				else if (vtc.mouseEnter == true && GlobalVar._instance.GetState() == GlobalVar.GameState.Viewing)
+				{
+					OutlineEnable();
+				}
+			}
+			
 			// material effect parameters
 			if (m_OverlayFlash)
 			{
@@ -133,42 +152,49 @@ namespace SelectedEffectOutline
 				mats[i].shader = m_SdrOriginal;
 		}
 		void OnMouseEnter()
-		{
-			if (transform.parent.name.Substring(transform.parent.name.Length - 3, 3) == "red")
+		{			
+			if (m_Usage == Usage.Node_down || m_Usage == Usage.Node_up)
 			{
-				col_down.mouseEnter = true;
-				m_IsMouseOn = true;
-				
-				if (m_TriggerMethod == ETriggerMethod.MouseMove && col_down._canDisappear == true)
-					OutlineEnable();
+				if (transform.parent.name.Substring(transform.parent.name.Length - 3, 3) == "red")
+				{
+					col_down.mouseEnter = true;
+					m_IsMouseOn = true;
+					
+					if (m_TriggerMethod == ETriggerMethod.MouseMove && col_down._canDisappear == true)
+						OutlineEnable();
+				}
+				else
+				{
+					col.mouseEnter = true;
+					m_IsMouseOn = true;
+								
+					if (m_TriggerMethod == ETriggerMethod.MouseMove && col._canDisappear == true)
+						OutlineEnable();
+				}
 			}
-			else
-			{
-				col.mouseEnter = true;
-				m_IsMouseOn = true;
-							
-				if (m_TriggerMethod == ETriggerMethod.MouseMove && col._canDisappear == true)
-					OutlineEnable();
-			}
+
 		}
 		void OnMouseExit()
 		{
-			if (transform.parent.name.Substring(transform.parent.name.Length - 3, 3) == "red")
+			if (m_Usage == Usage.Node_down || m_Usage == Usage.Node_up)
 			{
-				col_down.mouseEnter = false;
-				m_IsMouseOn = false;
-				if (col_down._canDisappear == true)
+				if (transform.parent.name.Substring(transform.parent.name.Length - 3, 3) == "red")
 				{
-					OutlineDisable();
+					col_down.mouseEnter = false;
+					m_IsMouseOn = false;
+					if (col_down._canDisappear == true)
+					{
+						OutlineDisable();
+					}
 				}
-			}
-			else
-			{
-				col.mouseEnter = false;
-				m_IsMouseOn = false;
-				if (col._canDisappear == true)
+				else
 				{
-					OutlineDisable();
+					col.mouseEnter = false;
+					m_IsMouseOn = false;
+					if (col._canDisappear == true)
+					{
+						OutlineDisable();
+					}
 				}
 			}
 		}

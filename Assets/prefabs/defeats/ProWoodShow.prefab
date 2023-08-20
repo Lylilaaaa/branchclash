@@ -53,6 +53,6 @@ MonoBehaviour:
   proTypeDate: {fileID: 11400000, guid: 63195a08886bfee40b05658440548c27, type: 2}
   towerGrade: 0
   performList:
-  - {fileID: 4164335993271921266, guid: edcb3c912e1055e499efc7e267f87c1e, type: 3}
-  - {fileID: 3729001581967682712, guid: a22d9cd9cef60794783d2cb83ccc8217, type: 3}
-  - {fileID: 7958342222724346641, guid: 723e9cd794da11842a6d6ac569415ef1, type: 3}
+  - {fileID: 4164335993271921266, guid: d17c2a0b9057fa042961ea19acc407c0, type: 3}
+  - {fileID: 3886676308904669296, guid: d775d1e90d44fb84cb08dc4e531a81e1, type: 3}
+  - {fileID: 8015983484762823410, guid: 581bec189de9aba42a54bd89d73c84db, type: 3}
