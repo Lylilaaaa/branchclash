@@ -18,6 +18,7 @@ public class SetEventCamera : MonoBehaviour
         if (canvas.worldCamera == null)
         {
             canvas.worldCamera = Camera.main;
+            canvas.planeDistance = 1;
         }
     }
 }

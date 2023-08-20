@@ -79,7 +79,7 @@ public class LevelInfoDataViewing : MonoBehaviour
         }
 
         _basicInfo[0].GetComponent<TextMeshProUGUI>().text = "LAYER: "+thisNodeData.nodeLayer.ToString();
-        _basicInfo[1].GetComponent<TextMeshProUGUI>().text = "NODE: "+thisNodeData.nodeIndex.ToString();
+        _basicInfo[1].GetComponent<TextMeshProUGUI>().text = "INDEX: "+thisNodeData.nodeIndex.ToString();
         _basicInfo[2].GetComponent<TextMeshProUGUI>().text = thisNodeData.curHealth.ToString()+"/"+thisNodeData.fullHealth.ToString();
         _basicInfo[3].GetComponent<TextMeshProUGUI>().text = thisNodeData.money.ToString();
         //_basicInfo[4].GetComponent<TextMeshProUGUI>().text = thisNodeData.ownerAddr;
@@ -101,11 +101,11 @@ public class LevelInfoDataViewing : MonoBehaviour
         IdebuffSlider.minValue = 0;
         Slider EdebuffSlider = _debuffSlider[2].GetComponent<Slider>();
         EdebuffSlider.maxValue = 3;
-        EdebuffSlider.value = 0;
+        EdebuffSlider.value = 1;
         EdebuffSlider.minValue = 0;
         _debuffTower[0].GetComponent<TextMeshProUGUI>().text = "80%";
         _debuffTower[1].GetComponent<TextMeshProUGUI>().text = "0%";
-        _debuffTower[2].GetComponent<TextMeshProUGUI>().text = "0%";
+        _debuffTower[2].GetComponent<TextMeshProUGUI>().text = "10%";
             
         _hasInit = true;
     }

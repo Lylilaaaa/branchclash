@@ -255,10 +255,15 @@ public class TreeGenerator : MonoBehaviour
                 tn.layer = 0;
                 tn.num = 0;
                 tn.father = 0;
+
                 n.name = i.ToString() + "-" + 0.ToString();
+                if (n.name == "0-0")
+                {
+                    tn.isMajor = true;
+                }
+                tn.ReStart();
                 nodePos.RemoveAt(0);
                 //print("init"+ n.name);
-                tn.ReStart();
             }
             else if(i == 1)
             {

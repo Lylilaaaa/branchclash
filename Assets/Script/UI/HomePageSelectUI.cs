@@ -17,6 +17,8 @@ public class HomePageSelectUI : MonoBehaviour
     private bool _treeNumFinish = false;
 
     public Sprite  yellowImage;
+    public Sprite purpleImage;
+    public Sprite rendeImage;
     public List<NodeData> yourNode;
     public TextMeshProUGUI textMeshPro;
     public GameObject yourNodePrefab;

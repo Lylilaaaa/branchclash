@@ -130,7 +130,7 @@ public class TreeNode : MonoBehaviour
         Vector3 pos = transform.position;
         Vector3 fatherPos = fatherTransform.position;
 
-        //上下生成线
+        //??????????
         Vector3 yOffset = new Vector3(0, -0.5f, 0);
         Vector3 currentPos = pos + yOffset;
         float yTarget = (fatherPos - 2 * yOffset).y;
@@ -150,7 +150,7 @@ public class TreeNode : MonoBehaviour
         }
 
         int ran = Random.Range(0, 2);
-        if(ran == 0)            //先调整x
+        if(ran == 0)            //?????x
         {
             if (currentPos.x > fatherPos.x)
             {
@@ -458,7 +458,7 @@ public class TreeNode : MonoBehaviour
 
             
         }
-        else                    //先调整z
+        else                    //?????z
         { 
             if (currentPos.z > fatherPos.z)
             {

@@ -7,7 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class CursorOutlines : MonoBehaviour
 {
-    private GameObject outlineGbj;
+    // private GameObject outlineGbj;
+    // private Renderer outline_render;
+    //
+    // public Material outlineMat_0;
+    // public Material outlineMat_1;
 
     public bool mouseEnter;
     public bool _canDisappear = true;
@@ -18,9 +22,10 @@ public class CursorOutlines : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mouseEnter = false;
         _canDisappear = true;
-        outlineGbj = FindChildWithTag(transform, "outline").gameObject;
+        // outlineGbj = FindChildWithTag(transform, "outline").gameObject;
+        // outline_render = outlineGbj.GetComponent<Renderer>();
+        // outline_render.material = outlineMat_0;
         previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(false);
     }
     private Transform FindChildWithTag(Transform parent, string tag)
@@ -43,15 +48,15 @@ public class CursorOutlines : MonoBehaviour
     }
 
     private void Update()
-    {
+    { 
         ZoomCertainNode();
         if (mouseEnter == true)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && _canDisappear == true)
             {
                 _canDisappear = false;
                 cursorZoomIn = true;
-                if (GlobalVar._instance.isPreViewing == false) //????????????viewing //load viewing Scene???????? //???Global node
+                if (GlobalVar._instance.isPreViewing == false)
                 {
                     previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
                     GlobalVar._instance.chosenNodeData =
@@ -64,7 +69,6 @@ public class CursorOutlines : MonoBehaviour
         if (cursorZoomIn == true)
         {
             cursorZoomIn = false;
-            //print(transform);
             CameraController._instance.LookUpNode(transform);
             CameraController._instance.canMove = true;
            // StartCoroutine(ChangeVariableAfterDelay());
@@ -94,7 +98,8 @@ public class CursorOutlines : MonoBehaviour
 
         if (mouseEnter == false && _canDisappear == true)
         {
-            outlineGbj.SetActive(false);
+            // outline_render.material = outlineMat_0;
+            //outlineGbj.SetActive(false);
         }
     }
 
@@ -126,15 +131,15 @@ public class CursorOutlines : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void OnMouseEnter()
-    {
-        mouseEnter = true;
-
-        outlineGbj.SetActive(true);
-
-    }
-    private void OnMouseExit()
-    {
-        mouseEnter = false;
-    }
+    // private void OnMouseEnter()
+    // {
+    //     mouseEnter = true;
+    //
+    //     // outline_render.material = outlineMat_1;
+    //
+    // }
+    // private void OnMouseExit()
+    // {
+    //     mouseEnter = false;
+    // }
 }

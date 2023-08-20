@@ -15,7 +15,7 @@ public class RedTreeNode : MonoBehaviour
     public int num;
     public int father;
 
-    private bool isMajor = false;
+    public bool isMajor = false;
     private GameObject line;
     private GameObject corner;
     private Transform fatherTransform;
@@ -136,7 +136,7 @@ public class RedTreeNode : MonoBehaviour
         Vector3 pos = transform.position;
         Vector3 fatherPos = fatherTransform.position;
 
-        //上下生成线
+        //??????????
         Vector3 yOffset = new Vector3(0, 0.5f, 0);
         Vector3 currentPos = pos + yOffset;
         float yTarget = (fatherPos - 2 * yOffset).y;
@@ -156,7 +156,7 @@ public class RedTreeNode : MonoBehaviour
         }
 
         int ran = Random.Range(0, 2);
-        if(ran == 0)            //先调整x
+        if(ran == 0)            //?????x
         {
             if (currentPos.x > fatherPos.x)
             {
@@ -464,7 +464,7 @@ public class RedTreeNode : MonoBehaviour
 
             
         }
-        else                    //先调整z
+        else                    //?????z
         { 
             if (currentPos.z > fatherPos.z)
             {

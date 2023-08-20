@@ -260,6 +260,10 @@ public class RedTreeGenerator : MonoBehaviour
                 tn.num = 0;
                 tn.father = 0;
                 n.name = i.ToString() + "-" + 0.ToString() + "_red";
+                if (n.name == "0-0_red")
+                {
+                    tn.isMajor = true;
+                }
                 nodePos.RemoveAt(0);
                 tn.ReStart();
             }

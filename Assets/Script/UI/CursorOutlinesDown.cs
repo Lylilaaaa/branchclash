@@ -7,19 +7,18 @@ using UnityEngine.SceneManagement;
 
 public class CursorOutlinesDown : MonoBehaviour
 {
-    private GameObject outlineGbj;
 
     public bool mouseEnter;
     public bool _canDisappear = true;
     public bool cursorZoomIn=false;
     public GameObject previewLevelInfoPenal;
+    public Transform cameraPos;
     
     // Start is called before the first frame update
     void Start()
     {
         mouseEnter = false;
         _canDisappear = true;
-        outlineGbj = FindChildWithTag(transform, "outline").gameObject;
         previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(false);
     }
     private Transform FindChildWithTag(Transform parent, string tag)
@@ -45,7 +44,7 @@ public class CursorOutlinesDown : MonoBehaviour
     {
         if (mouseEnter == true)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && _canDisappear == true)
             {
                 _canDisappear = false;
                 cursorZoomIn = true;
@@ -65,24 +64,7 @@ public class CursorOutlinesDown : MonoBehaviour
            // StartCoroutine(ChangeVariableAfterDelay());
             cursorZoomIn = false;
         }
-        
-
-        if (mouseEnter == false && _canDisappear == true)
-        {
-            outlineGbj.SetActive(false);
-        }
-    }
-
-    // Update is called once per frame
-    private void OnMouseEnter()
-    {
-        mouseEnter = true;
-
-        outlineGbj.SetActive(true);
 
     }
-    private void OnMouseExit()
-    {
-        mouseEnter = false;
-    }
+    
 }

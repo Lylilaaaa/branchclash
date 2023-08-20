@@ -95,6 +95,8 @@ public class GlobalVar : MonoBehaviour
         downNodeDataList = new List<DownNodeData>();
         MajorNodeList = new List<string>();
         MajorNodeListDown = new List<string>();
+        MajorNodeList = new List<string>();
+        MajorNodeListDown = new List<string>();
         ReadData();
         _getMainNode();
         _getMainNodeDown();

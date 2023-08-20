@@ -72,7 +72,7 @@ public class CameraController : MonoBehaviour
         //print(targetNode.position);
         if (targetNode.name.Substring(targetNode.name.Length-3,3)=="red")
         {
-            targetNode = targetNode.GetComponent<CursorOutlinesDown>().previewLevelInfoPenal.transform.GetChild(0).GetChild(0);
+            targetNode = targetNode.GetComponent<CursorOutlinesDown>().cameraPos;
         }
         else
         {
