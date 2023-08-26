@@ -9,7 +9,7 @@ public class YourNodeButtonClickHandler : MonoBehaviour
     private string parameter;
     public HomePageSelectUI _HomePageSelectUI;
 
-    private void Start()
+    private void Awake()
     {
         _HomePageSelectUI = transform.parent.parent.parent.parent.parent.parent.parent.GetComponent<HomePageSelectUI>();
         parameter = transform.parent.name;

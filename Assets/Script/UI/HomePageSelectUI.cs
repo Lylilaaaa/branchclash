@@ -23,6 +23,9 @@ public class HomePageSelectUI : MonoBehaviour
     public TextMeshProUGUI textMeshPro;
     public GameObject yourNodePrefab;
     public Transform yourNodeInitPos;
+
+    public GameObject hintPanal;
+    public GameObject hintHint;
     // Start is called before the first frame update
     void Awake()
     {
@@ -31,6 +34,8 @@ public class HomePageSelectUI : MonoBehaviour
         _upTreeNum = transform.GetChild(0).GetChild(3);
         _downTreeNum = transform.GetChild(0).GetChild(4);
         yourNode = new List<NodeData>();
+        hintPanal.SetActive(false);
+        hintHint.SetActive(true);
     }
 
     private void Update()
@@ -140,10 +145,18 @@ public class HomePageSelectUI : MonoBehaviour
 
     public void ZoomX_X(string name)
     {
+        print(name);
         //print("button pressed!");
         string[] layerNode = name.Split(',');
         //print(layerNode);
         GlobalVar._instance.zoomingPos = layerNode[0]+"-"+layerNode[1];
+    }
+    public void ZoomX_X_down(string name)
+    {
+        //print("button pressed!");
+        string[] layerNode = name.Split(',');
+        //print(layerNode);
+        GlobalVar._instance.zoomingPos = layerNode[0]+"-"+layerNode[1]+"_red";
     }
 
     private void _initYourNodeUI()
@@ -178,5 +191,18 @@ public class HomePageSelectUI : MonoBehaviour
         {
             Debug.Log("address login failed!!!");
         }
+    }
+
+    public void hintHintFlicker()
+    {
+        hintHint.SetActive(false);
+    }
+    public void OpenHintPanal()
+    {
+        hintPanal.SetActive(true);
+    }
+    public void CloseHintPanal()
+    {
+        hintPanal.SetActive(false);
     }
 }

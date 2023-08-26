@@ -9,6 +9,7 @@ public class GlobalVar : MonoBehaviour
     
     [Header("--------User--------")]
     public string userAddr="0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
+    public int playRole;
     
     [Header("--------Tree--------")]
     public int maxLevelTree;
@@ -30,6 +31,7 @@ public class GlobalVar : MonoBehaviour
     public static GameState CurrentGameState;
     public string gameStateShown="";
     public bool isPreViewing = false;
+    public bool global_OL;
     //public bool finishEdit;
 
     [Header("--------Map--------")]

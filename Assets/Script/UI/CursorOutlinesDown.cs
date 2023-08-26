@@ -64,7 +64,28 @@ public class CursorOutlinesDown : MonoBehaviour
            // StartCoroutine(ChangeVariableAfterDelay());
             cursorZoomIn = false;
         }
+        ZoomCertainNode();
 
+    }
+    public void ZoomCertainNode()
+    {
+        if (transform.name == GlobalVar._instance.zoomingPos)
+        {
+            //print("zoom certain");
+            GlobalVar._instance.zoomingPos = "";
+            cursorZoomIn = true;
+            if (GlobalVar._instance.isPreViewing == false)
+            {
+                previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
+                GlobalVar._instance.chosenNodeData =
+                    previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData;
+                //CameraController._instance.camLock = true;
+                //SceneManager.LoadScene("ExhibExample", LoadSceneMode.Additive);
+                GlobalVar._instance.ChangeState("Viewing");
+                GlobalVar._instance.isPreViewing = true;
+            }
+            
+        }
     }
     
 }

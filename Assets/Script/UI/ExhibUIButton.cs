@@ -10,12 +10,17 @@ public class ExhibUIButton : MonoBehaviour
 {
     public TextMeshProUGUI layInfo;
     public TextMeshProUGUI inidexInfo;
+    
 
     private NodeData thisNodeData;
+    public GameObject hintPanal;
+    public GameObject hintHint;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         thisNodeData = CurNodeDataSummary._instance.thisNodeData;
+        hintPanal.SetActive(false);
+        hintHint.SetActive(true);
     }
 
     private void Update()
@@ -56,5 +61,17 @@ public class ExhibUIButton : MonoBehaviour
     {
         GlobalVar._instance.ChangeState("MainStart");
         SceneManager.LoadScene("HomePage");
+    }
+    public void hintHintFlicker()
+    {
+        hintHint.SetActive(false);
+    }
+    public void OpenHintPanal()
+    {
+        hintPanal.SetActive(true);
+    }
+    public void CloseHintPanal()
+    {
+        hintPanal.SetActive(false);
     }
 }

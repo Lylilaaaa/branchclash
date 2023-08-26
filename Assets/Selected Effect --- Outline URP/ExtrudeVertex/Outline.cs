@@ -38,6 +38,7 @@ namespace SelectedEffectOutline
 		public Shader m_SdrOutlineStandard;
 		Shader m_SdrOriginal;
 		Renderer m_Rd;
+		
 		public bool m_IsMouseOn = false;
 		public bool ol_on;
 
@@ -155,21 +156,24 @@ namespace SelectedEffectOutline
 		{			
 			if (m_Usage == Usage.Node_down || m_Usage == Usage.Node_up)
 			{
-				if (transform.parent.name.Substring(transform.parent.name.Length - 3, 3) == "red")
+				if (GlobalVar._instance.global_OL == true)
 				{
-					col_down.mouseEnter = true;
-					m_IsMouseOn = true;
-					
-					if (m_TriggerMethod == ETriggerMethod.MouseMove && col_down._canDisappear == true)
-						OutlineEnable();
-				}
-				else
-				{
-					col.mouseEnter = true;
-					m_IsMouseOn = true;
-								
-					if (m_TriggerMethod == ETriggerMethod.MouseMove && col._canDisappear == true)
-						OutlineEnable();
+					if (transform.parent.name.Substring(transform.parent.name.Length - 3, 3) == "red")
+                    {
+                    	col_down.mouseEnter = true;
+                    	m_IsMouseOn = true;
+                    	
+                    	if (m_TriggerMethod == ETriggerMethod.MouseMove && col_down._canDisappear == true)
+                    		OutlineEnable();
+                    }
+                    else
+                    {
+                    	col.mouseEnter = true;
+                    	m_IsMouseOn = true;
+                    				
+                    	if (m_TriggerMethod == ETriggerMethod.MouseMove && col._canDisappear == true)
+                    		OutlineEnable();
+                    }
 				}
 			}
 
