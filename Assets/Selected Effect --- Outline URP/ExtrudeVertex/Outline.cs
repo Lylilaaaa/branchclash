@@ -41,9 +41,11 @@ namespace SelectedEffectOutline
 		
 		public bool m_IsMouseOn = false;
 		public bool ol_on;
+		public bool ol_on_withMouse = false;
 
-		void Start()
+		void Awake()
 		{
+			ol_on_withMouse = false;
 			m_Rd = GetComponent<Renderer>();
 			m_SdrOriginal = m_Rd.material.shader;
 		}
@@ -85,6 +87,21 @@ namespace SelectedEffectOutline
 						}
 					}
 				}
+
+				if (col != null)
+				{
+					if (col.olWithoutMouse == true && ol_on == false )
+					{
+						ol_on_withMouse = true;
+	                    OutlineEnable();
+	                }
+	                else if(col.olWithoutMouse == false && ol_on == true && ol_on_withMouse == true)
+					{
+						ol_on_withMouse = false;
+	                    OutlineDisable();
+	                }
+				}
+
 			}
 
 			if (m_Usage == Usage.Viewing)

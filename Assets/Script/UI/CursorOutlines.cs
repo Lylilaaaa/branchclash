@@ -18,9 +18,10 @@ public class CursorOutlines : MonoBehaviour
     public bool cursorZoomIn=false;
     public GameObject previewLevelInfoPenal;
     public Transform cameraPos;
+    public bool olWithoutMouse = false;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _canDisappear = true;
         // outlineGbj = FindChildWithTag(transform, "outline").gameObject;
@@ -107,7 +108,9 @@ public class CursorOutlines : MonoBehaviour
     {
         if (transform.name == GlobalVar._instance.zoomingPos)
         {
-            //print("zoom certain");
+            _canDisappear = false;
+            olWithoutMouse = true;
+            // print("zoom certain");
             GlobalVar._instance.zoomingPos = "";
             cursorZoomIn = true;
             if (GlobalVar._instance.isPreViewing == false)
@@ -120,7 +123,6 @@ public class CursorOutlines : MonoBehaviour
                 GlobalVar._instance.ChangeState("Viewing");
                 GlobalVar._instance.isPreViewing = true;
             }
-            
         }
     }
     private IEnumerator ChangeVariableAfterDelay()

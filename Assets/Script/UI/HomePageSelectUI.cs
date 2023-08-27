@@ -16,9 +16,10 @@ public class HomePageSelectUI : MonoBehaviour
     private bool _messageFix = false;
     private bool _treeNumFinish = false;
 
-    public Sprite  yellowImage;
+    public Sprite blueImage;
+    public Sprite yellowImage;
     public Sprite purpleImage;
-    public Sprite rendeImage;
+    public Sprite redImage;
     public List<NodeData> yourNode;
     public TextMeshProUGUI textMeshPro;
     public GameObject yourNodePrefab;
@@ -145,7 +146,7 @@ public class HomePageSelectUI : MonoBehaviour
 
     public void ZoomX_X(string name)
     {
-        print(name);
+        //print(name);
         //print("button pressed!");
         string[] layerNode = name.Split(',');
         //print(layerNode);
@@ -172,6 +173,7 @@ public class HomePageSelectUI : MonoBehaviour
             thisNode.transform.localPosition = new Vector3(0, yPos, 0);
             thisNode.transform.localRotation = Quaternion.identity;
             thisNode.name = node.name;
+            thisNode.transform.GetChild(0).GetComponent<YourNodeButtonClickHandler>().ReStart();
             string[] layerNode = node.name.Split(',');
             thisNode.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Layer: "+layerNode[0];
             thisNode.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Node: "+layerNode[1];

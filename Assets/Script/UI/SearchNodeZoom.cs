@@ -47,15 +47,31 @@ public class SearchNodeZoom : MonoBehaviour
     }
 
     public void Search()
-    {
+    {            string layer = "";
+        foreach (char c in layerTmp.text)
+        {
+            if (char.IsNumber(c))
+            {
+                layer = layer + c.ToString();
+            }
+        }
+            
+        string index = "";
+        foreach (char c in indexTmp.text)
+        {
+            if (char.IsNumber(c))
+            {
+                index = index + c.ToString();
+            }
+        }
         if (treeType == 0)
         {
-            string _name = layerTmp.text + ',' + indexTmp.text;
+            string _name =layer + ',' + index;
             homePageSelectUI.ZoomX_X(_name);
         }
         else if (treeType == 1)
         {
-            string _name = layerTmp.text + ',' + indexTmp.text;
+            string _name = layer + ',' + index;
             homePageSelectUI.ZoomX_X_down(_name);
         }
 
