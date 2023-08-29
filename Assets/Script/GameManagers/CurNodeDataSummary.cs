@@ -28,6 +28,8 @@ public class CurNodeDataSummary : MonoBehaviour
     public int[] debuffList;
     public int[] protectList;
     public int[] weaponBloodList;
+    public float[] debuffListData;
+    public float[] protecListData;
     
     [Header("--------ProcessingBool--------")]
     public bool dictionaryFinish = false;
@@ -44,9 +46,6 @@ public class CurNodeDataSummary : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-    }
-    private void Start()
-    {
         dictionaryFinish = false;
         _initData = false;
         changeData = false;
@@ -55,7 +54,9 @@ public class CurNodeDataSummary : MonoBehaviour
         wData = GlobalVar._instance.woodTowerData;
         iData = GlobalVar._instance.ironTowerData;
         eData = GlobalVar._instance.elecTowerData;
-        
+
+        debuffListData = new float[3];
+        protecListData = new float[3];
         woodCount = new Dictionary<int, int>();
         ironCount = new Dictionary<int, int>();
         elecCount = new Dictionary<int, int>();
@@ -63,6 +64,10 @@ public class CurNodeDataSummary : MonoBehaviour
         iproCount = new Dictionary<int, int>();
         eproCount = new Dictionary<int, int>();
         debuffList = thisNodeData.towerDebuffList;
+    }
+    private void Start()
+    {
+
     }
 
     private void Update()

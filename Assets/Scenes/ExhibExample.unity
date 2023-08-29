@@ -79894,7 +79894,7 @@ Light:
   m_BounceIntensity: 2
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0.00000065548465}
+  m_BoundingSphereOverride: {x: 6.73e-43, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -99260,13 +99260,14 @@ MonoBehaviour:
   proWood: {fileID: 520842021}
   proIron: {fileID: 669050486}
   proElec: {fileID: 1832094901}
-  woodTotalBlood: 0
-  ironTotalBlood: 0
-  elecTotalBlood: 0
-  woodTotalProtect: 0
-  ironTotalProtect: 0
-  elecTotalProtect: 0
-  finish: 0
+  _debufflist: 
+  weaponTotalBlood: 
+  weaponTotalProtect: 
+  debuffSliderImage:
+  - {fileID: 714658034}
+  - {fileID: 936624658}
+  - {fileID: 1905884007}
+  fillSpeed: 1
 --- !u!1 &2076775012
 GameObject:
   m_ObjectHideFlags: 0

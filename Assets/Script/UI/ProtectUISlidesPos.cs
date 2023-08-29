@@ -50,8 +50,7 @@ public class ProtectUISlidesPos : MonoBehaviour
         else
         {
             debuffData.text =
-                        "-"+((transform.parent.parent.GetComponent<Slider>().value /
-                         transform.parent.parent.GetComponent<Slider>().maxValue) * 100).ToString() + "%";
+                        "-"+(Mathf.Round(transform.parent.parent.GetComponent<Slider>().value/transform.parent.parent.GetComponent<Slider>().maxValue) * 100).ToString() + "%";
         }
 
         if (transform.GetChild(0).GetComponent<Slider>().maxValue == 0)
@@ -59,10 +58,9 @@ public class ProtectUISlidesPos : MonoBehaviour
             protectData.text = "+0%";
         }
         else
-        {
+        {//
             protectData.text =
-                        "+"+((transform.GetChild(0).GetComponent<Slider>().value /
-                          transform.GetChild(0).GetComponent<Slider>().maxValue) * 100).ToString() + "%";
+                        "+"+(Mathf.Round(transform.GetChild(0).GetComponent<Slider>().value/transform.GetChild(0).GetComponent<Slider>().maxValue)* 100).ToString() + "%";
         }
 
         previousLocalPos = transform.localPosition;
