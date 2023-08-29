@@ -27,8 +27,10 @@ public class LevelInfoDataViewing : MonoBehaviour
     
     private 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        _hasInit = false;
+        thisNodeData = null;
         _slidesParent = transform.GetChild(0).GetChild(2).gameObject;
         _textViewingParent = transform.GetChild(0).GetChild(3).GetChild(0).gameObject;
 

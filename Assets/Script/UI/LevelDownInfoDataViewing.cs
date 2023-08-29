@@ -4,22 +4,33 @@ using UnityEngine;
 
 public class LevelDownInfoDataViewing : MonoBehaviour
 {
-    public DownNodeData ThisDownNodeData;
-    private GameObject _textViewingParent;
+    public DownNodeData thisDownNodeData;
+    public GameObject textViewingParent;
 
-    private GameObject _curSlidesParent;
-    private GameObject _curOwnerInfo;
+    public GameObject curSlidesParent;
+    public GameObject curOwnerInfo;
     
-    private GameObject _mainSlidesParent;
-    private GameObject _MainOwnerInfo;
+    public GameObject mainSlidesParent;
+    public GameObject mainOwnerInfo;
+
+    private bool _hasInit;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        _hasInit = false;
+        thisDownNodeData = null;
     }
 
     // Update is called once per frame
     void Update()
+    {
+        if (thisDownNodeData != null && _hasInit == false)
+        {
+            InitNeverChange();
+        }
+    }
+
+    void InitNeverChange()
     {
         
     }

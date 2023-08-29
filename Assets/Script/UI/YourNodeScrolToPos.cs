@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WeaponPoolScrolToPos : MonoBehaviour
+public class YourNodeScrolToPos : MonoBehaviour
 {
     public ScrollRect scrollRect;
-    public float scrollSpeed = 5f;
-    public float scrollAmount = 120f;
+    public float scrollSpeed = 3f;
 
     private float targetXPosition = 0f;
     private int childCount;
@@ -28,9 +27,9 @@ public class WeaponPoolScrolToPos : MonoBehaviour
 
     private void UpdateScrollPosition()
     {
-        float normalizedTargetPosition = targetXPosition / scrollRect.content.rect.width;
+        float normalizedTargetPosition = targetXPosition / scrollRect.content.rect.height;
         //print("targetXPosition / scrollRect.content.rect.width: "+normalizedTargetPosition);
-        float currentNormalizedPosition = scrollRect.horizontalNormalizedPosition;
+        float currentNormalizedPosition = scrollRect.verticalNormalizedPosition;
         //print("scrollRect.horizontalNormalizedPosition: "+currentNormalizedPosition);
 
         if (Mathf.Approximately(currentNormalizedPosition, normalizedTargetPosition))
@@ -38,25 +37,25 @@ public class WeaponPoolScrolToPos : MonoBehaviour
             return;
         }
 
-        scrollRect.horizontalNormalizedPosition = Mathf.MoveTowards(currentNormalizedPosition, normalizedTargetPosition, scrollSpeed * Time.deltaTime);
+        scrollRect.verticalNormalizedPosition = Mathf.MoveTowards(currentNormalizedPosition, normalizedTargetPosition, scrollSpeed * Time.deltaTime);
     }
 
-    public void ScrollRight()
+    public void ScrollUp()
     {
-        float scrollAmount = scrollRect.content.rect.width / childCount;
+        float scrollAmount = (scrollRect.content.rect.height / (childCount))*5;
         targetXPosition += scrollAmount;
         //print("targetXposition: "+targetXPosition);
 
         // 限制目标位置不超过content的宽度
-        targetXPosition = Mathf.Clamp(targetXPosition, 0f, scrollRect.content.rect.width);
+        targetXPosition = Mathf.Clamp(targetXPosition, 0f, scrollRect.content.rect.height);
     }
-    public void ScrollLeft()
+    public void ScrollDown()
     {
-        float scrollAmount = scrollRect.content.rect.width / childCount;
+        float scrollAmount = (scrollRect.content.rect.height /( childCount))*5;
         targetXPosition -= scrollAmount;
 
         // 限制目标位置不超过content的宽度
-        targetXPosition = Mathf.Clamp(targetXPosition, 0f, scrollRect.content.rect.width);
+        targetXPosition = Mathf.Clamp(targetXPosition, 0f, scrollRect.content.rect.height);
         
     }
 }

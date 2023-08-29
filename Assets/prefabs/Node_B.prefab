@@ -2436,8 +2436,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea89467d7ecd1684187af2f776f62b1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Usage: 0
   world_start_Pt: {fileID: 5096453561497700226}
   ui_end_Pt: {fileID: 831689233}
+  world_end_Pt: {fileID: 0}
   start_2D: {x: 0, y: 0}
   end_2D: {x: 0, y: 0}
 --- !u!1 &831689232
@@ -4575,7 +4577,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 682276555598154773}
-  - component: {fileID: 6509879674016323504}
   - component: {fileID: 6434922664387688651}
   m_Layer: 8
   m_Name: InfoPanalParent
@@ -4605,19 +4606,6 @@ RectTransform:
   m_AnchoredPosition: {x: 87, y: -80}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6509879674016323504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 554392729410950536}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcf641b7ca728ed4ab0d9de8085a7ab6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainCameraTrans: {fileID: 0}
 --- !u!114 &6434922664387688651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7760,6 +7748,7 @@ MonoBehaviour:
   cursorZoomIn: 0
   previewLevelInfoPenal: {fileID: 554392729410950536}
   cameraPos: {fileID: 724817218}
+  olWithoutMouse: 0
 --- !u!1 &4251796401771834396
 GameObject:
   m_ObjectHideFlags: 0
@@ -10188,8 +10177,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc43574baf667e42a0294fd5afd753e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Usage: 0
   col: {fileID: 190831646093932165}
   col_down: {fileID: 0}
+  vtc: {fileID: 0}
   m_TriggerMethod: 0
   m_Persistent: 0
   m_OutlineColor: {r: 1, g: 1, b: 1, a: 1}
@@ -10213,6 +10204,7 @@ MonoBehaviour:
     type: 3}
   m_IsMouseOn: 0
   ol_on: 0
+  ol_on_withMouse: 0
 --- !u!1 &7809720499353405852
 GameObject:
   m_ObjectHideFlags: 0
