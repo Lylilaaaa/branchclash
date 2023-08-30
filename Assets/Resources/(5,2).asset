@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 862b9153948e53340b40b759bad4ca89, type: 3}
   m_Name: (5,2)
   m_EditorClassIdentifier: 
-  ownerAddr: 
+  ownerAddr: 0x7d89fd00ffdaf840f6a63042a446e70ab78de84f
   setUpTime: 
   fatherLayer: 4
   fatherIndex: 1
@@ -21,3 +21,4 @@ MonoBehaviour:
   nodeLayer: 5
   nodeIndex: 2
   debuffData: 030000000000000000000000
+  protectData: 000000000000000000000000

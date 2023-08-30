@@ -7,5 +7,6 @@ public class TreeData : ScriptableObject
 {
     public Dictionary<string, NodeData> nodeDictionary = new Dictionary<string, NodeData>();
     public NodeData InitNodeData;
+    public DownNodeData InitDownNodeData;
     public int treeNodeCount;
 }

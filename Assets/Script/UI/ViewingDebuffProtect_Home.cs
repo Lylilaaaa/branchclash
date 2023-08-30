@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ using System.Collections;
 
 
 
-public class ViewingDebuffProtect : MonoBehaviour
+public class ViewingDebuffProtect_Home : MonoBehaviour
 {
     public Slider debuffWood;
     public Slider debuffIron;
@@ -15,30 +16,40 @@ public class ViewingDebuffProtect : MonoBehaviour
     public Slider proWood;
     public Slider proIron;
     public Slider proElec;
+    public CursorOutlinesDown cursorOLDown;
+    
+    public enum debuffSlidesType
+    {
+        Current,
+        Major
+    }
+    public debuffSlidesType thisSlideType;
+    
 
     public int[] _debufflist;
 
-    private bool _counted = false;
+    public bool _counted = false;
     private string _at, _sp, _ra;
 
     public int[] weaponTotalBlood;
     public int[] weaponTotalProtect;
 
     public Image[] debuffSliderImage;
-    // public int woodTotalBlood=0;
-    // public int ironTotalBlood=0;
-    // public int elecTotalBlood=0;
-    
-    // public int woodTotalProtect=0;
-    // public int ironTotalProtect=0;
-    // public int elecTotalProtect=0;
 
     public float fillSpeedDebuff = 1f;
     public float fillSpeedProtect = 1f;
     
     void Awake()
     {
-        _debufflist = CurNodeDataSummary._instance.debuffList;
+        if (thisSlideType == debuffSlidesType.Current)
+        {
+            _debufflist = cursorOLDown.thisDownNodeData.debuffData;
+        }
+        else
+        {
+            _debufflist = cursorOLDown.majorDownNodeData.debuffData;
+        }
+        
         _counted = false;
         weaponTotalBlood = new int[3];
         weaponTotalProtect = new int[3];
@@ -49,9 +60,34 @@ public class ViewingDebuffProtect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CurNodeDataSummary._instance.dictionaryFinish == true && _counted ==false)
+        if (thisSlideType == debuffSlidesType.Current)
         {
+            _debufflist = cursorOLDown.thisDownNodeData.debuffData;
+        }
+        else
+        {
+            _debufflist = cursorOLDown.majorDownNodeData.debuffData;
+        }
+        if (cursorOLDown._canDisappear == true)
+        {
+            _counted = false;
+        }
+        
+        if (CurNodeDataSummary._instance.dictionaryFinish == true && cursorOLDown._canDisappear ==false &&_counted == false)
+        {
+            
+            
+            //print("slides moving...");
             _counted = true;
+            if (thisSlideType == debuffSlidesType.Current)
+            {
+                CurNodeDataSummary._instance.curDebuffList = _debufflist; 
+            }
+            else
+            {
+                CurNodeDataSummary._instance.majorDebuffList = _debufflist; 
+            }
+            
             if (CurNodeDataSummary._instance.woodCount != null)
             {
                 foreach (int grade in CurNodeDataSummary._instance.woodCount.Keys)
@@ -76,7 +112,7 @@ public class ViewingDebuffProtect : MonoBehaviour
                     weaponTotalBlood[2] += int.Parse(_at);
                 }
             }
-            CurNodeDataSummary._instance.weaponBloodList = weaponTotalBlood;
+            
             if (CurNodeDataSummary._instance.wproCount != null)
             {
                 foreach (int grade in CurNodeDataSummary._instance.wproCount.Keys)
@@ -98,7 +134,7 @@ public class ViewingDebuffProtect : MonoBehaviour
                     weaponTotalProtect[2] += CurNodeDataSummary._instance.eproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProElec.baseProtect/2;
                 }
             }
-
+            CurNodeDataSummary._instance.weaponBloodList = weaponTotalBlood;
             CurNodeDataSummary._instance.protectList = weaponTotalProtect;
             
             debuffWood.maxValue = 1;
@@ -137,13 +173,26 @@ public class ViewingDebuffProtect : MonoBehaviour
             //print(_debufflist[index] / (float)weaponTotalBlood[index]);
             float temp = Mathf.Round(((float)_debufflist[index] / (float)weaponTotalBlood[index])*100)/100;
             //print(temp);
-            CurNodeDataSummary._instance.debuffListData[index] = temp;
+            if (thisSlideType == debuffSlidesType.Current)
+            {
+                CurNodeDataSummary._instance.debuffListData[index] = temp; 
+            }
+            else
+            {
+                CurNodeDataSummary._instance.majorDebuffListData[index] = temp; 
+            }
+            
             //print(CurNodeDataSummary._instance.debuffListData[index] );
             if (_debufflist[index] != 0) //wood有血，有debuff
             {
-                print("weapon type"+index+": "+((float)(weaponTotalProtect[index] /(float) _debufflist[index])));
-                CurNodeDataSummary._instance.protecListData[index] =
-                    Mathf.Round(((float)weaponTotalProtect[index] /(float) _debufflist[index]) * 100) / 100;
+                if (thisSlideType == debuffSlidesType.Current)
+                {
+                    CurNodeDataSummary._instance.protecListData[index] = Mathf.Round(((float)weaponTotalProtect[index] /(float) _debufflist[index]) * 100) / 100;
+                }
+                else
+                {
+                    CurNodeDataSummary._instance.majorProtecListData[index] = Mathf.Round(((float)weaponTotalProtect[index] /(float) _debufflist[index]) * 100) / 100;
+                }
                 StartCoroutine(FillProgressBar(debufSlider,temp,index));
             }
             else //wood有血，没有debuff
@@ -154,7 +203,15 @@ public class ViewingDebuffProtect : MonoBehaviour
                     tempColor.a = 0;
                     debufSlider.value = 1;
                     StartCoroutine(FillProgressBar2(protectSlider,1f));
-                    CurNodeDataSummary._instance.protecListData[index] = 1;
+                    if (thisSlideType == debuffSlidesType.Current)
+                    {
+                        CurNodeDataSummary._instance.protecListData[index] = 1;
+                    }
+                    else
+                    {
+                        CurNodeDataSummary._instance.majorProtecListData[index] = 1; 
+                    }
+                    //CurNodeDataSummary._instance.protecListData[index] = 1;
                 }
                 else //wood有血，没有debuff，没有protect
                 {
@@ -162,16 +219,39 @@ public class ViewingDebuffProtect : MonoBehaviour
                     tempColor.a = 1;
                     debufSlider.value = 0;
                     protectSlider.value = 0;
-                    CurNodeDataSummary._instance.protecListData[index] = 0;
+                    if (thisSlideType == debuffSlidesType.Current)
+                    {
+                        CurNodeDataSummary._instance.protecListData[index] = 0;
+                    }
+                    else
+                    {
+                        CurNodeDataSummary._instance.majorProtecListData[index] = 0; 
+                    }
                 }
             }
         }
         else //没有血
         {
-            CurNodeDataSummary._instance.debuffListData[index] = 0;
+            if (thisSlideType == debuffSlidesType.Current)
+            {
+                CurNodeDataSummary._instance.debuffListData[index] = 0; 
+            }
+            else
+            {
+                CurNodeDataSummary._instance.majorDebuffListData[index] = 0; 
+            }
+            //CurNodeDataSummary._instance.debuffListData[index] = 0;
             if (_debufflist[index] != 0) //没有血，有debuff
             {
-                CurNodeDataSummary._instance.debuffListData[index] = 1;
+                if (thisSlideType == debuffSlidesType.Current)
+                {
+                    CurNodeDataSummary._instance.debuffListData[index] = 1; 
+                }
+                else
+                {
+                    CurNodeDataSummary._instance.majorDebuffListData[index] = 1; 
+                }
+                //CurNodeDataSummary._instance.debuffListData[index] = 1;
                 StartCoroutine(FillProgressBar(debufSlider,1,index));
             }
             else //没有血，没有debuff
@@ -182,7 +262,15 @@ public class ViewingDebuffProtect : MonoBehaviour
                     tempColor.a = 0;
                     debufSlider.value = 1;
                     StartCoroutine(FillProgressBar2(protectSlider,1f));
-                    CurNodeDataSummary._instance.protecListData[index] = 1;
+                    //CurNodeDataSummary._instance.protecListData[index] = 1;
+                    if (thisSlideType == debuffSlidesType.Current)
+                    {
+                        CurNodeDataSummary._instance.protecListData[index] = 1;
+                    }
+                    else
+                    {
+                        CurNodeDataSummary._instance.majorProtecListData[index] = 1; 
+                    }
                 }
                 else
                 {
@@ -190,7 +278,15 @@ public class ViewingDebuffProtect : MonoBehaviour
                     tempColor.a = 1;
                     debufSlider.value = 0;
                     protectSlider.value = 0;
-                    CurNodeDataSummary._instance.protecListData[index] = 0;
+                    //CurNodeDataSummary._instance.protecListData[index] = 0;
+                    if (thisSlideType == debuffSlidesType.Current)
+                    {
+                        CurNodeDataSummary._instance.protecListData[index] = 0;
+                    }
+                    else
+                    {
+                        CurNodeDataSummary._instance.majorProtecListData[index] = 0; 
+                    }
                 }
             }
    

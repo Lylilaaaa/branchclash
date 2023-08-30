@@ -75,7 +75,7 @@ public class Turret : MonoBehaviour
 
     private int _checkDebuff(int weaponIndex)
     {
-        float totalDebuff = CurNodeDataSummary._instance.debuffList[weaponIndex]*CurNodeDataSummary._instance.weaponBloodList[weaponIndex] -
+        float totalDebuff = CurNodeDataSummary._instance.debuffList[weaponIndex] -
                             CurNodeDataSummary._instance.protectList[weaponIndex];
         if (totalDebuff > 0)
         {

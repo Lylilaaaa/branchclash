@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ProIron
   m_EditorClassIdentifier: 
   proType: iron
-  baseProtect: 1
+  baseProtect: 15
   performGrade2: 5
   performGrade3: 10
-  basePrice: 100
+  basePrice: 290
   upGradePrice: 50

@@ -26,10 +26,16 @@ public class CurNodeDataSummary : MonoBehaviour
     public Dictionary<int,int> eproCount;
     public List<int> DictionaryCount;
     public int[] debuffList;
+    
+    public int[] curDebuffList;
+    public int[] majorDebuffList;
+    
     public int[] protectList;
     public int[] weaponBloodList;
     public float[] debuffListData;
+    public float[] majorDebuffListData;
     public float[] protecListData;
+    public float[] majorProtecListData;
     
     [Header("--------ProcessingBool--------")]
     public bool dictionaryFinish = false;
@@ -56,7 +62,13 @@ public class CurNodeDataSummary : MonoBehaviour
         eData = GlobalVar._instance.elecTowerData;
 
         debuffListData = new float[3];
+        curDebuffList = new int[3];
+        majorDebuffList = new int[3];
+        majorDebuffListData = new float[3];
         protecListData = new float[3];
+        weaponBloodList = new int[3];
+        majorProtecListData = new float[3];
+        
         woodCount = new Dictionary<int, int>();
         ironCount = new Dictionary<int, int>();
         elecCount = new Dictionary<int, int>();
@@ -64,10 +76,6 @@ public class CurNodeDataSummary : MonoBehaviour
         iproCount = new Dictionary<int, int>();
         eproCount = new Dictionary<int, int>();
         debuffList = thisNodeData.towerDebuffList;
-    }
-    private void Start()
-    {
-
     }
 
     private void Update()
@@ -111,7 +119,7 @@ public class CurNodeDataSummary : MonoBehaviour
             _checkTypeIndex();
             gamePlayInitData = true;
             protectList = _checkProtect();
-            weaponBloodList =_checkWeaponTotalBlood();
+            //weaponBloodList =_checkWeaponTotalBlood();
         }
         
     }
@@ -356,22 +364,22 @@ public class CurNodeDataSummary : MonoBehaviour
 
         return 0;
     }
-    private int[] _checkWeaponTotalBlood()
-    {
-        int[] _weaponBlood = new int[3];
-        foreach (int grade in woodCount.Keys)
-        {
-            _weaponBlood[0] += woodCount[grade]*grade;
-        }
-        foreach (int grade in ironCount.Keys)
-        {
-            _weaponBlood[1] += ironCount[grade] * grade;
-        }
-        foreach (int grade in elecCount.Keys)
-        {
-            _weaponBlood[2] += elecCount[grade] * grade;
-        }
-
-        return _weaponBlood;
-    }
+    // private int[] _checkWeaponTotalBlood()
+    // {
+    //     int[] _weaponBlood = new int[3];
+    //     foreach (int grade in woodCount.Keys)
+    //     {
+    //         _weaponBlood[0] += woodCount[grade]*grade;
+    //     }
+    //     foreach (int grade in ironCount.Keys)
+    //     {
+    //         _weaponBlood[1] += ironCount[grade] * grade;
+    //     }
+    //     foreach (int grade in elecCount.Keys)
+    //     {
+    //         _weaponBlood[2] += elecCount[grade] * grade;
+    //     }
+    //
+    //     return _weaponBlood;
+    // }
 }

@@ -16,4 +16,5 @@ public class DownNodeData : ScriptableObject
     public int nodeIndex;
     
     public int[] debuffData = new int[3];
+    public int[] protectData = new int[3];
 }

@@ -287,7 +287,7 @@ public class GlobalVar : MonoBehaviour
         }
         
     }
-    private NodeData _findNodeData(string nodeName) //"1-2"
+    public NodeData _findNodeData(string nodeName) //"1-2"
     {
         string[] layerIndex = nodeName.Split('-');
         foreach (NodeData _maxnode in nodeDataList)
@@ -299,7 +299,7 @@ public class GlobalVar : MonoBehaviour
         }
         return null;
     }
-    private DownNodeData _findNodeDataDown(string nodeName) //"1-2"
+    public DownNodeData _findNodeDataDown(string nodeName) //"1-2"
     {
         string[] layerIndex = nodeName.Split('-');
         foreach (DownNodeData _maxnode in downNodeDataList)
