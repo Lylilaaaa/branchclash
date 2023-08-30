@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2301113751313562230}
   - component: {fileID: 2301113751313562231}
   m_Layer: 7
-  m_Name: woodShowHide
+  m_Name: ironShowHide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,10 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6587b71013379b488e855294221c529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerTypeData: {fileID: 11400000, guid: 4831304427c37bc4995e60bf79f80745, type: 2}
+  towerTypeData: {fileID: 11400000, guid: f3a30f0b6c81cc544892d92e881ddf02, type: 2}
   proTypeDate: {fileID: 0}
   towerGrade: 0
   performList:
-  - {fileID: 5501935036924513372, guid: 2ac5351b06dcbbe48bd6cf9d17f0c842, type: 3}
-  - {fileID: 1411536932997186791, guid: d8f84a58156f726469bce1c3763b9c6f, type: 3}
-  - {fileID: 4307182750939155328, guid: 9263ec005ebbe2240b1d4548cea9d980, type: 3}
+  - {fileID: 5501935036924513372, guid: 14dc5ed772c426349896e7f46ba0979c, type: 3}
+  - {fileID: 1411536932997186791, guid: a4b16763c346b5c45ab40c6b68fce11c, type: 3}
+  - {fileID: 4307182750939155328, guid: 5aadd9d0bceca294d8cc06233cfd7576, type: 3}
