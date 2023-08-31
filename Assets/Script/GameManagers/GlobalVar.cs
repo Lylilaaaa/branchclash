@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 public class GlobalVar : MonoBehaviour
 {
     public static GlobalVar _instance;
-    
-    [Header("--------User--------")]
+
+    [Header("--------User--------")] 
+    public UserData thisUserData;
     public string userAddr="0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
-    public int playRole;
-    
+
     [Header("--------Tree--------")]
     public int maxLevelTree;
     public int maxLevelTreeDown;
@@ -85,7 +85,10 @@ public class GlobalVar : MonoBehaviour
 
         
         // 初始化游戏状态
-        userAddr = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
+        
+        thisUserData = UserInformation._instance.userRoleData;
+        //userAddr = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
+        userAddr = thisUserData.address;
 
         CurrentGameState = initialGameState;
         _previousNodeData = chosenNodeData;

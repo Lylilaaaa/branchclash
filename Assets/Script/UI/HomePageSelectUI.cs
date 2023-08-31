@@ -36,11 +36,18 @@ public class HomePageSelectUI : MonoBehaviour
         _downTreeNum = transform.GetChild(0).GetChild(4);
         yourNode = new List<NodeData>();
         hintPanal.SetActive(false);
-        hintHint.SetActive(true);
     }
 
     private void Update()
     {
+        if (GlobalVar._instance.thisUserData != null)
+        {
+            if (GlobalVar._instance.thisUserData.isFirstPlay && hintHint.activeSelf == false)
+            {
+                hintHint.SetActive(true);
+            }
+        }
+
         if (GlobalVar._instance.nodeDataList.Count != 0 && _nodeFinish == false)
         {
             _checkYourNode();
@@ -202,9 +209,11 @@ public class HomePageSelectUI : MonoBehaviour
     public void OpenHintPanal()
     {
         hintPanal.SetActive(true);
+        hintHint.SetActive(false);
     }
     public void CloseHintPanal()
     {
         hintPanal.SetActive(false);
+        GlobalVar._instance.thisUserData.isFirstPlay = false;
     }
 }
