@@ -19422,13 +19422,12 @@ MonoBehaviour:
   proWood: {fileID: 1525512747}
   proIron: {fileID: 1089477420}
   proElec: {fileID: 1308520683}
-  woodTotalBlood: 0
-  ironTotalBlood: 0
-  elecTotalBlood: 0
-  woodTotalProtect: 0
-  ironTotalProtect: 0
-  elecTotalProtect: 0
-  finish: 0
+  _debufflist: 
+  weaponTotalBlood: 
+  weaponTotalProtect: 
+  debuffSliderImage: []
+  fillSpeedDebuff: 1
+  fillSpeedProtect: 1
 --- !u!1 &386281594
 GameObject:
   m_ObjectHideFlags: 0
@@ -56302,6 +56301,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019f9731a35e2cd419bc53393e6c20b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 0
+  debuffData: {fileID: 0}
+  protectData: {fileID: 0}
 --- !u!1 &1062435230
 GameObject:
   m_ObjectHideFlags: 0
@@ -59874,6 +59876,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019f9731a35e2cd419bc53393e6c20b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 0
+  debuffData: {fileID: 0}
+  protectData: {fileID: 0}
 --- !u!1 &1116875874
 GameObject:
   m_ObjectHideFlags: 0
@@ -60565,7 +60570,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1133254823
 Transform:
   m_ObjectHideFlags: 0
@@ -73963,8 +73968,14 @@ MonoBehaviour:
   previousNodeData: {fileID: 0}
   DictionaryCount: 
   debuffList: 
+  curDebuffList: 
+  majorDebuffList: 
   protectList: 
   weaponBloodList: 
+  debuffListData: []
+  majorDebuffListData: []
+  protecListData: []
+  majorProtecListData: []
   dictionaryFinish: 0
   _initData: 0
   changeData: 0
@@ -74004,6 +74015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
+  playRole: 0
   maxLevelTree: 0
   maxLevelTreeDown: 0
   MajorNodeList: []
@@ -79358,6 +79370,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019f9731a35e2cd419bc53393e6c20b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 0
+  debuffData: {fileID: 0}
+  protectData: {fileID: 0}
 --- !u!1 &1468128415
 GameObject:
   m_ObjectHideFlags: 0
@@ -91751,6 +91766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8aab59384d9f54ab046ed784d27811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parent: {fileID: 0}
   type2_1: {fileID: 0}
   type2_2: {fileID: 0}
   type3_1: {fileID: 0}
@@ -91796,6 +91812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3083c92489db7524e9d33934608d957f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parent: {fileID: 0}
   type2_1: {fileID: 0}
   type2_2: {fileID: 0}
   type3_1: {fileID: 0}
