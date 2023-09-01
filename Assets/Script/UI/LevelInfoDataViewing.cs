@@ -21,7 +21,8 @@ public class LevelInfoDataViewing : MonoBehaviour
     private GameObject[] _debuffTower;
     private GameObject[] _towerNum;
     private GameObject[] _protectNum;
-    
+
+    private Button _enterNextBut;
 
     private bool _hasInit = false;
     
@@ -33,6 +34,7 @@ public class LevelInfoDataViewing : MonoBehaviour
         thisNodeData = null;
         _slidesParent = transform.GetChild(0).GetChild(2).gameObject;
         _textViewingParent = transform.GetChild(0).GetChild(3).GetChild(0).gameObject;
+        _enterNextBut = transform.GetChild(0).GetChild(4).GetChild(0).GetComponent<Button>();
 
         _bloodSlider = _slidesParent.transform.GetChild(0).gameObject;
         _debuffSlider = new GameObject[3];
@@ -58,6 +60,8 @@ public class LevelInfoDataViewing : MonoBehaviour
         _protectNum[0] = _textViewingParent.transform.GetChild(3).GetChild(0).gameObject; //wood
         _protectNum[1] = _textViewingParent.transform.GetChild(3).GetChild(1).gameObject; //iron
         _protectNum[2] = _textViewingParent.transform.GetChild(3).GetChild(2).gameObject; //elec
+        
+       
     }
 
     private void Update()
@@ -70,6 +74,14 @@ public class LevelInfoDataViewing : MonoBehaviour
 
     void InitNeverChange()
     {
+        if (GlobalVar._instance.thisUserData.role == 1)
+        {
+            _enterNextBut.interactable = false;
+        }
+        else
+        {
+            _enterNextBut.interactable = true;
+        }
         _getMapmapList(thisNodeData.mapStructure);
         (int[] towerCount, int[] protectCount) = _checkTypeIndex();
         for (int i=0;i<3;i++)
@@ -219,6 +231,6 @@ public class LevelInfoDataViewing : MonoBehaviour
     public void OpenViewingScene()
     {
         GlobalVar._instance.ChangeState("Viewing");
-        SceneManager.LoadScene("ExhibExample");
+        GlobalVar._instance._loadNextScene("2_0_ExhibExample");
     }
 }

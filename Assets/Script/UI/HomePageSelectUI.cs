@@ -15,14 +15,14 @@ public class HomePageSelectUI : MonoBehaviour
     private bool _messageFinish = false;
     private bool _messageFix = false;
     private bool _treeNumFinish = false;
-
-    public Sprite blueImage;
+    
     public Sprite yellowImage;
-    public Sprite purpleImage;
-    public Sprite redImage;
+    public Sprite pinkImage;
     public List<NodeData> yourNode;
+    public List<DownNodeData> yourDownNode;
     public TextMeshProUGUI textMeshPro;
     public GameObject yourNodePrefab;
+    public GameObject yourDownNodePrefab;
     public Transform yourNodeInitPos;
 
     public GameObject hintPanal;
@@ -35,6 +35,7 @@ public class HomePageSelectUI : MonoBehaviour
         _upTreeNum = transform.GetChild(0).GetChild(3);
         _downTreeNum = transform.GetChild(0).GetChild(4);
         yourNode = new List<NodeData>();
+        yourDownNode = new List<DownNodeData>();
         hintPanal.SetActive(false);
     }
 
@@ -48,10 +49,19 @@ public class HomePageSelectUI : MonoBehaviour
             }
         }
 
-        if (GlobalVar._instance.nodeDataList.Count != 0 && _nodeFinish == false)
+        if (GlobalVar._instance.nodeDataList.Count != 0 && _nodeFinish == false && GlobalVar._instance.thisUserData.role == 0)
         {
+            print("init Nodes");
             _checkYourNode();
             _initYourNodeUI();
+            _nodeFinish = true;
+        }
+        else if (GlobalVar._instance.downNodeDataList.Count != 0 && _nodeFinish == false &&
+                 GlobalVar._instance.thisUserData.role == 1)
+        {
+            print("init downNodes");
+            _checkYourDownNode();
+            _initYourDownNodeUI();
             _nodeFinish = true;
         }
         if (GlobalVar._instance.nodeDataList.Count != 0 && _messageFinish == false)
@@ -150,6 +160,16 @@ public class HomePageSelectUI : MonoBehaviour
             }
         }
     }
+    private void _checkYourDownNode()
+    {
+        foreach (DownNodeData node in GlobalVar._instance.downNodeDataList)
+        {
+            if (node.ownerAddr == GlobalVar._instance.userAddr)
+            {
+                yourDownNode.Add(node);
+            }
+        }
+    }
 
     public void ZoomX_X(string name)
     {
@@ -182,6 +202,27 @@ public class HomePageSelectUI : MonoBehaviour
             thisNode.name = node.name;
             thisNode.transform.GetChild(0).GetComponent<YourNodeButtonClickHandler>().ReStart();
             string[] layerNode = node.name.Split(',');
+            thisNode.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Layer: "+layerNode[0];
+            thisNode.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Node: "+layerNode[1];
+            yPos -= 20f;
+        }
+    }
+    private void _initYourDownNodeUI()
+    {
+        float yPos = 0;
+        foreach (DownNodeData node in yourDownNode)
+        {
+            GameObject thisNode = Instantiate(yourDownNodePrefab, yourNodeInitPos);
+            if (node.isMajor == true)
+            {
+                thisNode.transform.GetChild(0).GetComponent<Image>().sprite = pinkImage;
+            }
+            thisNode.transform.localPosition = new Vector3(0, yPos, 0);
+            thisNode.transform.localRotation = Quaternion.identity;
+            int nameLength = node.name.Length;
+            thisNode.name = node.name.Substring(1,nameLength-2);
+            thisNode.transform.GetChild(0).GetComponent<YourNodeButtonClickHandler>().ReStart();
+            string[] layerNode = thisNode.name.Split(',');
             thisNode.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Layer: "+layerNode[0];
             thisNode.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Node: "+layerNode[1];
             yPos -= 20f;

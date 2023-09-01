@@ -5,7 +5,7 @@ namespace SelectedEffectOutline
 	[RequireComponent(typeof(Renderer))]
 	public class Outline : MonoBehaviour
 	{
-		public enum Usage { Node_up = 0,Node_down, Viewing, Merge };
+		public enum Usage { Node_up = 0,Node_down, Viewing, Merge }; //描边的几个用处
 		public Usage m_Usage = Usage.Node_up;
 		public CursorOutlines col;
 		public CursorOutlinesDown col_down;
@@ -100,6 +100,19 @@ namespace SelectedEffectOutline
 						ol_on_withMouse = false;
 	                    OutlineDisable();
 	                }
+				}
+				else if (col_down != null)
+				{
+					if (col_down.olWithoutMouse == true && ol_on == false )
+					{
+						ol_on_withMouse = true;
+						OutlineEnable();
+					}
+					else if(col_down.olWithoutMouse == false && ol_on == true && ol_on_withMouse == true)
+					{
+						ol_on_withMouse = false;
+						OutlineDisable();
+					}
 				}
 
 			}

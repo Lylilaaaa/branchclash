@@ -8251,10 +8251,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisDownNodeData: {fileID: 0}
+  majorDownNodeData: {fileID: 0}
   layerTMP: {fileID: 2560398507461779346}
   indexTMP: {fileID: 5648414735600007334}
   curOwnerInfo: {fileID: 7893449920584149586}
   majorOwnerInfo: {fileID: 4015667220478299376}
+  enterNextSceneButton: {fileID: 1324203644270827115}
 --- !u!1 &5182620430811393772
 GameObject:
   m_ObjectHideFlags: 0
@@ -10228,9 +10230,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LevelInfoDataViewing, Assembly-CSharp
-        m_MethodName: OpenViewingScene
+      - m_Target: {fileID: 2584524513262092021}
+        m_TargetAssemblyTypeName: LevelDownInfoDataViewing, Assembly-CSharp
+        m_MethodName: OpenGamePlayScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14949,7 +14951,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.6289308, b: 0.6289308, a: 1}
-  m_Intensity: 3
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

@@ -6,24 +6,27 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Start.unity
+    path: Assets/Scenes/Scenes_Building/0_Start.unity
     guid: f667a1f3bf076d84cb1a79103e2fdd15
   - enabled: 1
-    path: Assets/Scenes/HomePage.unity
+    path: Assets/Scenes/Scenes_Building/1_0_HomePage.unity
     guid: 4e1a7db46b9fe6240ba709ea35970660
   - enabled: 1
-    path: Assets/Scenes/SecHomePage.unity
+    path: Assets/Scenes/Scenes_Building/1_1_SecHomePage.unity
     guid: 74a0cffa5202b004ca9c9fc9e49b0128
   - enabled: 1
-    path: Assets/Scenes/ExhibExample.unity
+    path: Assets/Scenes/Scenes_Building/2_0_ExhibExample.unity
     guid: fe00afd38edc32c4e9a6298c6e4cf904
   - enabled: 1
-    path: Assets/Scenes/SecGamePlay.unity
+    path: Assets/Scenes/Scenes_Building/3_1_SecGamePlay.unity
     guid: b2fbc7376da3fc74dafa275406268408
   - enabled: 1
-    path: Assets/Scenes/GamePlay.unity
+    path: Assets/Scenes/Scenes_Building/3_0_GamePlay.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/End.unity
+    path: Assets/Scenes/Scenes_Building/4_End.unity
     guid: 5b6979291f7845646a188cad9e605cae
+  - enabled: 0
+    path: Assets/Scenes/Scenes_Building/Loading.unity
+    guid: 6f2e589bf3bde36438f334b0a758bba0
   m_configObjects: {}

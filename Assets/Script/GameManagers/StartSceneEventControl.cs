@@ -1,4 +1,5 @@
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -15,8 +16,9 @@ public class StartSceneEventControl : MonoBehaviour
     public Button skipButton;
     public string userAddress = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
     public bool isOldPlayer;
+    public GameObject loadingGameObj;
     
-    private bool hasChosenRole;
+    private bool _finishMainVideo;
 
     private int _role;
     // Start is called before the first frame update
@@ -27,17 +29,10 @@ public class StartSceneEventControl : MonoBehaviour
         skipButton.onClick.AddListener(SkipToLastSecond);
         vp.gameObject.SetActive(false);
         roleChoosingPanel.gameObject.SetActive(false);
-        hasChosenRole = false;
+        _finishMainVideo = false;
         isOldPlayer = false;
+        loadingGameObj.SetActive(false);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
 
     public void ConnectToWallet()
     {
@@ -47,16 +42,15 @@ public class StartSceneEventControl : MonoBehaviour
 
         if (_checkUserData(userAddress) == null)
         {
-            //记得改过来！！！！
-            //skipButton.gameObject.SetActive(false);
+            skipButton.gameObject.SetActive(false);
             isOldPlayer = false;
         }
         else
         {
             isOldPlayer = true;
             skipButton.gameObject.SetActive(true);
-            hasChosenRole = true;
             UserInformation._instance.userRoleData = _checkUserData(userAddress);
+            _role = UserInformation._instance.userRoleData.role;
         }
 
     }
@@ -67,7 +61,6 @@ public class StartSceneEventControl : MonoBehaviour
         vp.gameObject.SetActive(true);
         vp.clip = videoList[roleIndex+1];
         vp.Prepare();
-        hasChosenRole = true;
         _createUserData(roleIndex);
         _role = roleIndex;
         //UserInformation._instance.userRole = roleIndex;
@@ -75,19 +68,16 @@ public class StartSceneEventControl : MonoBehaviour
 
     private UserData _checkUserData(string address)
     {
-        string assetPath = "Assets/Resources/" + address + ".asset";
-        Object loadedAsset = Resources.Load(assetPath);
-        if (loadedAsset != null && loadedAsset is ScriptableObject) // 检查资源是否是ScriptableObject的实例
+        UserData[] allMyDataObjects = Resources.LoadAll<UserData>("");
+        foreach (UserData VARIABLE in allMyDataObjects)
         {
-            UserData loadedObject = loadedAsset as UserData;
-            return loadedObject;
+            if (VARIABLE.address == address)
+            {
+                return VARIABLE;
+            }
         }
-        else
-        {
-            Debug.Log("ScriptableObject not found at: " + assetPath);
-            return null;
-        }
-        
+        Debug.Log("ScriptableObject not found, new user!");
+        return null;
     }
     
     private void _createUserData(int roleIndex)
@@ -113,29 +103,50 @@ public class StartSceneEventControl : MonoBehaviour
 
     void EndReached(VideoPlayer vPlayer)
     {
-        if (isOldPlayer == false)
+        if (_finishMainVideo == false && isOldPlayer == false) //新玩家，打开选角panel，关闭视频panel
         {
             roleChoosingPanel.gameObject.SetActive(true);
             vp.gameObject.SetActive(false);
+            _finishMainVideo = true;
         }
-        // else
-        // {
-        //     vp.clip = videoList[_checkUserData(userAddress).role+1];
-        //     vp.Prepare();
-        // }
-        if (hasChosenRole == true)
-        {//切换关卡了
+        else if(_finishMainVideo == false && isOldPlayer == true) //老玩家，直接播放下一个视频
+        {
+            vp.clip = videoList[_checkUserData(userAddress).role+1];
+            vp.Prepare();
+            _finishMainVideo = true;
+        }
+        else if (_finishMainVideo == true)
+        {
+            //切换关卡了
             if (_role == 0)
             {
-                SceneManager.LoadScene("HomePage");
+                _loadNextScene("1_0_HomePage");
             }
             else if (_role == 1)
             {
-                SceneManager.LoadScene("SecHomePage");
+                _loadNextScene("1_1_SecHomePage");
             }
         }
 
     }
+
+    void _loadNextScene(string sceneName)
+    {
+        loadingGameObj.SetActive(true);
+        StartCoroutine(LoadLeaver(sceneName));
+    }
+
+    IEnumerator LoadLeaver(string sceneName)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        while (!operation.isDone)
+        {
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = operation.progress;
+            yield return null;
+        }
+        loadingGameObj.SetActive(false);
+    }
+    
     void Prepare(VideoPlayer vPlayer)
     {
         vp.Play();

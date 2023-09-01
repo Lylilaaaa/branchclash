@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class LevelDownInfoDataViewing : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class LevelDownInfoDataViewing : MonoBehaviour
     public TextMeshProUGUI indexTMP;
     public TextMeshProUGUI curOwnerInfo;
     public TextMeshProUGUI majorOwnerInfo;
+    public Button enterNextSceneButton;
     
 
     private bool _hasInit;
@@ -35,6 +37,14 @@ public class LevelDownInfoDataViewing : MonoBehaviour
 
     void InitNeverChange()
     {
+        if (GlobalVar._instance.thisUserData.role == 0)
+        {
+            enterNextSceneButton.interactable = false;
+        }
+        else
+        {
+            enterNextSceneButton.interactable = true;
+        }
         _hasInit = true;
         layerTMP.text = "LAYER: "+thisDownNodeData.nodeLayer;
         indexTMP.text = "INDEX: " + thisDownNodeData.nodeIndex;
@@ -57,5 +67,11 @@ public class LevelDownInfoDataViewing : MonoBehaviour
             CameraController._instance.camLock = false;
             GlobalVar._instance.ChangeState("MainStart");
         }
+    }
+
+    public void OpenGamePlayScene()
+    {
+        GlobalVar._instance.ChangeState("GamePlay");
+        GlobalVar._instance._loadNextScene("3_1_SecGamePlay");
     }
 }

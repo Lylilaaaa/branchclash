@@ -1,6 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class GlobalVar : MonoBehaviour
@@ -44,7 +46,7 @@ public class GlobalVar : MonoBehaviour
     public string zoomingPos = "";
     public string targetField="";
     
-    [Header("--------Setting--------")]
+    [Header("--------DataSetting--------")]
     public DownTreeData downTreeData;
     public TreeData treeData;
     public TowerData woodTowerData;
@@ -53,7 +55,9 @@ public class GlobalVar : MonoBehaviour
     public ProtectData ProWood;
     public ProtectData ProIron;
     public ProtectData ProElec;
-    
+
+    [Header("--------GameObjSetting--------")]
+    public GameObject loadingGameObj;
 
     public enum GameState
     {
@@ -68,7 +72,6 @@ public class GlobalVar : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-        
     }
 
     void Start()
@@ -83,9 +86,9 @@ public class GlobalVar : MonoBehaviour
         //TreeGenerator._instance.InitTree();
         //RedTreeGenerator._instance.InitDownTree();
 
-        
+        SoundManager._instance.PlayMusicSound(SoundManager._instance.homePageBackSound,true,0.8f);
         // 初始化游戏状态
-        
+        loadingGameObj.SetActive(false);
         thisUserData = UserInformation._instance.userRoleData;
         //userAddr = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
         userAddr = thisUserData.address;
@@ -486,6 +489,8 @@ public class GlobalVar : MonoBehaviour
         
         CurrentGameState = newState;
     }
+    
+    
 
 
 
@@ -502,15 +507,36 @@ public class GlobalVar : MonoBehaviour
     public void ReStartTree()
     {
         UploadData();
-        SceneManager.LoadScene("HomePage");
+        if (thisUserData.role == 0)
+        {
+            _loadNextScene("1_0_HomePage");
+        }
+        else if (thisUserData.role == 1)
+        {
+            _loadNextScene("1_1_SecHomePage");
+        }
         ChangeState("MainMenu");
-        
         ReStart();
-
     }
 
     private void UploadData()
     {
         TreeNodeDataInit._instance.AddNodeData();
+    }
+    
+    public void _loadNextScene(string sceneName)
+    {
+        loadingGameObj.SetActive(true);
+        StartCoroutine(LoadLeaver(sceneName));
+    }
+    IEnumerator LoadLeaver(string sceneName)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        while (!operation.isDone)
+        {
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = operation.progress;
+            yield return null;
+        }
+        loadingGameObj.SetActive(false);
     }
 }
