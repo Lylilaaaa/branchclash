@@ -32,7 +32,7 @@ public class CanvasRayCastMouseSound : MonoBehaviour
     }
     private bool _checkButtonUI()
     {
-        print("hi here!");
+        //print("hi here!");
         // ¼ì²âÊó±êĞü¸¡µÄÎ»ÖÃ
         pointerEventData.position = Input.mousePosition;
 

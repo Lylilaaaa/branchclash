@@ -84,7 +84,7 @@ public class TreeNode : MonoBehaviour
         if (GlobalVar.CurrentGameState != GlobalVar.GameState.MainStart &&
             GlobalVar.CurrentGameState != GlobalVar.GameState.Viewing)
         {
-            print("destroy"+transform.name);
+            //print("destroy"+transform.name);
             Destroy(gameObject);
         }
     }

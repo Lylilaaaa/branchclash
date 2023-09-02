@@ -15,6 +15,7 @@ public class SecGamePlay : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        SoundManager._instance.PlayMusicSound(SoundManager._instance.secGamePlayBackSound,true,0.8f);
     }
 
     // Update is called once per frame
@@ -45,6 +46,7 @@ public class SecGamePlay : MonoBehaviour
 
     private void _pushDebuff(int index)
     {
+        SoundManager._instance.PlayEffectSound(loadingSound);
         pushAnimator[index].SetTrigger("isPushed");
         tubeAnimator[index].SetTrigger("push");
     }
