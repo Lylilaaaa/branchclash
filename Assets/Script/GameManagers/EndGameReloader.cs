@@ -8,7 +8,7 @@ public class EndGameReloader : MonoBehaviour
 {
     public Button endButton;
 
-    private void Start()
+    private void Awake()
     {
         // 给按钮添加点击事件的监听器
         endButton.onClick.AddListener(OnButtonClicked);

@@ -32,8 +32,11 @@ public class GlobalVar : MonoBehaviour
     public GameState initialGameState;
     public static GameState CurrentGameState;
     public string gameStateShown="";
+    public bool dataPrepared;
     public bool isPreViewing = false;
     public bool global_OL;
+    public float homeDestroyData;
+    public int gameResult;  //0: 家没有受伤 ；1：家受伤了 ；2：失败了
     //public bool finishEdit;
 
     [Header("--------Map--------")]
@@ -72,12 +75,14 @@ public class GlobalVar : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+        loadingGameObj.SetActive(false);
+        dataPrepared = false;
     }
 
-    void Start()
-    {
-        ReStart();
-    }
+    // void Start()
+    // {
+    //     ReStart();
+    // }
 
     public void ReStart()
     {
@@ -88,7 +93,7 @@ public class GlobalVar : MonoBehaviour
 
         SoundManager._instance.PlayMusicSound(SoundManager._instance.homePageBackSound,true,0.8f);
         // 初始化游戏状态
-        loadingGameObj.SetActive(false);
+        
         thisUserData = UserInformation._instance.userRoleData;
         //userAddr = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
         userAddr = thisUserData.address;
@@ -109,20 +114,25 @@ public class GlobalVar : MonoBehaviour
         _getMainNode();
         _getMainNodeDown();
         TreeNodeDataInit._instance.ReStart();
+        CurNodeDataSummary._instance.ReStart();
+        dataPrepared = true;
     }
 
     private void Update()
     {
-        mapmapRow = mapmapList.Length;
-        mapmapCol = mapmapList[indexMapMapCol];
-        gameStateShown = GetState().ToString();
-
-        if (_previousNodeData.nodeIndex!= chosenNodeData.nodeIndex || _previousNodeData.nodeLayer!= chosenNodeData.nodeLayer )
+        if (dataPrepared == true)
         {
-            _getMapmapList();
-            _previousNodeData = chosenNodeData;
+            mapmapRow = mapmapList.Length;
+            mapmapCol = mapmapList[indexMapMapCol];
+            gameStateShown = GetState().ToString();
+
+            if (_previousNodeData.nodeIndex!= chosenNodeData.nodeIndex || _previousNodeData.nodeLayer!= chosenNodeData.nodeLayer )
+            {
+                _getMapmapList();
+                _previousNodeData = chosenNodeData;
+            }
         }
-        //print("zommingPos:    "+zoomingPos);
+
     }
     
 
@@ -205,7 +215,6 @@ public class GlobalVar : MonoBehaviour
     {
         int maxLayer = 0;
         int maxIndex = 0;
-        int maxChildCount = 0;
         int curLayer = 0;
 
         foreach (NodeData _node in nodeDataList)
@@ -220,18 +229,19 @@ public class GlobalVar : MonoBehaviour
         curLayer = maxLayer;
         maxLevelTree = maxLayer;
 
-        foreach (NodeData _maxnode in nodeDataList)
-        {
-            if (_maxnode.nodeLayer == maxLayer)
-            {
-                if (_maxnode.childCount >= maxChildCount)
-                {
-                    maxChildCount = _maxnode.childCount;
-                    maxIndex = _maxnode.nodeIndex;
-                }
-            }
-        }
-        
+        // foreach (NodeData _maxnode in nodeDataList)
+        // {
+        //     _maxnode.isMajor = false;
+        //     if (_maxnode.nodeLayer == maxLayer)
+        //     {
+        //         if (_maxnode.childCount >= maxChildCount)
+        //         {
+        //             maxChildCount = _maxnode.childCount;
+        //             maxIndex = _maxnode.nodeIndex;
+        //         }
+        //     }
+        // }
+        maxIndex = 1;
         while (curLayer > 0)
         {
             //print(curLayer);
@@ -251,11 +261,12 @@ public class GlobalVar : MonoBehaviour
     {
         int maxLayer = 0;
         int maxIndex = 0;
-        int maxChildCount = 0;
+        //int maxChildCount = 0;
         int curLayer = 0;
 
         foreach (DownNodeData _node in downNodeDataList)
         {
+            _node.isMajor = false;
             if (_node.nodeLayer > maxLayer)
             {
                 maxLayer = _node.nodeLayer;
@@ -266,17 +277,18 @@ public class GlobalVar : MonoBehaviour
         curLayer = maxLayer;
         maxLevelTreeDown = maxLayer;
 
-        foreach (DownNodeData _maxnode in downNodeDataList)
-        {
-            if (_maxnode.nodeLayer == maxLayer)
-            {
-                if (_maxnode.childCount >= maxChildCount)
-                {
-                    maxChildCount = _maxnode.childCount;
-                    maxIndex = _maxnode.nodeIndex;
-                }
-            }
-        }
+        // foreach (DownNodeData _maxnode in downNodeDataList)
+        // {
+        //     if (_maxnode.nodeLayer == maxLayer)
+        //     {
+        //         if (_maxnode.childCount >= maxChildCount)
+        //         {
+        //             maxChildCount = _maxnode.childCount;
+        //             maxIndex = _maxnode.nodeIndex;
+        //         }
+        //     }
+        // }
+        maxIndex = 1;
         
         while (curLayer > 0)
         {
@@ -329,24 +341,8 @@ public class GlobalVar : MonoBehaviour
         {
             downNodeDataList.Add(_VARIABLE);
         }
-        // nodeDataList.Add(Resources.Load<NodeData>("1,1"));
-        // nodeDataList.Add(Resources.Load<NodeData>("1,2"));
-        // nodeDataList.Add(Resources.Load<NodeData>("1,3"));
-        // string[] assetPaths = UnityEditor.AssetDatabase.FindAssets("t:NodeData", new[] { "Assets/ScriptableObj/NodeDataObj/" });
-        //
-        // foreach (string assetPath in assetPaths)
-        // {
-        //     NodeData nodeData = UnityEditor.AssetDatabase.LoadAssetAtPath<NodeData>(UnityEditor.AssetDatabase.GUIDToAssetPath(assetPath));
-        //     
-        //     nodeDataList.Add(nodeData);
-        // }
     }
-
-    public void UpdateTreeGen(TreeData newTreeDate,DownTreeData newDowntreeData)
-    {
-        _convert2TreeGen(newTreeDate);
-        _downConvert2TreeGen(newDowntreeData);
-    }
+    
 
     public void _convert2TreeGen(TreeData inputTreeData)
     {
@@ -506,7 +502,7 @@ public class GlobalVar : MonoBehaviour
     }
     public void ReStartTree()
     {
-        UploadData();
+        //UploadData();
         if (thisUserData.role == 0)
         {
             _loadNextScene("1_0_HomePage");
@@ -516,13 +512,9 @@ public class GlobalVar : MonoBehaviour
             _loadNextScene("1_1_SecHomePage");
         }
         ChangeState("MainMenu");
-        ReStart();
+        //ReStart();
     }
-
-    private void UploadData()
-    {
-        TreeNodeDataInit._instance.AddNodeData();
-    }
+    
     
     public void _loadNextScene(string sceneName)
     {
@@ -538,5 +530,9 @@ public class GlobalVar : MonoBehaviour
             yield return null;
         }
         loadingGameObj.SetActive(false);
+        if (sceneName == "1_0_HomePage" || sceneName == "1_1_SecHomePage")
+        {
+            ReStart();
+        }
     }
 }

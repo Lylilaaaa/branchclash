@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownerAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
   setUpTime: 
-  fatherLayer: 4
+  fatherLayer: 5
   fatherIndex: 1
   childCount: 0
   isMajor: 1
   nodeLayer: 6
   nodeIndex: 1
   debuffData: 030000000000000000000000
-  protectData: 000000000000000000000000

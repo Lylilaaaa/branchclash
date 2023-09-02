@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,8 @@ public class LineGenerator : MonoBehaviour
 {
     public static LineGenerator _instance;
     public Transform parent;
+    public GameObject prefabParent;
+    private GameObject _initGObj;
     
     //六位二进制表示有无，x+,x-,y+,y-,z+,z-
     public static Dictionary<Vector3, int> lineMap = new Dictionary<Vector3, int>();
@@ -39,8 +42,6 @@ public class LineGenerator : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-        ReStart();
-        
     }
 
     // private void Start()
@@ -49,6 +50,8 @@ public class LineGenerator : MonoBehaviour
     // }
     public void ReStart()
     {
+        _initGObj = Instantiate(prefabParent);
+        parent = _initGObj.transform;
         type2_1 = Resources.Load<GameObject>("2.1");
         type2_2 = Resources.Load<GameObject>("2.2");
         type3_1 = Resources.Load<GameObject>("3.1");
@@ -73,7 +76,18 @@ public class LineGenerator : MonoBehaviour
         Invoke("GenerateLine", 2);
     }
 
-
+    private void Update()
+    {
+        if (GlobalVar._instance.GetState() != GlobalVar.GameState.Viewing &&
+            GlobalVar._instance.GetState() != GlobalVar.GameState.MainStart)
+        {
+            if (_initGObj != null)
+            {
+                print("destroy line parent!");
+                Destroy(_initGObj);
+            }
+        }
+    }
 
     public void GenerateLine()
     {

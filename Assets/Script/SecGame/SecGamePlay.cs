@@ -47,6 +47,7 @@ public class SecGamePlay : MonoBehaviour
     private void _pushDebuff(int index)
     {
         SoundManager._instance.PlayEffectSound(loadingSound);
+        TreeNodeDataInit._instance.AddDownNodeData();
         pushAnimator[index].SetTrigger("isPushed");
         tubeAnimator[index].SetTrigger("push");
     }

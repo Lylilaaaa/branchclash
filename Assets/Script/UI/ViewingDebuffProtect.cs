@@ -54,29 +54,50 @@ public class ViewingDebuffProtect : MonoBehaviour
             _counted = true;
             if (CurNodeDataSummary._instance.woodCount != null)
             {
+                int maxGrade = 0;
                 foreach (int grade in CurNodeDataSummary._instance.woodCount.Keys)
                 {
-                    (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("wood", grade);
-                    weaponTotalBlood[0] += CurNodeDataSummary._instance.woodCount[grade]*int.Parse(_at);
+                    if (grade >= maxGrade)
+                    {
+                        maxGrade = grade;
+                    }
+                    // (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("wood", grade);
+                    // weaponTotalBlood[0] += CurNodeDataSummary._instance.woodCount[grade]*int.Parse(_at);
                 }
+                (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("wood", maxGrade);
+                weaponTotalBlood[0] = int.Parse(_at) * int.Parse(_sp);
             }
             if (CurNodeDataSummary._instance.ironCount != null)
             {
+                int maxGrade = 0;
                 foreach (int grade in CurNodeDataSummary._instance.ironCount.Keys)
                 {
-                    (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("iron", CurNodeDataSummary._instance.ironCount[grade]);
-                    weaponTotalBlood[1] += int.Parse(_at);
+                    if (grade >= maxGrade)
+                    {
+                        maxGrade = grade;
+                    }
+                    // (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("iron", CurNodeDataSummary._instance.ironCount[grade]);
+                    // weaponTotalBlood[1] += int.Parse(_at);
                 }
+                (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("iron", maxGrade);
+                weaponTotalBlood[1] = int.Parse(_at) * int.Parse(_sp);
             }
             if (CurNodeDataSummary._instance.elecCount != null)
             {
+                int maxGrade = 0;
                 foreach (int grade in CurNodeDataSummary._instance.elecCount.Keys)
                 {
-                    (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("iron", CurNodeDataSummary._instance.elecCount[grade]);
-                    weaponTotalBlood[2] += int.Parse(_at);
+                    if (grade >= maxGrade)
+                    {
+                        maxGrade = grade;
+                    }
+                    // (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("iron", CurNodeDataSummary._instance.elecCount[grade]);
+                    // weaponTotalBlood[2] += int.Parse(_at);
                 }
+                (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("elec", maxGrade);
+                weaponTotalBlood[2] = int.Parse(_at) * int.Parse(_sp);
             }
-            CurNodeDataSummary._instance.weaponBloodList = weaponTotalBlood;
+            
             if (CurNodeDataSummary._instance.wproCount != null)
             {
                 foreach (int grade in CurNodeDataSummary._instance.wproCount.Keys)
@@ -98,7 +119,7 @@ public class ViewingDebuffProtect : MonoBehaviour
                     weaponTotalProtect[2] += CurNodeDataSummary._instance.eproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProElec.baseProtect/2;
                 }
             }
-
+            CurNodeDataSummary._instance.weaponBloodList = weaponTotalBlood;
             CurNodeDataSummary._instance.protectList = weaponTotalProtect;
             
             debuffWood.maxValue = 1;

@@ -40,6 +40,10 @@ public class SoundManager : MonoBehaviour
 
     }
 
+    public void StopMusicSound()
+    {
+        _musicSource.Stop();
+    }
 
 
     public void PlayEffectSound(AudioClip clip)

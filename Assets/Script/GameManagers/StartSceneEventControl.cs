@@ -120,32 +120,33 @@ public class StartSceneEventControl : MonoBehaviour
             //ÇÐ»»¹Ø¿¨ÁË
             if (_role == 0)
             {
-                _loadNextScene("1_0_HomePage");
+                GlobalVar._instance._loadNextScene("1_0_HomePage");
             }
             else if (_role == 1)
             {
-                _loadNextScene("1_1_SecHomePage");
+                GlobalVar._instance._loadNextScene("1_1_SecHomePage");
             }
         }
 
     }
 
-    void _loadNextScene(string sceneName)
-    {
-        loadingGameObj.SetActive(true);
-        StartCoroutine(LoadLeaver(sceneName));
-    }
-
-    IEnumerator LoadLeaver(string sceneName)
-    {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
-        while (!operation.isDone)
-        {
-            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = operation.progress;
-            yield return null;
-        }
-        loadingGameObj.SetActive(false);
-    }
+    // void _loadNextScene(string sceneName)
+    // {
+    //     loadingGameObj.SetActive(true);
+    //     StartCoroutine(LoadLeaver(sceneName));
+    // }
+    //
+    // IEnumerator LoadLeaver(string sceneName)
+    // {
+    //     AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+    //     while (!operation.isDone)
+    //     {
+    //         loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = operation.progress;
+    //         yield return null;
+    //     }
+    //     loadingGameObj.SetActive(false);
+    //     GlobalVar._instance.ReStart();
+    // }
     
     void Prepare(VideoPlayer vPlayer)
     {

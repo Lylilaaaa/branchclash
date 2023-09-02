@@ -31,11 +31,11 @@ public class ProtectUISlidesPos_Home : MonoBehaviour
         debuffData_Real = transform.parent.GetChild(4).GetComponent<TextMeshProUGUI>();
         if (thisSlideType == debuffSlidesType.Current)
         {
-            debuffData_Real.text = CurNodeDataSummary._instance.curDebuffList[weaponType].ToString();
+            debuffData_Real.text = "-"+CurNodeDataSummary._instance.curDebuffList[weaponType].ToString();
         }
         else
         {
-            debuffData_Real.text = CurNodeDataSummary._instance.majorDebuffList[weaponType].ToString();
+            debuffData_Real.text = "-"+CurNodeDataSummary._instance.majorDebuffList[weaponType].ToString();
         }
         
         

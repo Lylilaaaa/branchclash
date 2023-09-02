@@ -30,6 +30,10 @@ public class HomePageSelectUI : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        _nodeFinish=false;
+        _messageFinish = false;
+        _messageFix = false;
+        _treeNumFinish = false;
         _myNode = transform.GetChild(0).GetChild(1);
         _InformationMessage = transform.GetChild(0).GetChild(2);
         _upTreeNum = transform.GetChild(0).GetChild(3);
@@ -51,7 +55,7 @@ public class HomePageSelectUI : MonoBehaviour
 
         if (GlobalVar._instance.nodeDataList.Count != 0 && _nodeFinish == false && GlobalVar._instance.thisUserData.role == 0)
         {
-            print("init Nodes");
+            //print("init Nodes");
             _checkYourNode();
             _initYourNodeUI();
             _nodeFinish = true;
@@ -59,7 +63,7 @@ public class HomePageSelectUI : MonoBehaviour
         else if (GlobalVar._instance.downNodeDataList.Count != 0 && _nodeFinish == false &&
                  GlobalVar._instance.thisUserData.role == 1)
         {
-            print("init downNodes");
+            //print("init downNodes");
             _checkYourDownNode();
             _initYourDownNodeUI();
             _nodeFinish = true;
@@ -255,6 +259,7 @@ public class HomePageSelectUI : MonoBehaviour
     public void CloseHintPanal()
     {
         hintPanal.SetActive(false);
+        print(GlobalVar._instance.thisUserData);
         GlobalVar._instance.thisUserData.isFirstPlay = false;
     }
 }

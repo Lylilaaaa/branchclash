@@ -34,7 +34,7 @@ public class TreeNode : MonoBehaviour
 
     public void ReStart()
     {
-        print("be restart!");
+        //print("be restart!");
         _matCore = new List<GameObject>();
         if (layer != 0)
         {

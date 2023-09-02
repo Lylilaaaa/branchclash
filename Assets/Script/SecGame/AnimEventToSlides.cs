@@ -13,4 +13,10 @@ public class AnimEventToSlides : MonoBehaviour
         sceDataControl = transform.parent.parent.GetComponent<SecGamePlayInfoShowing>();
         sceDataControl.AddDebuffAndRefresh(debuffIndex);
     }
+
+    public void LoadEndScene()
+    {
+        Debug.Log("end scene preparing!");
+        GlobalVar._instance._loadNextScene("4_End");
+    }
 }

@@ -222,7 +222,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!1001 &8677644
 PrefabInstance:
@@ -2222,6 +2222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 1280303119}
+  prefabParent: {fileID: 0}
   type2_1: {fileID: 0}
   type2_2: {fileID: 0}
   type3_1: {fileID: 0}
@@ -2267,6 +2268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8aab59384d9f54ab046ed784d27811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabParent: {fileID: 0}
   parent: {fileID: 669707147}
   type2_1: {fileID: 0}
   type2_2: {fileID: 0}
@@ -18349,6 +18351,8 @@ MonoBehaviour:
   gameStateShown: 
   isPreViewing: 0
   global_OL: 0
+  homeDestroyData: 0
+  gameResult: 0
   mapmapRow: 0
   mapmapCol: []
   indexMapMapCol: 0

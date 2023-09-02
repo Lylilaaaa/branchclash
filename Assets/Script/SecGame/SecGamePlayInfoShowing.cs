@@ -19,6 +19,7 @@ public class SecGamePlayInfoShowing : MonoBehaviour
     
     public Image[] debuffSliderImage;
     public TextMeshProUGUI[] layerMainShowing;
+    public TextMeshProUGUI[] protectShowing;
     
     public float fillSpeedDebuff = 1f;
     public float fillSpeedProtect = 1f;
@@ -52,6 +53,9 @@ public class SecGamePlayInfoShowing : MonoBehaviour
             
             weaponTotalBlood = CurNodeDataSummary._instance.weaponBloodList;
             weaponTotalProtect = CurNodeDataSummary._instance.protectList;
+            protectShowing[0].text = "+" + weaponTotalProtect[0].ToString();
+            protectShowing[1].text = "+" + weaponTotalProtect[1].ToString();
+            protectShowing[2].text = "+" + weaponTotalProtect[2].ToString();
             
             debuffWood.maxValue = 1;
             debuffIron.maxValue = 1;

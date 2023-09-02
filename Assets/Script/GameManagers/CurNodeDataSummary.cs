@@ -52,6 +52,10 @@ public class CurNodeDataSummary : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+    }
+
+    public void ReStart()
+    {
         dictionaryFinish = false;
         _initData = false;
         changeData = false;

@@ -25,7 +25,11 @@ public class CursorOutlines : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        thisNodeData = null;
+        correspondMajorDownNodeData = null;
+        cursorZoomIn=false;
         _canDisappear = true;
+        olWithoutMouse = false;
         // outlineGbj = FindChildWithTag(transform, "outline").gameObject;
         // outline_render = outlineGbj.GetComponent<Renderer>();
         // outline_render.material = outlineMat_0;
@@ -34,6 +38,7 @@ public class CursorOutlines : MonoBehaviour
 
     private void _setThisData()
     {
+        //print("setdata!" + transform.name);
         string[] layerIndex = transform.name.Split('-');
         if (layerIndex.Length == 2)
         {
@@ -108,6 +113,7 @@ public class CursorOutlines : MonoBehaviour
 
     public void ZoomCertainNode()
     {
+        //print("test zooming!");
         if (transform.name == GlobalVar._instance.zoomingPos)
         {
             _canDisappear = false;

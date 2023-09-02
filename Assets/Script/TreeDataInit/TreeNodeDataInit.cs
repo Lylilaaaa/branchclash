@@ -21,10 +21,6 @@ public class TreeNodeDataInit : MonoBehaviour
         _instance = this;
         
     }
-    private void Start()
-    {
-        //ReStart();
-    }
 
     public void ReStart()
     {
@@ -52,11 +48,7 @@ public class TreeNodeDataInit : MonoBehaviour
                 downTreeData.downNodeDictionary.Add(_downNodeData.nodeLayer.ToString()+','+_downNodeData.nodeIndex.ToString(),_downNodeData);
                 treeData.treeNodeCount += 1;
             }
-            //加node操作
-            // fake_preAdd("0,1");
-            // fake_preAdd("0,1");
-            // fake_preAdd("0,1");
-            // SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
+
             GlobalVar._instance._convert2TreeGen(treeData);
             GlobalVar._instance._downConvert2TreeGen(downTreeData);
             TreeGenerator._instance.InitTree();
@@ -116,7 +108,7 @@ public class TreeNodeDataInit : MonoBehaviour
         initNode.mapStructure = "00,H,00,00,00,00,00,00,00,00,00,00,00,00,00,00,R,00,/n,00,R,00,00,R,R,R,R,00,00,R,R,R,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,R,R,R,00,00,R,R,R,R,00,00,R,R,R,R,00,/n,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,/";
         return initNode;
     }
-    //先假设预先生成几个node再说,真的加节点需要刷新树
+    //???????????????node???,??????????????
     public void AddNodeFather(string father)
     {
         if (!treeData.nodeDictionary.ContainsKey(father))
@@ -137,7 +129,7 @@ public class TreeNodeDataInit : MonoBehaviour
             newNodeData.nodeLayer = layer_index[0]+1;
             newNodeData.nodeIndex = GetMaxSecondNumber(layer_index[0] + 1)+1;
             
-            //处理layer升级之后的数据，待处理
+            //????layer???????????????????
             newNodeData.curHealth = baseNodeData.curHealth;
             newNodeData.fullHealth = baseNodeData.fullHealth;
             newNodeData.monsterCount = baseNodeData.monsterCount;
@@ -147,7 +139,7 @@ public class TreeNodeDataInit : MonoBehaviour
             
             treeData.nodeDictionary.Add(newNodeName, newNodeData);
             
-            // 将新节点保存到文件夹路径中
+            // ???????浽?????·????
             // string assetPath = "Assets/ScriptableObj/NodeDataObj/" + newNodeName + ".asset";
             // AssetDatabase.CreateAsset(newNodeData, assetPath);
             // AssetDatabase.SaveAssets();
@@ -174,7 +166,7 @@ public class TreeNodeDataInit : MonoBehaviour
         newNodeData.nodeIndex = GetMaxSecondNumber(previousData.nodeLayer+1)+1;
         newNodeData.isMajor = false;
         
-        //处理layer升级之后的数据，待处理
+        //????layer???????????????????
         newNodeData.curHealth = (int)CurNodeDataSummary._instance.homeCurHealth;
         newNodeData.fullHealth =(int)CurNodeDataSummary._instance.homeMaxHealth;
         newNodeData.monsterCount = CurNodeDataSummary._instance.monsterCount;
@@ -182,7 +174,7 @@ public class TreeNodeDataInit : MonoBehaviour
         newNodeData.mapStructure = GlobalVar._instance._getMapmapString(GlobalVar._instance.mapmapList);
         string newNodeName = newNodeData.nodeLayer.ToString() + ',' + newNodeData.nodeIndex.ToString();
 
-        //将新节点保存到文件夹路径中
+        //???????浽?????·????
         string assetPath = "Assets/Resources/" + newNodeName + ".asset";
         AssetDatabase.CreateAsset(newNodeData, assetPath);
         AssetDatabase.SaveAssets();
@@ -191,12 +183,53 @@ public class TreeNodeDataInit : MonoBehaviour
         Debug.Log("New node created and saved: " + newNodeName);
     }
 
-    // private string[][] getTotalString()
-    // {
-    //     return 
-    // }
+    public void AddDownNodeData()
+    {
+        DateTime currentDateTime = DateTime.UtcNow;
+        string nowUTC = currentDateTime.ToString();
+        DownNodeData previousDownNodeData = GlobalVar._instance.downChosenNodeData;
+        DownNodeData newDownNodeData = new DownNodeData();
+        newDownNodeData.ownerAddr = GlobalVar._instance.userAddr;
+        newDownNodeData.setUpTime = nowUTC;
+        newDownNodeData.fatherLayer = previousDownNodeData.nodeLayer;
+        newDownNodeData.fatherIndex = previousDownNodeData.nodeIndex;
+        newDownNodeData.childCount = 0;
+
+        newDownNodeData.nodeLayer = previousDownNodeData.nodeLayer + 1;
+        newDownNodeData.nodeIndex = GetDownMaxSecondNumber(previousDownNodeData.nodeLayer + 1) + 1;
+        newDownNodeData.isMajor = false;
+
+        newDownNodeData.debuffData = CurNodeDataSummary._instance.curDebuffList;
+        string newDownNodeName = "("+newDownNodeData.nodeLayer.ToString() + ',' + newDownNodeData.nodeIndex.ToString()+")";
+        
+        string assetPath = "Assets/Resources/" + newDownNodeName + ".asset";
+        AssetDatabase.CreateAsset(newDownNodeData, assetPath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        Debug.Log("New down node created and saved: " + newDownNodeName);
+    }
     
     private int GetMaxSecondNumber(int firstNumber)
+    {
+        List<int[]> sequence = new List<int[]>();
+        foreach (string key in downTreeData.downNodeDictionary.Keys)
+        {
+            int[] indexPair = convertStrInt(key);
+            sequence.Add(indexPair);
+        }
+        int maxSecondNumber = 0;
+        foreach (int[] pair in sequence)
+        {
+            if (pair[0] == firstNumber && pair[1] > maxSecondNumber)
+            {
+                maxSecondNumber = pair[1];
+            }
+        }
+
+        return maxSecondNumber;
+    }
+    private int GetDownMaxSecondNumber(int firstNumber)
     {
         List<int[]> sequence = new List<int[]>();
         foreach (string key in treeData.nodeDictionary.Keys)
@@ -233,7 +266,7 @@ public class TreeNodeDataInit : MonoBehaviour
         }
         else
         {
-            Debug.LogError("树的key结构不正确!");
+            Debug.LogError("????key???????!");
         }
         return genList.ToArray();
     }

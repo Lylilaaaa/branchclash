@@ -11,71 +11,8 @@ using UnityEngine;
 
 public class TreeGenerator : MonoBehaviour
 {
-    #region
-    ////层数，层内序号，父节点层内序号，子节点数量
-    //public static int[] nodes;
-    //public GameObject prefab;
-    //public int layerHeight = 5;
-
-    //public int curLayer;
-    //public List<int> curLayerNodes;
-
-
-    //private void Start()
-    //{
-    //    nodes = new int[] {0,0,0,17,1,0,0,0,1,1,0,0,1,2,0,0,1,3,0,0,1,4,0,0,1,5,0,0,1,6,0,0,1,7,0,0,1,8,0,0,1,9,0,0,
-    //    1,10,0,0,1,11,0,0,2,0,1,0};
-    //    GetLayer();
-
-    //    for(int l = curLayer; l >= 0; l--)
-    //    {
-    //        SpawnNodes(l);
-    //    }
-    //}
-
-
-    //private void GetLayer()
-    //{
-    //    for(int i = 0; i < nodes.Length / 4; i++)
-    //    {
-    //        if(nodes[4 * i] > curLayer)
-    //        {
-    //            curLayer = nodes[4 * i];
-    //        }
-    //    }
-    //    Debug.Log(curLayer);
-    //}
-
-
-    //private void SpawnNodes(int layer)
-    //{
-    //    string name;
-    //    Vector3 pos;
-
-    //    for (int i = 0; i < (nodes.Length / 4); i++)
-    //    {
-    //        if(nodes[4 * i] == layer)
-    //        {
-    //            curLayerNodes.Add(nodes[4 * i + 1]);
-    //        }
-    //    }
-
-    //    for (int j = 0; j < curLayerNodes.Count; j++)
-    //    {
-    //        pos = new Vector3(Random.Range(-layer, layer), layerHeight * layer, Random.Range(-layer, layer));
-    //        name = layer.ToString() + "-" + j.ToString();
-    //        GameObject node = Instantiate(prefab, pos, transform.rotation);
-    //        node.name = name;
-    //    }
-
-    //    curLayerNodes.Clear();
-    //}
-
-
-    #endregion
 
     public static TreeGenerator _instance;
-    //层数，层内序号，父节点层内序号，子节点数量
     public static int[] nodes;
     public GameObject prefab;
     public GameObject link;
@@ -83,15 +20,11 @@ public class TreeGenerator : MonoBehaviour
 
     private int layerNum;
     private List<Vector3> nodePos;
-    //每一层节点平面范围的半边长
+
     private int[] layerWidth;
     private void Awake()
     {
         _instance = this;
-        
-    }
-    private void Start()
-    {
         
     }
 
@@ -135,7 +68,6 @@ public class TreeGenerator : MonoBehaviour
 
     private void FindPos()
     {
-        //每一层节点数量
         int nodeNum;
         Vector3 curPos;
 
@@ -150,7 +82,6 @@ public class TreeGenerator : MonoBehaviour
                 }
             }
 
-            //取定合适的边长
             int width = 2 * (int)Mathf.Log(nodeNum) + 1;
             layerWidth[i] = width;
 
@@ -162,13 +93,9 @@ public class TreeGenerator : MonoBehaviour
                 {
                     curPos = new Vector3(Random.Range(-width, width + 1), i * layerHeight + 1, Random.Range(-width, width + 1));
                 }
-
                 nodePos.Add(curPos);
-                
             }
         }
-
-        
     }
 
     private void InsCube()
@@ -236,13 +163,10 @@ public class TreeGenerator : MonoBehaviour
     private void DistributePos()
     {
         int ran;
-        //父节点层排序后顺序
         List<int> lastLayerOrder = new List<int>();
-
-        //一层所有生成的节点，用于该层节点从内到外排序
+        
         List<GameObject> currentLayerNodes = new List<GameObject>();
-
-        //一层所有节点，用于生成和寻找父节点     层内序号，父节点层内序号
+        
         List<int> certainLayer = new List<int>();
 
         for(int i = 0; i <= layerNum; i++)
@@ -291,17 +215,17 @@ public class TreeGenerator : MonoBehaviour
             }
             else
             {
-                //找到该层所有节点
+                //????ò????н??
                 for(int j = 0; j < nodes.Length / 4; j++)
                 {
                     if(nodes[4 * j] == i)
                     {
-                        certainLayer.Add(nodes[4 * j + 1]);//自己序号
-                        certainLayer.Add(nodes[4 * j + 2]);//父节点序号
+                        certainLayer.Add(nodes[4 * j + 1]);//??????
+                        certainLayer.Add(nodes[4 * j + 2]);//????????
                     }
                 }
 
-                for(int m = 0; m < lastLayerOrder.Count; m++)               //外层循环父节点，从外而内遍历
+                for(int m = 0; m < lastLayerOrder.Count; m++)               //?????????????????????
                 {
                     GameObject father = GameObject.Find((i - 1).ToString() + "-" + lastLayerOrder[m].ToString());
                     int fatherWidth = layerWidth[i - 1];
@@ -313,7 +237,7 @@ public class TreeGenerator : MonoBehaviour
                     float mapZ = father.transform.position.z * (float)childWidth / fatherWidth;
                     mapPoint = new Vector3(mapX, mapY, mapZ);
 
-                    for (int n = 0; n < certainLayer.Count / 2; n++)         //遍历该层节点，找到该父节点的每一个子节点，每个子结点找一个距父节点最近的位置，然后删掉该位置
+                    for (int n = 0; n < certainLayer.Count / 2; n++)         //?????ò???????????????????????????????????????????λ???????????λ??
                     {
                         if(certainLayer[2 * n + 1] == lastLayerOrder[m])
                         {

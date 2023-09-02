@@ -13,7 +13,9 @@ using UnityEngine;
 public class RedLineGenerator : MonoBehaviour
 {
     public static RedLineGenerator _instance;
+    public GameObject prefabParent;
     public Transform parent;
+    private GameObject _initGObj;
     //六位二进制表示有无，x+,x-,y+,y-,z+,z-
     public static Dictionary<Vector3, int> lineMap = new Dictionary<Vector3, int>();
     public static List<Vector3> majorChain = new List<Vector3>();
@@ -41,13 +43,23 @@ public class RedLineGenerator : MonoBehaviour
         _instance = this;
         
     }
-    private void Start()
+    private void Update()
     {
-        ReStart();
+        if (GlobalVar._instance.GetState() != GlobalVar.GameState.Viewing &&
+            GlobalVar._instance.GetState() != GlobalVar.GameState.MainStart)
+        {
+            if (_initGObj != null)
+            {
+                print("destroy Redline parent!");
+                Destroy(_initGObj);
+            }
+        }
     }
 
     public void ReStart()
     {
+        _initGObj = Instantiate(prefabParent);
+        parent = _initGObj.transform;
         type2_1 = Resources.Load<GameObject>("2.1_red");
         type2_2 = Resources.Load<GameObject>("2.2_red");
         type3_1 = Resources.Load<GameObject>("3.1_red");
@@ -68,7 +80,7 @@ public class RedLineGenerator : MonoBehaviour
         type5_1_m = Resources.Load<GameObject>("5.1_pink");
         type6_1_m = Resources.Load<GameObject>("6.1_pink");
 
-        Invoke("GenerateLine", 3);
+        Invoke("GenerateLine",2);
     }
 
 

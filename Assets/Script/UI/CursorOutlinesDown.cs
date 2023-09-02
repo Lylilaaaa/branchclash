@@ -20,10 +20,10 @@ public class CursorOutlinesDown : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        //print(transform.name + "awake!");
         mouseEnter = false;
         _canDisappear = true;
         previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(false);
-        
     }
 
     private void _setThisData()
@@ -60,7 +60,7 @@ public class CursorOutlinesDown : MonoBehaviour
         }
         else
         {
-            print("wrong name!!!");
+            print("wrong name!!!" + transform.name);
         }
     }
 
