@@ -35,7 +35,6 @@ public class ViewTowerCurSor : MonoBehaviour
         _canDisappear = true;
         mouseEnter = false;
         //outlineGbj = transform.GetChild(2).gameObject;
-        int childCount = transform.childCount;
         //print(outlineGbj);
         previewLevelInfoPenal.gameObject.SetActive(false);
         if (ThisTowerType == TowerType.wood || ThisTowerType == TowerType.iron || ThisTowerType == TowerType.elec)
@@ -58,7 +57,7 @@ public class ViewTowerCurSor : MonoBehaviour
     private void Update()
     {
         //print((outlineGbj));
-        if (CurNodeDataSummary._instance.dictionaryFinish == true && _finish == false && GlobalVar.CurrentGameState == GlobalVar.GameState.Viewing)
+        if (CurNodeDataSummary._instance._initData == true && _finish == false && GlobalVar.CurrentGameState == GlobalVar.GameState.Viewing)
         {
             _finish = true;
             //print(transform.parent);

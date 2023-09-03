@@ -49,7 +49,7 @@ public class ViewingDebuffProtect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CurNodeDataSummary._instance.dictionaryFinish == true && _counted ==false)
+        if (CurNodeDataSummary._instance._initData == true && _counted ==false)
         {
             _counted = true;
             if (CurNodeDataSummary._instance.woodCount != null)

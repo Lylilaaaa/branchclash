@@ -15,7 +15,7 @@ MonoBehaviour:
   ownerAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
   setUpTime: 2023/9/2 13:39:48
   fatherLayer: 6
-  fatherIndex: 3
+  fatherIndex: 1
   childCount: 0
   nodeLayer: 7
   nodeIndex: 2

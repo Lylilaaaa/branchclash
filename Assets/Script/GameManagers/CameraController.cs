@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public static CameraController _instance;
+    //public static CameraController _instance;
     public float zoomSpeed = 5f; // 相机缩放速度
     public float moveSpeed = 10f; // 相机移动速度
     public float CursorZoomSpeed = 3f;
@@ -19,7 +19,17 @@ public class CameraController : MonoBehaviour
 
     private void Awake()
     {
-        _instance = this;
+        // if (_instance == null)
+        // {
+        //     // 如果实例不存在，则将该对象标记为不会被销毁的对象
+            //_instance = this;
+        //     DontDestroyOnLoad(gameObject);
+        // }
+        // else
+        // {
+        //     // 如果实例已存在，则销毁当前对象，以保证只有一个实例存在
+        //     Destroy(gameObject);
+        // }
     }
 
     private void Update()

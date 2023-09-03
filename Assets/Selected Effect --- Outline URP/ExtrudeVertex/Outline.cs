@@ -119,16 +119,24 @@ namespace SelectedEffectOutline
 
 			if (m_Usage == Usage.Viewing)
 			{
-				if (vtc._canDisappear == true && vtc.mouseEnter == false)
+				if (vtc == null)
 				{
-					if (GlobalVar._instance.GetState() == GlobalVar.GameState.Viewing)
-					{
-						OutlineDisable();
-					}
+					vtc = transform.parent.parent.GetComponent<ViewTowerCurSor>();
 				}
-				else if (vtc.mouseEnter == true && GlobalVar._instance.GetState() == GlobalVar.GameState.Viewing)
+
+				if (vtc != null)
 				{
-					OutlineEnable();
+					if (vtc._canDisappear == true && vtc.mouseEnter == false)
+					{
+						if (GlobalVar._instance.GetState() == GlobalVar.GameState.Viewing)
+						{
+							OutlineDisable();
+						}
+					}
+					else if (vtc.mouseEnter == true && GlobalVar._instance.GetState() == GlobalVar.GameState.Viewing)
+					{
+						OutlineEnable();
+					}
 				}
 			}
 			

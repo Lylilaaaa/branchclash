@@ -10,6 +10,7 @@ public class SetEventCamera : MonoBehaviour
     void Start()
     {
         canvas = transform.GetComponent<Canvas>();
+        canvas.worldCamera = null;
     }
 
     // Update is called once per frame

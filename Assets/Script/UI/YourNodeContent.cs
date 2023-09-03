@@ -12,7 +12,6 @@ public class YourNodeContent : MonoBehaviour
     {
         _rectTransform = GetComponent<RectTransform>();
         has = false;
-
     }
 
     private void Update()

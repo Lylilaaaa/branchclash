@@ -50,6 +50,10 @@ public class RedLineGenerator : MonoBehaviour
         {
             if (_initGObj != null)
             {
+                lineMap.Clear();
+                majorChain.Clear();
+                lineMap = new Dictionary<Vector3, int>();
+                majorChain = new List<Vector3>();
                 print("destroy Redline parent!");
                 Destroy(_initGObj);
             }
@@ -80,7 +84,7 @@ public class RedLineGenerator : MonoBehaviour
         type5_1_m = Resources.Load<GameObject>("5.1_pink");
         type6_1_m = Resources.Load<GameObject>("6.1_pink");
 
-        Invoke("GenerateLine",2);
+        Invoke("GenerateLine",0.1f);
     }
 
 

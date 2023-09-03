@@ -5,7 +5,8 @@ using UnityEngine;
 public class SecGamePlay : MonoBehaviour
 {
     [Header("=====AudioSetting=====")] 
-    public AudioClip loadingSound;
+    public AudioClip pushSound;
+    
 
     [Header("=====ObjectSetting=====")] 
     public Collider[] pushColliderList;
@@ -15,7 +16,7 @@ public class SecGamePlay : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        SoundManager._instance.PlayMusicSound(SoundManager._instance.secGamePlayBackSound,true,0.8f);
+        SoundManager._instance.PlayMusicSound(SoundManager._instance.secGamePlayBackSound,true,0.5f);
     }
 
     // Update is called once per frame
@@ -46,8 +47,7 @@ public class SecGamePlay : MonoBehaviour
 
     private void _pushDebuff(int index)
     {
-        SoundManager._instance.PlayEffectSound(loadingSound);
-        TreeNodeDataInit._instance.AddDownNodeData();
+        SoundManager._instance.PlayEffectSound(pushSound);
         pushAnimator[index].SetTrigger("isPushed");
         tubeAnimator[index].SetTrigger("push");
     }

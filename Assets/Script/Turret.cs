@@ -37,7 +37,7 @@ public class Turret : MonoBehaviour
 
     private void Update()
     {
-        if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && dataInit == false && gpCurSorOutline.weaponType!="" && CurNodeDataSummary._instance.gamePlayInitData == true)
+        if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && dataInit == false && gpCurSorOutline.weaponType!="" && CurNodeDataSummary._instance._initData == true)
         {
             dataInit = true;
             _weaponType = gpCurSorOutline.weaponType;

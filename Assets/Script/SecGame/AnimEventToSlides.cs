@@ -17,6 +17,12 @@ public class AnimEventToSlides : MonoBehaviour
     public void LoadEndScene()
     {
         Debug.Log("end scene preparing!");
+        Invoke("_jumpToEndGame", 3f);
+        
+    }
+
+    private void _jumpToEndGame()
+    {
         GlobalVar._instance._loadNextScene("4_End");
     }
 }

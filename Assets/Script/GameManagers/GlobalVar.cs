@@ -25,10 +25,9 @@ public class GlobalVar : MonoBehaviour
     
     
     [Header("--------Process--------")]
-    private NodeData _previousNodeData;
-    private DownNodeData _previousDownNodeData;
+
     public NodeData chosenNodeData;
-    public DownNodeData downChosenNodeData;
+    public DownNodeData chosenDownNodeData;
     public GameState initialGameState;
     public static GameState CurrentGameState;
     public string gameStateShown="";
@@ -87,7 +86,7 @@ public class GlobalVar : MonoBehaviour
     public void ReStart()
     {
         //
-        
+        dataPrepared = false;
         //TreeGenerator._instance.InitTree();
         //RedTreeGenerator._instance.InitDownTree();
 
@@ -99,9 +98,8 @@ public class GlobalVar : MonoBehaviour
         userAddr = thisUserData.address;
 
         CurrentGameState = initialGameState;
-        _previousNodeData = chosenNodeData;
-        _previousDownNodeData = downChosenNodeData;
-        
+
+        isPreViewing = false;
         _getMapmapList();
 
         nodeDataList = new List<NodeData>();
@@ -122,21 +120,15 @@ public class GlobalVar : MonoBehaviour
     {
         if (dataPrepared == true)
         {
+            //for shown purpose
             mapmapRow = mapmapList.Length;
             mapmapCol = mapmapList[indexMapMapCol];
             gameStateShown = GetState().ToString();
-
-            if (_previousNodeData.nodeIndex!= chosenNodeData.nodeIndex || _previousNodeData.nodeLayer!= chosenNodeData.nodeLayer )
-            {
-                _getMapmapList();
-                _previousNodeData = chosenNodeData;
-            }
         }
-
     }
     
 
-    private void _getMapmapList()
+    public void _getMapmapList()
     {
         string totalString = chosenNodeData.mapStructure;
         string[] rows = totalString.Split("/n");
@@ -534,5 +526,74 @@ public class GlobalVar : MonoBehaviour
         {
             ReStart();
         }
+        else if (sceneName == "3_1_SecGamePlay"|| sceneName == "3_0_GamePlay")
+        {
+            CurNodeDataSummary._instance._initData = false;
+        }
+    }
+    
+    public NodeData _checkUpNodeMain(int layer)
+    {
+        if (layer <=maxLevelTree) //如果这个downNode的layer小于当前的最大正树layer
+        {
+            foreach (string majorNodeString in MajorNodeList)
+            {
+                string[] layerIndex = majorNodeString.Split('-');
+                if (layerIndex.Length == 2)
+                {
+                    if (int.Parse(layerIndex[0]) == layer)
+                    {
+                        return _findNodeData(majorNodeString);
+                    }
+                }
+            }
+        }
+        else //如果这个downNode的layer大于已有的正树layer
+        {
+            foreach (string majorNodeString in MajorNodeList)
+            {
+                string[] layerIndex = majorNodeString.Split('-');
+                if (layerIndex.Length == 2)
+                {
+                    if (int.Parse(layerIndex[0]) == maxLevelTree)
+                    {
+                        return _findNodeData(majorNodeString);
+                    }
+                }
+            }
+        }
+        return treeData.InitNodeData;
+    }
+    public NodeData _checkDownNodeMain(int layer)
+    {
+        if (layer <=maxLevelTree) //如果这个downNode的layer小于当前的最大正树layer
+        {
+            foreach (string majorNodeString in MajorNodeList)
+            {
+                string[] layerIndex = majorNodeString.Split('-');
+                if (layerIndex.Length == 2)
+                {
+                    if (int.Parse(layerIndex[0]) == layer)
+                    {
+                        return _findNodeData(majorNodeString);
+                    }
+                }
+            }
+        }
+        else //如果这个downNode的layer大于已有的正树layer
+        {
+            foreach (string majorNodeString in MajorNodeList)
+            {
+                string[] layerIndex = majorNodeString.Split('-');
+                if (layerIndex.Length == 2)
+                {
+                    if (int.Parse(layerIndex[0]) == maxLevelTree)
+                    {
+                        return _findNodeData(majorNodeString);
+                    }
+                }
+            }
+        }
+        return treeData.InitNodeData;
     }
 }

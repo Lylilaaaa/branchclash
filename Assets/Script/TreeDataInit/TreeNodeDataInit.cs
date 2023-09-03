@@ -16,14 +16,19 @@ public class TreeNodeDataInit : MonoBehaviour
     private GlobalVar.GameState _previousGameState;
     public bool finish=false;
 
+    private int restartTime;
+
     private void Awake()
     {
         _instance = this;
-        
+        restartTime = 0;
+
     }
 
     public void ReStart()
     {
+        restartTime++;
+        //print("restart time: "+restartTime);
         if (GlobalVar.CurrentGameState == GlobalVar.GameState.MainStart)
         {
             previousNodeData = GlobalVar._instance.nodeDataList;
@@ -51,6 +56,7 @@ public class TreeNodeDataInit : MonoBehaviour
 
             GlobalVar._instance._convert2TreeGen(treeData);
             GlobalVar._instance._downConvert2TreeGen(downTreeData);
+            //LineGenerator._instance.lineMap = new Dictionary<Vector3, int>();
             TreeGenerator._instance.InitTree();
             RedTreeGenerator._instance.InitDownTree();
             LineGenerator._instance.ReStart();
@@ -60,26 +66,26 @@ public class TreeNodeDataInit : MonoBehaviour
 
     private void Update()
     {
-        if (_previousGameState != GlobalVar.CurrentGameState &&
-            GlobalVar.CurrentGameState == GlobalVar.GameState.MainStart && finish == false)
-        {
-            previousNodeData = GlobalVar._instance.nodeDataList;
-            treeData.nodeDictionary = new Dictionary<string, NodeData>();
-            treeData.InitNodeData = initNodeData(treeData.InitNodeData);
-            treeData.nodeDictionary.Add("0,1",treeData.InitNodeData);
-            treeData.treeNodeCount += 1;
-            foreach (NodeData _nodeData in previousNodeData)
-            {
-                treeData.nodeDictionary.Add(_nodeData.nodeLayer.ToString()+','+_nodeData.nodeIndex.ToString(),_nodeData);
-                treeData.treeNodeCount += 1;
-            }
-            GlobalVar._instance._convert2TreeGen(treeData);
-            TreeGenerator._instance.InitTree();
-            finish = true;
-        }
-        
-        _previousGameState = GlobalVar.CurrentGameState;
-        treeData.treeNodeCount = treeData.nodeDictionary.Count;
+        // if (_previousGameState != GlobalVar.CurrentGameState &&
+        //     GlobalVar.CurrentGameState == GlobalVar.GameState.MainStart && finish == false)
+        // {
+        //     previousNodeData = GlobalVar._instance.nodeDataList;
+        //     treeData.nodeDictionary = new Dictionary<string, NodeData>();
+        //     treeData.InitNodeData = initNodeData(treeData.InitNodeData);
+        //     treeData.nodeDictionary.Add("0,1",treeData.InitNodeData);
+        //     treeData.treeNodeCount += 1;
+        //     foreach (NodeData _nodeData in previousNodeData)
+        //     {
+        //         treeData.nodeDictionary.Add(_nodeData.nodeLayer.ToString()+','+_nodeData.nodeIndex.ToString(),_nodeData);
+        //         treeData.treeNodeCount += 1;
+        //     }
+        //     GlobalVar._instance._convert2TreeGen(treeData);
+        //     TreeGenerator._instance.InitTree();
+        //     finish = true;
+        // }
+        //
+        // _previousGameState = GlobalVar.CurrentGameState;
+        // treeData.treeNodeCount = treeData.nodeDictionary.Count;
     }
     private DownNodeData initDownNodeData(DownNodeData initNode)
     {
@@ -181,13 +187,14 @@ public class TreeNodeDataInit : MonoBehaviour
         AssetDatabase.Refresh();
 
         Debug.Log("New node created and saved: " + newNodeName);
+        GlobalVar._instance.dataPrepared = false;
     }
 
     public void AddDownNodeData()
     {
         DateTime currentDateTime = DateTime.UtcNow;
         string nowUTC = currentDateTime.ToString();
-        DownNodeData previousDownNodeData = GlobalVar._instance.downChosenNodeData;
+        DownNodeData previousDownNodeData = GlobalVar._instance.chosenDownNodeData;
         DownNodeData newDownNodeData = new DownNodeData();
         newDownNodeData.ownerAddr = GlobalVar._instance.userAddr;
         newDownNodeData.setUpTime = nowUTC;
@@ -208,12 +215,13 @@ public class TreeNodeDataInit : MonoBehaviour
         AssetDatabase.Refresh();
 
         Debug.Log("New down node created and saved: " + newDownNodeName);
+        GlobalVar._instance.dataPrepared = false;
     }
     
     private int GetMaxSecondNumber(int firstNumber)
     {
         List<int[]> sequence = new List<int[]>();
-        foreach (string key in downTreeData.downNodeDictionary.Keys)
+        foreach (string key in treeData.nodeDictionary.Keys)
         {
             int[] indexPair = convertStrInt(key);
             sequence.Add(indexPair);
@@ -232,7 +240,7 @@ public class TreeNodeDataInit : MonoBehaviour
     private int GetDownMaxSecondNumber(int firstNumber)
     {
         List<int[]> sequence = new List<int[]>();
-        foreach (string key in treeData.nodeDictionary.Keys)
+        foreach (string key in downTreeData.downNodeDictionary.Keys)
         {
             int[] indexPair = convertStrInt(key);
             sequence.Add(indexPair);

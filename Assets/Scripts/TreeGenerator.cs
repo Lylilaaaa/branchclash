@@ -185,7 +185,7 @@ public class TreeGenerator : MonoBehaviour
                 {
                     tn.isMajor = true;
                 }
-                tn.ReStart();
+                //tn.ReStart();
                 nodePos.RemoveAt(0);
                 //print("init"+ n.name);
             }
@@ -206,7 +206,7 @@ public class TreeGenerator : MonoBehaviour
                         tn.num = nodes[4 * j + 1];
                         tn.father = 0;
                         currentLayerNodes.Add(n);
-                        tn.ReStart();
+                        //tn.ReStart();
                         //print("init"+ n.name);
                     }
                 }
@@ -215,7 +215,7 @@ public class TreeGenerator : MonoBehaviour
             }
             else
             {
-                //????¨°????§ß??
+                //??????????????
                 for(int j = 0; j < nodes.Length / 4; j++)
                 {
                     if(nodes[4 * j] == i)
@@ -237,7 +237,7 @@ public class TreeGenerator : MonoBehaviour
                     float mapZ = father.transform.position.z * (float)childWidth / fatherWidth;
                     mapPoint = new Vector3(mapX, mapY, mapZ);
 
-                    for (int n = 0; n < certainLayer.Count / 2; n++)         //?????¨°???????????????????????????????????????????¦Ë???????????¦Ë??
+                    for (int n = 0; n < certainLayer.Count / 2; n++)         //???????????????????????????????????????????????????????????????????
                     {
                         if(certainLayer[2 * n + 1] == lastLayerOrder[m])
                         {
@@ -252,7 +252,7 @@ public class TreeGenerator : MonoBehaviour
                             tn.num = certainLayer[2 * n];
                             tn.father = lastLayerOrder[m];
                             nodePos.Remove(pos);
-                            tn.ReStart();
+                            //tn.ReStart();
                             //print("init"+ c.name);
                         }
                     }

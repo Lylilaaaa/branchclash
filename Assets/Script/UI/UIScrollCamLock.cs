@@ -10,12 +10,12 @@ public class UIScrollCamLock : MonoBehaviour
     {
         if (EventSystem.current.IsPointerOverGameObject())
         {
-            CameraController._instance.camLock = true;
+            Camera.main.gameObject.GetComponent<CameraController>().camLock = true;
             onGameObj = true;
         }
         else
         {
-            CameraController._instance.camLock = false;
+            Camera.main.gameObject.GetComponent<CameraController>().camLock = false;
             onGameObj = false;
         }
     }

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: (3,6)
   m_EditorClassIdentifier: 
   ownerAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
-  setUpTime: 2023/9/2 14:38:00
+  setUpTime: 2023/9/3 4:59:26
   fatherLayer: 2
-  fatherIndex: 5
+  fatherIndex: 2
   childCount: 0
   isMajor: 0
   nodeLayer: 3

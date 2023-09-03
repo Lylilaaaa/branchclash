@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: (5,6)
   m_EditorClassIdentifier: 
   ownerAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
-  setUpTime: 2023/9/2 13:23:31
+  setUpTime: 2023/9/3 5:15:08
   fatherLayer: 4
-  fatherIndex: 2
+  fatherIndex: 9
   childCount: 0
   isMajor: 0
   nodeLayer: 5
   nodeIndex: 6
-  debuffData: 030000000000000014000000
+  debuffData: 020000000000000000000000

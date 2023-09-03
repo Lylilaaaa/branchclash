@@ -16,6 +16,7 @@ public class ProPoolDisplay : MonoBehaviour
     {
         _rectTransform = GetComponent<RectTransform>();
         has = false;
+        _weapenPoolFinish=false;
     }
 
     private void Update()
@@ -26,12 +27,12 @@ public class ProPoolDisplay : MonoBehaviour
             _clearWeaponPool();
             _initWeaponPoolUI();
         }
-        if (CurNodeDataSummary._instance.changeData == true)
-        {
-            CurNodeDataSummary._instance.changeData = false;
-            _clearWeaponPool();
-            _initWeaponPoolUI();
-        }
+        // if (CurNodeDataSummary._instance.changeData == true)
+        // {
+        //     CurNodeDataSummary._instance.changeData = false;
+        //     _clearWeaponPool();
+        //     _initWeaponPoolUI();
+        // }
         //print(childCount);
         childCount = transform.childCount;
         if (has == false && childCount!=0)

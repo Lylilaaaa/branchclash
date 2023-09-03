@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class ReadInfo : MonoBehaviour
 {
-    string url = "119.91.132.241/search.php";
+    string url = "8.219.216.37/search.php";
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(rInfo(1, 1));
+        
     }
 
-   
-
+    public void ReadLayerIndex()
+    {
+        StartCoroutine(rInfo(2, 2));
+    }
+    
     IEnumerator rInfo(int layer, int idx)
     {
         url = url + "?layer=" + layer.ToString() + "&idx=" + idx.ToString();

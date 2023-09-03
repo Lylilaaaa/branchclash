@@ -26,13 +26,14 @@ public class TreeNode : MonoBehaviour
     public Material yellowMat;
     public Material blueMat;
     private List<GameObject> _matCore;
+    private int generateTime=0;
 
     // private void Start()
     // {
     //     ReStart();
     // }
 
-    public void ReStart()
+    public void Start()
     {
         //print("be restart!");
         _matCore = new List<GameObject>();
@@ -122,6 +123,8 @@ public class TreeNode : MonoBehaviour
 
     private void GenerateLine()
     {
+        generateTime++;
+        //print(transform.name+": "+generateTime);
         if (layer == 0)
         {
             return;

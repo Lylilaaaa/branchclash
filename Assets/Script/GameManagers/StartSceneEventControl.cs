@@ -42,7 +42,8 @@ public class StartSceneEventControl : MonoBehaviour
 
         if (_checkUserData(userAddress) == null)
         {
-            skipButton.gameObject.SetActive(false);
+            //skipButton.gameObject.SetActive(false);
+            skipButton.gameObject.SetActive(true);
             isOldPlayer = false;
         }
         else
@@ -82,9 +83,9 @@ public class StartSceneEventControl : MonoBehaviour
     
     private void _createUserData(int roleIndex)
     {
-        //需要先检查这个userData在不在已有的数据库内，如果有，直接跳过选角色
+        //??????????userData????????е?????????????У????????????
         
-        //如果没有：
+        //?????У?
         UserData newUserData = new UserData();
         //newUserData.name = userAddress;
         newUserData.address = userAddress;
@@ -103,13 +104,13 @@ public class StartSceneEventControl : MonoBehaviour
 
     void EndReached(VideoPlayer vPlayer)
     {
-        if (_finishMainVideo == false && isOldPlayer == false) //新玩家，打开选角panel，关闭视频panel
+        if (_finishMainVideo == false && isOldPlayer == false) //???????????panel????????panel
         {
             roleChoosingPanel.gameObject.SetActive(true);
             vp.gameObject.SetActive(false);
             _finishMainVideo = true;
         }
-        else if(_finishMainVideo == false && isOldPlayer == true) //老玩家，直接播放下一个视频
+        else if(_finishMainVideo == false && isOldPlayer == true) //????????????????????
         {
             vp.clip = videoList[_checkUserData(userAddress).role+1];
             vp.Prepare();
@@ -117,7 +118,7 @@ public class StartSceneEventControl : MonoBehaviour
         }
         else if (_finishMainVideo == true)
         {
-            //切换关卡了
+            //?л??????
             if (_role == 0)
             {
                 GlobalVar._instance._loadNextScene("1_0_HomePage");

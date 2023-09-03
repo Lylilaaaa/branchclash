@@ -10,12 +10,12 @@ public class UICurOutlineLock : MonoBehaviour
     {
         if (EventSystem.current.IsPointerOverGameObject())
         {
-            CameraController._instance.camLock = true;
+            Camera.main.gameObject.GetComponent<CameraController>().camLock = true;
             GlobalVar._instance.global_OL = false;
         }
         else
         {
-            CameraController._instance.camLock = false;
+            Camera.main.gameObject.GetComponent<CameraController>().camLock = false;
             GlobalVar._instance.global_OL = true;
         }
     }

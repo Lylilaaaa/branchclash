@@ -30,7 +30,7 @@ public class SecGamePlayInfoShowing : MonoBehaviour
     private string[] weaponList = new[] { "wood", "iron", "elec" };
     
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         dataFilled = false;
         dataRefresh = false;
@@ -38,21 +38,22 @@ public class SecGamePlayInfoShowing : MonoBehaviour
         for(int i = 0;i<3;i++)
         {
             TextMeshProUGUI VARIABLE = layerMainShowing[i];
-            VARIABLE.text = GlobalVar._instance.downChosenNodeData.nodeLayer+ " layer main\nlevel "+weaponList[i];
+            VARIABLE.text = (GlobalVar._instance.chosenDownNodeData.nodeLayer+1).ToString() + " layer main\nlevel "+weaponList[i];
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (dataFilled == false && CurNodeDataSummary._instance.dictionaryFinish == true)
+        if (dataFilled == false && CurNodeDataSummary._instance.gamePlayInitData)
         {
             dataFilled = true;
             
-            _debufflist = CurNodeDataSummary._instance.curDebuffList;
-            
+            _debufflist = CurNodeDataSummary._instance.debuffList;
+
             weaponTotalBlood = CurNodeDataSummary._instance.weaponBloodList;
             weaponTotalProtect = CurNodeDataSummary._instance.protectList;
+
             protectShowing[0].text = "+" + weaponTotalProtect[0].ToString();
             protectShowing[1].text = "+" + weaponTotalProtect[1].ToString();
             protectShowing[2].text = "+" + weaponTotalProtect[2].ToString();
@@ -69,9 +70,8 @@ public class SecGamePlayInfoShowing : MonoBehaviour
             _doWithSlides(1,debuffIron,proIron);
             _doWithSlides(2,debuffElec,proElec);
         }
-        
     }
-        private void _doWithSlides(int index, Slider debufSlider, Slider protectSlider)
+    private void _doWithSlides(int index, Slider debufSlider, Slider protectSlider)
     {
         if (weaponTotalBlood[index] != 0)
         {
@@ -197,6 +197,8 @@ public class SecGamePlayInfoShowing : MonoBehaviour
         addNum = (addTowerData.baseBulletAttack*addTowerData.baseBulletNumberPerSecond)/2;
         CurNodeDataSummary._instance.curDebuffList[index] += (int) addNum;
         dataRefresh = true;
+        
+        TreeNodeDataInit._instance.AddDownNodeData();
         
         _debufflist = CurNodeDataSummary._instance.curDebuffList;
         weaponTotalBlood = CurNodeDataSummary._instance.weaponBloodList;

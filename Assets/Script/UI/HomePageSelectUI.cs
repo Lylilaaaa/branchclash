@@ -28,7 +28,7 @@ public class HomePageSelectUI : MonoBehaviour
     public GameObject hintPanal;
     public GameObject hintHint;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         _nodeFinish=false;
         _messageFinish = false;
@@ -45,59 +45,65 @@ public class HomePageSelectUI : MonoBehaviour
 
     private void Update()
     {
-        if (GlobalVar._instance.thisUserData != null)
+        if (GlobalVar._instance.dataPrepared == true)
         {
-            if (GlobalVar._instance.thisUserData.isFirstPlay && hintHint.activeSelf == false)
+            if (GlobalVar._instance.thisUserData != null)
             {
-                hintHint.SetActive(true);
-            }
-        }
-
-        if (GlobalVar._instance.nodeDataList.Count != 0 && _nodeFinish == false && GlobalVar._instance.thisUserData.role == 0)
-        {
-            //print("init Nodes");
-            _checkYourNode();
-            _initYourNodeUI();
-            _nodeFinish = true;
-        }
-        else if (GlobalVar._instance.downNodeDataList.Count != 0 && _nodeFinish == false &&
-                 GlobalVar._instance.thisUserData.role == 1)
-        {
-            //print("init downNodes");
-            _checkYourDownNode();
-            _initYourDownNodeUI();
-            _nodeFinish = true;
-        }
-        if (GlobalVar._instance.nodeDataList.Count != 0 && _messageFinish == false)
-        {
-            _InformationMessage.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Day: "+System.DateTime.Now.Day+"  Month: "+System.DateTime.Now.Month+"  Year: "+System.DateTime.Now.Year;
-            _InformationMessage.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = messagesShown();
-            _showMessageFix();
-            _messageFinish = true;
-        }
-        if (GlobalVar._instance.nodeDataList.Count != 0 && _treeNumFinish == false)
-        {
-            int upTreeNum = GlobalVar._instance.maxLevelTree;
-            int downTreeNum = GlobalVar._instance.maxLevelTreeDown;
-            if (upTreeNum > downTreeNum)
-            {
-                _upTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum+downTreeNum;
-                _upTreeNum.GetChild(1).GetComponent<Slider>().value = upTreeNum;
-                _downTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum+downTreeNum;
-                _downTreeNum.GetChild(1).GetComponent<Slider>().value = downTreeNum;
-            }
-            else
-            {
-                _upTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum+downTreeNum;
-                _upTreeNum.GetChild(1).GetComponent<Slider>().value = upTreeNum;
-                _downTreeNum.GetChild(1).GetComponent<Slider>().maxValue = downTreeNum+upTreeNum;
-                _downTreeNum.GetChild(1).GetComponent<Slider>().value = downTreeNum;
+                if (GlobalVar._instance.thisUserData.isFirstPlay && hintHint.activeSelf == false)
+                {
+                    hintHint.SetActive(true);
+                }
             }
 
-            _upTreeNum.GetChild(3).GetComponent<TextMeshProUGUI>().text = "LAYER: " + upTreeNum;
-            _downTreeNum.GetChild(3).GetComponent<TextMeshProUGUI>().text = "LAYER: " + downTreeNum;
-            _treeNumFinish = true;
+            if (GlobalVar._instance.nodeDataList.Count != 0 && _nodeFinish == false && GlobalVar._instance.thisUserData.role == 0)
+            {
+                //print("init Nodes");
+                _checkYourNode();
+                _initYourNodeUI();
+                _nodeFinish = true;
+            }
+            else if (GlobalVar._instance.downNodeDataList.Count != 0 && _nodeFinish == false &&
+                     GlobalVar._instance.thisUserData.role == 1)
+            {
+                //print("init downNodes");
+                _checkYourDownNode();
+                _initYourDownNodeUI();
+                _nodeFinish = true;
+            }
+        
+        
+            if (GlobalVar._instance.nodeDataList.Count != 0 && _messageFinish == false)
+            {
+                _InformationMessage.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Day: "+System.DateTime.Now.Day+"  Month: "+System.DateTime.Now.Month+"  Year: "+System.DateTime.Now.Year;
+                _InformationMessage.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = messagesShown();
+                _showMessageFix();
+                _messageFinish = true;
+            }
+            if (GlobalVar._instance.nodeDataList.Count != 0 && _treeNumFinish == false)
+            {
+                int upTreeNum = GlobalVar._instance.maxLevelTree;
+                int downTreeNum = GlobalVar._instance.maxLevelTreeDown;
+                if (upTreeNum > downTreeNum)
+                {
+                    _upTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum+downTreeNum;
+                    _upTreeNum.GetChild(1).GetComponent<Slider>().value = upTreeNum;
+                    _downTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum+downTreeNum;
+                    _downTreeNum.GetChild(1).GetComponent<Slider>().value = downTreeNum;
+                }
+                else
+                {
+                    _upTreeNum.GetChild(1).GetComponent<Slider>().maxValue = upTreeNum+downTreeNum;
+                    _upTreeNum.GetChild(1).GetComponent<Slider>().value = upTreeNum;
+                    _downTreeNum.GetChild(1).GetComponent<Slider>().maxValue = downTreeNum+upTreeNum;
+                    _downTreeNum.GetChild(1).GetComponent<Slider>().value = downTreeNum;
+                }
+
+                _upTreeNum.GetChild(3).GetComponent<TextMeshProUGUI>().text = "LAYER: " + upTreeNum;
+                _downTreeNum.GetChild(3).GetComponent<TextMeshProUGUI>().text = "LAYER: " + downTreeNum;
+                _treeNumFinish = true;
+            }
         }
+        
         
     }
 

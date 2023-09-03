@@ -64,7 +64,7 @@ public class LevelDownInfoDataViewing : MonoBehaviour
 
             transform.GetChild(0).gameObject.SetActive(false);
             GlobalVar._instance.isPreViewing = false;
-            CameraController._instance.camLock = false;
+            Camera.main.gameObject.GetComponent<CameraController>().camLock = false;
             GlobalVar._instance.ChangeState("MainStart");
         }
     }

@@ -27,6 +27,8 @@ public class DrawLine : MonoBehaviour
         else if (m_Usage == Usage.World_World)
         {
             lineRenderer = GetComponent<LineRenderer>();
+            world_start_Pt = transform.GetChild(0).GetChild(0);
+            world_end_Pt = transform.GetChild(1).GetChild(0);
         }
         // 获取 LineRenderer 组件
         //world_start_Pt = transform.GetChild(0).GetChild(0);

@@ -12,7 +12,7 @@ public class WeaponPoolDisplay : MonoBehaviour
 
     private bool _weapenPoolFinish=false;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
         has = false;
@@ -26,12 +26,7 @@ public class WeaponPoolDisplay : MonoBehaviour
             _initWeaponPoolUI();
             _weapenPoolFinish = true;
         }
-        if (CurNodeDataSummary._instance.changeData == true)
-        {
-            _clearWeaponPool();
-            _initWeaponPoolUI();
-            CurNodeDataSummary._instance.changeData = false;
-        }
+
         //print(childCount);
         childCount = transform.childCount;
         if (has == false && childCount!=0)

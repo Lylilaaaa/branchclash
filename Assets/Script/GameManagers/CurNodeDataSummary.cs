@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading;
 using UnityEngine;
 
 public class CurNodeDataSummary : MonoBehaviour
@@ -14,7 +15,9 @@ public class CurNodeDataSummary : MonoBehaviour
 
     [Header("--------GlobalDataRead--------")]
     public NodeData thisNodeData;
-    public NodeData previousNodeData;
+    private NodeData previousNodeData;
+    public DownNodeData thisDownNodeData;
+    private DownNodeData previousDownNodeData;
     private string[][] _mapStruct;
     
     [Header("--------NumCount--------")]
@@ -32,16 +35,16 @@ public class CurNodeDataSummary : MonoBehaviour
     
     public int[] protectList;
     public int[] weaponBloodList;
+    
     public float[] debuffListData;
     public float[] majorDebuffListData;
     public float[] protecListData;
     public float[] majorProtecListData;
     
     [Header("--------ProcessingBool--------")]
-    public bool dictionaryFinish = false;
     public bool _initData = false;
-    public bool changeData = false;
     public bool gamePlayInitData = false;
+    public int choseNodeType;
 
     [Header("--------LevelReCord--------")]
     public float homeMaxHealth;
@@ -56,11 +59,10 @@ public class CurNodeDataSummary : MonoBehaviour
 
     public void ReStart()
     {
-        dictionaryFinish = false;
         _initData = false;
-        changeData = false;
         gamePlayInitData = false;
         thisNodeData = GlobalVar._instance.chosenNodeData;
+        thisDownNodeData = GlobalVar._instance.chosenDownNodeData;
         wData = GlobalVar._instance.woodTowerData;
         iData = GlobalVar._instance.ironTowerData;
         eData = GlobalVar._instance.elecTowerData;
@@ -79,55 +81,173 @@ public class CurNodeDataSummary : MonoBehaviour
         wproCount = new Dictionary<int, int>();
         iproCount = new Dictionary<int, int>();
         eproCount = new Dictionary<int, int>();
-        debuffList = thisNodeData.towerDebuffList;
     }
 
     private void Update()
     {
+        thisNodeData = GlobalVar._instance.chosenNodeData;
+        thisDownNodeData = GlobalVar._instance.chosenDownNodeData;
         if (GlobalVar.CurrentGameState == GlobalVar.GameState.Viewing)
         {
-            thisNodeData = GlobalVar._instance.chosenNodeData;
-            if (previousNodeData != thisNodeData && changeData == false && _initData == true)
+            if ((previousNodeData != thisNodeData || previousDownNodeData != thisDownNodeData)&& _initData)
             {
                 _countDicInit();
-                debuffList = thisNodeData.towerDebuffList;
+                if (choseNodeType == 0)
+                {
+                    debuffList = thisNodeData.towerDebuffList;
+                }
+                else
+                {
+                    debuffList = thisDownNodeData.debuffData;
+                }
+                GlobalVar._instance._getMapmapList();
                 _mapStruct = GlobalVar._instance.mapmapList;
                 _checkTypeIndex();
-                changeData = true;
             }
-            if (GlobalVar._instance.mapmapList != null && _initData == false)
+
+            //chose the down node for the first time!
+            else if (GlobalVar._instance.dataPrepared && !_initData)
             {
                 _countDicInit();
-                debuffList = thisNodeData.towerDebuffList;
+                if (choseNodeType == 0)
+                {
+                    debuffList = thisNodeData.towerDebuffList;
+                }
+                else
+                {
+                    debuffList = thisDownNodeData.debuffData;
+                }
+                GlobalVar._instance._getMapmapList();
                 _mapStruct = GlobalVar._instance.mapmapList;
                 _checkTypeIndex();
                 _initData = true;
             }
-    
-            previousNodeData = thisNodeData;
         }
-        if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && gamePlayInitData == false)
+
+        //ENTER GAMEPLAY!!
+        if (GlobalVar._instance.thisUserData != null)
         {
-            _countDicInit();
-            debuffList = thisNodeData.towerDebuffList;
-            _mapStruct = GlobalVar._instance.mapmapList;
-            // foreach (var Mystring in _mapStruct)
-            // {
-            //     string thisRow="";
-            //     foreach (var VARIABLE  in Mystring )
-            //     {
-            //         thisRow+=VARIABLE;
-            //     }
-            //     print(thisRow);
-            // }
-            _checkTypeIndex();
-            gamePlayInitData = true;
-            protectList = _checkProtect();
-            //weaponBloodList =_checkWeaponTotalBlood();
+            if (GlobalVar._instance.thisUserData.role == 0)
+            {
+                //enter the game play mode, need refresh
+                if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && !_initData && !gamePlayInitData)
+                {
+                    _countDicInit();
+                    debuffList = thisNodeData.towerDebuffList;
+                    _mapStruct = GlobalVar._instance.mapmapList;
+                    _checkTypeIndex();
+                    _initData = true;
+                    gamePlayInitData = true;
+                    //weaponBloodList =_checkWeaponTotalBlood();
+                }
+            }
+            else
+            {
+                //enter the sec game play mode, need to refresh the up tree main node
+                if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && !_initData && !gamePlayInitData)
+                {
+                    _countDicInit();
+                    debuffList = thisDownNodeData.debuffData;
+                    GlobalVar._instance.chosenNodeData = GlobalVar._instance._checkUpNodeMain(thisDownNodeData.nodeLayer+1);
+                    GlobalVar._instance._getMapmapList();
+                    _mapStruct = GlobalVar._instance.mapmapList;
+                    _checkTypeIndex();
+                    weaponBloodList = GetMainMaxWeaponLevelBlood();
+                    protectList = GetMainProtectBlood();
+                    _initData = true;
+                    gamePlayInitData = true;
+                }
+            }
         }
-        
+        previousNodeData = thisNodeData;
+        previousDownNodeData = thisDownNodeData;
+
     }
 
+    public int[] GetMainProtectBlood()
+    {
+        int[] weaponTotalProtect = new int[3];
+        if (wproCount != null)
+        {
+            foreach (int grade in wproCount.Keys)
+            {
+                weaponTotalProtect[0] += wproCount[grade]* _gradeToProtect(grade)*GlobalVar._instance.ProWood.baseProtect/2;
+            }
+        }
+        if (iproCount != null)
+        {
+            foreach (int grade in iproCount.Keys)
+            {
+                weaponTotalProtect[1] += iproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProIron.baseProtect/2;
+            }
+        }
+        if (eproCount != null)
+        {
+            foreach (int grade in eproCount.Keys)
+            {
+                weaponTotalProtect[2] += eproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProElec.baseProtect/2;
+            }
+        }
+        return weaponTotalProtect;
+    }
+    
+    public int[] GetMainMaxWeaponLevelBlood()
+    { 
+        string _at, _sp, _ra;
+        int[] weaponTotalBlood = new int[3];
+        if (woodCount != null)
+        {
+            int maxGrade = 0;
+            foreach (int grade in woodCount.Keys)
+            {
+                if (grade >= maxGrade)
+                {
+                    maxGrade = grade;
+                }
+            }
+            (_at,_sp,_ra) = CheckAttackSpeedRange("wood", maxGrade);
+            weaponTotalBlood[0] = int.Parse(_at) * int.Parse(_sp);
+        }
+        if (ironCount != null)
+        {
+            int maxGrade = 0;
+            foreach (int grade in ironCount.Keys)
+            {
+                if (grade >= maxGrade)
+                {
+                    maxGrade = grade;
+                }
+            }
+            (_at,_sp,_ra) = CheckAttackSpeedRange("iron", maxGrade);
+            weaponTotalBlood[1] = int.Parse(_at) * int.Parse(_sp);
+        }
+        if (elecCount != null)
+        {
+            int maxGrade = 0;
+            foreach (int grade in elecCount.Keys)
+            {
+                if (grade >= maxGrade)
+                {
+                    maxGrade = grade;
+                }
+            }
+            (_at,_sp,_ra) = CheckAttackSpeedRange("elec", maxGrade);
+            weaponTotalBlood[2] = int.Parse(_at) * int.Parse(_sp);
+        }
+
+        return weaponTotalBlood;
+    }
+    private int _gradeToProtect(int grade)
+    {
+        int tempInt = 0;
+        for (int i = 0; i < grade; i++)
+        {
+            tempInt = (tempInt * 2) + 1;
+        }
+
+        return tempInt;
+    }
+    
     private void _countDicInit()
     {
         DictionaryCount = new List<int>();
@@ -227,19 +347,6 @@ public class CurNodeDataSummary : MonoBehaviour
                 }
             }
         }
-        dictionaryFinish = true;
-        // foreach (int key in woodCount.Keys)
-        // {
-        //     print("wood level "+key+": "+woodCount[key]);
-        // }
-        // foreach (int key in ironCount.Keys)
-        // {
-        //     print("iron level "+key+": "+ironCount[key]);
-        // }
-        // foreach (int key in wproCount.Keys)
-        // {
-        //     print("wpro level "+key+": "+wproCount[key]);
-        // }
         DictionaryCount.Add(woodCount.Count);
         DictionaryCount.Add(ironCount.Count);
         DictionaryCount.Add(elecCount.Count);
@@ -247,25 +354,7 @@ public class CurNodeDataSummary : MonoBehaviour
         DictionaryCount.Add(iproCount.Count);
         DictionaryCount.Add(eproCount.Count);
     }
-
-    private int[] _checkProtect()
-    {
-        int[] _proList = new int[3];
-        foreach (int grade in wproCount.Keys)
-        {
-            _proList[0] += CheckProtectBlood("wpro", grade);
-        }
-        foreach (int grade in iproCount.Keys)
-        {
-            _proList[1] += CheckProtectBlood("ipro", grade);
-        }
-        foreach (int grade in eproCount.Keys)
-        {
-            _proList[2] += CheckProtectBlood("epro", grade);
-        }
-
-        return _proList;
-    }
+    
     public (string, string,string) CheckAttackSpeedRange(string towerType,int grade)
     {
         int attack = 0;
@@ -342,48 +431,5 @@ public class CurNodeDataSummary : MonoBehaviour
         }
         return (attackString,speedString,rangeString);
     }
-    public int CheckProtectBlood(string proType,int grade)
-    {
-        if (wproCount.ContainsKey(grade))
-        {
-            int count = 0;
-            string countString = "";
-            switch (proType)
-            {
-                case "wpro":
-                    count = wproCount[grade];
-                    break;
-                case "ipro":
-                    count = iproCount[grade];
-                    break;
-                case "elec":
-                    count = eproCount[grade];
-                    break;
-                default:
-                    Console.WriteLine("Unknown");
-                    break;
-            }
-            return count*grade;
-        }
 
-        return 0;
-    }
-    // private int[] _checkWeaponTotalBlood()
-    // {
-    //     int[] _weaponBlood = new int[3];
-    //     foreach (int grade in woodCount.Keys)
-    //     {
-    //         _weaponBlood[0] += woodCount[grade]*grade;
-    //     }
-    //     foreach (int grade in ironCount.Keys)
-    //     {
-    //         _weaponBlood[1] += ironCount[grade] * grade;
-    //     }
-    //     foreach (int grade in elecCount.Keys)
-    //     {
-    //         _weaponBlood[2] += elecCount[grade] * grade;
-    //     }
-    //
-    //     return _weaponBlood;
-    // }
 }

@@ -9,26 +9,28 @@ using UnityEngine.SceneManagement;
 public class LevelInfoDataViewing : MonoBehaviour
 {
     public NodeData thisNodeData;
-    private string[][] _mapStruct;
     
-    private GameObject _slidesParent;
-    private GameObject _textViewingParent;
+    [Header("======Set by runtime!======")]
+    public string[][] _mapStruct;
+    
+    public GameObject _slidesParent;
+    public GameObject _textViewingParent;
 
-    private GameObject _bloodSlider;
-    private GameObject[] _debuffSlider;
+    public GameObject _bloodSlider;
+    public GameObject[] _debuffSlider;
 
-    private GameObject[] _basicInfo;
-    private GameObject[] _debuffTower;
-    private GameObject[] _towerNum;
-    private GameObject[] _protectNum;
+    public GameObject[] _basicInfo;
+    public GameObject[] _debuffTower;
+    public GameObject[] _towerNum;
+    public GameObject[] _protectNum;
 
-    private Button _enterNextBut;
+    public Button _enterNextBut;
 
-    private bool _hasInit = false;
+    public bool _hasInit = false;
     
     private 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         _hasInit = false;
         thisNodeData = null;
@@ -41,7 +43,7 @@ public class LevelInfoDataViewing : MonoBehaviour
         _debuffSlider[0] = _slidesParent.transform.GetChild(1).gameObject;
         _debuffSlider[1] = _slidesParent.transform.GetChild(2).gameObject;
         _debuffSlider[2] = _slidesParent.transform.GetChild(3).gameObject;
-        _basicInfo = new GameObject[5];
+        _basicInfo = new GameObject[4];
         _basicInfo[0] = _textViewingParent.transform.GetChild(0).GetChild(0).gameObject; //layer
         _basicInfo[1] = _textViewingParent.transform.GetChild(0).GetChild(1).gameObject; //node
         _basicInfo[2] = _textViewingParent.transform.GetChild(0).GetChild(2).gameObject; //blood
@@ -224,7 +226,7 @@ public class LevelInfoDataViewing : MonoBehaviour
             //transform.parent.parent.GetComponent<CursorOutlines>()._canDisappear = true;
             transform.GetChild(0).gameObject.SetActive(false);
             GlobalVar._instance.isPreViewing = false;
-            CameraController._instance.camLock = false;
+            Camera.main.gameObject.GetComponent<CameraController>().camLock = false;
             GlobalVar._instance.ChangeState("MainStart");
         }
     }

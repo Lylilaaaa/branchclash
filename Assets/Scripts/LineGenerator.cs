@@ -16,10 +16,11 @@ public class LineGenerator : MonoBehaviour
     public Transform parent;
     public GameObject prefabParent;
     private GameObject _initGObj;
-    
+
     //六位二进制表示有无，x+,x-,y+,y-,z+,z-
     public static Dictionary<Vector3, int> lineMap = new Dictionary<Vector3, int>();
     public static List<Vector3> majorChain = new List<Vector3>();
+    public int lineMapCount;
     public GameObject type2_1;
     public GameObject type2_2;
     public GameObject type3_1;
@@ -52,6 +53,8 @@ public class LineGenerator : MonoBehaviour
     {
         _initGObj = Instantiate(prefabParent);
         parent = _initGObj.transform;
+        // lineMap = new Dictionary<Vector3, int>();
+        // majorChain = new List<Vector3>();
         type2_1 = Resources.Load<GameObject>("2.1");
         type2_2 = Resources.Load<GameObject>("2.2");
         type3_1 = Resources.Load<GameObject>("3.1");
@@ -73,16 +76,21 @@ public class LineGenerator : MonoBehaviour
         type6_1_m = Resources.Load<GameObject>("6.1_yellow");
 
 
-        Invoke("GenerateLine", 2);
+        Invoke("GenerateLine", 0.1f);
     }
 
     private void Update()
     {
+        lineMapCount = lineMap.Count;
         if (GlobalVar._instance.GetState() != GlobalVar.GameState.Viewing &&
             GlobalVar._instance.GetState() != GlobalVar.GameState.MainStart)
         {
             if (_initGObj != null)
             {
+                lineMap.Clear();
+                majorChain.Clear();
+                lineMap = new Dictionary<Vector3, int>();
+                majorChain = new List<Vector3>();
                 print("destroy line parent!");
                 Destroy(_initGObj);
             }

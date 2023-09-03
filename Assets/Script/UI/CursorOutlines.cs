@@ -13,26 +13,28 @@ public class CursorOutlines : MonoBehaviour
     // public Material outlineMat_0;
     // public Material outlineMat_1;
 
+    [Header("=====Set by runtime=====")]
     public NodeData thisNodeData;
     public DownNodeData correspondMajorDownNodeData;
     public bool mouseEnter;
     public bool _canDisappear = true;
     public bool cursorZoomIn=false;
-    public GameObject previewLevelInfoPenal;
-    public Transform cameraPos;
     public bool olWithoutMouse = false;
+    public GameObject previewLevelInfoPenal;
+    
+    [Header("=====Set by before=====")]
+    public Transform cameraPos;
+
     
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         thisNodeData = null;
+        mouseEnter = false;
         correspondMajorDownNodeData = null;
         cursorZoomIn=false;
         _canDisappear = true;
         olWithoutMouse = false;
-        // outlineGbj = FindChildWithTag(transform, "outline").gameObject;
-        // outline_render = outlineGbj.GetComponent<Renderer>();
-        // outline_render.material = outlineMat_0;
         previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(false);
     }
 
@@ -40,14 +42,13 @@ public class CursorOutlines : MonoBehaviour
     {
         //print("setdata!" + transform.name);
         string[] layerIndex = transform.name.Split('-');
-        if (layerIndex.Length == 2)
+        if (layerIndex.Length == 2 )
         {
             int layer =  int.Parse(layerIndex[0]);
             int index = int.Parse(layerIndex[1]);
             if (layer == 0 && index == 0)
             {
-                previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData =
-                    GlobalVar._instance.treeData.InitNodeData;
+                previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData = GlobalVar._instance.treeData.InitNodeData;
                 thisNodeData = GlobalVar._instance.treeData.InitNodeData;
                 correspondMajorDownNodeData = _checkUpNodeMain(layer);
             }
@@ -86,9 +87,10 @@ public class CursorOutlines : MonoBehaviour
                 cursorZoomIn = true;
                 if (GlobalVar._instance.isPreViewing == false)
                 {
+                    CurNodeDataSummary._instance.choseNodeType = 0;
                     previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
                     GlobalVar._instance.chosenNodeData = previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData;
-                    GlobalVar._instance.downChosenNodeData = correspondMajorDownNodeData;
+                    GlobalVar._instance.chosenDownNodeData = correspondMajorDownNodeData;
                     GlobalVar._instance.ChangeState("Viewing");
                     GlobalVar._instance.isPreViewing = true;
                 }
@@ -97,8 +99,8 @@ public class CursorOutlines : MonoBehaviour
         if (cursorZoomIn == true)
         {
             cursorZoomIn = false;
-            CameraController._instance.LookUpNode(transform);
-            CameraController._instance.canMove = true;
+            Camera.main.gameObject.GetComponent<CameraController>().LookUpNode(transform);
+            Camera.main.gameObject.GetComponent<CameraController>().canMove = true;
            // StartCoroutine(ChangeVariableAfterDelay());
             
         }
@@ -116,6 +118,7 @@ public class CursorOutlines : MonoBehaviour
         //print("test zooming!");
         if (transform.name == GlobalVar._instance.zoomingPos)
         {
+            CurNodeDataSummary._instance.choseNodeType = 0;
             _canDisappear = false;
             olWithoutMouse = true;
             // print("zoom certain");
@@ -125,7 +128,7 @@ public class CursorOutlines : MonoBehaviour
             {
                 previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
                 GlobalVar._instance.chosenNodeData = previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData;
-                GlobalVar._instance.downChosenNodeData = correspondMajorDownNodeData;
+                GlobalVar._instance.chosenDownNodeData = correspondMajorDownNodeData;
                 GlobalVar._instance.ChangeState("Viewing");
                 GlobalVar._instance.isPreViewing = true;
             }
@@ -167,7 +170,7 @@ public class CursorOutlines : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        CameraController._instance.canMove = false; 
+        Camera.main.gameObject.GetComponent<CameraController>().canMove = false; 
     }
 
     // Update is called once per frame

@@ -39,17 +39,9 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
     public float fillSpeedDebuff = 1f;
     public float fillSpeedProtect = 1f;
     
-    void Awake()
+    void Start()
     {
-        if (thisSlideType == debuffSlidesType.Current)
-        {
-            _debufflist = cursorOLDown.thisDownNodeData.debuffData;
-        }
-        else
-        {
-            _debufflist = cursorOLDown.majorDownNodeData.debuffData;
-        }
-        
+
         _counted = false;
         weaponTotalBlood = new int[3];
         weaponTotalProtect = new int[3];
@@ -60,101 +52,39 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (thisSlideType == debuffSlidesType.Current)
+        if (GlobalVar._instance.dataPrepared == true)
         {
-            _debufflist = cursorOLDown.thisDownNodeData.debuffData;
-        }
-        else
-        {
-            _debufflist = cursorOLDown.majorDownNodeData.debuffData;
+            if (thisSlideType == debuffSlidesType.Current)
+            {
+                _debufflist = cursorOLDown.thisDownNodeData.debuffData;
+            }
+            else
+            {
+                _debufflist = cursorOLDown.majorDownNodeData.debuffData;
+            }
         }
         if (cursorOLDown._canDisappear == true)
         {
             _counted = false;
         }
         
-        if (CurNodeDataSummary._instance.dictionaryFinish == true && cursorOLDown._canDisappear ==false &&_counted == false)
+        if (CurNodeDataSummary._instance._initData == true && cursorOLDown._canDisappear ==false &&_counted == false)
         {
-            
-            
             //print("slides moving...");
             _counted = true;
             if (thisSlideType == debuffSlidesType.Current)
             {
                 CurNodeDataSummary._instance.curDebuffList = _debufflist; 
+                CurNodeDataSummary._instance.debuffList = _debufflist; 
             }
             else
             {
                 CurNodeDataSummary._instance.majorDebuffList = _debufflist; 
             }
+
+            weaponTotalBlood = CurNodeDataSummary._instance.GetMainMaxWeaponLevelBlood();
+            weaponTotalProtect = CurNodeDataSummary._instance.GetMainProtectBlood();
             
-            if (CurNodeDataSummary._instance.woodCount != null)
-            {
-                int maxGrade = 0;
-                foreach (int grade in CurNodeDataSummary._instance.woodCount.Keys)
-                {
-                    if (grade >= maxGrade)
-                    {
-                        maxGrade = grade;
-                    }
-                    // (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("wood", grade);
-                    // weaponTotalBlood[0] += CurNodeDataSummary._instance.woodCount[grade]*int.Parse(_at);
-                }
-                (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("wood", maxGrade);
-                weaponTotalBlood[0] = int.Parse(_at) * int.Parse(_sp);
-            }
-            if (CurNodeDataSummary._instance.ironCount != null)
-            {
-                int maxGrade = 0;
-                foreach (int grade in CurNodeDataSummary._instance.ironCount.Keys)
-                {
-                    if (grade >= maxGrade)
-                    {
-                        maxGrade = grade;
-                    }
-                    // (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("iron", CurNodeDataSummary._instance.ironCount[grade]);
-                    // weaponTotalBlood[1] += int.Parse(_at);
-                }
-                (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("iron", maxGrade);
-                weaponTotalBlood[1] = int.Parse(_at) * int.Parse(_sp);
-            }
-            if (CurNodeDataSummary._instance.elecCount != null)
-            {
-                int maxGrade = 0;
-                foreach (int grade in CurNodeDataSummary._instance.elecCount.Keys)
-                {
-                    if (grade >= maxGrade)
-                    {
-                        maxGrade = grade;
-                    }
-                    // (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("iron", CurNodeDataSummary._instance.elecCount[grade]);
-                    // weaponTotalBlood[2] += int.Parse(_at);
-                }
-                (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("elec", maxGrade);
-                weaponTotalBlood[2] = int.Parse(_at) * int.Parse(_sp);
-            }
-            
-            if (CurNodeDataSummary._instance.wproCount != null)
-            {
-                foreach (int grade in CurNodeDataSummary._instance.wproCount.Keys)
-                {
-                    weaponTotalProtect[0] += CurNodeDataSummary._instance.wproCount[grade]* _gradeToProtect(grade)*GlobalVar._instance.ProWood.baseProtect/2;
-                }
-            }
-            if (CurNodeDataSummary._instance.iproCount != null)
-            {
-                foreach (int grade in CurNodeDataSummary._instance.iproCount.Keys)
-                {
-                    weaponTotalProtect[1] += CurNodeDataSummary._instance.iproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProIron.baseProtect/2;
-                }
-            }
-            if (CurNodeDataSummary._instance.eproCount != null)
-            {
-                foreach (int grade in CurNodeDataSummary._instance.eproCount.Keys)
-                {
-                    weaponTotalProtect[2] += CurNodeDataSummary._instance.eproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProElec.baseProtect/2;
-                }
-            }
             CurNodeDataSummary._instance.weaponBloodList = weaponTotalBlood;
             CurNodeDataSummary._instance.protectList = weaponTotalProtect;
             
@@ -174,16 +104,7 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
         }
     }
 
-    private int _gradeToProtect(int grade)
-    {
-        int tempInt = 0;
-        for (int i = 0; i < grade; i++)
-        {
-            tempInt = (tempInt * 2) + 1;
-        }
 
-        return tempInt;
-    }
 
     private void _doWithSlides(int index, Slider debufSlider, Slider protectSlider)
     {
