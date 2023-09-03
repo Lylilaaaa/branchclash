@@ -40,6 +40,17 @@ public class CurNodeDataSummary : MonoBehaviour
     public float[] majorDebuffListData;
     public float[] protecListData;
     public float[] majorProtecListData;
+    private int[] _woodDpsRate =new []{50, 45, 40, 30, 15};
+    private int[] _ironDpsRate =new []{55,55,55};
+    private int[] _elecDpsRate =new []{25,25,75,75,75,125};
+    private int[] _rangeWood1 = new[] {2, 0, 2, 1, 2, 3, 3, 2, 1, 1, 2, 3, 3, 2, 1, 2, 0, 2, 3, 0, 3, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 3, 0, 3, 3, 0, 3, 3, 0, 5, 5, 0, 3, 3, 0, 5, 5, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 5, 5, 0, 3, 3, 0, 5, 5, 0, 3, 3, 0, 5, 5, 0, 3, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 1, 2, 3, 3, 2, 1, 1, 2, 3, 3, 2, 1, 1, 2, 3, 3, 2, 1 };
+    private int[] _rangeElec1 = new []{1, 0, 3, 2, 3, 4, 3, 2, 2, 2, 3, 4, 3, 2, 3, 1, 0, 2, 2, 0, 5, 2, 0, 0, 0, 0, 4, 2, 0, 0, 0, 0, 5, 2, 0, 3, 2, 0, 6, 3, 0, 8, 4, 0, 6, 3, 0, 8, 4, 0, 6, 2, 0, 3, 2, 0, 6, 2, 0, 6, 2, 0, 6, 2, 0, 6, 2, 0, 6, 2, 0, 3, 2, 0, 6, 2, 0, 6, 2, 0, 6, 2, 0, 6, 2, 0, 6, 2, 0, 3, 2, 0, 6, 2, 0, 6, 2, 0, 6, 2, 0, 6, 2, 0, 6, 2, 0, 3, 3, 0, 8, 4, 0, 6, 3, 0, 8, 4, 0, 6, 3, 0, 8, 4, 0, 3, 2, 0, 0, 0, 0, 4, 2, 0, 0, 0, 0, 4, 2, 0, 0, 0, 0, 2, 2, 3, 4, 3, 2, 2, 2, 3, 4, 3, 2, 2, 2, 3, 4, 3, 2, 1};
+    private int[] _rangeElec2 = new []{2, 0, 6, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 6, 4, 0, 7, 3, 0, 8, 8, 0, 0, 0, 0, 8, 7, 0, 0, 0, 0, 8, 6, 0, 9, 4, 0, 10, 10, 0, 10, 9, 0, 10, 9, 0, 10, 9, 0, 10, 8, 0, 10, 4, 0, 11, 11, 0, 12, 11, 0, 12, 11, 0, 12, 11, 0, 11, 9, 0, 10, 4, 0, 10, 9, 0, 10, 9, 0, 10, 9, 0, 10, 9, 0, 10, 9, 0, 10, 6, 0, 12, 11, 0, 12, 11, 0, 12, 11, 0, 12, 11, 0, 12, 11, 0, 10, 5, 0, 10, 9, 0, 10, 9, 0, 10, 9, 0, 10, 9, 0, 10, 9, 0, 8, 4, 0, 0, 0, 0, 8, 7, 0, 0, 0, 0, 8, 7, 0, 0, 0, 0, 6, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4};
+    private int[] _rangeElec3 = new []{9, 0, 9, 12, 12, 8, 11, 12, 10, 12, 11, 8, 12, 12, 9, 7, 0, 9, 12, 0, 11, 14, 0, 0, 0, 0, 12, 14, 0, 0, 0, 0, 11, 9, 0, 11, 15, 0, 13, 17, 0, 12, 16, 0, 14, 17, 0, 12, 17, 0, 13, 11, 0, 13, 18, 0, 15, 20, 0, 14, 19, 0, 16, 20, 0, 14, 20, 0, 15, 13, 0, 15, 22, 0, 18, 24, 0, 20, 25, 0, 20, 25, 0, 20, 25, 0, 18, 16, 0, 16, 20, 0, 14, 19, 0, 16, 20, 0, 14, 19, 0, 16, 20, 0, 14, 13, 0, 14, 17, 0, 12, 16, 0, 14, 17, 0, 12, 16, 0, 14, 17, 0, 12, 11, 0, 12, 14, 0, 0, 0, 0, 12, 14, 0, 0, 0, 0, 12, 14, 0, 0, 0, 0, 10, 12, 8, 8, 11, 12, 10, 12, 11, 8, 11, 12, 10, 12, 11, 8, 8, 10, 8};
+    private List<int> _woodTotalAtt;
+    private List<int> _ironTotalAtt;
+    private List<int> _elecTotalAtt;
+    
     
     [Header("--------ProcessingBool--------")]
     public bool _initData = false;
@@ -74,6 +85,9 @@ public class CurNodeDataSummary : MonoBehaviour
         protecListData = new float[3];
         weaponBloodList = new int[3];
         majorProtecListData = new float[3];
+        _woodTotalAtt = new List<int>();
+        _ironTotalAtt = new List<int>();
+        _elecTotalAtt = new List<int>();
         
         woodCount = new Dictionary<int, int>();
         ironCount = new Dictionary<int, int>();
@@ -431,5 +445,145 @@ public class CurNodeDataSummary : MonoBehaviour
         }
         return (attackString,speedString,rangeString);
     }
+
+    private int _calculateDPS(int grade, int[] dpsRate, int initDps)
+    {
+        if(grade == 1){
+            return initDps;
+        }
+        for (int i = 1; i < grade; i++) {
+            int index = (i - 1) % dpsRate.Length;
+            initDps = (initDps * 2 + dpsRate[index])  ;
+        }
+        return initDps;
+    }
+
+    private int _getMonsterNum(int layer)
+    {
+        return 0;
+    }
+
+    private int _getMonsterInterval(int layer)
+    {
+        return 0;
+    }
+    
+    public int _checkWeaponAttack(int[] weaponDpsRate,int[] weaponRange,int row,int col,int grade,int initDps,int debuff)
+    {
+        int posIndex = row * 18 + col;
+        int range = weaponRange[posIndex];
+        int dps = _calculateDPS(grade, weaponDpsRate, initDps);
+        if (dps >= debuff)
+        {
+            dps -= debuff;
+        }
+        else
+        {
+            dps = 0;
+        }
+
+        int monNum = _getMonsterNum(thisNodeData.nodeLayer+1);
+        int monInterval = _getMonsterInterval(thisNodeData.nodeLayer + 1);
+        int attack = dps * (range + (monNum - 1) * monInterval);
+        return attack;
+    }
+    
+    //usage£º
+    // for (uint256 i=1; i <= 19*9; i++){
+    //     bytes memory bytesStr = bytes(map_map[recent_position_index][i]);
+    //     if(bytesStr.length >= 5){
+    //         bytes1 first_byte_tower = bytesStr[0];
+    //      //get type
+    //     bytes memory grade_byt = new bytes(bytesStr.length - 4);
+    //     for (uint256 j = 4; j < bytesStr.length; j++) {
+    //         grade_byt[j - 4] = bytesStr[j];
+    //     }        
+    //     string memory _grade_str = string(grade_byt);
+    //     uint256 grade = stringToUint(_grade_str);
+    //
+    //     //wood
+    //     if(first_byte_tower == bytes1("w")){
+    //         _range = range1_string_wood[i];
+    //         _dps = calculateDPS(grade,wood_dps_rate,basic_tower["wood"].dps); 
+    //         _dps = _compare(_dps,de_wood_attack);
+    //         total_attack += _dps * (_range+(basic_monster[lyr_pr].m_number-1)*basic_monster[lyr_pr].m_interval);
+    //     }
+    //     //Tower "iron"
+    //     else if(first_byte_tower == bytes1("i")){
+    //         _dps = calculateDPS(grade,iron_dps_rate,basic_tower["iron"].dps);
+    //         _dps = _compare(_dps,de_iron_attack);
+    //         total_attack += (10)* _dps;
+    //     }
+    //     //Tower "elec"
+    //     else if(first_byte_tower == bytes1("e")&& canNotCal == false){
+    //         canNotCal = true;
+    //         _dps = calculateDPS(grade,elec_dps_rate,basic_tower["elec"].dps);
+    //         _dps = _compare(_dps,de_elec_attack);
+    //         if(grade>0&&grade<5){
+    //             _range = range1_string_elec[i];
+    //         }
+    //         else if(grade>=5&&grade<10){ 
+    //             _range = range2_string_elec[i];
+    //         }
+    //         else{ 
+    //             _range = range3_string_elec[i];
+    //         }
+    //         total_attack+=_dps*(_range/2+(basic_monster[lyr_pr].m_number-1)*basic_monster[lyr_pr].m_interval);
+    //     }
+    // else if(first_byte_tower == bytes1("e")&& canNotCal == true){ 
+    //         canNotCal = false; 
+    //         }
+    //     }
+    // }
+    // total_monster_blood = basic_monster[lyr_pr].m_blood*basic_monster[lyr_pr].m_number;
+    // if(total_monster_blood >total_attack && home_health > total_monster_blood-total_attack ){ 
+    //     home_health = home_health + total_attack- total_monster_blood ;
+    //     map_money[msg.sender] = map_money[msg.sender] + 500;
+    // }
+    // else if(total_monster_blood >total_attack && home_health < total_monster_blood-total_attack){
+    //     home_health = 0;
+    // }else{
+    //     map_money[msg.sender] = map_money[msg.sender] + 500;
+    // }
+    
+    //struct:
+    //     basic_tower["wood"] = in_tower({
+    //         _type: "wood",
+    //
+    //         dps: 20,
+    //
+    //         basic_price: 100,
+    //         merge_price: 40,
+    //         pro_price: 290
+    //     });
+    // basic_tower["iron"] = in_tower({
+    //     _type: "iron",
+    //
+    //     dps: 30,
+    //
+    //     basic_price: 300,
+    //     merge_price: 60,
+    //     pro_price: 290
+    // });
+    // basic_tower["elec"] = in_tower({
+    //     _type: "elec",
+    //
+    //     dps: 40,
+    //
+    //     basic_price: 600,
+    //     merge_price: 100,
+    //     pro_price: 290
+    // });
+    //     uint256[] range1_string_wood = [2, 0, 2, 1, 2, 3, 3, 2, 1, 1, 2, 3, 3, 2, 1, 2, 0, 2, 3, 0, 3, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 3, 0, 3, 3, 0, 3, 3, 0, 5, 5, 0, 3, 3, 0, 5, 5, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 5, 5, 0, 3, 3, 0, 5, 5, 0, 3, 3, 0, 5, 5, 0, 3, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 1, 2, 3, 3, 2, 1, 1, 2, 3, 3, 2, 1, 1, 2, 3, 3, 2, 1];
+    //     uint256[] range1_string_elec = [1,0,3,2,3,4,3,2,2,2,3,4,3,2,3,1,0,2,0,2,0,5,2,0,0,0,0,4,2,0,0,0,0,5,2,0,3,0,2,0,6,3,0,8,4,0,6,3,0,8,4,0,6,2,0,3,0,2,0,6,2,0,6,2,0,6,2,0,6,2,0,6,2,0,3,0,2,0,6,2,0,6,2,0,6,2,0,6,2,0,6,2,0,3,0,2,0,6,2,0,6,2,0,6,2,0,6,2,0,6,2,0,3,0,3,0,8,4,0,6,3,0,8,4,0,6,3,0,8,4,0,3,0,2,0,0,0,0,4,2,0,0,0,0,4,2,0,0,0,0,2,0,2,3,4,3,2,2,2,3,4,3,2,2,2,3,4,3,2,1,0];
+    //     uint256[] range2_string_elec = [2,0,6,7,6,6,6,6,6,6,6,6,6,7,6,4,0,7,0,3,0,8,8,0,0,0,0,8,7,0,0,0,0,8,6,0,9,0,4,0,10,10,0,10,9,0,10,9,0,10,9,0,10,8,0,10,0,4,0,11,11,0,12,11,0,12,11,0,12,11,0,11,9,0,10,0,4,0,10,9,0,10,9,0,10,9,0,10,9,0,10,9,0,10,0,6,0,12,11,0,12,11,0,12,11,0,12,11,0,12,11,0,10,0,5,0,10,9,0,10,9,0,10,9,0,10,9,0,10,9,0,8,0,4,0,0,0,0,8,7,0,0,0,0,8,7,0,0,0,0,6,0,4,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,4,4,0];
+    //     uint256[] range3_string_elec = [9,0,9,12,12,8,11,12,10,12,11,8,12,12,9,7,0,9,0,12,0,11,14,0,0,0,0,12,14,0,0,0,0,11,9,0,11,0,15,0,13,17,0,12,16,0,14,17,0,12,17,0,13,11,0,13,0,18,0,15,20,0,14,19,0,16,20,0,14,20,0,15,13,0,15,0,22,0,18,24,0,20,25,0,20,25,0,20,25,0,18,16,0,16,0,20,0,14,19,0,16,20,0,14,19,0,16,20,0,14,13,0,14,0,17,0,12,16,0,14,17,0,12,16,0,14,17,0,12,11,0,12,0,14,0,0,0,0,12,14,0,0,0,0,12,14,0,0,0,0,10,0,12,8,8,11,12,10,12,11,8,11,12,10,12,11,8,8,10,8,0];
+    //     uint256[] wood_dps_rate = [50, 45, 40, 30, 15];
+    //     uint256[] iron_dps_rate = [55,55,55];
+    //     uint256[] elec_dps_rate =  [25,25,75,75,75,125];
+
+    // basic_monster[c_lyr+1].m_blood = basic_monster[c_lyr].m_blood +70;
+    // basic_monster[c_lyr+1].m_number = basic_monster[c_lyr].m_number +1;
+    // basic_monster[c_lyr+1].m_interval = 3;
 
 }

@@ -53,14 +53,15 @@ public class ExhibUIButton : MonoBehaviour
         
         //comment build!!!
         //查找合约响应事件！！！！！！
+        //Contract Interaction!!!!!
         GlobalVar._instance.ChangeState("ChooseField");
-        SceneManager.LoadScene("GamePlay");
+        GlobalVar._instance._loadNextScene("3_0_GamePlay");
     }
 
     public void QuitThisNode()
     {
         GlobalVar._instance.ChangeState("MainStart");
-        SceneManager.LoadScene("HomePage");
+        GlobalVar._instance._loadNextScene("1_0_HomePage");
     }
     public void hintHintFlicker()
     {
