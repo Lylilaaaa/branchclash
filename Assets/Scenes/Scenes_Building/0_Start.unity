@@ -4991,6 +4991,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   role: 0
   finishChoseDuty: 0
+  finshiInEidt: 0
+  finishiAdd: 0
+  finishMerge: 0
+  finishSubmit: 0
+  finishSecInEdit: 0
+  finishSecSubmit: 0
 --- !u!114 &1858729204
 MonoBehaviour:
   m_ObjectHideFlags: 0

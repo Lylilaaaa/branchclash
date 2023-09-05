@@ -41,9 +41,9 @@ window.web3ChainId = 5;
 
 window.networks = [
   {
-    id: 5,
-    label: "Ethereum Goerli",
-    token: "goETH",
-    rpcUrl: `https://goerli.infura.io/v3/assdfsdf`,
+    id: 5611,
+    label: "opBNB Testnet",
+    token: "tBNB",
+    rpcUrl: `https://opbnb-testnet-rpc.bnbchain.org`,
   }
 ]

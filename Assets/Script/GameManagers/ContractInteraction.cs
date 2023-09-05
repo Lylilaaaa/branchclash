@@ -31,12 +31,20 @@ public class ContractInteraction : MonoBehaviour
     public bool finshiInEidt;
     public bool finishiAdd;
     public bool finishMerge;
+    public bool finishSubmit;
+
+    public bool finishSecInEdit;
+    public bool finishSecSubmit;
 
     public void ReSetMain()
     {
         finshiInEidt = false;
         finishiAdd = false;
         finishMerge = false;
+        finishSubmit = false;
+        
+        finishSecInEdit = false;
+        finishSecSubmit = false;
     }
 
     private void Awake()
@@ -48,6 +56,10 @@ public class ContractInteraction : MonoBehaviour
         finshiInEidt = false;
         finishMerge = false;
         finishiAdd = false;
+        finishSubmit = false;
+        
+        finishSecInEdit = false;
+        finishSecSubmit = false;
     }
 
     public void getAccount()
@@ -123,18 +135,19 @@ public class ContractInteraction : MonoBehaviour
         finishMerge = true;
     }
 
-    async public void SecInEdit()
+    async public void SecInEdit(string _layer,string _index )
     {
         string method = "sec_in_edit";
         string value = "0";
         string gasLimit = "";
         string gasPrice = "";
-        string layer = "0";
-        string idx = "1";
+        string layer = _layer;
+        string idx = _index;
         string[] obj = { layer, idx };
         string args = JsonConvert.SerializeObject(obj);
         string response = await Web3GL.SendContract(method, abi, address, args, value, gasLimit, gasPrice);
         Debug.Log(response);
+        finishSecInEdit = true;
     }
 
     async public void SecSubmit()
@@ -148,6 +161,7 @@ public class ContractInteraction : MonoBehaviour
         string args = JsonConvert.SerializeObject(obj);
         string response = await Web3GL.SendContract(method, abi, address, args, value, gasLimit, gasPrice);
         Debug.Log(response);
+        finishSecSubmit = true;
     }
 
     async public void Submit()
@@ -160,6 +174,7 @@ public class ContractInteraction : MonoBehaviour
         string args = JsonConvert.SerializeObject(obj);
         string response = await Web3GL.SendContract(method, abi, address, args, value, gasLimit, gasPrice);
         Debug.Log(response);
+        finishSubmit = true;
     }
 
     /////////////////////////////////////Read Function/////////////////////////////////////

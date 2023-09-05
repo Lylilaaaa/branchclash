@@ -71,6 +71,21 @@ public class LevelDownInfoDataViewing : MonoBehaviour
 
     public void OpenGamePlayScene()
     {
+        StartOpenGamePlay();
+    }
+
+    public void StartOpenGamePlay()
+    {
+        StartCoroutine(openGamePlay());
+    }
+
+    IEnumerator openGamePlay()
+    {
+        ContractInteraction._instance.SecInEdit(GlobalVar._instance.chosenDownNodeData.nodeLayer.ToString(),GlobalVar._instance.chosenDownNodeData.nodeIndex.ToString());
+        while (!ContractInteraction._instance.finishSecInEdit)
+        {
+            yield return null;
+        }
         GlobalVar._instance.ChangeState("GamePlay");
         GlobalVar._instance._loadNextScene("3_1_SecGamePlay");
     }

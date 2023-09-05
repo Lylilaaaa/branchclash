@@ -115,7 +115,15 @@ public class StartSceneEventControl : MonoBehaviour
         }
         else if(_finishMainVideo == false && isOldPlayer) //????????????????????
         {
-            vp.clip = videoList[_role+1];
+            // vp.clip = videoList[_role+1];
+            if (_role == 0)
+            {
+                vp.url = Path.Combine(Application.streamingAssetsPath, "0.mp4");
+            }
+            else
+            {
+                vp.url = Path.Combine(Application.streamingAssetsPath, "1.mp4");
+            }
             vp.Prepare();
             _finishMainVideo = true;
         }

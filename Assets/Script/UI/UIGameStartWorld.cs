@@ -43,14 +43,7 @@ public class UIGameStartWorld : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 print("start!");
-                // ContractInteraction._instance.Submit();
-                
-                //comment when build!!
-                monsterStart.startGame();
-                GlobalVar._instance.ChangeState("GamePlay");
-                Destroy(gameObject);
-                
-                chosen = false;
+                StartGameStart();
             }
         }
         // if (GlobalVar._instance.finishEdit==true && finish == false)
@@ -61,6 +54,25 @@ public class UIGameStartWorld : MonoBehaviour
         //     Destroy(gameObject);
         // }
     }
+
+    public void StartGameStart()
+    {
+        StartCoroutine(_gameStart());
+    }
+
+    public IEnumerator _gameStart()
+    {
+        ContractInteraction._instance.Submit();
+        while (!ContractInteraction._instance.finishSubmit)
+        {
+            yield return null;
+        }
+        monsterStart.startGame();
+        GlobalVar._instance.ChangeState("GamePlay");
+        Destroy(gameObject);
+        chosen = false;
+    }
+    
     
     
     

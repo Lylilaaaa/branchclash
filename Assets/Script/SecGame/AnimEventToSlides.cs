@@ -10,6 +10,20 @@ public class AnimEventToSlides : MonoBehaviour
     public void TubeFinish()
     {
         Debug.Log("tube Anim finish!");
+        StartOpenGamePlay();
+    }
+    public void StartOpenGamePlay()
+    {
+        StartCoroutine( secSubmint());
+    }
+
+    IEnumerator secSubmint()
+    {
+        ContractInteraction._instance.SecSubmit();
+        while (!ContractInteraction._instance.finishSecSubmit)
+        {
+            yield return null;
+        }
         sceDataControl = transform.parent.parent.GetComponent<SecGamePlayInfoShowing>();
         sceDataControl.AddDebuffAndRefresh(debuffIndex);
     }
