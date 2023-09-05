@@ -50,13 +50,21 @@ public class TreeNodeDataInit : MonoBehaviour
             //
             foreach (NodeData _nodeData in previousNodeData)
             {
-                treeData.nodeDictionary.Add(_nodeData.nodeLayer.ToString()+','+_nodeData.nodeIndex.ToString(),_nodeData);
-                treeData.treeNodeCount += 1;
+                if (!treeData.nodeDictionary.ContainsKey(_nodeData.nodeLayer.ToString() + ',' +
+                                                         _nodeData.nodeIndex.ToString()))
+                {
+                    treeData.nodeDictionary.Add(_nodeData.nodeLayer.ToString()+','+_nodeData.nodeIndex.ToString(),_nodeData);
+                    treeData.treeNodeCount += 1;
+                }
+
             }
             foreach (DownNodeData _downNodeData in previousDownNodeData)
             {
-                downTreeData.downNodeDictionary.Add(_downNodeData.nodeLayer.ToString()+','+_downNodeData.nodeIndex.ToString(),_downNodeData);
-                treeData.treeNodeCount += 1;
+                if (!downTreeData.downNodeDictionary.ContainsKey(_downNodeData.nodeLayer.ToString()+','+_downNodeData.nodeIndex.ToString()))
+                {
+                    downTreeData.downNodeDictionary.Add(_downNodeData.nodeLayer.ToString()+','+_downNodeData.nodeIndex.ToString(),_downNodeData);
+                    treeData.treeNodeCount += 1;
+                }
             }
 
             GlobalVar._instance._convert2TreeGen(treeData);

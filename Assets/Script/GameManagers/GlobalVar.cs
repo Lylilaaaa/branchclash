@@ -95,7 +95,7 @@ public class GlobalVar : MonoBehaviour
     {
         //
         print("GlobalVar Restart!");
-        ContractInteraction._instance.ReSetMain();
+
         dataPrepared = false;
         nodePrepared = false;
         //TreeGenerator._instance.InitTree();

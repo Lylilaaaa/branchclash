@@ -17,7 +17,7 @@ public class StartSceneEventControl : MonoBehaviour
     public Transform roleChoosingPanel;
     public Button skipButton;
     public Button connectButton;
-    public string userAddress = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
+    //public string userAddress = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
     public bool isOldPlayer;
     public GameObject loadingGameObj;
     

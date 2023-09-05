@@ -57,7 +57,7 @@ public class HomePageSelectUI : MonoBehaviour
 
             if (GlobalVar._instance.nodeDataList.Count != 0 && _nodeFinish == false && GlobalVar._instance.role == 0)
             {
-                //print("init Nodes");
+                print("init Nodes");
                 _checkYourNode();
                 _initYourNodeUI();
                 _nodeFinish = true;
@@ -65,7 +65,7 @@ public class HomePageSelectUI : MonoBehaviour
             else if (GlobalVar._instance.downNodeDataList.Count != 0 && _nodeFinish == false &&
                      GlobalVar._instance.role == 1)
             {
-                //print("init downNodes");
+                print("init downNodes");
                 _checkYourDownNode();
                 _initYourDownNodeUI();
                 _nodeFinish = true;

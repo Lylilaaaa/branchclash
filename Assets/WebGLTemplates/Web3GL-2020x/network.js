@@ -22,7 +22,7 @@ Used to set the network: https://chainlist.org/
 338 Cronos Testnet
 */
 
-window.web3ChainId = 5;
+window.web3ChainId = 5611;
 
 // Onboard JS chain config objects
 
