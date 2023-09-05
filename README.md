@@ -3,7 +3,7 @@ BranchClash
 
 This project is the development documentation for BranchClash. 
 It includes Unity development, communication with smart contracts, communication with the server acting as a data cache, and server data storage methods. 
-You can use the file by running xxxx. 
+You can use the file by running [xxxx](http://www.branchclash.com). 
 
 
 The smart contract address for this project on the opBNB testnet is: 0x1AeAb40e9eED5F6d0dFC1b915Fa4A075a4e67f69. 
