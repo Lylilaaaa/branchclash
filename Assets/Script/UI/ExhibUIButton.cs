@@ -43,7 +43,6 @@ public class ExhibUIButton : MonoBehaviour
         {
             inidexInfo.text = thisNodeData.nodeIndex + "th Node";
         }
-        
     }
 
     // Update is called once per frame
@@ -52,8 +51,20 @@ public class ExhibUIButton : MonoBehaviour
         //ContractInteraction._instance.InEdit();
         
         //comment build!!!
-        //查找合约响应事件！！！！！！
+        //????????????????????????
         //Contract Interaction!!!!!
+        StartCoroutine(_exitThisNode());
+        
+
+    }
+    
+    public IEnumerator _exitThisNode()
+    {
+        ContractInteraction._instance.InEdit(GlobalVar._instance.chosenNodeData.nodeLayer.ToString(),GlobalVar._instance.chosenNodeData.nodeIndex.ToString());
+        while (!ContractInteraction._instance.finshiInEidt)
+        {
+            yield return null; // 等待一帧
+        }
         GlobalVar._instance.ChangeState("ChooseField");
         GlobalVar._instance._loadNextScene("3_0_GamePlay");
     }

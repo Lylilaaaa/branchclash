@@ -203,6 +203,23 @@ public class TowerBuilder : MonoBehaviour
         }
     }
 
+    public void StartMerge(List<int> fromRowCol,List<int> toRowCol)
+    {
+        StartCoroutine(merge(fromRowCol,toRowCol));
+    }
+
+    public IEnumerator merge(List<int> fromRowCol,List<int> toRowCol)
+    {
+        ContractInteraction._instance.EditMergeTower(_getMapFromRowCol(fromRowCol[0],fromRowCol[1]).ToString(), _getMapFromRowCol(toRowCol[0],toRowCol[1]).ToString());
+        while (!ContractInteraction._instance.finishMerge)
+        {
+            yield return null; // 等待一帧
+        }
+        ContractInteraction._instance.finishMerge = false;
+        Merge(fromRowCol,toRowCol);
+    }
+    
+    
     public void MergeButt()
     {
         int price;
@@ -301,6 +318,18 @@ public class TowerBuilder : MonoBehaviour
         }
     }
 
+    private int[] _getRowColFromMap(int mapmapIndex)
+    {
+        int[] rowCol = new int[2];
+        rowCol[0] = (mapmapIndex-1) / 19;
+        rowCol[1] = (mapmapIndex - 1) % 19;
+        return rowCol;
+    }
+    private int _getMapFromRowCol(int row, int col)
+    {
+        return (row * 19 + col)+1;
+    }
+
     private void _initFI(FieldInit fi)
     {
         fi.woodType = 0;
@@ -312,10 +341,60 @@ public class TowerBuilder : MonoBehaviour
         fi.eproType = 0;
     }
 
-    public void CallAddContract()
+    public void StartCallAddContract(string setTowerType)
     {
-        //ContractInteraction._instance.EditAddTower();
+        string contractTower;
+        if (setTowerType == "wpro")
+        {
+            contractTower = "prow";
+        }
+        else if(setTowerType == "ipro")
+        {
+            contractTower = "proi";
+        }
+        else if(setTowerType == "epro")
+        {
+            contractTower = "proe";
+        }
+        else
+        {
+            contractTower = setTowerType;
+        }
+        
+        StartCoroutine(CallAddContract(contractTower));
     }
+
+    public IEnumerator CallAddContract(string setTowerType)
+    {   
+        string rowColStr = GlobalVar._instance.targetField;
+        List<int> row_col;
+        row_col = findRowCol(rowColStr);
+        ContractInteraction._instance.EditAddTower(_getMapFromRowCol(row_col[0],row_col[1]).ToString(),setTowerType);
+        while (!ContractInteraction._instance.finishiAdd)
+        {
+            yield return null; // 等待一帧
+        }
+        ContractInteraction._instance.finishiAdd = false;
+        string unityTower;
+        if (setTowerType == "prow")
+        {
+            unityTower = "wpro";
+        }
+        else if(setTowerType == "proi")
+        {
+            unityTower = "ipro";
+        }
+        else if(setTowerType == "proe")
+        {
+            unityTower = "epro";
+        }
+        else
+        {
+            unityTower = setTowerType;
+        }
+        BuildWeapon(unityTower);
+    }
+    
     public void BuildWeapon(string weaponType)
     { 
         Set(weaponType);

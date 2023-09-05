@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
+using Web3Unity.Scripts.Library.ETHEREUEM.EIP;
 
 public class ImportNFTTextureExample : MonoBehaviour
 {
-    public class Response {
+    public class Response
+    {
         public string image;
     }
 
     async void Start()
     {
-        string chain = "ethereum";
-        string network = "rinkeby";
-        string contract = "0x3a8A85A6122C92581f590444449Ca9e66D8e8F35";
-        string tokenId = "5";
+        string contract = "0x162BA1d478948e0ab2d4B21dca2471982C1Fb797"; // gitleaks:allow
+        string tokenId = "0x01559ae4021aee70424836ca173b6a4e647287d15cee8ac42d8c2d8d128927e5"; // gitleaks:allow
 
         // fetch uri from chain
-        string uri = await ERC1155.URI(chain, network, contract, tokenId);
+        string uri = await ERC1155.URI(contract, tokenId);
         print("uri: " + uri);
 
         // fetch json from uri
@@ -29,10 +29,14 @@ public class ImportNFTTextureExample : MonoBehaviour
         // parse json to get image uri
         string imageUri = data.image;
         print("imageUri: " + imageUri);
-
+        if (imageUri.StartsWith("ipfs://"))
+        {
+            imageUri = imageUri.Replace("ipfs://", "https://ipfs.io/ipfs/");
+        }
+        Debug.Log("Revised URI: " + imageUri);
         // fetch image and display in game
         UnityWebRequest textureRequest = UnityWebRequestTexture.GetTexture(imageUri);
         await textureRequest.SendWebRequest();
-        this.gameObject.GetComponent<Renderer>().material.mainTexture = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
+        gameObject.GetComponent<Renderer>().material.mainTexture = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
     }
 }

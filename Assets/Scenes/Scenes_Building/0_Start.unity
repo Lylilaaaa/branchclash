@@ -428,7 +428,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1377850444}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1095,6 +1095,7 @@ GameObject:
   m_Component:
   - component: {fileID: 359931268}
   - component: {fileID: 359931269}
+  - component: {fileID: 359931270}
   m_Layer: 0
   m_Name: UrLConnect
   m_TagString: Untagged
@@ -1139,6 +1140,18 @@ MonoBehaviour:
   url_clearSec: 8.219.216.37/clearSec.php
   upTreeResult: 
   downTreeResult: 
+--- !u!114 &359931270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359931267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa6e5a3cdd404aeebca024db9afeae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &366854970
 GameObject:
   m_ObjectHideFlags: 0
@@ -3669,6 +3682,7 @@ MonoBehaviour:
   ri: {fileID: 1127714404}
   roleChoosingPanel: {fileID: 1453863735}
   skipButton: {fileID: 908941547}
+  connectButton: {fileID: 1776678574}
   userAddress: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
   isOldPlayer: 0
   loadingGameObj: {fileID: 138215310}
@@ -4680,9 +4694,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1356196974}
-        m_TargetAssemblyTypeName: StartSceneEventControl, Assembly-CSharp
-        m_MethodName: ConnectToWallet
+      - m_Target: {fileID: 359931270}
+        m_TargetAssemblyTypeName: WebLogin, Assembly-CSharp
+        m_MethodName: OnLogin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4963,7 +4977,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afa6e5a3cdd404aeebca024db9afeae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  account: 
 --- !u!114 &1858729203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4976,6 +4989,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b93c874ac96543e47b8aef6ea6740181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  role: 0
+  finishChoseDuty: 0
 --- !u!114 &1858729204
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -61,6 +61,9 @@ public class UIGameStartWorld : MonoBehaviour
         //     Destroy(gameObject);
         // }
     }
+    
+    
+    
     private void OnMouseEnter()
     {
         //print("mouseEnter!");

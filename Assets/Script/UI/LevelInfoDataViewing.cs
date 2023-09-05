@@ -106,23 +106,22 @@ public class LevelInfoDataViewing : MonoBehaviour
         
         //?????????§Õ
         
-
         Slider WdebuffSlider = _debuffSlider[0].GetComponent<Slider>();
-        WdebuffSlider.maxValue = 5;
-        WdebuffSlider.value = 4;
+        WdebuffSlider.maxValue = 1;
+        WdebuffSlider.value = CurNodeDataSummary._instance.debuffListData[0];
         WdebuffSlider.minValue = 0;
         Slider IdebuffSlider = _debuffSlider[1].GetComponent<Slider>();
-        IdebuffSlider.maxValue = 4;
-        IdebuffSlider.value = 0;
+        IdebuffSlider.maxValue = 1;
+        IdebuffSlider.value = CurNodeDataSummary._instance.debuffListData[1];
         IdebuffSlider.minValue = 0;
         Slider EdebuffSlider = _debuffSlider[2].GetComponent<Slider>();
-        EdebuffSlider.maxValue = 3;
-        EdebuffSlider.value = 1;
+        EdebuffSlider.maxValue = 1;
+        EdebuffSlider.value = CurNodeDataSummary._instance.debuffListData[2];
         EdebuffSlider.minValue = 0;
-        _debuffTower[0].GetComponent<TextMeshProUGUI>().text = "80%";
-        _debuffTower[1].GetComponent<TextMeshProUGUI>().text = "0%";
-        _debuffTower[2].GetComponent<TextMeshProUGUI>().text = "10%";
-            
+        _debuffTower[0].GetComponent<TextMeshProUGUI>().text = (WdebuffSlider.value*100).ToString()+"%";
+        _debuffTower[1].GetComponent<TextMeshProUGUI>().text = (IdebuffSlider.value*100).ToString()+"%";
+        _debuffTower[2].GetComponent<TextMeshProUGUI>().text = (EdebuffSlider.value*100).ToString()+"%";
+        
         _hasInit = true;
     }
 

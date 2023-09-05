@@ -64,7 +64,8 @@ public class GameplayCurSorOutline : MonoBehaviour
                     if (mouseEnter == true && Input.GetMouseButtonDown(0))
                     {
                         tb.mergeToPos = findRowCol( transform.name.Substring(0,3)); 
-                        tb.Merge(tb.mergeFromPos,tb.mergeToPos);
+                        tb.StartMerge(tb.mergeFromPos,tb.mergeToPos);
+                        //tb.Merge(tb.mergeFromPos,tb.mergeToPos);
                     }
                 }
             

@@ -8,11 +8,14 @@ public class WebGLSignMessageExample : MonoBehaviour
 {
     async public void OnSignMessage()
     {
-        try {
+        try
+        {
             string message = "hello";
             string response = await Web3GL.Sign(message);
-            Debug.Log(response);
-        } catch (Exception e) {
+            print(response);
+        }
+        catch (Exception e)
+        {
             Debug.LogException(e, this);
         }
     }

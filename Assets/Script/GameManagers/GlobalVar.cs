@@ -83,6 +83,7 @@ public class GlobalVar : MonoBehaviour
         loadingGameObj.SetActive(false);
         dataPrepared = false;
         nodePrepared = false;
+        thisUserAddr = "";
     }
 
     // void Start()
@@ -94,6 +95,7 @@ public class GlobalVar : MonoBehaviour
     {
         //
         print("GlobalVar Restart!");
+        ContractInteraction._instance.ReSetMain();
         dataPrepared = false;
         nodePrepared = false;
         //TreeGenerator._instance.InitTree();

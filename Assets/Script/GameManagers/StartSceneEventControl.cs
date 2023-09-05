@@ -16,6 +16,7 @@ public class StartSceneEventControl : MonoBehaviour
     public RawImage ri;
     public Transform roleChoosingPanel;
     public Button skipButton;
+    public Button connectButton;
     public string userAddress = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
     public bool isOldPlayer;
     public GameObject loadingGameObj;
@@ -29,6 +30,7 @@ public class StartSceneEventControl : MonoBehaviour
         vp.loopPointReached += EndReached;
         vp.prepareCompleted += Prepare;
         skipButton.onClick.AddListener(SkipToLastSecond);
+        connectButton.onClick.AddListener(StartConnectWallet);
         vp.gameObject.SetActive(false);
         roleChoosingPanel.gameObject.SetActive(false);
         _finishMainVideo = false;
@@ -36,31 +38,56 @@ public class StartSceneEventControl : MonoBehaviour
         loadingGameObj.SetActive(false);
     }
 
-    public void ConnectToWallet()
+    public void StartConnectWallet()
     {
+        StartCoroutine(ConnectToWallet());
+    }
+
+    public IEnumerator ConnectToWallet()
+    {
+        while (GlobalVar._instance.thisUserAddr == "")
+        {
+            yield return null;
+        };
+        ContractInteraction._instance.CheckDuty();
+        StartCoroutine(_checkDuty());
+    }
+
+    public IEnumerator _checkDuty()
+    {
+        while (ContractInteraction._instance.role==100)
+        {
+            yield return null;
+        }
+
+        _role = ContractInteraction._instance.role+2;  //0（2）：新手；1（3）：士兵；2（4）：研究者
+        if (_role == 2)
+        {
+            isOldPlayer = false;
+            skipButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            _role -= 3;
+            GlobalVar._instance.role = _role;
+            isOldPlayer = true;
+            skipButton.gameObject.SetActive(true);
+        }
         vp.gameObject.SetActive(true);
         //vp.clip = videoList[0];
         vp.url = Path.Combine(Application.streamingAssetsPath, "main.mp4");
         vp.Play();
         vp.Prepare();
-
-        if (GlobalVar._instance._checkUserGreen(GlobalVar._instance.thisUserAddr) == 0)
-        {
-            //skipButton.gameObject.SetActive(false);
-            skipButton.gameObject.SetActive(true);
-            isOldPlayer = false;
-        }
-        else
-        {
-            isOldPlayer = true;
-            skipButton.gameObject.SetActive(true);
-            _role = GlobalVar._instance._checkUserRole(GlobalVar._instance.thisUserAddr);
-        }
-
     }
-
-    public void ChoseRole(int roleIndex)
+    
+    public IEnumerator ChoseRole(int roleIndex)
     {
+        ContractInteraction._instance.ChooseDuty((roleIndex+1).ToString());
+        while (!ContractInteraction._instance.finishChoseDuty)
+        {
+            yield return null;
+        }
+        
         roleChoosingPanel.gameObject.SetActive(false);
         vp.gameObject.SetActive(true);
         //vp.clip = videoList[roleIndex+1];
@@ -74,11 +101,10 @@ public class StartSceneEventControl : MonoBehaviour
         }
         vp.Prepare();
         _role = roleIndex;
+        GlobalVar._instance.role = _role;
         //UserInformation._instance.userRole = roleIndex;
     }
     
-    
-
     void EndReached(VideoPlayer vPlayer)
     {
         if (_finishMainVideo == false && isOldPlayer == false) //???????????panel????????panel
@@ -87,7 +113,7 @@ public class StartSceneEventControl : MonoBehaviour
             vp.gameObject.SetActive(false);
             _finishMainVideo = true;
         }
-        else if(_finishMainVideo == false && isOldPlayer == true) //????????????????????
+        else if(_finishMainVideo == false && isOldPlayer) //????????????????????
         {
             vp.clip = videoList[_role+1];
             vp.Prepare();

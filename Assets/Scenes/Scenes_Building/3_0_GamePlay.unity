@@ -850,19 +850,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 753596591}
         m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: CallAddContract
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: elec
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 753596591}
-        m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: BuildWeapon
+        m_MethodName: StartCallAddContract
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -893,7 +881,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: e15d6156c574bc848b3378e52befe942, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -5442,19 +5430,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 753596591}
         m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: CallAddContract
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 753596591}
-        m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: BuildWeapon
+        m_MethodName: StartCallAddContract
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5742,7 +5718,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 0, w: -3.0365768e+14}
+  m_BoundingSphereOverride: {x: 2.4359e-41, y: 6e-44, z: -50, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -12094,7 +12070,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1.1e-44, y: 3.4e-44, z: 1.4e-44, w: 1e-45}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -27645,7 +27621,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1e-45, y: 1.0105e-41, z: 6e-44, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -47451,19 +47427,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 753596591}
         m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: CallAddContract
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: iron
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 753596591}
-        m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: BuildWeapon
+        m_MethodName: StartCallAddContract
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -47494,7 +47458,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: e15d6156c574bc848b3378e52befe942, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -55809,19 +55773,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 753596591}
         m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: CallAddContract
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 753596591}
-        m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: BuildWeapon
+        m_MethodName: StartCallAddContract
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -55852,7 +55804,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: e15d6156c574bc848b3378e52befe942, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -74632,7 +74584,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afa6e5a3cdd404aeebca024db9afeae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  account: 
 --- !u!114 &1369229363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74645,6 +74596,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b93c874ac96543e47b8aef6ea6740181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  role: 0
+  finishChoseDuty: 0
+  finshiInEidt: 0
+  finishiAdd: 0
 --- !u!114 &1369229364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74707,14 +74662,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9340983a0d366147979713ebbfc2c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisUserData: {fileID: 0}
-  userAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
+  thisUserAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
+  isNew: 0
+  role: 0
   maxLevelTree: 0
   maxLevelTreeDown: 0
   MajorNodeList: []
   MajorNodeListDown: []
   nodeDataList: []
   downNodeDataList: []
+  upTreeNodeLayerIndex: 
+  downTreeNodeLayerIndex: 
+  upStringResults: []
+  downStringResults: []
   TreeGen: 
   redTreeGen: 
   chosenNodeData: {fileID: 11400000, guid: 59ba45e97a7d88d4fa8d51e148073ed8, type: 2}
@@ -74722,6 +74682,7 @@ MonoBehaviour:
   initialGameState: 5
   gameStateShown: 
   dataPrepared: 0
+  nodePrepared: 0
   isPreViewing: 0
   global_OL: 0
   gameResult: 0
@@ -86872,7 +86833,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 2.3511035e-37, z: 2.3658328e-37, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: NaN, z: 0, w: 3.4e-44}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -88682,7 +88643,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 7.435346e-37}
+  m_BoundingSphereOverride: {x: 0, y: NaN, z: 0, w: 3.4e-44}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -89530,19 +89491,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 753596591}
         m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: CallAddContract
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: wood
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 753596591}
-        m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: BuildWeapon
+        m_MethodName: StartCallAddContract
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -89573,7 +89522,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: e15d6156c574bc848b3378e52befe942, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -98644,7 +98593,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1e-45, y: NaN, z: 1.02e-43, w: 4.6893477e+27}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -100947,7 +100896,7 @@ Light:
   m_BounceIntensity: 2
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 7.06e-43, y: NaN, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -102791,19 +102740,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 753596591}
         m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: CallAddContract
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: elec
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 753596591}
-        m_TargetAssemblyTypeName: TowerBuilder, Assembly-CSharp
-        m_MethodName: BuildWeapon
+        m_MethodName: StartCallAddContract
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -114303,7 +114240,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.653039e-39, y: NaN, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 7.06e-43, y: 2.06e-43, z: 0, w: 7.269949e-10}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -115562,7 +115499,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 3.765255e-39, y: NaN, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

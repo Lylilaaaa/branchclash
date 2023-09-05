@@ -16,7 +16,19 @@ public class WebLogin : MonoBehaviour
     private static extern void SetConnectAccount(string value);
 
     private int expirationTime;
-    public string account; 
+    private string account;
+    ProjectConfigScriptableObject projectConfigSO = null;
+    
+    void Start()
+    {
+        // loads the data saved from the editor config
+        projectConfigSO = (ProjectConfigScriptableObject)Resources.Load("ProjectConfigData", typeof(ScriptableObject));
+        PlayerPrefs.SetString("ProjectID", projectConfigSO.ProjectID);
+        PlayerPrefs.SetString("ChainID", projectConfigSO.ChainID);
+        PlayerPrefs.SetString("Chain", projectConfigSO.Chain);
+        PlayerPrefs.SetString("Network", projectConfigSO.Network);
+        PlayerPrefs.SetString("RPC", projectConfigSO.RPC);
+    }
 
     public void OnLogin()
     {
@@ -27,17 +39,19 @@ public class WebLogin : MonoBehaviour
     async private void OnConnected()
     {
         account = ConnectAccount();
-        while (account == "") {
+        while (account == "")
+        {
             await new WaitForSeconds(1f);
             account = ConnectAccount();
         };
         // save account for next scene
         PlayerPrefs.SetString("Account", account);
-        GlobalVar._instance.thisUserAddr = account;
         // reset login message
         SetConnectAccount("");
         // load next scene
-        //ceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        ContractInteraction._instance.getAccount();
+        GlobalVar._instance.thisUserAddr = PlayerPrefs.GetString("Account");
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void OnSkip()
