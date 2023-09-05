@@ -198,12 +198,13 @@ public class SecGamePlayInfoShowing : MonoBehaviour
         CurNodeDataSummary._instance.curDebuffList[index] += (int) addNum;
         dataRefresh = true;
         
-        TreeNodeDataInit._instance.AddDownNodeData();
+        // Upload Data!!!!!!
+        
         
         _debufflist = CurNodeDataSummary._instance.curDebuffList;
         weaponTotalBlood = CurNodeDataSummary._instance.weaponBloodList;
         weaponTotalProtect = CurNodeDataSummary._instance.protectList;
-
+        TreeNodeDataInit._instance.AddDownNodeData();
         _changeCertainSlider(index);
     }
 

@@ -1,5 +1,7 @@
 
 using System.Collections;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -37,10 +39,12 @@ public class StartSceneEventControl : MonoBehaviour
     public void ConnectToWallet()
     {
         vp.gameObject.SetActive(true);
-        vp.clip = videoList[0];
+        //vp.clip = videoList[0];
+        vp.url = Path.Combine(Application.streamingAssetsPath, "main.mp4");
+        vp.Play();
         vp.Prepare();
 
-        if (_checkUserData(userAddress) == null)
+        if (GlobalVar._instance._checkUserGreen(GlobalVar._instance.thisUserAddr) == 0)
         {
             //skipButton.gameObject.SetActive(false);
             skipButton.gameObject.SetActive(true);
@@ -50,8 +54,7 @@ public class StartSceneEventControl : MonoBehaviour
         {
             isOldPlayer = true;
             skipButton.gameObject.SetActive(true);
-            UserInformation._instance.userRoleData = _checkUserData(userAddress);
-            _role = UserInformation._instance.userRoleData.role;
+            _role = GlobalVar._instance._checkUserRole(GlobalVar._instance.thisUserAddr);
         }
 
     }
@@ -60,47 +63,21 @@ public class StartSceneEventControl : MonoBehaviour
     {
         roleChoosingPanel.gameObject.SetActive(false);
         vp.gameObject.SetActive(true);
-        vp.clip = videoList[roleIndex+1];
+        //vp.clip = videoList[roleIndex+1];
+        if (roleIndex == 0)
+        {
+            vp.url = Path.Combine(Application.streamingAssetsPath, "0.mp4");
+        }
+        else
+        {
+            vp.url = Path.Combine(Application.streamingAssetsPath, "1.mp4");
+        }
         vp.Prepare();
-        _createUserData(roleIndex);
         _role = roleIndex;
         //UserInformation._instance.userRole = roleIndex;
     }
-
-    private UserData _checkUserData(string address)
-    {
-        UserData[] allMyDataObjects = Resources.LoadAll<UserData>("");
-        foreach (UserData VARIABLE in allMyDataObjects)
-        {
-            if (VARIABLE.address == address)
-            {
-                return VARIABLE;
-            }
-        }
-        Debug.Log("ScriptableObject not found, new user!");
-        return null;
-    }
     
-    private void _createUserData(int roleIndex)
-    {
-        //??????????userData????????§Ö?????????????§µ????????????
-        
-        //?????§µ?
-        UserData newUserData = new UserData();
-        //newUserData.name = userAddress;
-        newUserData.address = userAddress;
-        newUserData.process = 1;
-        newUserData.role = roleIndex;
-        newUserData.isFirstPlay = true;
-        string assetPath = "Assets/Resources/" + userAddress + ".asset";
-        AssetDatabase.CreateAsset(newUserData, assetPath);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-        
-        UserInformation._instance.userRoleData = newUserData;
-        
-        isOldPlayer = true;
-    }
+    
 
     void EndReached(VideoPlayer vPlayer)
     {
@@ -112,7 +89,7 @@ public class StartSceneEventControl : MonoBehaviour
         }
         else if(_finishMainVideo == false && isOldPlayer == true) //????????????????????
         {
-            vp.clip = videoList[_checkUserData(userAddress).role+1];
+            vp.clip = videoList[_role+1];
             vp.Prepare();
             _finishMainVideo = true;
         }

@@ -205,6 +205,24 @@ public class TowerBuilder : MonoBehaviour
 
     public void MergeButt()
     {
+        int price;
+        if (targetWeaponType == "wood")
+        {
+            price = GlobalVar._instance.woodTowerData.merge_price;
+        }
+        else if (targetWeaponType == "iron")
+        {
+            price = GlobalVar._instance.ironTowerData.merge_price;
+        }
+        else if (targetWeaponType == "elec")
+        {
+            price = GlobalVar._instance.elecTowerData.merge_price;
+        }
+        else
+        {
+            price = 0;
+        }
+        CurNodeDataSummary._instance.reduceMoney(-price);
         mergeButtConfirm = true;
         _UIPanalManager.MergePanel.SetActive(false);
     }
@@ -302,7 +320,7 @@ public class TowerBuilder : MonoBehaviour
     { 
         Set(weaponType);
         changeStateChoseField();
-        _UIPanalManager.reduceMoney(-moneyBuild(weaponType));
+        CurNodeDataSummary._instance.reduceMoney(-moneyBuild(weaponType));
     }
 
     private int moneyBuild(string weaponType)

@@ -19,13 +19,8 @@ public class TowerData : ScriptableObject
     public int performGrade2 = 5;
     public int performGrade3 = 10;
 
-    public int upgradeSpeedRate = 1;
-    public int upgradeAttackRate = 1;
-    public int gradeSpeedToAttack = 5;
-
     public int basePrice = 600;
-    public int gradePrice1_5 = 200;
-    public int gradePrice_inf = 100;
+    public int merge_price = 40;
     /*struct in_tower{
         string tower_type;
 

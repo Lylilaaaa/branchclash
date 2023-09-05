@@ -14,11 +14,11 @@ public class YourNodeButtonClickHandler : MonoBehaviour
         _HomePageSelectUI = transform.parent.parent.parent.parent.parent.parent.parent.GetComponent<HomePageSelectUI>();
         parameter = transform.parent.name;
         button = GetComponent<Button>();
-        if (GlobalVar._instance.thisUserData.role == 0)
+        if (GlobalVar._instance.role == 0)
         {
             button.onClick.AddListener(() => _HomePageSelectUI.ZoomX_X(parameter));
         }
-        else if (GlobalVar._instance.thisUserData.role == 1)
+        else if (GlobalVar._instance.role == 1)
         {
             button.onClick.AddListener(() => _HomePageSelectUI.ZoomX_X_down(parameter));
         }

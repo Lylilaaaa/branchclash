@@ -185,15 +185,19 @@ public class MergePanalControl : MonoBehaviour
                     moneyGObj.SetActive(true);
                     if (weaponType == "wood")
                     {
-                        moneyNum.text = "-" + wData.basePrice;
+                        moneyNum.text = "-" + wData.merge_price;
                     }
                     else if (weaponType == "iron")
                     {
-                        moneyNum.text = "-" + iData.basePrice;
+                        moneyNum.text = "-" + iData.merge_price;
                     }
                     else if (weaponType == "elec")
                     {
-                        moneyNum.text = "-" + eData.basePrice;
+                        moneyNum.text = "-" + eData.merge_price;
+                    }
+                    else
+                    {
+                        moneyNum.text = "-" + 0;
                     }
                 }
             }

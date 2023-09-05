@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyBodyData : MonoBehaviour
 {
-    public int damageBody;
+    public float damageBody;
 
     public void OnTriggerEnter(Collider other)
     {

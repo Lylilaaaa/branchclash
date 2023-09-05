@@ -10,10 +10,11 @@ public class DownNodeData : ScriptableObject
     public int fatherLayer;
     public int fatherIndex;
     public int childCount;
-    public bool isMajor;
+    
     
     public int nodeLayer;
     public int nodeIndex;
+    public bool isMajor;
     
     public int[] debuffData = new int[3];
 }

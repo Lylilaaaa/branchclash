@@ -6,9 +6,9 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private Transform target;
-    public float speed= 70f;
+    public float speed= 100f;
     public GameObject impactEffect;
-    public int attackData;
+    public float attackData;
 
     private bool hasAttack = false;
     public void seek(Transform _target)
@@ -46,9 +46,10 @@ public class Bullet : MonoBehaviour
             return;
         }
         GameObject efffectins = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation);
+        efffectins.transform.localScale = new Vector3(5, 5, 5);
         Destroy(efffectins,2f);
         Destroy(gameObject);
-        target.GetComponent<EnemyData>().MonsterHealth-=attackData;
+        target.GetComponent<EnemyData>().MonsterHealth-= attackData;
     }
     
 }

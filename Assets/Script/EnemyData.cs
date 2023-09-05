@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class EnemyData : MonoBehaviour
 {
-    public int MonsterHealth=100;
+    public float MonsterHealth=100;
     public Slider healthBar;
-    public int totalHealth=100;
+    public float totalHealth=100;
     public GameObject BodyHitGameObj;
-    private int hitOfBody;
+    private float hitOfBody;
     public Animator thisAnimator;
     public bool isBody;
     public Transform homePos;
@@ -21,8 +21,9 @@ public class EnemyData : MonoBehaviour
     {
         //healthBar = transform.GetChild(0).GetChild(0).GetComponent<Slider>();
         //print(transform.GetChild(0).GetChild(0));
-        totalHealth = MonsterHealth;
+        totalHealth = CurNodeDataSummary._instance.GetMonsterBlood(CurNodeDataSummary._instance.thisNodeData.nodeLayer);
         healthBar.maxValue = totalHealth;
+        MonsterHealth = healthBar.maxValue = totalHealth;
         isBody = false;
     }
 
@@ -52,6 +53,7 @@ public class EnemyData : MonoBehaviour
         {
             HomeDamage hd = other.gameObject.GetComponent<HomeDamage>();
             hd.homeCurHealth -= MonsterHealth;
+            CurNodeDataSummary._instance.homeDestroyData += MonsterHealth;
         }
     }
 

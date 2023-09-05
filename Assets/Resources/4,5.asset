@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 800ffb965817ffa44905aa94e7ad86b3, type: 3}
+  m_Name: 4,5
+  m_EditorClassIdentifier: 
+  ownerAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
+  setUpTime: 2023/9/4 15:39:12
+  fatherLayer: 3
+  fatherIndex: 8
+  childCount: 0
+  nodeLayer: 4
+  nodeIndex: 5
+  isMajor: 0
+  curHealth: -1336
+  fullHealth: 100
+  money: 610
+  mapStructure: 00,H,wood1,00,wood1,00,00,00,00,00,00,00,00,00,00,00,R,00,/n,00,R,00,00,R,R,R,R,00,00,R,R,R,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,wood2,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,wood1,00,R,wood1,00,R,00,00,R,wood1,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,wood1,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,R,R,R,00,00,R,R,R,R,00,00,R,R,R,R,00,/n,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+  towerDebuffList: 000000000000000000000000
+  towerProtectList: 000000000000000000000000

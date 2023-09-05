@@ -12,6 +12,7 @@ public class CurNodeDataSummary : MonoBehaviour
     private TowerData wData;
     private TowerData iData;
     private TowerData eData;
+    public int mapDisPerUnit;
 
     [Header("--------GlobalDataRead--------")]
     public NodeData thisNodeData;
@@ -50,6 +51,9 @@ public class CurNodeDataSummary : MonoBehaviour
     private List<int> _woodTotalAtt;
     private List<int> _ironTotalAtt;
     private List<int> _elecTotalAtt;
+    private int _monBasicBlood = 70;
+    private int _monBasicNum = 3;
+    private int _monInterval = 3;
     
     
     [Header("--------ProcessingBool--------")]
@@ -61,7 +65,8 @@ public class CurNodeDataSummary : MonoBehaviour
     public float homeMaxHealth;
     public float homeCurHealth;
     public float moneyLeft;
-    public int monsterCount;
+    public float homeDestroyData = 0;
+    //public int monsterCount;
     
     private void Awake()
     {
@@ -139,20 +144,20 @@ public class CurNodeDataSummary : MonoBehaviour
         }
 
         //ENTER GAMEPLAY!!
-        if (GlobalVar._instance.thisUserData != null)
+        if (GlobalVar._instance.thisUserAddr != null)
         {
-            if (GlobalVar._instance.thisUserData.role == 0)
+            if (GlobalVar._instance.role == 0)
             {
                 //enter the game play mode, need refresh
                 if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && !_initData && !gamePlayInitData)
                 {
                     _countDicInit();
-                    debuffList = thisNodeData.towerDebuffList;
+                    GlobalVar._instance.chosenDownNodeData = GlobalVar._instance._checkDownNodeMain(thisNodeData.nodeLayer+1);
+                    debuffList = GlobalVar._instance.chosenDownNodeData.debuffData;
                     _mapStruct = GlobalVar._instance.mapmapList;
                     _checkTypeIndex();
                     _initData = true;
                     gamePlayInitData = true;
-                    //weaponBloodList =_checkWeaponTotalBlood();
                 }
             }
             else
@@ -371,7 +376,7 @@ public class CurNodeDataSummary : MonoBehaviour
     
     public (string, string,string) CheckAttackSpeedRange(string towerType,int grade)
     {
-        int attack = 0;
+        float attack = 0;
         float speed = 0;
         int range = 0;
         string attackString = "";
@@ -380,62 +385,37 @@ public class CurNodeDataSummary : MonoBehaviour
         switch (towerType)
         {
             case "wood":
-                if (grade <= wData.gradeSpeedToAttack)
-                {
-                    speed = wData.baseBulletNumberPerSecond + (grade-1) * wData.upgradeSpeedRate;
-                    attack = wData.baseBulletAttack;
-                }
-                else if(grade > wData.gradeSpeedToAttack)
-                {
-                    speed = wData.baseBulletNumberPerSecond + (wData.gradeSpeedToAttack-1) * wData.upgradeSpeedRate;
-                    attack = wData.baseBulletAttack + (grade-wData.gradeSpeedToAttack)*wData.upgradeAttackRate;
-                }
+                speed = wData.baseBulletNumberPerSecond;
+                attack = (_calculateDPS(grade,_woodDpsRate,20)/speed);
                 range = wData.basicRange;
-                attackString = attack.ToString();
+                attackString = ((int)(attack)).ToString();
                 speedString = speed.ToString();
                 rangeString = range.ToString();
                 break;
             case "iron":
-                if (grade <= iData.gradeSpeedToAttack)
-                {
-                    speed = iData.baseBulletNumberPerSecond + (grade-1) * iData.upgradeSpeedRate;
-                    attack = iData.baseBulletAttack;
-                }
-                else if(grade > iData.gradeSpeedToAttack)
-                {
-                    speed = iData.baseBulletNumberPerSecond + (iData.gradeSpeedToAttack-1) * iData.upgradeSpeedRate;
-                    attack = iData.baseBulletAttack + (grade-iData.gradeSpeedToAttack)*iData.upgradeAttackRate;
-                }
+                speed = iData.baseBulletNumberPerSecond;
+                attack = (_calculateDPS(grade,_ironDpsRate,30)/speed);
                 range = iData.basicRange;
-                attackString = attack.ToString();
+                attackString = ((int)(attack)).ToString();
                 speedString = speed.ToString();
                 rangeString = "full map";
                 break;
             case "elec":
-                if (grade <= eData.gradeSpeedToAttack)
-                {
-                    speed = eData.baseBulletNumberPerSecond + (grade-1) * eData.upgradeSpeedRate;
-                    attack = eData.baseBulletAttack;
-                }
-                else if(grade > eData.gradeSpeedToAttack)
-                {
-                    speed = eData.baseBulletNumberPerSecond + (eData.gradeSpeedToAttack-1) * eData.upgradeSpeedRate;
-                    attack = eData.baseBulletAttack + (grade-eData.gradeSpeedToAttack)*eData.upgradeAttackRate;
-                }
-                range = eData.basicRange;
                 if (grade < eData.gradeRange2)
                 {
-                    range = eData.basicRange;//10
+                    range = eData.basicRange;
                 }
                 else if(grade >= eData.gradeRange2 &&grade < eData.gradeRange3)
                 {
-                    range = eData.basicRange+18;//28
+                    range = eData.basicRange+1;
                 }
                 else
                 {
-                    range = eData.basicRange+18+26;//54
+                    range = eData.basicRange+2;
                 }
-                attackString = attack.ToString();
+                speed = eData.baseBulletNumberPerSecond;
+                attack = (_calculateDPS(grade,_elecDpsRate,40)/speed);
+                attackString = ((int)(attack)).ToString();
                 speedString = speed.ToString();
                 rangeString = range.ToString();
                 break;
@@ -445,6 +425,48 @@ public class CurNodeDataSummary : MonoBehaviour
         }
         return (attackString,speedString,rangeString);
     }
+        public (float, float,float) CheckAttackSpeedRangeFloat(string towerType,int grade)
+        {
+            float attack = 0;
+            float speed = 0;
+            float range = 0;
+
+            switch (towerType)
+            {
+                case "wood":
+                    speed = wData.baseBulletNumberPerSecond;
+                    attack = (_calculateDPS(grade,_woodDpsRate,20)/speed);
+                    range = wData.basicRange * mapDisPerUnit;
+                    break;
+                case "iron":
+                    speed = iData.baseBulletNumberPerSecond;
+                    attack = (_calculateDPS(grade,_ironDpsRate,30)/speed);
+                    range = iData.basicRange*mapDisPerUnit;
+                    break;
+                case "elec":
+                    if (grade < eData.gradeRange2)
+                    {
+                        range = eData.basicRange;
+                    }
+                    else if(grade >= eData.gradeRange2 &&grade < eData.gradeRange3)
+                    {
+                        range = eData.basicRange+1;
+                    }
+                    else
+                    {
+                        range = eData.basicRange+2;
+                    }
+
+                    range *= mapDisPerUnit;
+                    speed = eData.baseBulletNumberPerSecond;
+                    attack = (_calculateDPS(grade,_elecDpsRate,40)/speed);
+                    break;
+                default:
+                    Console.WriteLine("Unknown");
+                    break;
+            }
+            return (attack,speed,range);
+        }
 
     private int _calculateDPS(int grade, int[] dpsRate, int initDps)
     {
@@ -458,17 +480,37 @@ public class CurNodeDataSummary : MonoBehaviour
         return initDps;
     }
 
-    private int _getMonsterNum(int layer)
+    public float CheckAttackAfterDebuff(float weaponAttack, int weaponDebuff, int weaponBulletNumPerSec)
     {
-        return 0;
+        float idealDps = weaponAttack * (float)weaponBulletNumPerSec;
+        float realDps = 0;
+        realDps = idealDps - (float)weaponDebuff;
+        if (realDps <= 0)
+        {
+            realDps = 0;
+        }
+
+        return (realDps) / (weaponBulletNumPerSec);
     }
 
-    private int _getMonsterInterval(int layer)
+    public int GetMonsterNum(int layer)
     {
-        return 0;
+        int monNum = _monBasicNum +  layer;
+        return monNum;
+    }
+
+    public int GetMonsterBlood(int layer)
+    {
+        int monBlood = _monBasicBlood + 70 * layer;
+        return monBlood;
+    }
+
+    public int GetMonsterInterval(int layer)
+    {
+        return _monInterval;
     }
     
-    public int _checkWeaponAttack(int[] weaponDpsRate,int[] weaponRange,int row,int col,int grade,int initDps,int debuff)
+    public int _checkTotalWeaponAttack(int[] weaponDpsRate,int[] weaponRange,int row,int col,int grade,int initDps,int debuff)
     {
         int posIndex = row * 18 + col;
         int range = weaponRange[posIndex];
@@ -482,11 +524,17 @@ public class CurNodeDataSummary : MonoBehaviour
             dps = 0;
         }
 
-        int monNum = _getMonsterNum(thisNodeData.nodeLayer+1);
-        int monInterval = _getMonsterInterval(thisNodeData.nodeLayer + 1);
+        int monNum = GetMonsterBlood(thisNodeData.nodeLayer+1);
+        int monInterval = GetMonsterInterval(thisNodeData.nodeLayer + 1);
         int attack = dps * (range + (monNum - 1) * monInterval);
         return attack;
     }
+    public void reduceMoney(int moneyAmount)
+    {
+        moneyLeft += moneyAmount;
+    }
+
+
     
     //usage£º
     // for (uint256 i=1; i <= 19*9; i++){

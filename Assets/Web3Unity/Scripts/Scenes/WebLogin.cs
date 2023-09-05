@@ -33,7 +33,7 @@ public class WebLogin : MonoBehaviour
         };
         // save account for next scene
         PlayerPrefs.SetString("Account", account);
-        GlobalVar._instance.userAddr = account;
+        GlobalVar._instance.thisUserAddr = account;
         // reset login message
         SetConnectAccount("");
         // load next scene

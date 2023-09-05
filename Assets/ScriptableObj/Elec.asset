@@ -13,16 +13,12 @@ MonoBehaviour:
   m_Name: Elec
   m_EditorClassIdentifier: 
   towerType: elec
-  baseBulletAttack: 1
-  baseBulletNumberPerSecond: 40
-  basicRange: 10
+  baseBulletAttack: 4
+  baseBulletNumberPerSecond: 10
+  basicRange: 1
   gradeRange2: 7
   gradeRange3: 14
   performGrade2: 5
   performGrade3: 10
-  upgradeSpeedRate: 5
-  upgradeAttackRate: 1
-  gradeSpeedToAttack: 5
-  basePrice: 60
-  gradePrice1_5: 200
-  gradePrice_inf: 100
+  basePrice: 600
+  merge_price: 100

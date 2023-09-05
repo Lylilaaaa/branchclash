@@ -10,6 +10,7 @@ public class ButtonElecActive : MonoBehaviour
     public GameObject initGObj;
     public GameObject textHint;
     public List<GameObject> moneyHint;
+    public int initMoney;
 
     // Start is called before the first frame update
     void Start()
@@ -31,11 +32,23 @@ public class ButtonElecActive : MonoBehaviour
                 fieldInitRight.eleType == 0 && fieldInitRight.wproType == 0 && fieldInitRight.iproType == 0 &&
                 fieldInitRight.eproType == 0)
             {
-                _setElec.interactable = true;
-                textHint.SetActive(false);
-                foreach (var VARIABLE in moneyHint)
+                if (CurNodeDataSummary._instance.moneyLeft >= initMoney)
                 {
-                    VARIABLE.SetActive(true);
+                   _setElec.interactable = true;
+                    textHint.SetActive(false);
+                    foreach (var VARIABLE in moneyHint)
+                    {
+                        VARIABLE.SetActive(true);
+                    }
+                }
+                else
+                {
+                    _setElec.interactable = false;
+                    textHint.SetActive( true);
+                    foreach (var VARIABLE in moneyHint)
+                    {
+                        VARIABLE.SetActive(false);
+                    }
                 }
             }
             else

@@ -28,7 +28,7 @@ public class HomePageSelectUI : MonoBehaviour
     public GameObject hintPanal;
     public GameObject hintHint;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _nodeFinish=false;
         _messageFinish = false;
@@ -47,15 +47,15 @@ public class HomePageSelectUI : MonoBehaviour
     {
         if (GlobalVar._instance.dataPrepared == true)
         {
-            if (GlobalVar._instance.thisUserData != null)
+            if (GlobalVar._instance.thisUserAddr != null)
             {
-                if (GlobalVar._instance.thisUserData.isFirstPlay && hintHint.activeSelf == false)
+                if (GlobalVar._instance.isNew == 0 && hintHint.activeSelf == false)
                 {
                     hintHint.SetActive(true);
                 }
             }
 
-            if (GlobalVar._instance.nodeDataList.Count != 0 && _nodeFinish == false && GlobalVar._instance.thisUserData.role == 0)
+            if (GlobalVar._instance.nodeDataList.Count != 0 && _nodeFinish == false && GlobalVar._instance.role == 0)
             {
                 //print("init Nodes");
                 _checkYourNode();
@@ -63,7 +63,7 @@ public class HomePageSelectUI : MonoBehaviour
                 _nodeFinish = true;
             }
             else if (GlobalVar._instance.downNodeDataList.Count != 0 && _nodeFinish == false &&
-                     GlobalVar._instance.thisUserData.role == 1)
+                     GlobalVar._instance.role == 1)
             {
                 //print("init downNodes");
                 _checkYourDownNode();
@@ -162,9 +162,10 @@ public class HomePageSelectUI : MonoBehaviour
     }
     private void _checkYourNode()
     {
+        yourNode.Clear();
         foreach (NodeData node in GlobalVar._instance.nodeDataList)
         {
-            if (node.ownerAddr == GlobalVar._instance.userAddr)
+            if (node.ownerAddr == GlobalVar._instance.thisUserAddr)
             {
                 yourNode.Add(node);
             }
@@ -172,9 +173,10 @@ public class HomePageSelectUI : MonoBehaviour
     }
     private void _checkYourDownNode()
     {
+        yourDownNode.Clear();
         foreach (DownNodeData node in GlobalVar._instance.downNodeDataList)
         {
-            if (node.ownerAddr == GlobalVar._instance.userAddr)
+            if (node.ownerAddr == GlobalVar._instance.thisUserAddr)
             {
                 yourDownNode.Add(node);
             }
@@ -241,11 +243,11 @@ public class HomePageSelectUI : MonoBehaviour
     
     public void ChangeName()
     {
-        int stringLenth = GlobalVar._instance.userAddr.Length;
+        int stringLenth = GlobalVar._instance.thisUserAddr.Length;
         if (stringLenth != 0)
         {
-            textMeshPro.text = GlobalVar._instance.userAddr.Substring(0, 5) + "..." +
-                               GlobalVar._instance.userAddr.Substring(stringLenth-3);
+            textMeshPro.text = GlobalVar._instance.thisUserAddr.Substring(0, 5) + "..." +
+                               GlobalVar._instance.thisUserAddr.Substring(stringLenth-3);
         }
         else
         {
@@ -265,7 +267,7 @@ public class HomePageSelectUI : MonoBehaviour
     public void CloseHintPanal()
     {
         hintPanal.SetActive(false);
-        print(GlobalVar._instance.thisUserData);
-        GlobalVar._instance.thisUserData.isFirstPlay = false;
+        print(GlobalVar._instance.thisUserAddr);
+        GlobalVar._instance.isNew = 1;
     }
 }

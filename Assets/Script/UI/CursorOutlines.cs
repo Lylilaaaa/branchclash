@@ -136,7 +136,7 @@ public class CursorOutlines : MonoBehaviour
     }
     private DownNodeData _checkUpNodeMain(int layer)
     {
-        if (layer <= GlobalVar._instance.maxLevelTreeDown) //如果这个downNode的layer小于当前的最大正树layer
+        if (layer <= GlobalVar._instance.maxLevelTreeDown) //??????downNode??layerС?????????????layer
         {
             foreach (string majorNodeString in GlobalVar._instance.MajorNodeListDown)
             {
@@ -150,7 +150,7 @@ public class CursorOutlines : MonoBehaviour
                 }
             }
         }
-        else //如果这个downNode的layer大于已有的正树layer
+        else //??????downNode??layer???????е?????layer
         {
             foreach (string majorNodeString in GlobalVar._instance.MajorNodeList)
             {

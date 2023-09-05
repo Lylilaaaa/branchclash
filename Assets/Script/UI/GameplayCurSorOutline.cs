@@ -19,6 +19,7 @@ public class GameplayCurSorOutline : MonoBehaviour
     [Header("GOBJ ACTIVE")]
     public GameObject tempMergePenal;
     public GameObject outlineGbj;
+    public GameObject attackColliderCondition;
 
     private TowerBuilder tb;
     

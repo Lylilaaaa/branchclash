@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
 
     private Transform target;
     private int wavepointIndex = 0;
+    public float disPerUnit = 5f;
     
 
     public float hitPoint = 500f;
@@ -19,6 +20,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         target = WayPoints.points[0];
+        speed = disPerUnit;
     }
 
     void Update()

@@ -20,9 +20,5 @@ MonoBehaviour:
   gradeRange3: 100
   performGrade2: 5
   performGrade3: 10
-  upgradeSpeedRate: 1
-  upgradeAttackRate: 2
-  gradeSpeedToAttack: 5
-  basePrice: 30
-  gradePrice1_5: 190
-  gradePrice_inf: 80
+  basePrice: 300
+  merge_price: 60

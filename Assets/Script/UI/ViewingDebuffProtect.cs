@@ -160,16 +160,16 @@ public class ViewingDebuffProtect : MonoBehaviour
             //print(temp);
             CurNodeDataSummary._instance.debuffListData[index] = temp;
             //print(CurNodeDataSummary._instance.debuffListData[index] );
-            if (_debufflist[index] != 0) //wood有血，有debuff
+            if (_debufflist[index] != 0) //wood???????debuff
             {
                 print("weapon type"+index+": "+((float)(weaponTotalProtect[index] /(float) _debufflist[index])));
                 CurNodeDataSummary._instance.protecListData[index] =
                     Mathf.Round(((float)weaponTotalProtect[index] /(float) _debufflist[index]) * 100) / 100;
                 StartCoroutine(FillProgressBar(debufSlider,temp,index));
             }
-            else //wood有血，没有debuff
+            else //wood????????debuff
             {
-                if (weaponTotalProtect[index] != 0) //wood有血，没有debuff，有protect
+                if (weaponTotalProtect[index] != 0) //wood????????debuff????protect
                 {
                     Color tempColor = debuffSliderImage[index].color;
                     tempColor.a = 0;
@@ -177,7 +177,7 @@ public class ViewingDebuffProtect : MonoBehaviour
                     StartCoroutine(FillProgressBar2(protectSlider,1f));
                     CurNodeDataSummary._instance.protecListData[index] = 1;
                 }
-                else //wood有血，没有debuff，没有protect
+                else //wood????????debuff?????protect
                 {
                     Color tempColor = debuffSliderImage[index].color;
                     tempColor.a = 1;
@@ -187,17 +187,17 @@ public class ViewingDebuffProtect : MonoBehaviour
                 }
             }
         }
-        else //没有血
+        else //????
         {
             CurNodeDataSummary._instance.debuffListData[index] = 0;
-            if (_debufflist[index] != 0) //没有血，有debuff
+            if (_debufflist[index] != 0) //????????debuff
             {
                 CurNodeDataSummary._instance.debuffListData[index] = 1;
                 StartCoroutine(FillProgressBar(debufSlider,1,index));
             }
-            else //没有血，没有debuff
+            else //?????????debuff
             {
-                if (weaponTotalProtect[index] != 0) //没有血，没有debuff，有protect
+                if (weaponTotalProtect[index] != 0) //?????????debuff????protect
                 {
                     Color tempColor = debuffSliderImage[index].color;
                     tempColor.a = 0;
@@ -227,7 +227,7 @@ public class ViewingDebuffProtect : MonoBehaviour
         {
             //print(slider.value);
             //print(slider.gameObject.transform.name+" value is: "+slider.value);
-            slider.value += fillSpeedDebuff * Time.deltaTime; // 增加Slider的值
+            slider.value += fillSpeedDebuff * Time.deltaTime; // ????Slider???
             
             yield return new WaitForSeconds(0.01f);
         }
@@ -260,7 +260,7 @@ public class ViewingDebuffProtect : MonoBehaviour
         {
             //print(slider.value);
             //print(slider.gameObject.transform.name+" value is: "+slider.value);
-            slider.value += fillSpeedProtect * Time.deltaTime; // 增加Slider的值
+            slider.value += fillSpeedProtect * Time.deltaTime; // ????Slider???
             
             yield return new WaitForSeconds(0.01f);
         }

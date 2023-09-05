@@ -43,6 +43,12 @@ public class RedLineGenerator : MonoBehaviour
         _instance = this;
         
     }
+    public void Clear()
+    {
+        lineMap.Clear();
+        majorChain.Clear();
+        Destroy(_initGObj);
+    }
     private void Update()
     {
         if (GlobalVar._instance.GetState() != GlobalVar.GameState.Viewing &&

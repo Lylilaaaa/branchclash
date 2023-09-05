@@ -37,7 +37,7 @@ public class LevelDownInfoDataViewing : MonoBehaviour
 
     void InitNeverChange()
     {
-        if (GlobalVar._instance.thisUserData.role == 0)
+        if (GlobalVar._instance.role == 0)
         {
             enterNextSceneButton.interactable = false;
         }

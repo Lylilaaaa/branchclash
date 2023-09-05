@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -22,27 +23,31 @@ public class TreeNodeDataInit : MonoBehaviour
     {
         _instance = this;
         restartTime = 0;
-
     }
 
     public void ReStart()
     {
         restartTime++;
         //print("restart time: "+restartTime);
+        // treeData = new TreeData();
+        // downTreeData = new DownTreeData();
+        treeData.nodeDictionary.Clear();
+        downTreeData.downNodeDictionary.Clear();
         if (GlobalVar.CurrentGameState == GlobalVar.GameState.MainStart)
         {
             previousNodeData = GlobalVar._instance.nodeDataList;
             previousDownNodeData = GlobalVar._instance.downNodeDataList;
-            
-            treeData.nodeDictionary = new Dictionary<string, NodeData>();
-            treeData.InitNodeData = initNodeData(treeData.InitNodeData);
-            treeData.nodeDictionary.Add("0,1",treeData.InitNodeData);
-            
-            downTreeData.downNodeDictionary = new Dictionary<string, DownNodeData>();
-            downTreeData.initDownNodeData = initDownNodeData(downTreeData.initDownNodeData);
-            downTreeData.downNodeDictionary.Add("0,1",downTreeData.initDownNodeData);
-            treeData.treeNodeCount += 1;
-            downTreeData.downTreeNodeCount += 1;
+            //
+            // treeData.nodeDictionary = new Dictionary<string, NodeData>();
+            // treeData.InitNodeData = initNodeData(treeData.InitNodeData);
+            // treeData.nodeDictionary.Add("0,1",treeData.InitNodeData);
+            //
+            // downTreeData.downNodeDictionary = new Dictionary<string, DownNodeData>();
+            // downTreeData.initDownNodeData = initDownNodeData(downTreeData.initDownNodeData);
+            // downTreeData.downNodeDictionary.Add("0,1",downTreeData.initDownNodeData);
+            // treeData.treeNodeCount += 1;
+            // downTreeData.downTreeNodeCount += 1;
+            //
             foreach (NodeData _nodeData in previousNodeData)
             {
                 treeData.nodeDictionary.Add(_nodeData.nodeLayer.ToString()+','+_nodeData.nodeIndex.ToString(),_nodeData);
@@ -63,106 +68,44 @@ public class TreeNodeDataInit : MonoBehaviour
             RedLineGenerator._instance.ReStart();
         }
     }
-
-    private void Update()
-    {
-        // if (_previousGameState != GlobalVar.CurrentGameState &&
-        //     GlobalVar.CurrentGameState == GlobalVar.GameState.MainStart && finish == false)
-        // {
-        //     previousNodeData = GlobalVar._instance.nodeDataList;
-        //     treeData.nodeDictionary = new Dictionary<string, NodeData>();
-        //     treeData.InitNodeData = initNodeData(treeData.InitNodeData);
-        //     treeData.nodeDictionary.Add("0,1",treeData.InitNodeData);
-        //     treeData.treeNodeCount += 1;
-        //     foreach (NodeData _nodeData in previousNodeData)
-        //     {
-        //         treeData.nodeDictionary.Add(_nodeData.nodeLayer.ToString()+','+_nodeData.nodeIndex.ToString(),_nodeData);
-        //         treeData.treeNodeCount += 1;
-        //     }
-        //     GlobalVar._instance._convert2TreeGen(treeData);
-        //     TreeGenerator._instance.InitTree();
-        //     finish = true;
-        // }
-        //
-        // _previousGameState = GlobalVar.CurrentGameState;
-        // treeData.treeNodeCount = treeData.nodeDictionary.Count;
-    }
-    private DownNodeData initDownNodeData(DownNodeData initNode)
-    {
-        initNode.setUpTime = "";
-        initNode.fatherLayer = 0;
-        initNode.fatherIndex = 0;
-        initNode.childCount = 0;
-        initNode.nodeLayer = 0;
-        initNode.nodeIndex = 1;
-        initNode.debuffData = new int[3];
-        initNode.debuffData[0] =initNode.debuffData[1] =initNode.debuffData[2]= 0;
-        return initNode;
-    }
-    private NodeData initNodeData(NodeData initNode)
-    {
-        initNode.setUpTime = "";
-        initNode.fatherLayer = 0;
-        initNode.fatherIndex = 0;
-        initNode.childCount = 0;
-        initNode.nodeLayer = 0;
-        initNode.nodeIndex = 1;
-        initNode.fullHealth = 100;
-        initNode.curHealth = 100;
-        initNode.monsterCount = 2;
-        initNode.money = 50;
-        initNode.mapStructure = "00,H,00,00,00,00,00,00,00,00,00,00,00,00,00,00,R,00,/n,00,R,00,00,R,R,R,R,00,00,R,R,R,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,R,R,R,00,00,R,R,R,R,00,00,R,R,R,R,00,/n,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,/";
-        return initNode;
-    }
+    
+    // private DownNodeData initDownNodeData(DownNodeData initNode)
+    // {
+    //     initNode.setUpTime = "";
+    //     initNode.fatherLayer = 0;
+    //     initNode.fatherIndex = 0;
+    //     initNode.childCount = 0;
+    //     initNode.nodeLayer = 0;
+    //     initNode.nodeIndex = 1;
+    //     initNode.debuffData = new int[3];
+    //     initNode.debuffData[0] =initNode.debuffData[1] =initNode.debuffData[2]= 0;
+    //     return initNode;
+    // }
+    // private NodeData initNodeData(NodeData initNode)
+    // {
+    //     DateTime currentDateTime = DateTime.UtcNow;
+    //     string nowUTC = currentDateTime.ToString();
+    //     initNode.setUpTime = nowUTC;
+    //     initNode.fatherLayer = 0;
+    //     initNode.fatherIndex = 0;
+    //     initNode.childCount = 0;
+    //     initNode.nodeLayer = 0;
+    //     initNode.nodeIndex = 1;
+    //     initNode.fullHealth = 10000;
+    //     initNode.curHealth = 10000;
+    //     initNode.money = 1500;
+    //     initNode.mapStructure = "00,H,00,00,00,00,00,00,00,00,00,00,00,00,00,00,R,00,/n,00,R,00,00,R,R,R,R,00,00,R,R,R,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,R,R,R,00,00,R,R,R,R,00,00,R,R,R,R,00,/n,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,/";
+    //     return initNode;
+    // }
     //???????????????node???,??????????????
-    public void AddNodeFather(string father)
-    {
-        if (!treeData.nodeDictionary.ContainsKey(father))
-        {
-            Debug.Log("Base node not found.");
-        }
-        else
-        {
-            int[] layer_index = convertStrInt(father);
-            NodeData baseNodeData = treeData.nodeDictionary[father];
-            treeData.nodeDictionary[father].childCount += 1;
-            //init
-            NodeData newNodeData = new NodeData();
-            newNodeData.fatherLayer = layer_index[0];
-            newNodeData.fatherIndex = layer_index[1];
-            newNodeData.childCount = 0;
-            
-            newNodeData.nodeLayer = layer_index[0]+1;
-            newNodeData.nodeIndex = GetMaxSecondNumber(layer_index[0] + 1)+1;
-            
-            //????layer???????????????????
-            newNodeData.curHealth = baseNodeData.curHealth;
-            newNodeData.fullHealth = baseNodeData.fullHealth;
-            newNodeData.monsterCount = baseNodeData.monsterCount;
-            newNodeData.money = baseNodeData.money;
-            newNodeData.mapStructure = baseNodeData.mapStructure;
-            string newNodeName = newNodeData.nodeLayer.ToString() + ',' + newNodeData.nodeIndex.ToString();
-            
-            treeData.nodeDictionary.Add(newNodeName, newNodeData);
-            
-            // ???????›Ô?????¡¤????
-            // string assetPath = "Assets/ScriptableObj/NodeDataObj/" + newNodeName + ".asset";
-            // AssetDatabase.CreateAsset(newNodeData, assetPath);
-            // AssetDatabase.SaveAssets();
-            // AssetDatabase.Refresh();
-
-            Debug.Log("New node created and saved: " + newNodeName);
-            treeData.treeNodeCount += 1;
-        }
-    }
-
+    
     public void AddNodeData()
     {
         DateTime currentDateTime = DateTime.UtcNow;
         string nowUTC = currentDateTime.ToString();
         NodeData previousData = GlobalVar._instance.chosenNodeData;
         NodeData newNodeData = new NodeData();
-        newNodeData.ownerAddr = GlobalVar._instance.userAddr;
+        newNodeData.ownerAddr = GlobalVar._instance.thisUserAddr;
         newNodeData.setUpTime = nowUTC;
         newNodeData.fatherLayer = previousData.nodeLayer;
         newNodeData.fatherIndex = previousData.nodeIndex;
@@ -175,20 +118,63 @@ public class TreeNodeDataInit : MonoBehaviour
         //????layer???????????????????
         newNodeData.curHealth = (int)CurNodeDataSummary._instance.homeCurHealth;
         newNodeData.fullHealth =(int)CurNodeDataSummary._instance.homeMaxHealth;
-        newNodeData.monsterCount = CurNodeDataSummary._instance.monsterCount;
-        newNodeData.money = (int)CurNodeDataSummary._instance.moneyLeft;
+        newNodeData.money = (int)CurNodeDataSummary._instance.moneyLeft+500;
         newNodeData.mapStructure = GlobalVar._instance._getMapmapString(GlobalVar._instance.mapmapList);
         string newNodeName = newNodeData.nodeLayer.ToString() + ',' + newNodeData.nodeIndex.ToString();
+        //
+        // //???????›Ô?????¡¤????
+        // string assetPath = "Assets/Resources/" + newNodeName + ".asset";
+        // AssetDatabase.CreateAsset(newNodeData, assetPath);
+        // AssetDatabase.SaveAssets();
+        // AssetDatabase.Refresh();
 
-        //???????›Ô?????¡¤????
-        string assetPath = "Assets/Resources/" + newNodeName + ".asset";
-        AssetDatabase.CreateAsset(newNodeData, assetPath);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+        string _info = GlobalVar._instance.thisUserAddr +"-"+ nowUTC+ "-" + newNodeData.fatherLayer+"-" +newNodeData.fatherIndex+"-"+newNodeData.childCount+"-"+newNodeData.nodeLayer+"-"+newNodeData.nodeIndex+"-";
+        if (newNodeData.isMajor == false)
+        {
+            _info += "0-";
+        }
+        else
+        {
+            _info += "1-";
+        }
 
+        _info += newNodeData.curHealth + "-" + newNodeData.fullHealth + "-" + newNodeData.money + "-" +
+                 newNodeData.mapStructure + "-";
+        int[] debuff_list = GlobalVar._instance.chosenDownNodeData.debuffData;
+        _info += debuff_list[0] + "," + debuff_list[1] + "," + debuff_list[2];
+        
         Debug.Log("New node created and saved: " + newNodeName);
-        GlobalVar._instance.dataPrepared = false;
+        StartCoroutine(_insert(newNodeData.nodeLayer,newNodeData.nodeIndex,newNodeData.nodeLayer-1,_info,newNodeData.ownerAddr,debuff_list[0] + "," + debuff_list[1] + "," + debuff_list[2]));
+
     }
+    IEnumerator _insert(int layer, int idx, int father, string info, string creator, string debuff)
+    {
+        string insertString;
+        insertString = UrLController._instance.url_insert + "?layer=" + layer.ToString() + "&idx=" + idx.ToString() + "&father=" + father.ToString() +
+                       "&info=" + info.ToString() + "&creator=" + creator.ToString() + "&debuff=" + debuff.ToString();
+        Debug.Log(insertString);
+        WWW www = new WWW(insertString);
+        yield return www;
+        string result = www.text;
+        Debug.Log(result);
+        
+        
+        UrLController._instance.upTreeResult = "";
+        UrLController._instance.downTreeResult = "";
+        
+        GlobalVar._instance.ReadData();
+        StartCoroutine(ReReadNode());
+    }
+
+    IEnumerator ReReadNode()
+    {
+        while (!GlobalVar._instance.nodePrepared)
+        {
+            yield return null;
+        }
+        GlobalVar._instance._loadNextScene("4_End");
+    }
+    
 
     public void AddDownNodeData()
     {
@@ -196,7 +182,7 @@ public class TreeNodeDataInit : MonoBehaviour
         string nowUTC = currentDateTime.ToString();
         DownNodeData previousDownNodeData = GlobalVar._instance.chosenDownNodeData;
         DownNodeData newDownNodeData = new DownNodeData();
-        newDownNodeData.ownerAddr = GlobalVar._instance.userAddr;
+        newDownNodeData.ownerAddr = GlobalVar._instance.thisUserAddr;
         newDownNodeData.setUpTime = nowUTC;
         newDownNodeData.fatherLayer = previousDownNodeData.nodeLayer;
         newDownNodeData.fatherIndex = previousDownNodeData.nodeIndex;
@@ -209,14 +195,42 @@ public class TreeNodeDataInit : MonoBehaviour
         newDownNodeData.debuffData = CurNodeDataSummary._instance.curDebuffList;
         string newDownNodeName = "("+newDownNodeData.nodeLayer.ToString() + ',' + newDownNodeData.nodeIndex.ToString()+")";
         
-        string assetPath = "Assets/Resources/" + newDownNodeName + ".asset";
-        AssetDatabase.CreateAsset(newDownNodeData, assetPath);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+        string _info = GlobalVar._instance.thisUserAddr +"-"+ nowUTC+ "-" + newDownNodeData.fatherLayer+"-" +newDownNodeData.fatherIndex+"-"+newDownNodeData.childCount+"-"+newDownNodeData.nodeLayer+"-"+newDownNodeData.nodeIndex+"-";
+        if (newDownNodeData.isMajor == false)
+        {
+            _info += "0-";
+        }
+        else
+        {
+            _info += "1-";
+        }
+        int[] debuff_list = CurNodeDataSummary._instance.debuffList;
+        _info += debuff_list[0] + "," + debuff_list[1] + "," + debuff_list[2];
+        
+        Debug.Log("New down node created and saved: " + newDownNodeName);
+        StartCoroutine(_insertSec(newDownNodeData.nodeLayer,newDownNodeData.nodeIndex,newDownNodeData.nodeLayer-1,_info,newDownNodeData.ownerAddr));
 
         Debug.Log("New down node created and saved: " + newDownNodeName);
         GlobalVar._instance.dataPrepared = false;
     }
+    IEnumerator _insertSec(int layer, int idx, int father, string info, string creator)
+    {
+        string insertString;
+        insertString = UrLController._instance.url_insertSec + "?layer=" + layer.ToString() + "&idx=" + idx.ToString() + "&father=" + father.ToString() +
+                       "&info=" + info.ToString() + "&creator=" + creator.ToString();
+        Debug.Log(insertString);
+        WWW www = new WWW(insertString);
+        yield return www;
+        string result = www.text;
+        Debug.Log(result);
+        
+        UrLController._instance.upTreeResult = "";
+        UrLController._instance.downTreeResult = "";
+        
+        GlobalVar._instance.ReadData();
+        StartCoroutine(ReReadNode());
+    }
+    
     
     private int GetMaxSecondNumber(int firstNumber)
     {

@@ -76,7 +76,7 @@ public class LevelInfoDataViewing : MonoBehaviour
 
     void InitNeverChange()
     {
-        if (GlobalVar._instance.thisUserData.role == 1)
+        if (GlobalVar._instance.role == 1)
         {
             _enterNextBut.interactable = false;
         }
@@ -104,7 +104,7 @@ public class LevelInfoDataViewing : MonoBehaviour
         healthSlider.value = thisNodeData.curHealth;
         healthSlider.minValue = 0;
         
-        //暂时先这样写
+        //?????????д
         
 
         Slider WdebuffSlider = _debuffSlider[0].GetComponent<Slider>();
@@ -203,7 +203,7 @@ public class LevelInfoDataViewing : MonoBehaviour
                         newRow.Add(row[j]);
                     }
                 }
-                // 覆盖原始行
+                // ????????
                 stringList[i] = newRow.ToArray();
             }
         }
@@ -232,6 +232,8 @@ public class LevelInfoDataViewing : MonoBehaviour
     }
     public void OpenViewingScene()
     {
+        LineGenerator._instance.Clear();
+        RedLineGenerator._instance.Clear();
         GlobalVar._instance.ChangeState("Viewing");
         GlobalVar._instance._loadNextScene("2_0_ExhibExample");
     }

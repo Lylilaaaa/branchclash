@@ -79,6 +79,13 @@ public class LineGenerator : MonoBehaviour
         Invoke("GenerateLine", 0.1f);
     }
 
+    public void Clear()
+    {
+        lineMap.Clear();
+        majorChain.Clear();
+        Destroy(_initGObj);
+    }
+    
     private void Update()
     {
         lineMapCount = lineMap.Count;

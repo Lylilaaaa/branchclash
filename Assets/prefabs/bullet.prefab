@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3603035230318539311}
   - component: {fileID: 1072279776530052049}
   - component: {fileID: 7076565024090003217}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505ad9241e9599a4cbd4a65fbff1afb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 100
-  impactEffect: {fileID: 1835174905073365006, guid: adfd6c86cf180e64aaaa1bece2395926,
+  speed: 30
+  impactEffect: {fileID: 6839216738536328255, guid: b61d4c22c67560547a05dc7d3b8f0bd4,
     type: 3}
   attackData: 0

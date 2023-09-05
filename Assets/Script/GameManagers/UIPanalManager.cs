@@ -17,6 +17,8 @@ public class UIPanalManager : MonoBehaviour
         AddPanal.SetActive(false);
         MergePanel.SetActive(false);
         money = GlobalVar._instance.chosenNodeData.money;
+        CurNodeDataSummary._instance.moneyLeft = money;
+        CurNodeDataSummary._instance.homeDestroyData = 0;
         moneyTMP.text = money.ToString();
     }
     private void Start()
@@ -66,6 +68,7 @@ public class UIPanalManager : MonoBehaviour
         // {
         //     quitMerge.SetActive(false);
         // }
+        moneyTMP.text = (CurNodeDataSummary._instance.moneyLeft).ToString();
     }
 
     public void CloseMerge()
@@ -78,11 +81,6 @@ public class UIPanalManager : MonoBehaviour
         tp.mergeToPos = new List<int>();
         tp.mergeChosen = false;
     }
+    
 
-    public void reduceMoney(int moneyAmount)
-    {
-        money += moneyAmount;
-        moneyTMP.text = (int.Parse(moneyTMP.text) + moneyAmount).ToString();
-        CurNodeDataSummary._instance.moneyLeft = money;
-    }
 }

@@ -271,6 +271,64 @@ Transform:
   m_Father: {fileID: 7963540002019194143}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &211812200489026089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5977963476921984690}
+  - component: {fileID: 1465735812345831709}
+  - component: {fileID: 3139642345894211490}
+  m_Layer: 0
+  m_Name: ColliderGObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5977963476921984690
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211812200489026089}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.019381408, z: 0.018829294}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7963540002019194143}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1465735812345831709
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211812200489026089}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 15, y: 5, z: 15}
+  m_Center: {x: 0, y: 3, z: 0}
+--- !u!114 &3139642345894211490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211812200489026089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931a1a889c7e497498c618f9ff4294a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2849404319573239780
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,6 +575,7 @@ Transform:
   - {fileID: 5648054636508215314}
   - {fileID: 1396944489}
   - {fileID: 1510536420}
+  - {fileID: 5977963476921984690}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -536,13 +595,18 @@ MonoBehaviour:
   shootingRate: 1
   bulletAttack: 0
   partToRotate: {fileID: 3198248852464070004}
-  target: {fileID: 0}
-  bulletPrefab: {fileID: 5816377433698120069, guid: 1d93abf563a4d9f4fbad88cda4e386ad,
+  bulletPrefab: {fileID: 1704755523098355772, guid: e85992ff9cbf48348ad5a29cef2d89a6,
     type: 3}
   firePoint:
   - {fileID: 5038898515143678319}
   - {fileID: 7672530210851937042}
   rotateSpeed: 10
+  effectSound: {fileID: 8300000, guid: 4b97ef9075beddd4a90804681d27c99e, type: 3}
+  target: {fileID: 0}
+  targetList: []
+  gpCurSorOutline: {fileID: 0}
+  dataInit: 0
+  totalAttack: 0
 --- !u!65 &749876343999418553
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -575,6 +639,7 @@ MonoBehaviour:
   mouseEnter: 0
   tempMergePenal: {fileID: 1510536419}
   outlineGbj: {fileID: 1396944488}
+  attackColliderCondition: {fileID: 211812200489026089}
 --- !u!1001 &3643017
 PrefabInstance:
   m_ObjectHideFlags: 0

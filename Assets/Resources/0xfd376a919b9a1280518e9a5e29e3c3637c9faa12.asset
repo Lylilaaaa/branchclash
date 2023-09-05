@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
   m_EditorClassIdentifier: 
   address: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
-  role: 1
+  role: 0
   isFirstPlay: 1
   process: 1

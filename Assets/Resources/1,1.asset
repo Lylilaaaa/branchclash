@@ -12,18 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800ffb965817ffa44905aa94e7ad86b3, type: 3}
   m_Name: 1,1
   m_EditorClassIdentifier: 
-  ownerAddr: 0x7d89fd00ffdaf840f6a63042a446e70ab78de84f
-  setUpTime: 
+  ownerAddr: 0xfd376a919b9a1280518e9a5e29e3c3637c9faa12
+  setUpTime: 2023/9/4 18:49:29
   fatherLayer: 0
   fatherIndex: 1
   childCount: 0
   nodeLayer: 1
   nodeIndex: 1
-  isMajor: 1
-  curHealth: 100
-  fullHealth: 100
-  monsterCount: 2
-  money: 50
-  mapStructure: wood1,H,00,00,00,00,00,00,00,00,00,00,00,00,00,00,R,00,/n,00,R,00,00,R,R,R,R,00,00,R,R,R,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,R,R,R,00,00,R,R,R,R,00,00,R,R,R,R,00,/n,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,/n
-  towerDebuffList: 010000000000000000000000
-  towerProtectList: 010000000100000000000000
+  isMajor: 0
+  curHealth: 10000
+  fullHealth: 10000
+  money: 1100
+  mapStructure: 00,H,00,00,00,00,00,00,00,00,00,00,00,00,00,00,R,00,/n,00,R,00,00,R,R,R,R,00,00,R,R,R,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,elec1,eleC1,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,iron1,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,R,R,R,00,00,R,R,R,R,00,00,R,R,R,R,00,/n,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+  towerDebuffList: 000000000000000000000000

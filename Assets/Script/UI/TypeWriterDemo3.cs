@@ -33,7 +33,7 @@ public class TypeWriterDemo3 : MonoBehaviour
     private string[] getEndString()
     {
         string[] _stringToRun = new string[4];
-        if (GlobalVar._instance.thisUserData.role == 0) //Ê¿±ø
+        if (GlobalVar._instance.role == 0) //Ê¿±ø
         {
             if (GlobalVar._instance.gameResult == 0)
             {
@@ -51,7 +51,7 @@ public class TypeWriterDemo3 : MonoBehaviour
                 _stringToRun[0] = "Through your cunning tactics and the valiant struggles of our warriors,";
                 _stringToRun[1] = "humanity has once more emerged triumphant against the relentless worm horde.";
                 _stringToRun[2] = "Against all odds, you thwarted onslaughts from a horde of ravenous creatures,";
-                _stringToRun[3] = "and though our bastion suffered "+GlobalVar._instance.homeDestroyData+" points of grievous harm, it stands defiant.";
+                _stringToRun[3] = "and though our bastion suffered "+CurNodeDataSummary._instance.homeDestroyData+" points of grievous harm, it stands defiant.";
                 _stringToRun[4] = "Stay resolute, for on this steadfast path,";
                 _stringToRun[5] = "humanity shall forge an even grander future amidst the annals of history.";
             }
@@ -61,7 +61,7 @@ public class TypeWriterDemo3 : MonoBehaviour
                 _stringToRun[0] = "In the midst of your valiant struggle alongside the stalwart warriors, destiny chose another path,";
                 _stringToRun[1] = "and triumph slipped through your grasp.";
                 _stringToRun[2] = "Following the onslaught launched by the worm horde,";
-                _stringToRun[3] = "the bastion bore the weight of "+GlobalVar._instance.homeDestroyData+" points of unrelenting devastation.";
+                _stringToRun[3] = "the bastion bore the weight of "+CurNodeDataSummary._instance.homeDestroyData+" points of unrelenting devastation.";
                 _stringToRun[4] =
                     "A shadow appeared to fall upon humanity's tomorrows, casting doubt upon the horizon.";
                 _stringToRun[5] = "But despair not, for within the crucible of perseverance lies the ember of hope.";

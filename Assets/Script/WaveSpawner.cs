@@ -15,11 +15,13 @@ public class WaveSpawner : MonoBehaviour
     private List<int> myList;
     public GameObject selectPanal;
     public int enemyNum;
+    public float enemySpeed;
 
-    public LevelData levelDate;
+    public int level;
 
     public bool start;
     public bool _hasStart=false;
+    public float disPerUnit = 5f;
     public int checkChildNum;
 
     private int hasSpawn = 0;
@@ -34,6 +36,7 @@ public class WaveSpawner : MonoBehaviour
         start = false;
         hasEnamy = false;
         hasSpawn = 0;
+        level = CurNodeDataSummary._instance.thisNodeData.nodeLayer;
     }
 
     private void Update()
@@ -41,9 +44,8 @@ public class WaveSpawner : MonoBehaviour
         if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay)
         {
             checkChildNum = monsterContainer.childCount;
-            enemyNum = levelDate.deltaMonster + levelDate.levelNum * levelDate.deltaMonster;
-            CurNodeDataSummary._instance.monsterCount = enemyNum;
-    
+            enemyNum = CurNodeDataSummary._instance.GetMonsterNum(level);
+
             if (start == true)
             {
                 StartCoroutine(spawnWave());
@@ -86,8 +88,16 @@ public class WaveSpawner : MonoBehaviour
         {
             spawnEnemy(i);
             hasSpawn += 1;
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(_getSpawnTime());
         }
+    }
+
+    private float _getSpawnTime()
+    {
+        float intervalAbs;
+        intervalAbs = disPerUnit*CurNodeDataSummary._instance.GetMonsterInterval(level);
+        enemySpeed = disPerUnit;
+        return intervalAbs / enemySpeed;
     }
 
     void spawnEnemy(int j)
@@ -117,6 +127,18 @@ public class WaveSpawner : MonoBehaviour
     public void endGame()
     {
         print("game is end!");
+        if (CurNodeDataSummary._instance.homeDestroyData == 0)
+        {
+            GlobalVar._instance.gameResult = 0;
+        }
+        else if (CurNodeDataSummary._instance.homeDestroyData > 0 && CurNodeDataSummary._instance.homeCurHealth >0)
+        {
+            GlobalVar._instance.gameResult = 1;
+        }
+        else if(CurNodeDataSummary._instance.homeDestroyData > 0  && CurNodeDataSummary._instance.homeCurHealth <= 0)
+        {
+            GlobalVar._instance.gameResult = 2;
+        }
         selectPanal.SetActive(true);
         selectPanal.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
         selectPanal.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
@@ -124,6 +146,8 @@ public class WaveSpawner : MonoBehaviour
         selectPanal.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
         GlobalVar._instance.ChangeState("GameOver");
         TreeNodeDataInit._instance.finish = false;
-        SceneManager.LoadScene("End");
+        GlobalVar._instance.nodePrepared = false;
+        TreeNodeDataInit._instance.AddNodeData();
+        
     }
 }

@@ -338,6 +338,7 @@ Transform:
   - {fileID: 1688687246}
   - {fileID: 1667993142}
   - {fileID: 1335413578}
+  - {fileID: 1069827903370579504}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -357,12 +358,17 @@ MonoBehaviour:
   shootingRate: 0.5
   bulletAttack: 0
   partToRotate: {fileID: 6892357567994626911}
-  target: {fileID: 0}
   bulletPrefab: {fileID: 5816377433698120069, guid: 1d4e850759c0cfb4f962cd8b4ae892de,
     type: 3}
   firePoint:
   - {fileID: 2598364976278880954}
   rotateSpeed: 10
+  effectSound: {fileID: 8300000, guid: be11eca1d8f21664f84d65f9e68adede, type: 3}
+  target: {fileID: 0}
+  targetList: []
+  gpCurSorOutline: {fileID: 0}
+  dataInit: 0
+  totalAttack: 0
 --- !u!65 &8578986467015296923
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -395,6 +401,65 @@ MonoBehaviour:
   mouseEnter: 0
   tempMergePenal: {fileID: 1335413577}
   outlineGbj: {fileID: 1667993141}
+  attackColliderCondition: {fileID: 5557927170608109173}
+--- !u!1 &5557927170608109173
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1069827903370579504}
+  - component: {fileID: 1666216136918540055}
+  - component: {fileID: 7376260219013605917}
+  m_Layer: 0
+  m_Name: ColliderGObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1069827903370579504
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5557927170608109173}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.17239246, z: 0.46707347}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4251565648918950604}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1666216136918540055
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5557927170608109173}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 180, y: 5, z: 180}
+  m_Center: {x: 0, y: 3, z: 0}
+--- !u!114 &7376260219013605917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5557927170608109173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931a1a889c7e497498c618f9ff4294a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8593325767228540929
 GameObject:
   m_ObjectHideFlags: 0

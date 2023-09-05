@@ -94,12 +94,12 @@ public class ViewTowerCurSor : MonoBehaviour
                 _towerName.text = "Electric Tower Level " + _grade.ToString();
                 _damage.text = _a;
                 _speed.text = _s;
-                if (_r == "10")
+                if (_r == "1")
                 {
                     _range.text = "3x4";
                     Instantiate(rangeList[2], _rangeParent.GetChild(2));
                 }
-                else if (_r == "28")
+                else if (_r == "2")
                 {
                     _range.text = "5x6";
                     Instantiate(rangeList[3], _rangeParent.GetChild(2));

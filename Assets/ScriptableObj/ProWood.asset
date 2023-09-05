@@ -17,4 +17,4 @@ MonoBehaviour:
   performGrade2: 5
   performGrade3: 10
   basePrice: 290
-  upGradePrice: 50
+  upGradePrice: 0
