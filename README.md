@@ -6,7 +6,7 @@ It includes Unity development, communication with smart contracts, communication
 You can use the file by running [xxxx](http://www.branchclash.com). 
 
 
-The smart contract address for this project on the opBNB testnet is: 0x1AeAb40e9eED5F6d0dFC1b915Fa4A075a4e67f69. 
+The smart contract address for this project on the opBNB testnet is: 0x6e58412Ebd3C3339f072886b2b23b931AECdF010. 
 Additionally, you can play this project directly on the [www.branchclash.com](http://www.branchclash.com) website.
 
 ![头图](https://github.com/Lylilaaaa/BoW2/assets/93197170/9266e196-aa5c-4a66-9b4f-656f9cfd8a13)
