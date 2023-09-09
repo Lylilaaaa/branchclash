@@ -1,5 +1,4 @@
-# BoW2
-BranchClash
+# BranchClash
 
 This project is the development documentation for BranchClash. 
 It includes Unity development, communication with smart contracts, communication with the server acting as a data cache, and server data storage methods. 
