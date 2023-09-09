@@ -11,3 +11,5 @@ Additionally, you can play this project directly on the [www.branchclash.com](ht
 
 ![头图](https://github.com/Lylilaaaa/BoW2/assets/93197170/9266e196-aa5c-4a66-9b4f-656f9cfd8a13)
 
+Please note that we cannot change the netWork right now, since the database of different chain has not been prepared.
+
