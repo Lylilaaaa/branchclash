@@ -43,7 +43,7 @@ public class UIGameStartWorld : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 print("start!");
-                StartGameStart();
+                StartCoroutine(checkNowNodeIndex());
             }
         }
         // if (GlobalVar._instance.finishEdit==true && finish == false)
@@ -55,6 +55,19 @@ public class UIGameStartWorld : MonoBehaviour
         // }
     }
 
+    IEnumerator checkNowNodeIndex()
+    {
+        ContractInteraction._instance.nowNodeIndex = "";
+        ContractInteraction._instance.CheckLevelPr();
+        while (ContractInteraction._instance.nowNodeIndex == "")
+        {
+            yield return null;
+        }
+        GlobalVar._instance.nowNodeIndex = ContractInteraction._instance.nowNodeIndex;
+        StartGameStart();
+    }
+    
+    
     public void StartGameStart()
     {
         StartCoroutine(_gameStart());

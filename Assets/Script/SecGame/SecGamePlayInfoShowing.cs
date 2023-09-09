@@ -26,14 +26,27 @@ public class SecGamePlayInfoShowing : MonoBehaviour
 
     public bool dataFilled;
     public bool dataRefresh;
+    
+    public GameObject hintPanal;
+    public GameObject hintHint;
+    public bool isNew;
 
     private string[] weaponList = new[] { "wood", "iron", "elec" };
     
     // Start is called before the first frame update
     void Start()
     {
+        hintPanal.SetActive(false); 
         dataFilled = false;
         dataRefresh = false;
+        if (isNew && !hintHint.activeSelf)
+        {
+            hintHint.SetActive(true);
+        }
+        else if (!isNew && hintHint.activeSelf)
+        {
+            hintHint.SetActive(false);
+        }
         
         for(int i = 0;i<3;i++)
         {
@@ -47,6 +60,7 @@ public class SecGamePlayInfoShowing : MonoBehaviour
     {
         if (dataFilled == false && CurNodeDataSummary._instance.gamePlayInitData)
         {
+            Debug.Log("Start move the sliader on sec game play scene!");
             dataFilled = true;
             
             _debufflist = CurNodeDataSummary._instance.debuffList;
@@ -131,6 +145,7 @@ public class SecGamePlayInfoShowing : MonoBehaviour
     
     IEnumerator FillProgressBar(Slider slider,float targetValue,int index)
     {
+        Debug.Log("slder's target value is: "+targetValue);
         //slider.value = 0;
         //print(slider.gameObject.transform.name+" target value is: "+targetValue);
         while (slider.value < targetValue)
@@ -204,7 +219,7 @@ public class SecGamePlayInfoShowing : MonoBehaviour
         _debufflist = CurNodeDataSummary._instance.curDebuffList;
         weaponTotalBlood = CurNodeDataSummary._instance.weaponBloodList;
         weaponTotalProtect = CurNodeDataSummary._instance.protectList;
-        TreeNodeDataInit._instance.AddDownNodeData();
+        //TreeNodeDataInit._instance.restartDown();
         _changeCertainSlider(index);
     }
 
@@ -225,5 +240,22 @@ public class SecGamePlayInfoShowing : MonoBehaviour
             proElec.value = 0;
             _doWithSlides(2,debuffElec,proElec);
         }
+        
+    }
+    public void hintHintFlicker()
+    {
+        hintHint.SetActive(false);
+    }
+    public void OpenHintPanal()
+    {
+        hintPanal.SetActive(true);
+        hintHint.SetActive(false);
+    }
+    public void CloseHintPanal()
+    {
+        isNew = false;
+        hintPanal.SetActive(false);
+        print(GlobalVar._instance.thisUserAddr);
+        GlobalVar._instance.isNew = 1;
     }
 }

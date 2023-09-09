@@ -18,6 +18,7 @@ public class ViewingDebuffProtect : MonoBehaviour
 
     public int[] _debufflist;
 
+
     private bool _counted = false;
     private string _at, _sp, _ra;
 
@@ -25,14 +26,8 @@ public class ViewingDebuffProtect : MonoBehaviour
     public int[] weaponTotalProtect;
 
     public Image[] debuffSliderImage;
-    // public int woodTotalBlood=0;
-    // public int ironTotalBlood=0;
-    // public int elecTotalBlood=0;
-    
-    // public int woodTotalProtect=0;
-    // public int ironTotalProtect=0;
-    // public int elecTotalProtect=0;
 
+    
     public float fillSpeedDebuff = 1f;
     public float fillSpeedProtect = 1f;
     
@@ -42,85 +37,71 @@ public class ViewingDebuffProtect : MonoBehaviour
         _counted = false;
         weaponTotalBlood = new int[3];
         weaponTotalProtect = new int[3];
-
+        Debug.Log("HIIIIIIIIIIIIIIIII debuff is restart!!!!!!!!!!!!!!!!!!!!!!");
         //_wood[0].text = _debufflist[0]
     }
 
-    // Update is called once per frame
+    
+    // public void GetChosenNodeInfo()
+    // {
+    //     _countDicInit();
+    //     debuffList = GlobalVar._instance.chosenDownNodeData.debuffData;
+    //     GlobalVar._instance._getMapmapList();
+    //     _mapStruct = GlobalVar._instance.mapmapList;
+    //     (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) = _checkTypeIndex(_mapStruct);
+    // }
+    
+    
+    //Update is called once per frame
     void Update()
     {
-        if (CurNodeDataSummary._instance._initData == true && _counted ==false)
+        _debufflist = CurNodeDataSummary._instance.debuffList;
+        if (_counted ==false && CurNodeDataSummary._instance._initData)
         {
+            GlobalVar._instance.buildOnce = true;
             _counted = true;
-            if (CurNodeDataSummary._instance.woodCount != null)
+            int[] towerCount = new int[3];
+            int[] protectCount = new int[3];
+            foreach (var VARIABLE in CurNodeDataSummary._instance.woodCount.Keys)
             {
-                int maxGrade = 0;
-                foreach (int grade in CurNodeDataSummary._instance.woodCount.Keys)
-                {
-                    if (grade >= maxGrade)
-                    {
-                        maxGrade = grade;
-                    }
-                    // (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("wood", grade);
-                    // weaponTotalBlood[0] += CurNodeDataSummary._instance.woodCount[grade]*int.Parse(_at);
-                }
-                (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("wood", maxGrade);
-                weaponTotalBlood[0] = int.Parse(_at) * int.Parse(_sp);
+                towerCount[0] += CurNodeDataSummary._instance.woodCount[VARIABLE];
             }
-            if (CurNodeDataSummary._instance.ironCount != null)
+            foreach (var VARIABLE in CurNodeDataSummary._instance.ironCount.Keys)
             {
-                int maxGrade = 0;
-                foreach (int grade in CurNodeDataSummary._instance.ironCount.Keys)
-                {
-                    if (grade >= maxGrade)
-                    {
-                        maxGrade = grade;
-                    }
-                    // (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("iron", CurNodeDataSummary._instance.ironCount[grade]);
-                    // weaponTotalBlood[1] += int.Parse(_at);
-                }
-                (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("iron", maxGrade);
-                weaponTotalBlood[1] = int.Parse(_at) * int.Parse(_sp);
+                towerCount[1] += CurNodeDataSummary._instance.ironCount[VARIABLE];
             }
-            if (CurNodeDataSummary._instance.elecCount != null)
+            foreach (var VARIABLE in CurNodeDataSummary._instance.elecCount.Keys)
             {
-                int maxGrade = 0;
-                foreach (int grade in CurNodeDataSummary._instance.elecCount.Keys)
-                {
-                    if (grade >= maxGrade)
-                    {
-                        maxGrade = grade;
-                    }
-                    // (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("iron", CurNodeDataSummary._instance.elecCount[grade]);
-                    // weaponTotalBlood[2] += int.Parse(_at);
-                }
-                (_at,_sp,_ra) = CurNodeDataSummary._instance.CheckAttackSpeedRange("elec", maxGrade);
-                weaponTotalBlood[2] = int.Parse(_at) * int.Parse(_sp);
+                towerCount[2] += CurNodeDataSummary._instance.elecCount[VARIABLE];
             }
-            
-            if (CurNodeDataSummary._instance.wproCount != null)
+            foreach (var VARIABLE in CurNodeDataSummary._instance.wproCount.Keys)
             {
-                foreach (int grade in CurNodeDataSummary._instance.wproCount.Keys)
-                {
-                    weaponTotalProtect[0] += CurNodeDataSummary._instance.wproCount[grade]* _gradeToProtect(grade)*GlobalVar._instance.ProWood.baseProtect/2;
-                }
+                protectCount[0] +=CurNodeDataSummary._instance.wproCount[VARIABLE];
             }
-            if (CurNodeDataSummary._instance.iproCount != null)
+            foreach (var VARIABLE in CurNodeDataSummary._instance.iproCount.Keys)
             {
-                foreach (int grade in CurNodeDataSummary._instance.iproCount.Keys)
-                {
-                    weaponTotalProtect[1] += CurNodeDataSummary._instance.iproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProIron.baseProtect/2;
-                }
+                protectCount[1] += CurNodeDataSummary._instance.iproCount[VARIABLE];
             }
-            if (CurNodeDataSummary._instance.eproCount != null)
+            foreach (var VARIABLE in CurNodeDataSummary._instance.eproCount.Keys)
             {
-                foreach (int grade in CurNodeDataSummary._instance.eproCount.Keys)
-                {
-                    weaponTotalProtect[2] += CurNodeDataSummary._instance.eproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProElec.baseProtect/2;
-                }
+                protectCount[2] += CurNodeDataSummary._instance.eproCount[VARIABLE];
             }
-            CurNodeDataSummary._instance.weaponBloodList = weaponTotalBlood;
-            CurNodeDataSummary._instance.protectList = weaponTotalProtect;
+            weaponTotalBlood = CurNodeDataSummary._instance.GetMainMaxWeaponLevelBlood(CurNodeDataSummary._instance.woodCount, CurNodeDataSummary._instance.ironCount, CurNodeDataSummary._instance.elecCount);
+            Debug.Log("weaponTotalBlood: "+weaponTotalBlood[0]+", "+weaponTotalBlood[1]+", "+weaponTotalBlood[2] +"in exhibit");
+            float[] debuffPresentage = new float[3];
+            for (int i = 0; i < 3; i++)
+            {
+                if (weaponTotalBlood[i] != 0)
+                {
+                    debuffPresentage[i] = (float)_debufflist[i] / (float)weaponTotalBlood[i];
+                }
+                else
+                {
+                    debuffPresentage[i] = 1;
+                } 
+            }
+            weaponTotalProtect =  CurNodeDataSummary._instance.GetMainProtectBlood(CurNodeDataSummary._instance.wproCount, CurNodeDataSummary._instance.iproCount, CurNodeDataSummary._instance.eproCount);
+            Debug.Log("weaponTotalProtect: "+weaponTotalProtect[0]+", "+weaponTotalProtect[1]+", "+weaponTotalProtect[2]+"in exhibit");
             
             debuffWood.maxValue = 1;
             debuffIron.maxValue = 1;
@@ -137,17 +118,7 @@ public class ViewingDebuffProtect : MonoBehaviour
             _doWithSlides(2,debuffElec,proElec);
         }
     }
-
-    private int _gradeToProtect(int grade)
-    {
-        int tempInt = 0;
-        for (int i = 0; i < grade; i++)
-        {
-            tempInt = (tempInt * 2) + 1;
-        }
-
-        return tempInt;
-    }
+    
 
     private void _doWithSlides(int index, Slider debufSlider, Slider protectSlider)
     {

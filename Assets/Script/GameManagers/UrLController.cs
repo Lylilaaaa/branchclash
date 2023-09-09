@@ -1,22 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Networking;
 
 public class UrLController : MonoBehaviour
 {
     public static UrLController _instance;
+    public string thisNetWorkChain;
+    public string url_checkAll;
+    public string url_insert ;
+    public string url_search;
+    public string url_clear;
     
-    public string url_checkAll = "8.219.216.37/checkAll.php";
-    public string url_insert =  "8.219.216.37/insert.php";
-    public string url_search = "8.219.216.37/search.php";
-    public string url_clear = "8.219.216.37/clear.php";
-    
-    public string url_checkAllSec = "8.219.216.37/checkAllSec.php";
-    public string url_insertSec =  "8.219.216.37/insertSec.php";
-    public string url_searchSec = "8.219.216.37/searchSec.php";
-    public string url_clearSec = "8.219.216.37/clearSec.php";
+    public string url_checkAllSec;
+    public string url_insertSec;
+    public string url_searchSec ;
+    public string url_clearSec;
 
     //Remember to Clear!!!!!!!
     public string upTreeResult;
@@ -30,41 +32,76 @@ public class UrLController : MonoBehaviour
     private string _infoDown;
     private void Awake()
     {
+        thisNetWorkChain = "opBNB";
+        url_checkAll = "8.219.216.37/" + thisNetWorkChain + "/checkAll.php";
+        url_insert = "8.219.216.37/" + thisNetWorkChain + "/insert.php";
+        url_search ="8.219.216.37/" + thisNetWorkChain + "/search.php";
+        url_clear = "8.219.216.37/" + thisNetWorkChain + "/clear.php";
+        url_checkAllSec = "8.219.216.37/" + thisNetWorkChain + "/checkAllSec.php";
+        url_insertSec =  "8.219.216.37/" + thisNetWorkChain + "/insertSec.php";
+        url_searchSec = "8.219.216.37/" + thisNetWorkChain + "/searchSec.php";
+        url_clearSec = "8.219.216.37/" + thisNetWorkChain + "/clearSec.php";
+        
         _instance = this; 
-        _info = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-20230905-0-0-0-0-1-1-10000-10000-1500-"+_map+"-0,0,0";
-        _infoDown = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-20230905-0-0-0-0-1-1-1,0,0";
+        _info = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-0-0-0-0-0-1-1-10000-10000-1500-"+_map+"-0,0,0";
+        _infoDown = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-0-0-0-0-0-1-1-1,0,0";
         upTreeResult = "";
         downTreeResult = "";
         t.text = "";
     }
 
-    public void initData()
+    private void Start()
+    {
+        thisNetWorkChain = "opBNB";
+        url_checkAll = "8.219.216.37/opBNB/checkAll.php";
+        url_insert = "8.219.216.37/opBNB/insert.php";
+        url_search ="8.219.216.37/opBNB/search.php";
+        url_clear = "8.219.216.37/opBNB/clear.php";
+        url_checkAllSec = "8.219.216.37/opBNB/checkAllSec.php";
+        url_insertSec =  "8.219.216.37/opBNB/insertSec.php";
+        url_searchSec = "8.219.216.37/opBNB/searchSec.php";
+        url_clearSec = "8.219.216.37/opBNB/clearSec.php";
+        
+        _instance = this; 
+        _info = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-0-0-0-0-0-1-1-10000-10000-1500-"+_map+"-0,0,0";
+        _infoDown = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-0-0-0-0-0-1-1-1,0,0";
+        upTreeResult = "";
+        downTreeResult = "";
+        t.text = "";
+    }
+
+    public void initDataDown()
+    {
+        StartCoroutine(initAfterClearDown());
+        //InsertDownNode(0, 1, 0, _infoDown, "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12");
+    }
+
+    public void initDataUp()
     {
         StartCoroutine(initAfterClearUp());
-        StartCoroutine(initAfterClearDown());
     }
+
     IEnumerator initAfterClearUp()
-    {
-        t.text+="\n"+url_clear;
+    {   
+        //t.text+="\n"+url_clear;
+        Debug.Log(url_clear);
         WWW www = new WWW(url_clear);
         yield return www;
         string result = www.text;
-        t.text+="\n"+result;
         InsertUpNode(0, 1, 0, _info, "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12", "000");
     }
     IEnumerator initAfterClearDown()
     {
-        t.text+="\n"+url_clearSec;
+        Debug.Log(url_clearSec);
+        //t.text+="\n"+url_clearSec;
         WWW www = new WWW(url_clearSec);
         yield return www;
         string result = www.text;
-        t.text+="\n"+result;
         InsertDownNode(0, 1, 0, _infoDown, "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12");
     }
 
     public void InsertUpNode(int layer, int idx, int father, string info, string creator, string debuff)
     {
-
         StartCoroutine(insert(layer,idx,father,info,creator,debuff));
     }
     
@@ -72,6 +109,8 @@ public class UrLController : MonoBehaviour
     {
         StartCoroutine(insertSec(layer,idx,father,info,creator));
     }
+
+
     public void InsertUpNodeTest()
     {
         StartCoroutine(insert(1,3,0,"text","lyy","123"));
@@ -123,6 +162,7 @@ public class UrLController : MonoBehaviour
         string insertString;
         insertString = url_insertSec + "?layer=" + layer.ToString() + "&idx=" + idx.ToString() + "&father=" + father.ToString() +
                        "&info=" + info.ToString() + "&creator=" + creator.ToString();
+        Debug.Log(insertString);
        //t.text+="\n"+insertString;
         WWW www = new WWW(insertString);
         yield return www;
@@ -130,12 +170,14 @@ public class UrLController : MonoBehaviour
         t.text+="\n"+result;
     }
 
+    
     IEnumerator insert(int layer, int idx, int father, string info, string creator, string debuff)
     {
         string insertString;
         insertString = url_insert + "?layer=" + layer.ToString() + "&idx=" + idx.ToString() + "&father=" + father.ToString() +
                        "&info=" + info.ToString() + "&creator=" + creator.ToString() + "&debuff=" + debuff.ToString();
         //t.text+="\n"+insertString;
+        Debug.Log(insertString);
         WWW www = new WWW(insertString);
         yield return www;
         string result = www.text;
@@ -149,6 +191,9 @@ public class UrLController : MonoBehaviour
         string result = www.text;
         Debug.Log(result);
     }
+    
+ 
+    
     IEnumerator clearDownData()
     {
         Debug.Log(url_clearSec);
@@ -185,13 +230,34 @@ public class UrLController : MonoBehaviour
     IEnumerator checkAllUpLayerIdx()
     {
         t.text += url_checkAll;
+        GlobalVar._instance.t.text += "\n checking all: "+url_checkAll;
+        Debug.Log(url_checkAll);
         WWW www = new WWW(url_checkAll);
         yield return www;
         string result = www.text;
         Debug.Log(result);
         t.text += "\n"+result;
         upTreeResult = result;
+        if (upTreeResult.Length == 0)
+        {
+            Debug.Log("recheck!");
+            StartCoroutine(checkAllUpLayerIdx());
+        }
+        else
+        {
+            StartCoroutine(waitToCheckDownNode());
+        }
     }
+
+    IEnumerator waitToCheckDownNode()
+    {
+        while (upTreeResult.Length==0)
+        {
+            yield return null;
+        }
+        CheckAllDownNode();
+    }
+    
     
     IEnumerator checkAllDownLayerIdx()
     {
@@ -203,5 +269,47 @@ public class UrLController : MonoBehaviour
         Debug.Log(result);
         t.text +="\n"+ result;
         downTreeResult = result;
+       
+        GlobalVar._instance.t.text += "\n finish check all down index from serve!";
+    }
+    IEnumerator Post(string url, Dictionary<string, string> postData)
+    {
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+        request.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        string data = "";
+        foreach (KeyValuePair<string, string> pair in postData)
+        {
+            data += string.Format("{0}={1}&", pair.Key, pair.Value);
+        }
+        byte[] bytes = Encoding.UTF8.GetBytes(data);
+        request.uploadHandler = new UploadHandlerRaw(bytes);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        yield return request.SendWebRequest();
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            string response = request.downloadHandler.text;
+            Debug.Log(response);
+        }
+        else
+        {
+            Debug.LogError(request.error);
+        }
+    }
+    
+    IEnumerator Get(string url)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get(url))
+        {
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string response = request.downloadHandler.text;
+                Debug.Log(response);
+            }
+            else
+            {
+                Debug.LogError(request.error);
+            }
+        }
     }
 }

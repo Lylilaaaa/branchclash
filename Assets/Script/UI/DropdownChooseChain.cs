@@ -6,6 +6,7 @@ public class DropdownChooseChain : MonoBehaviour
 {
     private TMP_Dropdown dropD;
     private RectTransform arrowRT;
+    public WebLogin webLogin;
 
     public string[] chainName;
     // Start is called before the first frame update
@@ -37,5 +38,17 @@ public class DropdownChooseChain : MonoBehaviour
     {
         print(index);
         dropD.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = chainName[index];
+        if (index == 0)
+        {
+            webLogin.ChooseToChangeLine("opBNB");
+        }
+        else if(index == 1)
+        {
+            webLogin.ChooseToChangeLine("Polygon");
+        }
+        else if(index == 2)
+        {
+            webLogin.ChooseToChangeLine("Sepolia");
+        }
     }
 }

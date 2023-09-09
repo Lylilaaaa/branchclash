@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Threading;
+
 using UnityEngine;
 
 public class CurNodeDataSummary : MonoBehaviour
@@ -19,7 +18,7 @@ public class CurNodeDataSummary : MonoBehaviour
     private NodeData previousNodeData;
     public DownNodeData thisDownNodeData;
     private DownNodeData previousDownNodeData;
-    private string[][] _mapStruct;
+    public string[][] _mapStruct;
     
     [Header("--------NumCount--------")]
     public Dictionary<int,int> woodCount; //grade, count
@@ -83,6 +82,7 @@ public class CurNodeDataSummary : MonoBehaviour
         iData = GlobalVar._instance.ironTowerData;
         eData = GlobalVar._instance.elecTowerData;
 
+        debuffList = new int[3];
         debuffListData = new float[3];
         curDebuffList = new int[3];
         majorDebuffList = new int[3];
@@ -108,116 +108,126 @@ public class CurNodeDataSummary : MonoBehaviour
         thisDownNodeData = GlobalVar._instance.chosenDownNodeData;
         if (GlobalVar.CurrentGameState == GlobalVar.GameState.Viewing)
         {
-            if ((previousNodeData != thisNodeData || previousDownNodeData != thisDownNodeData)&& _initData)
+            if (GlobalVar._instance.finalNodePrepared)
             {
                 _countDicInit();
-                if (choseNodeType == 0)
-                {
-                    debuffList = thisNodeData.towerDebuffList;
-                }
-                else
-                {
-                    debuffList = thisDownNodeData.debuffData;
-                }
+                debuffList = thisDownNodeData.debuffData;
                 GlobalVar._instance._getMapmapList();
                 _mapStruct = GlobalVar._instance.mapmapList;
-                _checkTypeIndex();
-            }
-
-            //chose the down node for the first time!
-            else if (GlobalVar._instance.dataPrepared && !_initData)
-            {
-                _countDicInit();
-                if (choseNodeType == 0)
-                {
-                    debuffList = thisNodeData.towerDebuffList;
-                }
-                else
-                {
-                    debuffList = thisDownNodeData.debuffData;
-                }
-                GlobalVar._instance._getMapmapList();
-                _mapStruct = GlobalVar._instance.mapmapList;
-                _checkTypeIndex();
-                _initData = true;
+                (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) = _checkTypeIndex(_mapStruct);
             }
         }
 
         //ENTER GAMEPLAY!!
         if (GlobalVar._instance.thisUserAddr != null)
         {
-            if (GlobalVar._instance.role == 0)
+            if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay || GlobalVar.CurrentGameState == GlobalVar.GameState.ChooseField)
             {
-                //enter the game play mode, need refresh
-                if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && !_initData && !gamePlayInitData)
+                if (GlobalVar._instance.role == 0)
                 {
-                    _countDicInit();
-                    GlobalVar._instance.chosenDownNodeData = GlobalVar._instance._checkDownNodeMain(thisNodeData.nodeLayer+1);
-                    debuffList = GlobalVar._instance.chosenDownNodeData.debuffData;
-                    _mapStruct = GlobalVar._instance.mapmapList;
-                    _checkTypeIndex();
-                    _initData = true;
-                    gamePlayInitData = true;
+                    if (!gamePlayInitData)
+                    {
+                        _countDicInit();
+                        GlobalVar._instance.chosenDownNodeData = GlobalVar._instance._checkDownNodeMain(thisNodeData.nodeLayer + 1);
+                        thisDownNodeData = GlobalVar._instance.chosenDownNodeData;
+                        debuffList = thisDownNodeData.debuffData;
+
+                        Debug.Log("Chosen Down Node is: " + GlobalVar._instance.chosenDownNodeData.nodeLayer + "," + GlobalVar._instance.chosenDownNodeData.nodeIndex);
+                        Debug.Log("debuff list after chose up is: " + debuffList[0] + "," + debuffList[1] + "," + debuffList[2]);
+                        GlobalVar._instance._getMapmapList();
+                        _mapStruct = GlobalVar._instance.mapmapList;
+                        (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) = _checkTypeIndex(_mapStruct);
+                        gamePlayInitData = true;
+                        GetGamPlayNodeInfo();
+                    }
                 }
-            }
-            else
-            {
-                //enter the sec game play mode, need to refresh the up tree main node
-                if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && !_initData && !gamePlayInitData)
+                
+                else
                 {
-                    _countDicInit();
-                    debuffList = thisDownNodeData.debuffData;
-                    GlobalVar._instance.chosenNodeData = GlobalVar._instance._checkUpNodeMain(thisDownNodeData.nodeLayer+1);
-                    GlobalVar._instance._getMapmapList();
-                    _mapStruct = GlobalVar._instance.mapmapList;
-                    _checkTypeIndex();
-                    weaponBloodList = GetMainMaxWeaponLevelBlood();
-                    protectList = GetMainProtectBlood();
-                    _initData = true;
-                    gamePlayInitData = true;
+                    //enter the sec game play mode, need to refresh the up tree main node
+                    if (!gamePlayInitData)
+                    {
+                        _initData = true;
+                        _countDicInit();
+                        GlobalVar._instance.chosenNodeData =
+                            GlobalVar._instance._checkUpNodeMain(thisDownNodeData.nodeLayer + 1);
+                        thisNodeData = GlobalVar._instance.chosenNodeData;
+                        Debug.Log("===========ReFresh UpNodeMain ================ ");
+                        Debug.Log("Chosen Down Node is: " + thisNodeData.nodeLayer + "," + thisNodeData.nodeIndex);
+                        _initData = true;
+
+                        debuffList = thisDownNodeData.debuffData;
+                        Debug.Log("debuff list after chose down is: " + debuffList[0] + "," + debuffList[1] + "," +
+                                  debuffList[2]);
+
+                        GlobalVar._instance._getMapmapList();
+                        _mapStruct = GlobalVar._instance.mapmapList;
+                        (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) = _checkTypeIndex(_mapStruct);
+                        weaponBloodList = GetMainMaxWeaponLevelBlood(woodCount,ironCount,elecCount);
+                        protectList = GetMainProtectBlood(wproCount,iproCount,eproCount);
+                        gamePlayInitData = true;
+                    }
                 }
             }
         }
+
         previousNodeData = thisNodeData;
         previousDownNodeData = thisDownNodeData;
-
+    }
+    public void GetGamPlayNodeInfo()
+    {
+        _countDicInit();
+        debuffList = GlobalVar._instance.chosenDownNodeData.debuffData;
+        GlobalVar._instance._getMapmapList();
+        _mapStruct = GlobalVar._instance.mapmapList;
+        (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) = _checkTypeIndex(_mapStruct);
+        _initData = true;
+    }
+    public void GetChosenNodeInfo()
+    {
+        _countDicInit();
+        debuffList = GlobalVar._instance.chosenDownNodeData.debuffData;
+        GlobalVar._instance._getMapmapList();
+        _mapStruct = GlobalVar._instance.mapmapList;
+        (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) = _checkTypeIndex(_mapStruct);
+        _initData = true;
     }
 
-    public int[] GetMainProtectBlood()
+    public int[] GetMainProtectBlood( Dictionary<int,int>_wproCount,Dictionary<int,int> _iproCount,Dictionary<int,int> _eproCount)
     {
         int[] weaponTotalProtect = new int[3];
-        if (wproCount != null)
+        if (_wproCount != null)
         {
-            foreach (int grade in wproCount.Keys)
+            foreach (int grade in _wproCount.Keys)
             {
-                weaponTotalProtect[0] += wproCount[grade]* _gradeToProtect(grade)*GlobalVar._instance.ProWood.baseProtect/2;
+                weaponTotalProtect[0] += _wproCount[grade]* _gradeToProtect(grade)*GlobalVar._instance.ProWood.baseProtect/2;
             }
         }
-        if (iproCount != null)
+        if (_iproCount != null)
         {
-            foreach (int grade in iproCount.Keys)
+            foreach (int grade in _iproCount.Keys)
             {
-                weaponTotalProtect[1] += iproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProIron.baseProtect/2;
+                weaponTotalProtect[1] += _iproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProIron.baseProtect/2;
             }
         }
-        if (eproCount != null)
+        if (_eproCount != null)
         {
-            foreach (int grade in eproCount.Keys)
+            foreach (int grade in _eproCount.Keys)
             {
-                weaponTotalProtect[2] += eproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProElec.baseProtect/2;
+                weaponTotalProtect[2] += _eproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProElec.baseProtect/2;
             }
         }
         return weaponTotalProtect;
     }
     
-    public int[] GetMainMaxWeaponLevelBlood()
+    public int[] GetMainMaxWeaponLevelBlood(Dictionary<int,int> _woodCount,Dictionary<int,int> _ironCount,Dictionary<int,int>_elecCount)
     { 
         string _at, _sp, _ra;
         int[] weaponTotalBlood = new int[3];
-        if (woodCount != null)
+        if (_woodCount != null)
         {
             int maxGrade = 0;
-            foreach (int grade in woodCount.Keys)
+            foreach (int grade in _woodCount.Keys)
             {
                 if (grade >= maxGrade)
                 {
@@ -227,10 +237,10 @@ public class CurNodeDataSummary : MonoBehaviour
             (_at,_sp,_ra) = CheckAttackSpeedRange("wood", maxGrade);
             weaponTotalBlood[0] = int.Parse(_at) * int.Parse(_sp);
         }
-        if (ironCount != null)
+        if (_ironCount != null)
         {
             int maxGrade = 0;
-            foreach (int grade in ironCount.Keys)
+            foreach (int grade in _ironCount.Keys)
             {
                 if (grade >= maxGrade)
                 {
@@ -240,10 +250,10 @@ public class CurNodeDataSummary : MonoBehaviour
             (_at,_sp,_ra) = CheckAttackSpeedRange("iron", maxGrade);
             weaponTotalBlood[1] = int.Parse(_at) * int.Parse(_sp);
         }
-        if (elecCount != null)
+        if (_elecCount != null)
         {
             int maxGrade = 0;
-            foreach (int grade in elecCount.Keys)
+            foreach (int grade in _elecCount.Keys)
             {
                 if (grade >= maxGrade)
                 {
@@ -278,81 +288,87 @@ public class CurNodeDataSummary : MonoBehaviour
         eproCount = new Dictionary<int, int>();
     } 
     
-    private void _checkTypeIndex()
+    public (Dictionary<int, int>,Dictionary<int, int>,Dictionary<int, int>,Dictionary<int, int>,Dictionary<int, int>,Dictionary<int, int>) _checkTypeIndex(string[][] mapStruct)
     {
-        for (int i = 0; i < _mapStruct.Length; i++)
+        Dictionary<int, int> _woodCount = new Dictionary<int, int>();
+        Dictionary<int, int>_ironCount= new Dictionary<int, int>();
+        Dictionary<int, int> _elecCount = new Dictionary<int, int>();
+        Dictionary<int, int> _wproCount = new Dictionary<int, int>();
+        Dictionary<int, int>_iproCount= new Dictionary<int, int>();
+        Dictionary<int, int> _eproCount = new Dictionary<int, int>();
+        for (int i = 0; i < mapStruct.Length; i++)
         {
-            for (int j = 0; j < _mapStruct[i].Length; j++)
+            for (int j = 0; j < mapStruct[i].Length; j++)
             {
-                if (_mapStruct[i][j].Length >= 5)
+                if (mapStruct[i][j].Length >= 5)
                 {
-                    string mapType = _mapStruct[i][j].Substring(0, 4);
-                    int towerGrade = int.Parse(_mapStruct[i][j].Substring(4, _mapStruct[i][j].Length-4));
+                    string mapType = mapStruct[i][j].Substring(0, 4);
+                    int towerGrade = int.Parse(mapStruct[i][j].Substring(4, mapStruct[i][j].Length-4));
                     if (mapType == "wood")
                     {
-                        if (!woodCount.ContainsKey(towerGrade))
+                        if (!_woodCount.ContainsKey(towerGrade))
                         {
-                            woodCount.Add(towerGrade, 1);
+                            _woodCount.Add(towerGrade, 1);
                         }
                         else
                         {
-                            woodCount[towerGrade] += 1;
+                            _woodCount[towerGrade] += 1;
                         }
                     }
                     else if(mapType == "iron")
                     {
-                        if (!ironCount.ContainsKey(towerGrade))
+                        if (!_ironCount.ContainsKey(towerGrade))
                         {
-                            ironCount.Add(towerGrade, 1);
+                            _ironCount.Add(towerGrade, 1);
                         }
                         else
                         {
-                            ironCount[towerGrade] += 1;
+                            _ironCount[towerGrade] += 1;
                         }
                     }
                     else if (mapType == "elec")
                     {
-                        _mapStruct[i][j + 1] = "eleC"+towerGrade;
-                        if (!elecCount.ContainsKey(towerGrade))
+                        mapStruct[i][j + 1] = "eleC"+towerGrade;
+                        if (!_elecCount.ContainsKey(towerGrade))
                         {
-                            elecCount.Add(towerGrade, 1);
+                            _elecCount.Add(towerGrade, 1);
                         }
                         else
                         {
-                            elecCount[towerGrade] += 1;
+                            _elecCount[towerGrade] += 1;
                         }
                     }
                     else if (mapType == "wpro")
                     {
-                        if (!wproCount.ContainsKey(towerGrade))
+                        if (!_wproCount.ContainsKey(towerGrade))
                         {
-                            wproCount.Add(towerGrade, 1);
+                            _wproCount.Add(towerGrade, 1);
                         }
                         else
                         {
-                            wproCount[towerGrade] += 1;
+                            _wproCount[towerGrade] += 1;
                         }
                     }
                     else if (mapType == "ipro")
                     {
-                        if (!iproCount.ContainsKey(towerGrade))
+                        if (!_iproCount.ContainsKey(towerGrade))
                         {
-                            iproCount.Add(towerGrade, 1);
+                            _iproCount.Add(towerGrade, 1);
                         }
                         else
                         {
-                            iproCount[towerGrade] += 1;
+                            _iproCount[towerGrade] += 1;
                         }
                     }
                     else if (mapType == "epro")
                     {
-                        if (!eproCount.ContainsKey(towerGrade))
+                        if (!_eproCount.ContainsKey(towerGrade))
                         {
-                            eproCount.Add(towerGrade, 1);
+                            _eproCount.Add(towerGrade, 1);
                         }
                         else
                         {
-                            eproCount[towerGrade] += 1;
+                            _eproCount[towerGrade] += 1;
                         }
                     }
                     else if (mapType == "eleC")
@@ -366,12 +382,7 @@ public class CurNodeDataSummary : MonoBehaviour
                 }
             }
         }
-        DictionaryCount.Add(woodCount.Count);
-        DictionaryCount.Add(ironCount.Count);
-        DictionaryCount.Add(elecCount.Count);
-        DictionaryCount.Add(wproCount.Count);
-        DictionaryCount.Add(iproCount.Count);
-        DictionaryCount.Add(eproCount.Count);
+        return (_woodCount, _ironCount, _elecCount, _wproCount, _iproCount, _eproCount);
     }
     
     public (string, string,string) CheckAttackSpeedRange(string towerType,int grade)
@@ -470,6 +481,10 @@ public class CurNodeDataSummary : MonoBehaviour
 
     private int _calculateDPS(int grade, int[] dpsRate, int initDps)
     {
+        if (grade == 0)
+        {
+            return 0;
+        }
         if(grade == 1){
             return initDps;
         }

@@ -32,7 +32,8 @@ public class TreeGenerator : MonoBehaviour
     {
         //nodes = new int[] {0,0,0,5,1,0,0,2,1,1,0,0,1,2,0,3,1,3,0,5,1,4,0,0,2,0,0,3,2,1,2,3,2,2,2,2,2,3,2,0,2,4,3,4,2,5,3,0,2,6,3,2,2,7,3,0,2,8,3,3,
         //3,0,0,0,3,1,1,0,3,2,1,0,3,3,1,0,3,4,2,0,3,5,2,0,3,6,4,0,3,7,4,0,3,8,4,0,3,9,4,0,3,10,8,0,3,11,8,0,3,12,8,0,3,13,6,0,3,14,6,0,3,15,0,0,3,16,0,0};
-        nodes =GlobalVar._instance.TreeGen;    
+        nodes =GlobalVar._instance.TreeGen;
+        GlobalVar._instance.t.text += "\n " + nodes;
         layerNum = GetLayer();
         nodePos = new List<Vector3>();
         layerWidth = new int[layerNum + 1];
@@ -180,8 +181,8 @@ public class TreeGenerator : MonoBehaviour
                 tn.num = 0;
                 tn.father = 0;
 
-                n.name = i.ToString() + "-" + 0.ToString();
-                if (n.name == "0-0")
+                n.name = i.ToString() + "-" + 1.ToString();
+                if (n.name == "0-1")
                 {
                     tn.isMajor = true;
                 }
@@ -198,7 +199,7 @@ public class TreeGenerator : MonoBehaviour
                         ran = Random.Range(-1, 2);
                         GameObject n = Instantiate(prefab, nodePos[0] + new Vector3(0, ran, 0), transform.rotation);
                         n.name = i.ToString() + "-" + nodes[4 * j + 1].ToString();
-                        GameObject father = GameObject.Find("0-0");
+                        GameObject father = GameObject.Find("0-1");
                         n.transform.SetParent(father.transform);
                         nodePos.RemoveAt(0);
                         TreeNode tn = n.GetComponent<TreeNode>();

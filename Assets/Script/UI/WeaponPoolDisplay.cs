@@ -20,18 +20,18 @@ public class WeaponPoolDisplay : MonoBehaviour
 
     private void Update()
     {
-        if (CurNodeDataSummary._instance._initData == true && _weapenPoolFinish == false)
+        if (_weapenPoolFinish == false)
         {
+            _weapenPoolFinish = true;
+            Debug.Log("=======init weapon pool! =====");
             _clearWeaponPool();
             _initWeaponPoolUI();
-            _weapenPoolFinish = true;
         }
 
         //print(childCount);
         childCount = transform.childCount;
         if (has == false && childCount!=0)
         {
-            
             Vector2 sizeDelta = _rectTransform.sizeDelta;
     
             float newHeight = sizeDelta.y; 
@@ -66,6 +66,7 @@ public class WeaponPoolDisplay : MonoBehaviour
         {
             foreach (int grade in CurNodeDataSummary._instance.woodCount.Keys)
             {
+                Debug.Log("Init woodCount");
                 GameObject thisNode = Instantiate(Type_level_num_Prefab, transform);
                 thisNode.transform.localPosition = new Vector3(xPos, 0, 0);
                 thisNode.transform.localRotation = Quaternion.identity;
@@ -78,6 +79,7 @@ public class WeaponPoolDisplay : MonoBehaviour
         {
             foreach (int grade in CurNodeDataSummary._instance.ironCount.Keys)
             {
+                Debug.Log("Init ironCount");
                 GameObject thisNode = Instantiate(Type_level_num_Prefab, transform);
                 thisNode.transform.localPosition = new Vector3(xPos, 0, 0);
                 thisNode.transform.localRotation = Quaternion.identity;
@@ -90,6 +92,7 @@ public class WeaponPoolDisplay : MonoBehaviour
         {
             foreach (int grade in CurNodeDataSummary._instance.elecCount.Keys)
             {
+                Debug.Log("Init elecCount");
                 GameObject thisNode = Instantiate(Type_level_num_Prefab, transform);
                 thisNode.transform.localPosition = new Vector3(xPos, 0, 0);
                 thisNode.transform.localRotation = Quaternion.identity;

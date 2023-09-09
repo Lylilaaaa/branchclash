@@ -14,7 +14,7 @@ public class YourNodeContent : MonoBehaviour
         has = false;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         //print(childCount);
         childCount = transform.childCount;

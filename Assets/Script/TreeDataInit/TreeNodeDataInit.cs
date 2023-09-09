@@ -16,18 +16,25 @@ public class TreeNodeDataInit : MonoBehaviour
     public string levelName = "GamePlay";
     private GlobalVar.GameState _previousGameState;
     public bool finish=false;
-
+    public bool isInserting = false;
+    public bool isInsertingSec = false;
+    public List<int> insertCount;
+    public List<int> insertCountSec;
     private int restartTime;
 
     private void Awake()
     {
         _instance = this;
         restartTime = 0;
+        isInserting = false;
+        isInsertingSec = false;
     }
 
     public void ReStart()
     {
         restartTime++;
+        isInserting = false;
+        isInsertingSec = false;
         //print("restart time: "+restartTime);
         // treeData = new TreeData();
         // downTreeData = new DownTreeData();
@@ -37,19 +44,10 @@ public class TreeNodeDataInit : MonoBehaviour
         {
             previousNodeData = GlobalVar._instance.nodeDataList;
             previousDownNodeData = GlobalVar._instance.downNodeDataList;
-            //
-            // treeData.nodeDictionary = new Dictionary<string, NodeData>();
-            // treeData.InitNodeData = initNodeData(treeData.InitNodeData);
-            // treeData.nodeDictionary.Add("0,1",treeData.InitNodeData);
-            //
-            // downTreeData.downNodeDictionary = new Dictionary<string, DownNodeData>();
-            // downTreeData.initDownNodeData = initDownNodeData(downTreeData.initDownNodeData);
-            // downTreeData.downNodeDictionary.Add("0,1",downTreeData.initDownNodeData);
-            // treeData.treeNodeCount += 1;
-            // downTreeData.downTreeNodeCount += 1;
-            //
+
             foreach (NodeData _nodeData in previousNodeData)
             {
+                GlobalVar._instance.t.text += "\n In treeNodeDataInit, treeData.nodeDictionary is: "+_nodeData.nodeLayer.ToString() + ',' + _nodeData.nodeIndex.ToString();
                 if (!treeData.nodeDictionary.ContainsKey(_nodeData.nodeLayer.ToString() + ',' +
                                                          _nodeData.nodeIndex.ToString()))
                 {
@@ -109,12 +107,10 @@ public class TreeNodeDataInit : MonoBehaviour
     
     public void AddNodeData()
     {
-        DateTime currentDateTime = DateTime.UtcNow;
-        string nowUTC = currentDateTime.ToString();
         NodeData previousData = GlobalVar._instance.chosenNodeData;
         NodeData newNodeData = new NodeData();
         newNodeData.ownerAddr = GlobalVar._instance.thisUserAddr;
-        newNodeData.setUpTime = nowUTC;
+        newNodeData.setUpTime = 0.ToString();
         newNodeData.fatherLayer = previousData.nodeLayer;
         newNodeData.fatherIndex = previousData.nodeIndex;
         newNodeData.childCount = 0;
@@ -130,13 +126,13 @@ public class TreeNodeDataInit : MonoBehaviour
         newNodeData.mapStructure = GlobalVar._instance._getMapmapString(GlobalVar._instance.mapmapList);
         string newNodeName = newNodeData.nodeLayer.ToString() + ',' + newNodeData.nodeIndex.ToString();
         //
-        // //???????›Ô?????¡¤????
+        // //????????????????????
         // string assetPath = "Assets/Resources/" + newNodeName + ".asset";
         // AssetDatabase.CreateAsset(newNodeData, assetPath);
         // AssetDatabase.SaveAssets();
         // AssetDatabase.Refresh();
 
-        string _info = GlobalVar._instance.thisUserAddr +"-"+ nowUTC+ "-" + newNodeData.fatherLayer+"-" +newNodeData.fatherIndex+"-"+newNodeData.childCount+"-"+newNodeData.nodeLayer+"-"+newNodeData.nodeIndex+"-";
+        string _info = GlobalVar._instance.thisUserAddr +"-"+ newNodeData.setUpTime+ "-" + newNodeData.fatherLayer+"-" +newNodeData.fatherIndex+"-"+newNodeData.childCount+"-"+newNodeData.nodeLayer+"-"+newNodeData.nodeIndex+"-";
         if (newNodeData.isMajor == false)
         {
             _info += "0-";
@@ -155,7 +151,7 @@ public class TreeNodeDataInit : MonoBehaviour
         StartCoroutine(_insert(newNodeData.nodeLayer,newNodeData.nodeIndex,newNodeData.nodeLayer-1,_info,newNodeData.ownerAddr,debuff_list[0] + "," + debuff_list[1] + "," + debuff_list[2]));
 
     }
-    IEnumerator _insert(int layer, int idx, int father, string info, string creator, string debuff)
+    public IEnumerator _insert(int layer, int idx, int father, string info, string creator, string debuff)
     {
         string insertString;
         insertString = UrLController._instance.url_insert + "?layer=" + layer.ToString() + "&idx=" + idx.ToString() + "&father=" + father.ToString() +
@@ -165,15 +161,36 @@ public class TreeNodeDataInit : MonoBehaviour
         yield return www;
         string result = www.text;
         Debug.Log(result);
+        if (isInserting)
+        {
+            insertCount.Add(1);
+        }
+        else
+        {
+
+        }
         
-        
+
+    }
+
+    public void restartUp()
+    {
         UrLController._instance.upTreeResult = "";
         UrLController._instance.downTreeResult = "";
-        
+        GlobalVar._instance.nodePrepared = false;
+        GlobalVar._instance.dataPrepared = false;
         GlobalVar._instance.ReadData();
         StartCoroutine(ReReadNode());
     }
-
+    public void restartDown()
+    {
+        UrLController._instance.upTreeResult = "";
+        UrLController._instance.downTreeResult = "";
+        GlobalVar._instance.nodePrepared = false;
+        GlobalVar._instance.dataPrepared = false;
+        GlobalVar._instance.ReadData();
+        //StartCoroutine(ReReadNode());
+    }
     IEnumerator ReReadNode()
     {
         while (!GlobalVar._instance.nodePrepared)
@@ -221,7 +238,7 @@ public class TreeNodeDataInit : MonoBehaviour
         Debug.Log("New down node created and saved: " + newDownNodeName);
         GlobalVar._instance.dataPrepared = false;
     }
-    IEnumerator _insertSec(int layer, int idx, int father, string info, string creator)
+    public IEnumerator _insertSec(int layer, int idx, int father, string info, string creator)
     {
         string insertString;
         insertString = UrLController._instance.url_insertSec + "?layer=" + layer.ToString() + "&idx=" + idx.ToString() + "&father=" + father.ToString() +
@@ -232,11 +249,15 @@ public class TreeNodeDataInit : MonoBehaviour
         string result = www.text;
         Debug.Log(result);
         
-        UrLController._instance.upTreeResult = "";
-        UrLController._instance.downTreeResult = "";
-        
-        GlobalVar._instance.ReadData();
-        StartCoroutine(ReReadNode());
+        if (isInsertingSec)
+        {
+            insertCountSec.Add(1);
+        }
+        else
+        {
+
+        }
+
     }
     
     

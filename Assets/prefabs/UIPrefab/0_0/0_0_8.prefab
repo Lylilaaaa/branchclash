@@ -272,10 +272,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "The main interface is divided into two parts: the tree trunk and the tree
-    root. \r\nThe trunk represents the human defense process. \r\nThe roots symbolize
-    the debuffs that the worm race inflicts upon humans. \r\nYour task is to ensure
-    the robust growth of the trunk as much as possible, allowing humanity to continue."
+  m_text: "\r\nTo create your own level, you need to click the \"Detail\" button
+    to enter the level's interior. \r\nHere, you can have a more detailed view of
+    the tower defense layout and defense tower specifics."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0c38d10b7cc00c742bb379f8e87efaf7, type: 2}
   m_sharedMaterial: {fileID: 3553368755267884775, guid: 0c38d10b7cc00c742bb379f8e87efaf7,

@@ -259,7 +259,7 @@ public class RedTreeGenerator : MonoBehaviour
                 tn.layer = 0;
                 tn.num = 0;
                 tn.father = 0;
-                n.name = i.ToString() + "-" + 0.ToString() + "_red";
+                n.name = i.ToString() + "-" + 1.ToString() + "_red";
                 if (n.name == "0-0_red")
                 {
                     tn.isMajor = true;
@@ -276,7 +276,7 @@ public class RedTreeGenerator : MonoBehaviour
                         ran = Random.Range(-1, 2);
                         GameObject n = Instantiate(prefab, nodePos[0] + new Vector3(0, ran, 0), transform.rotation);
                         n.name = i.ToString() + "-" + redNodes[4 * j + 1].ToString()+"_red";
-                        GameObject father = GameObject.Find("0-0_red");
+                        GameObject father = GameObject.Find("0-1_red");
                         n.transform.SetParent(father.transform);
                         nodePos.RemoveAt(0);
                         RedTreeNode tn = n.GetComponent<RedTreeNode>();

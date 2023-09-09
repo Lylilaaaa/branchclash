@@ -43,12 +43,12 @@ public class CursorOutlinesDown : MonoBehaviour
         {
             int layer =  int.Parse(layerIndex[0]);
             int index = int.Parse(layerIndex[1]);
-            if (layer == 0 && index == 0)
+            if (layer == 0 && index == 1)
             {
                 thisDownNodeData = GlobalVar._instance.treeData.InitDownNodeData;
                 previewLevelInfoPenal.GetComponent<LevelDownInfoDataViewing>().thisDownNodeData = GlobalVar._instance.treeData.InitDownNodeData;
                 correspondMajorNodeData = GlobalVar._instance._checkUpNodeMain(layer);
-                GlobalVar._instance.chosenNodeData = correspondMajorNodeData;
+                //GlobalVar._instance.chosenNodeData = correspondMajorNodeData;
                 majorDownNodeData = _checkDownMajorNodeData(layer);
                 previewLevelInfoPenal.GetComponent<LevelDownInfoDataViewing>().majorDownNodeData = majorDownNodeData;
             }
@@ -61,7 +61,7 @@ public class CursorOutlinesDown : MonoBehaviour
                         thisDownNodeData = downNodeData;
                         previewLevelInfoPenal.GetComponent<LevelDownInfoDataViewing>().thisDownNodeData = downNodeData;
                         correspondMajorNodeData = GlobalVar._instance._checkUpNodeMain(layer);
-                        GlobalVar._instance.chosenNodeData = correspondMajorNodeData;
+                        //GlobalVar._instance.chosenNodeData = correspondMajorNodeData;
                         majorDownNodeData = _checkDownMajorNodeData(layer);
                         previewLevelInfoPenal.GetComponent<LevelDownInfoDataViewing>().majorDownNodeData = majorDownNodeData;
                     }
@@ -81,9 +81,9 @@ public class CursorOutlinesDown : MonoBehaviour
             _setThisData();
         }
         
-        if (mouseEnter == true)
+        if (mouseEnter)
         {
-            if (Input.GetMouseButtonDown(0) && _canDisappear == true)
+            if (Input.GetMouseButtonDown(0) && _canDisappear)
             {
                 //print("should be open panel");
                 _canDisappear = false;
@@ -92,11 +92,11 @@ public class CursorOutlinesDown : MonoBehaviour
                 {
                     CurNodeDataSummary._instance.choseNodeType = 1;
                     previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(true);
-                    //CameraController._instance.camLock = true;
-                    //SceneManager.LoadScene("ExhibExample", LoadSceneMode.Additive);
-                    GlobalVar._instance.chosenNodeData = GlobalVar._instance._checkUpNodeMain(thisDownNodeData.nodeLayer);
-                    GlobalVar._instance.chosenDownNodeData = previewLevelInfoPenal.GetComponent<LevelDownInfoDataViewing>().thisDownNodeData;
-                    
+                    GlobalVar._instance.chosenNodeData = correspondMajorNodeData;
+                    GlobalVar._instance.chosenDownNodeData = thisDownNodeData;
+                    Debug.Log( "chosing up node: "+GlobalVar._instance.chosenNodeData.nodeLayer+","+GlobalVar._instance.chosenNodeData.nodeIndex);
+                    Debug.Log( "chosing down node: "+GlobalVar._instance.chosenDownNodeData.nodeLayer+","+GlobalVar._instance.chosenDownNodeData.nodeIndex);
+                    Debug.Log( "chosing down node's debuff from reading is: "+GlobalVar._instance.chosenDownNodeData.debuffData[0]+","+GlobalVar._instance.chosenDownNodeData.debuffData[1]+","+GlobalVar._instance.chosenDownNodeData.debuffData[2]);
                     GlobalVar._instance.ChangeState("Viewing");
                     GlobalVar._instance.isPreViewing = true;
                 }
@@ -106,13 +106,9 @@ public class CursorOutlinesDown : MonoBehaviour
         {
             Camera.main.gameObject.GetComponent<CameraController>().LookUpNode(transform);
             Camera.main.gameObject.GetComponent<CameraController>().canMove = true;
-           // StartCoroutine(ChangeVariableAfterDelay());
             cursorZoomIn = false;
         }
         ZoomCertainNode();
-        
-
-
     }
 
 

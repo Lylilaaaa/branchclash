@@ -17,7 +17,7 @@ public class LineGenerator : MonoBehaviour
     public GameObject prefabParent;
     private GameObject _initGObj;
 
-    //六位二进制表示有无，x+,x-,y+,y-,z+,z-
+    //??λ?????????????x+,x-,y+,y-,z+,z-
     public static Dictionary<Vector3, int> lineMap = new Dictionary<Vector3, int>();
     public static List<Vector3> majorChain = new List<Vector3>();
     public int lineMapCount;

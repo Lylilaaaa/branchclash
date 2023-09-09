@@ -28,6 +28,7 @@ public class WaveSpawner : MonoBehaviour
     private bool hasEnamy = false;
 
     public Transform monsterContainer;
+    public bool finishSubmitConfirm;
 
 
     private void Start()
@@ -110,7 +111,7 @@ public class WaveSpawner : MonoBehaviour
         enemySpawn.transform.SetParent(monsterContainer);
         //enemySpawn.transform.localScale = new Vector3(1f,1f,1f);
     }
-
+    
     public void startGame()
     {
         StartCoroutine(WaitAndExecute());
@@ -127,6 +128,7 @@ public class WaveSpawner : MonoBehaviour
     public void endGame()
     {
         print("game is end!");
+        
         if (CurNodeDataSummary._instance.homeDestroyData == 0)
         {
             GlobalVar._instance.gameResult = 0;
@@ -145,9 +147,76 @@ public class WaveSpawner : MonoBehaviour
         selectPanal.transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
         selectPanal.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
         GlobalVar._instance.ChangeState("GameOver");
-        TreeNodeDataInit._instance.finish = false;
-        GlobalVar._instance.nodePrepared = false;
-        TreeNodeDataInit._instance.AddNodeData();
-        
+        // TreeNodeDataInit._instance.finish = false;
+        // GlobalVar._instance.nodePrepared = false;
+        //TreeNodeDataInit._instance.AddNodeData();
+        //TreeNodeDataInit._instance.restartUp();
+        StartOpenGamePlay();
+    }
+    
+    public void StartOpenGamePlay()
+    {
+        StartCoroutine( checkNewNode());
+    }
+    IEnumerator checkNewNode()
+    {
+        ContractInteraction._instance.endProcessSec = "";
+        ContractInteraction._instance.CheckLevelOr();
+        while (ContractInteraction._instance.endProcessSec.Length == 0)
+        {
+            yield return null;
+        }
+        finishSubmitConfirm = checkEqual();
+        Debug.Log("endProcessSec is: "+ ContractInteraction._instance.endProcessSec);
+        if (finishSubmitConfirm)
+        {
+            StartCoroutine(checkLostBlood());
+        }
+        else
+        {
+            StartCoroutine( checkNewNode());
+            Debug.Log("not finish the confirm!");
+        }
+    }
+    private bool checkEqual()
+    {
+        if (ContractInteraction._instance.endProcessSec == "finish")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    IEnumerator checkLostBlood()
+    {
+        GlobalVar._instance.nowNodeIndexBlood = "0";
+        ContractInteraction._instance.finshiCheckNewBlood = false;
+        string layIndexString =
+            GlobalVar._instance.nowNodeIndex.Substring(1, GlobalVar._instance.nowNodeIndex.Length - 2);
+        string[] layIndex = layIndexString.Split(",");
+        Debug.Log("new node is " +layIndex[0] +layIndex[1]);
+        ContractInteraction._instance.check_blood_new( int.Parse(layIndex[0]) , int.Parse(layIndex[1]));
+        while (!ContractInteraction._instance.finshiCheckNewBlood)
+        {
+            yield return null;
+        }
+        Debug.Log("the new blood is: "+GlobalVar._instance.nowNodeIndexBlood);
+        int lostBlood = GlobalVar._instance.chosenNodeData.curHealth - int.Parse(GlobalVar._instance.nowNodeIndexBlood);
+        if (lostBlood > 0&& lostBlood< GlobalVar._instance.chosenNodeData.curHealth)
+        {
+            GlobalVar._instance.gameResult = 1;
+        }
+        else if (lostBlood <= 0)
+        {
+            GlobalVar._instance.gameResult = 0;
+        }
+        else
+        {
+            GlobalVar._instance.gameResult = 2;
+        }
+        GlobalVar._instance._loadNextScene("4_End");
     }
 }

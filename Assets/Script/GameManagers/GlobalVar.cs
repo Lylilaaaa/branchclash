@@ -3,14 +3,15 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class GlobalVar : MonoBehaviour
 {
     public static GlobalVar _instance;
-
+    
     [Header("--------User--------")]
-    public string thisUserAddr = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12";
+    public string thisUserAddr = "";
     public int isNew;
     public int role;
 
@@ -27,6 +28,10 @@ public class GlobalVar : MonoBehaviour
     public List<string> downStringResults = new List<string>();
     public int[] TreeGen;
     public int[] redTreeGen;
+    public int totalNumOnServeUp;
+    public int totalNumOnServeDown;
+    public int[] needToCheckList;
+    public int[] needToCheckListSec;
     
     
     [Header("--------Process--------")]
@@ -36,13 +41,26 @@ public class GlobalVar : MonoBehaviour
     public static GameState CurrentGameState;
     public string gameStateShown="";
     public bool dataPrepared;
+    public bool upServePrepare;
+    public bool downServePrepare;
     public bool nodePrepared;
+    public bool finalNodePrepared;
     public bool isPreViewing = false;
     public bool global_OL;
     public int gameResult;  //0: 家没有受伤 ；1：家受伤了 ；2：失败了
     //public bool finishEdit;
     private int finishUp = 0;
     private int finishDown= 0;
+    private int _curCheckingLayer;
+    private int _targetCheckingLayer;
+    private int _secCurCheckingLayer;
+    private int _secTargetCheckingLayer;
+    private int curUpdateIndex;
+    private int curUpdateIndexSec;
+    public string nowNodeIndex;
+    public string nowNodeIndexBlood;
+
+    public bool buildOnce = false;
 
     [Header("--------Map--------")]
     public string[][] mapmapList;
@@ -67,6 +85,8 @@ public class GlobalVar : MonoBehaviour
     [Header("--------GameObjSetting--------")]
     public GameObject loadingGameObj;
 
+    public TextMeshProUGUI t;
+
     public enum GameState
     {
         MainStart,
@@ -83,7 +103,10 @@ public class GlobalVar : MonoBehaviour
         loadingGameObj.SetActive(false);
         dataPrepared = false;
         nodePrepared = false;
+        finalNodePrepared = false;
+        upServePrepare = downServePrepare = false;
         thisUserAddr = "";
+        UrLController._instance.CheckAllDownNode();
     }
 
     // void Start()
@@ -91,17 +114,24 @@ public class GlobalVar : MonoBehaviour
     //     ReStart();
     // }
 
+    public void debufStartReStart()
+    {
+        t.text = "debugRestart!";
+        StartCoroutine(ReStart());
+    }
+
     public IEnumerator  ReStart()
     {
         //
+        t.text = "";
         print("GlobalVar Restart!");
 
         dataPrepared = false;
         nodePrepared = false;
+        upServePrepare = downServePrepare = false;
         //TreeGenerator._instance.InitTree();
         //RedTreeGenerator._instance.InitDownTree();
-        isNew = _checkUserGreen(thisUserAddr);
-        role = _checkUserRole(thisUserAddr);
+        ContractInteraction._instance.ReSetMain();
         SoundManager._instance.PlayMusicSound(SoundManager._instance.homePageBackSound,true,0.8f);
         // 初始化游戏状态
         
@@ -119,15 +149,25 @@ public class GlobalVar : MonoBehaviour
         MajorNodeListDown = new List<string>();
         MajorNodeList = new List<string>();
         MajorNodeListDown = new List<string>();
+        finalNodePrepared = false;
+        buildOnce = false;
         ReadData();
         while (!nodePrepared)
         {
             yield return null; // 等待一帧
         }
+        
+        UpLoadDataFromContract();
+        
+    }
+
+    private void reStartTree()
+    {
         _getMainNode();
         _getMainNodeDown();
         TreeNodeDataInit._instance.ReStart();
         CurNodeDataSummary._instance.ReStart();
+        
         dataPrepared = true;
     }
 
@@ -172,8 +212,6 @@ public class GlobalVar : MonoBehaviour
 
         return newMapMapList;
     }
-    
-
     public void _getMapmapList()
     {
         string totalString = chosenNodeData.mapStructure;
@@ -219,7 +257,6 @@ public class GlobalVar : MonoBehaviour
                 }
             }
         }
-
         mapmapList = stringList;
     }
     public string _getMapmapString(string[][] stringList)
@@ -374,26 +411,397 @@ public class GlobalVar : MonoBehaviour
         }
         return null;
     }
+
+    public void UpLoadDataFromContract()
+    {
+        t.text += "\n checking new nodes from up and down contracts!";
+        nodePrepared = false;
+        upServePrepare = downServePrepare = false;
+        /////remember to re read the data!!!!!!
+        StartCoroutine(checkServeNum());
+        StartCoroutine(waitToReStartTree());
+    }
+    
+    
+    IEnumerator checkServeNum()
+    {
+        t.text += "\n checking num...";
+        ContractInteraction._instance.numOnContract = 0;
+        ContractInteraction._instance.finishNumOnServeUp =ContractInteraction._instance.finishNumOnServeDown = false;
+        ContractInteraction._instance.numOnContractSec = 0;
+        ContractInteraction._instance.CheckServe();
+        //ContractInteraction._instance.CheckServeSec();
+        while (!ContractInteraction._instance.finishNumOnServeUp||!ContractInteraction._instance.finishNumOnServeDown)
+        {
+            yield return null;
+        }
+
+        if (ContractInteraction._instance.numOnContract-(totalNumOnServeUp) > 0 && ContractInteraction._instance.numOnContractSec-(totalNumOnServeDown) == 0)
+        {
+            t.text += "\n" + "only need to update the up nodes in serve!";
+            upServePrepare = false;
+            downServePrepare = true;
+            StartCoroutine(confirmUpdate());
+        }
+        else if (ContractInteraction._instance.numOnContract-(totalNumOnServeUp) == 0 && ContractInteraction._instance.numOnContractSec-(totalNumOnServeDown) > 0)
+        {
+            t.text += "\n" + "only need to update the down nodes in serve!";
+            upServePrepare = true;
+            downServePrepare = false;
+            StartCoroutine(confirmDowndate());
+        }
+        else if (ContractInteraction._instance.numOnContract - (totalNumOnServeUp) > 0 &&
+                 ContractInteraction._instance.numOnContractSec - (totalNumOnServeDown) > 0)
+        {
+            t.text += "\n" + "need to update both down and up nodes in serve!";
+            upServePrepare = false;
+            downServePrepare = false;
+            StartCoroutine(confirmUpdate());
+        }
+        else if (ContractInteraction._instance.numOnContract==(totalNumOnServeUp))
+        {
+            upServePrepare = true;
+            downServePrepare = true;
+            t.text += "\n" + "do not need to update the down and up nodes in serve!";
+        }
+    }
+
+    IEnumerator confirmDowndate()
+    {
+        print("total num on serve down is: "+totalNumOnServeDown);
+        needToCheckListSec = new int[ContractInteraction._instance.numOnContractSec - totalNumOnServeDown];
+        curUpdateIndexSec = 0;
+        for (int i = 0; i < ContractInteraction._instance.numOnContractSec - (totalNumOnServeDown); i++)
+        {
+            needToCheckListSec[i] = i+(totalNumOnServeDown + 1 - 1-1);
+            t.text += "\n" + "start check downdate node index"+needToCheckListSec[i];
+            StartCoroutine(checkDowndateNodeIndex(needToCheckListSec[i]));
+        }
+        while (curUpdateIndexSec != ContractInteraction._instance.numOnContractSec - (totalNumOnServeDown))
+        {
+            yield return null;
+        }
+        t.text += "\n" + "finish down check!";
+        StartCoroutine(insertToWebFromContractSec());
+
+    }
+
+    IEnumerator confirmUpdate()
+    {   
+        print("total num on serve up is: "+totalNumOnServeUp);
+        needToCheckList = new int[ContractInteraction._instance.numOnContract-(totalNumOnServeUp)];
+        curUpdateIndex = 0;
+        for (int i = 0; i < ContractInteraction._instance.numOnContract - (totalNumOnServeUp); i++)
+        {
+            needToCheckList[i] = i+(totalNumOnServeUp + 1 - 1-1);
+            //t.text += "\n" + "start check update node index"+needToCheckList[i];
+            StartCoroutine(checkUpdateNodeIndex(needToCheckList[i]));
+        }
+
+        while (curUpdateIndex != ContractInteraction._instance.numOnContract - (totalNumOnServeUp))
+        {
+            yield return null;
+        }
+        t.text += "\n" + "finish check update up node!";
+        StartCoroutine(insertToWebFromContract());
+
+        //ReadData();
+    }
+
+    IEnumerator insertToWebFromContract()
+    {
+        TreeNodeDataInit._instance.isInserting = true;
+        TreeNodeDataInit._instance.insertCount = new List<int>();
+        ContractInteraction._instance.newNodeInfoContract.Clear();
+        int currentIndex = 0;
+        while (currentIndex < needToCheckList.Length)
+        {
+            yield return StartCoroutine(readLostNodeFromContract(needToCheckList[currentIndex]));
+            currentIndex++;
+        }
+
+        StartCoroutine(waitTillInsertFinish());
+    }
+
+    IEnumerator waitTillInsertFinish()
+    {
+        while (TreeNodeDataInit._instance.insertCount.Count < needToCheckList.Length)
+        {
+            yield return null;
+        }
+
+        t.text += "finishi insert up!";
+        upServePrepare = true;
+        TreeNodeDataInit._instance.isInserting = false;
+        if (!downServePrepare)
+        {
+            StartCoroutine(confirmDowndate());
+        }
+    }
+    
+    
+    IEnumerator insertToWebFromContractSec()
+    {
+        TreeNodeDataInit._instance.isInsertingSec = true;
+        TreeNodeDataInit._instance.insertCountSec = new List<int>();
+        ContractInteraction._instance.newNodeInfoContractSec.Clear();
+        int currentIndex = 0;
+        t.text += "\n need to check list sec length is: " + needToCheckListSec.Length; //should be 2
+        while (currentIndex < needToCheckListSec.Length)
+        {
+            yield return StartCoroutine(readLostNodeFromContractSec(needToCheckListSec[currentIndex]));
+            currentIndex++;
+        }
+
+        StartCoroutine(waitTillInsertDownFinish());
+    }
+    IEnumerator waitTillInsertDownFinish()
+    {
+        while (TreeNodeDataInit._instance.insertCountSec.Count < needToCheckListSec.Length)
+        {
+            yield return null;
+        }
+
+        t.text += "finish insert down!";
+        TreeNodeDataInit._instance.isInsertingSec = false;
+        downServePrepare = true;
+    }
+
+    IEnumerator reReadDataAndStartTree()
+    {
+        t.text += "finish and restart tree!! wula!! Time to re read data and re start tree!";
+        nodePrepared = false;
+        ReadData();
+        while (!nodePrepared)
+        {
+            yield return null;
+        }
+
+        finalNodePrepared = true;
+        reStartTree();
+    }
+
+    IEnumerator waitToReStartTree()
+    {
+        t.text += "\n wait until up and down prepared!: "+upServePrepare+","+downServePrepare;
+        while (!upServePrepare || !downServePrepare)
+        {
+            yield return null;
+        }
+        Debug.Log("\n finish up and down prepared!: "+upServePrepare +","+downServePrepare);
+        t.text += "\n finish up and down prepared!: "+upServePrepare +","+downServePrepare;
+        UrLController._instance.upTreeResult = "";
+        UrLController._instance.downTreeResult = "";
+        StartCoroutine(reReadDataAndStartTree());
+        
+    }
+    
+
+    IEnumerator readLostNodeFromContract(int newListIndex)
+    {
+        //t.text += "readLostNode: " + newListIndex;
+        string nodeindexFromContract = ContractInteraction._instance.newListContract[newListIndex];
+        //t.text += "nodeIndex is: " + nodeindexFromContract;
+        string nodeindex = nodeindexFromContract.Substring(1, nodeindexFromContract.Length - 2);
+        //t.text += "\n nodeindex string is: " + nodeindex;
+        int[] layerIndex = new[] { int.Parse(nodeindex.Split(",")[0]), int.Parse(nodeindex.Split(",")[1]) };
+        //t.text += "\n nodeindex int is: " + layerIndex[0]+","+layerIndex[1];
+
+        StartCoroutine(ContractInteraction._instance.Check(layerIndex[0], layerIndex[1]));
+        
+        //修改！
+
+        while (!ContractInteraction._instance.newListFinish.ContainsKey(nodeindexFromContract))
+        {
+            yield return null;
+        }
+
+        //t.text += "\n the contract info is: " + ContractInteraction._instance.newNodeInfoContract[nodeindexFromContract];
+        
+        string _layer, _ind, _father,info, creator, debuff;
+        (_layer, _ind, _father, info, creator, debuff) =
+            converToWebInfoSecVer(layerIndex[0],layerIndex[1] ,ContractInteraction._instance.newNodeInfoContract[nodeindexFromContract]);
+        //address,blockTime,blood,money,map,father
+        
+        StartCoroutine(TreeNodeDataInit._instance._insert(int.Parse(_layer),int.Parse(_ind),int.Parse(_father),info,creator,debuff));
+        //string: 1693714576,0x433e7287FEAA21fBb2D06Dd6525c98835D49C276,9440,2000,,xx,H,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,R,xx,/nn,xx,R,xx,xx,R,R,R,R,xx,xx,R,R,R,R,xx,xx,R,xx,/nn,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,/nn,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,/nn,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,/nn,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,/nn,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,xx,R,xx,/nn,xx,R,R,R,R,xx,xx,R,R,R,R,xx,xx,R,R,R,R,xx,/nn,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,/nn,0,0,0,(1,2),(0,1)
+        //        base_struct[0]["(0,1)"] = inlevel({
+        //        timestamp: block.timestamp,
+        //        owner: address(this),  
+        //        blood: 10000, 
+        //        money: 1500,
+        //        map: initial_map,
+        //        wood_protect: 0,
+        //        iron_protect: 0,
+        //        elec_protect: 0,
+        //        block_position: "(0,1)",
+        //        original_position: "null"}
+        // );
+        //"0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-20230905-0-0-0-0-1-1-10000-10000-1500-"+_map+"-0,0,0";
+        //_map = "00,H,00,00,00,00,00,00,00,00,00,00,00,00,00,00,R,00,/n,00,R,00,00,R,R,R,R,00,00,R,R,R,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,R,R,R,00,00,R,R,R,R,00,00,R,R,R,R,00,/n,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,/";
+
+    }
+    IEnumerator readLostNodeFromContractSec(int newListIndex)
+    {
+        t.text += "readLostDownNode: " + newListIndex;
+        string nodeindexFromContract = ContractInteraction._instance.newListContractSec[newListIndex];
+        string nodeindex = nodeindexFromContract.Substring(1, nodeindexFromContract.Length - 2);
+        t.text += "\n downnodeindex string is: " + nodeindex;
+        int[] layerIndex = new[] { int.Parse(nodeindex.Split(",")[0]), int.Parse(nodeindex.Split(",")[1]) };
+        t.text += "\n downnodeindex int is: " + layerIndex[0]+","+layerIndex[1];
+
+        StartCoroutine(ContractInteraction._instance.CheckSec(layerIndex[0], layerIndex[1]));
+        
+        //修改！
+
+        while (!ContractInteraction._instance.newListFinishSec.ContainsKey(nodeindexFromContract))
+        {
+            yield return null;
+        }
+
+        t.text += "\n" + ContractInteraction._instance.newNodeInfoContractSec[nodeindexFromContract];
+        
+        string _layer, _ind, _father,info, creator;
+        (_layer, _ind, _father, info, creator) =
+            converToWebInfoSecVerSec(layerIndex[0],layerIndex[1] ,ContractInteraction._instance.newNodeInfoContractSec[nodeindexFromContract],newListIndex);
+        //address,debuffWood,debuffIron,debuffElec,father
+        
+        StartCoroutine(TreeNodeDataInit._instance. _insertSec(int.Parse( _layer), int.Parse(_ind), int.Parse(_father), info, creator));
+
+    }
+
+    private (string, string, string, string, string) converToWebInfoSecVerSec(int _layer, int _index, string _baseStrucString,int indecAsTime)
+    {
+        string[] sub = _baseStrucString.Split("-");
+        string layer = _layer.ToString();
+        string index = _index.ToString();
+        string father;
+        if (sub[4] == "null" || sub[4] == "")
+        {
+            father = "0-0";
+        }
+        else
+        {
+            string[] subFatherIndex = sub[4].Split(",");
+            father = subFatherIndex[0].Substring(1, subFatherIndex[0].Length - 1)+"-"+subFatherIndex[1].Substring(0, subFatherIndex[1].Length - 1);
+        }
+        string debuff = sub[1] + "," + sub[2] + "," + sub[3];
+        string info;
+        info = sub[0] + "-" + indecAsTime.ToString() + "-" + father + "-0-" + layer + "-" + index + "-0-" + debuff;
+
+
+        return (layer, index, father.Split("-")[0], info, sub[0]);
+    }
+       
+    private (string, string, string, string, string, string) converToWebInfoSecVer(int _layer,int _index, string _baseStrucString)
+    {
+        //owner,time,blood,money,map,father
+        string[] sub = _baseStrucString.Split("-");
+        //t.text += "\n sub length" + sub.Length;
+        string layer = _layer.ToString();
+        string ind = _index.ToString();
+        string readingMap = sub[4];
+        string[] mapIndex = readingMap.Split(",");
+        //t.text +="\n"+"mapCount: "+ mapIndex.Length;
+        string map = "";
+        for (int i = 1; i < 173; i++)
+        {
+            string insert = mapIndex[i];
+            if (mapIndex[i] == "/nn")
+            {
+                insert = "/n";
+            }
+            else if (mapIndex[i] == "xx")
+            {
+                insert = "00";
+            }
+            if (i < 172)
+            {
+                map += insert + ",";
+            }
+            else
+            {
+                map += insert;
+            }
+        }
+
+        //t.text += "\n this map: " + map;
+        string createAddr = sub[0];
+        string timeBlock = sub[1];
+        string father;
+        string fatherlayerindex = sub[5];
+        if (fatherlayerindex == "null" || fatherlayerindex == "")
+        {
+            father = "0-0";
+        }
+        else
+        {
+            string[] subFatherIndex = fatherlayerindex.Split(",");
+            father = subFatherIndex[0].Substring(1, subFatherIndex[0].Length - 1)+"-"+subFatherIndex[1].Substring(0, subFatherIndex[1].Length - 1);
+        }
+        string child = "0";
+        string ismajor = "0";
+        string curHealth = sub[2];
+        string fullHealth = "10000";
+        string money = sub[3];
+        string debuff = "0,0,0";
+        map = map.Substring(0, map.Length - 1);
+        string info = createAddr + "-" + timeBlock + "-" + father + "-" + child + "-" + layer + "-" + ind +
+                      "-" + ismajor + "-" + curHealth + "-" + fullHealth + "-" + money + "-" + map + "-" + debuff;
+        
+        return (layer, ind, father.Split("-")[0], info, createAddr, debuff);
+        
+    }
+    IEnumerator checkUpdateNodeIndex(int lostNodeIndex)
+    {
+        ContractInteraction._instance.ServeLevel(lostNodeIndex);
+        while (!ContractInteraction._instance.newListContract.ContainsKey(lostNodeIndex))
+        {
+            yield return null;
+        }
+        //Ct.text += "\n" + "curUpdateIndex: "+curUpdateIndex;
+        curUpdateIndex += 1;
+    }
+    IEnumerator checkDowndateNodeIndex(int lostNodeIndex)
+    {
+        ContractInteraction._instance.ServeLevelSec(lostNodeIndex);
+        while (!ContractInteraction._instance.newListContractSec.ContainsKey(lostNodeIndex))
+        {
+            yield return null;
+        }
+        t.text += "\n" + "curDowndateIndex: "+curUpdateIndexSec;
+        curUpdateIndexSec += 1;
+    }
+    
+    
     public void ReadData()
     {
+        t.text += "start read data!";
         ReadFromWeb();
+
     }
     
     //"layer0 idx1-"
     private void ReadFromWeb()
     {
-        UrLController._instance.CheckAllUpNode();
-        UrLController._instance.CheckAllDownNode();
-        StartCoroutine(readFromWeb());
+        UrLController._instance.upTreeResult = "";
+        UrLController._instance.downTreeResult = "";
         
+        UrLController._instance.CheckAllUpNode();
+        
+        t.text += "\n"+"checking all nodes!";
+        StartCoroutine(readFromWeb());
     }
     
     IEnumerator readFromWeb()
     {
+        t.text += "\n"+"wait for up tree and down tree...!";
         while (UrLController._instance.upTreeResult.Length == 0 || UrLController._instance.downTreeResult.Length == 0)
         {
             yield return null; // 等待一帧
         }
+
+        t.text += "\n"+"finish read from web!";
         _getTreeList();
     }
     IEnumerator setNodeFromWeb()
@@ -402,7 +810,7 @@ public class GlobalVar : MonoBehaviour
         {
             yield return null; // 等待一帧
         }
-
+        
         finishUp = finishDown = 0;
         print("start get node");
         _getAllNodeList();
@@ -414,12 +822,12 @@ public class GlobalVar : MonoBehaviour
         downNodeDataList = new List<DownNodeData>();
         foreach (string _infoString in upStringResults)
         {
-
+            //t.text+="\n"+_infoString;
             string[] nodeInfo = _infoString.Split("-");
-            foreach (string _string in nodeInfo)
-            {
-                print(_string);
-            }
+            // foreach (string _string in nodeInfo)
+            // {
+            //     print(_string);
+            // }
             NodeData newNodeData = new NodeData();
             newNodeData.ownerAddr = nodeInfo[0];
             newNodeData.setUpTime = nodeInfo[1];
@@ -445,6 +853,7 @@ public class GlobalVar : MonoBehaviour
             _debuff[0] = int.Parse(debuffString[0]);
             _debuff[1] = int.Parse(debuffString[1]);
             _debuff[2] = int.Parse(debuffString[2]);
+            newNodeData.towerDebuffList = _debuff;
             newNodeData.name = newNodeData.nodeLayer.ToString() + "," + newNodeData.nodeIndex.ToString();
             nodeDataList.Add(newNodeData);
         }
@@ -472,10 +881,28 @@ public class GlobalVar : MonoBehaviour
             _debuff[0] = int.Parse(debuffString[0]);
             _debuff[1] = int.Parse(debuffString[1]);
             _debuff[2] = int.Parse(debuffString[2]);
+            newNodeData.debuffData = _debuff;
             newNodeData.name = "("+newNodeData.nodeLayer.ToString() + "," + newNodeData.nodeIndex.ToString()+")";
             downNodeDataList.Add(newNodeData);
         }
+        //sort node list by time!
+
+        // foreach (var VARIABLE in nodeDataList)
+        // {
+        //     Debug.Log(VARIABLE.setUpTime);
+        // }
+        // foreach (var VARIABLE in downNodeDataList)
+        // {
+        //     Debug.Log(VARIABLE.setUpTime);
+        // }
+        nodeDataList.Sort((node1, node2) => int.Parse(node1.setUpTime).CompareTo(int.Parse(node2.setUpTime)));
+        downNodeDataList.Sort((node1, node2) => int.Parse(node1.setUpTime).CompareTo(int.Parse(node2.setUpTime)));
+        
         nodePrepared = true;
+        totalNumOnServeUp = nodeDataList.Count;
+        totalNumOnServeDown = downNodeDataList.Count;
+        t.text +="\n nodeDataList has: "+nodeDataList.Count;
+        t.text += "\n downNodeDataList has: " + downNodeDataList.Count;
     }
 
     private void _getTreeList()
@@ -504,17 +931,17 @@ public class GlobalVar : MonoBehaviour
 
         finishUp = finishDown = 0;
         StartCoroutine(setNodeFromWeb());
-        ReadUpNodeFromWeb();
-        ReadDownNodeFromWeb();
+        StartCoroutine(ReadUpNodeFromWeb());
+        StartCoroutine(ReadDownNodeFromWeb()) ;
     }
     
-    private void ReadUpNodeFromWeb()
+    private IEnumerator ReadUpNodeFromWeb()
     {
         upStringResults = new List<string>();
         int currentIndex = 0;
         while (currentIndex < upTreeNodeLayerIndex.Count/2)
         {
-            StartCoroutine(checkUpNode(upTreeNodeLayerIndex[currentIndex*2], upTreeNodeLayerIndex[currentIndex*2+1]));
+            yield return StartCoroutine(checkUpNode(upTreeNodeLayerIndex[currentIndex*2], upTreeNodeLayerIndex[currentIndex*2+1]));
             currentIndex++;
         }
     }
@@ -530,13 +957,13 @@ public class GlobalVar : MonoBehaviour
         upStringResults.Add(result);
         finishUp++;
     }
-    private void ReadDownNodeFromWeb()
+    private IEnumerator ReadDownNodeFromWeb()
     {
         downStringResults = new List<string>();
         int currentIndex = 0;
         while (currentIndex < downTreeNodeLayerIndex.Count/2)
         {
-            StartCoroutine(checkDownNode(downTreeNodeLayerIndex[currentIndex*2], downTreeNodeLayerIndex[currentIndex*2+1]));
+            yield return (StartCoroutine(checkDownNode(downTreeNodeLayerIndex[currentIndex*2], downTreeNodeLayerIndex[currentIndex*2+1]) ));
             currentIndex++;
         }
     }
@@ -558,14 +985,22 @@ public class GlobalVar : MonoBehaviour
         List<int[]> inputList = new List<int[]>();
         inputList = SortSequence(inputTreeData);
         List<int> genList = new List<int>();
-        foreach (int[] VARIABLE in inputList)
+        foreach (int[] VARIABLE in inputList) //int[] = 0,0
         {
             if (VARIABLE.Length == 2)
             {
                 //层数，层内序号，父节点层内序号，子节点数量
                 genList.Add(VARIABLE[0]);
                 genList.Add(VARIABLE[1]);
-                NodeData curNodeData = inputTreeData.nodeDictionary[VARIABLE[0].ToString()+','+VARIABLE[1]];
+                NodeData curNodeData = new NodeData();
+                if (VARIABLE[0] == 0 && VARIABLE[1] == 0)
+                {
+                    curNodeData = inputTreeData.nodeDictionary["0,1"];
+                }
+                else
+                {
+                    curNodeData = inputTreeData.nodeDictionary[VARIABLE[0].ToString()+','+VARIABLE[1]];
+                }
                 genList.Add(curNodeData.fatherIndex);
                 genList.Add(curNodeData.childCount);
             }
@@ -588,7 +1023,15 @@ public class GlobalVar : MonoBehaviour
                 //层数，层内序号，父节点层内序号，子节点数量
                 genList.Add(VARIABLE[0]);
                 genList.Add(VARIABLE[1]);
-                DownNodeData curNodeData = inputDownTreeData.downNodeDictionary[VARIABLE[0].ToString()+','+VARIABLE[1]];
+                DownNodeData curNodeData = new DownNodeData();
+                if (VARIABLE[0] == 0 && VARIABLE[1] == 0)
+                {
+                    curNodeData = inputDownTreeData.downNodeDictionary["0,1"];
+                }
+                else
+                {
+                    curNodeData = inputDownTreeData.downNodeDictionary[VARIABLE[0].ToString()+','+VARIABLE[1]];
+                }
                 genList.Add(curNodeData.fatherIndex);
                 genList.Add(curNodeData.childCount);
             }
@@ -614,14 +1057,16 @@ public class GlobalVar : MonoBehaviour
             else
                 return x[1].CompareTo(y[1]);
         });
+        t.text += "\n+ " + sequence;
         return sequence;
     }
     private List<int[]> SortSequence(TreeData curTreeData)
     {
         List<int[]> sequence = new List<int[]>();
-        foreach (string key in treeData.nodeDictionary.Keys)
+        foreach (string key in treeData.nodeDictionary.Keys) //"0,1"
         {
-            int[] indexPair = convertStrInt(key);
+            Debug.Log(key);
+            int[] indexPair = convertStrInt(key); //int[] = 0,0
             sequence.Add(indexPair);
         }
         sequence.Sort((x, y) =>
@@ -631,6 +1076,14 @@ public class GlobalVar : MonoBehaviour
             else
                 return x[1].CompareTo(y[1]);
         });
+        foreach (var VARIABLE in sequence)
+        {
+            foreach (var _VARIABLE in VARIABLE)
+            {
+                GlobalVar._instance.t.text += "-" +_VARIABLE;
+            }
+        }
+        
         return sequence;
     }
     private int[] convertStrInt(string layerIndex)
@@ -645,16 +1098,21 @@ public class GlobalVar : MonoBehaviour
         {
             int layer;
             int index;
+
             if (int.TryParse(parts[0], out layer) && int.TryParse(parts[1], out index))
             {
+                if (layer == 0 && index == 1)
+                {
+                    layer = 0;
+                    index = 0;
+                }
                 genList.Add(layer);
                 genList.Add(index);
-                
             }
         }
         else
         {
-            Debug.LogError("树的key结构不正确!");
+            Debug.LogError("key of tree is not right!");
         }
         return genList.ToArray();
     }
@@ -748,6 +1206,16 @@ public class GlobalVar : MonoBehaviour
     }
     IEnumerator LoadLeaver(string sceneName)
     {
+        if (sceneName == "1_0_HomePage" || sceneName == "1_1_SecHomePage")
+        {
+            finalNodePrepared = false;
+        }
+        else if(sceneName == "3_1_SecGamePlay"|| sceneName == "3_0_GamePlay")
+        {
+            //CurNodeDataSummary._instance._initData = false;
+            CurNodeDataSummary._instance.gamePlayInitData = false;
+        }
+        
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         while (!operation.isDone)
         {
@@ -758,10 +1226,6 @@ public class GlobalVar : MonoBehaviour
         if (sceneName == "1_0_HomePage" || sceneName == "1_1_SecHomePage")
         {
             StartCoroutine(ReStart());
-        }
-        else if (sceneName == "3_1_SecGamePlay"|| sceneName == "3_0_GamePlay")
-        {
-            CurNodeDataSummary._instance._initData = false;
         }
     }
     

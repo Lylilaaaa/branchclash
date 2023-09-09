@@ -11,13 +11,16 @@ public class HomePageSelectUI : MonoBehaviour
     private Transform _InformationMessage;
     private Transform _upTreeNum;
     private Transform _downTreeNum;
-    private bool _nodeFinish=false;
+    public bool _nodeFinish=false;
+    private bool hasCheckYourNode = false;
     private bool _messageFinish = false;
     private bool _messageFix = false;
     private bool _treeNumFinish = false;
     
     public Sprite yellowImage;
+    public Sprite blueImage;
     public Sprite pinkImage;
+    public Sprite redImage;
     public List<NodeData> yourNode;
     public List<DownNodeData> yourDownNode;
     public TextMeshProUGUI textMeshPro;
@@ -30,17 +33,19 @@ public class HomePageSelectUI : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        Debug.Log("=============RESET HOMEPAGESELCTUI================");
         _nodeFinish=false;
         _messageFinish = false;
         _messageFix = false;
         _treeNumFinish = false;
+        hasCheckYourNode = false;
         _myNode = transform.GetChild(0).GetChild(1);
         _InformationMessage = transform.GetChild(0).GetChild(2);
         _upTreeNum = transform.GetChild(0).GetChild(3);
         _downTreeNum = transform.GetChild(0).GetChild(4);
         yourNode = new List<NodeData>();
         yourDownNode = new List<DownNodeData>();
-        hintPanal.SetActive(false);
+       hintPanal.SetActive(false); 
     }
 
     private void Update()
@@ -55,31 +60,34 @@ public class HomePageSelectUI : MonoBehaviour
                 }
             }
 
-            if (GlobalVar._instance.nodeDataList.Count != 0 && _nodeFinish == false && GlobalVar._instance.role == 0)
+            if (GlobalVar._instance.nodeDataList.Count != 0 && _nodeFinish == false && GlobalVar._instance.role == 0 && GlobalVar._instance.finalNodePrepared &&!hasCheckYourNode )
             {
-                print("init Nodes");
+                GlobalVar._instance.t.text+= "\n init Nodes";
+                Debug.Log("=====================Re Init Your Nodes=======================");
+                yourNode.Clear();
                 _checkYourNode();
-                _initYourNodeUI();
-                _nodeFinish = true;
+                hasCheckYourNode = true;
             }
             else if (GlobalVar._instance.downNodeDataList.Count != 0 && _nodeFinish == false &&
-                     GlobalVar._instance.role == 1)
+                     GlobalVar._instance.role == 1 && GlobalVar._instance.finalNodePrepared && !hasCheckYourNode)
             {
-                print("init downNodes");
+                GlobalVar._instance.t.text+= "\n init down Nodes";
+                Debug.Log("=====================Re Init Your DOWN Nodes=======================");
+                yourDownNode.Clear();
                 _checkYourDownNode();
-                _initYourDownNodeUI();
-                _nodeFinish = true;
+                hasCheckYourNode = true;
             }
         
         
-            if (GlobalVar._instance.nodeDataList.Count != 0 && _messageFinish == false)
+            if (GlobalVar._instance.nodeDataList.Count != 0 && _messageFinish == false && GlobalVar._instance.finalNodePrepared)
             {
+                GlobalVar._instance.t.text+= "\n init message";
                 _InformationMessage.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Day: "+System.DateTime.Now.Day+"  Month: "+System.DateTime.Now.Month+"  Year: "+System.DateTime.Now.Year;
                 _InformationMessage.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = messagesShown();
                 _showMessageFix();
                 _messageFinish = true;
             }
-            if (GlobalVar._instance.nodeDataList.Count != 0 && _treeNumFinish == false)
+            if (GlobalVar._instance.nodeDataList.Count != 0 && _treeNumFinish == false && GlobalVar._instance.finalNodePrepared)
             {
                 int upTreeNum = GlobalVar._instance.maxLevelTree;
                 int downTreeNum = GlobalVar._instance.maxLevelTreeDown;
@@ -110,12 +118,45 @@ public class HomePageSelectUI : MonoBehaviour
     private string messagesShown()
     {
         string finalString = "";
-        foreach (NodeData node in GlobalVar._instance.nodeDataList)
+        if (GlobalVar._instance.role == 0)
         {
-            int stringCounted = node.ownerAddr.Length;
-            finalString = finalString + node.ownerAddr.Substring(0, 5) + "..." +
-                          node.ownerAddr.Substring(stringCounted - 3, 3)+" created the "+node.nodeIndex+stndrdth(node.nodeIndex)+ " node on the "+node.nodeLayer+stndrdth(node.nodeLayer)+" layer of the upright tree.\n";
+            int endIndex = Math.Max(GlobalVar._instance.nodeDataList.Count - 5, 0);
+            for (int i = GlobalVar._instance.nodeDataList.Count - 1; i >= endIndex; i--)
+            {
+                NodeData node = GlobalVar._instance.nodeDataList[i];
+                int stringCounted = node.ownerAddr.Length;
+                finalString = finalString + node.ownerAddr.Substring(0, 5) + "..." +
+                              node.ownerAddr.Substring(stringCounted - 3, 3)+" created the "+node.nodeIndex+stndrdth(node.nodeIndex)+ " node on the "+node.nodeLayer+stndrdth(node.nodeLayer)+" layer of tree trunk.\n";
+            }
+            endIndex = Math.Max( GlobalVar._instance.downNodeDataList.Count - 5, 0);
+            for (int i = GlobalVar._instance.downNodeDataList.Count - 1; i >= endIndex; i--)
+            {
+                DownNodeData node = GlobalVar._instance.downNodeDataList[i];
+                int stringCounted = node.ownerAddr.Length;
+                finalString = finalString + node.ownerAddr.Substring(0, 5) + "..." +
+                              node.ownerAddr.Substring(stringCounted - 3, 3)+" created the "+node.nodeIndex+stndrdth(node.nodeIndex)+ " node on the "+node.nodeLayer+stndrdth(node.nodeLayer)+" layer of tree root.\n";
+            }
         }
+        else
+        {
+            int endIndex = Math.Max(GlobalVar._instance.nodeDataList.Count - 5, 0);
+            for (int i = GlobalVar._instance.nodeDataList.Count - 1; i >= endIndex; i--)
+            {
+                NodeData node = GlobalVar._instance.nodeDataList[i];
+                int stringCounted = node.ownerAddr.Length;
+                finalString = finalString + "Worm "+ node.ownerAddr.Substring(0, 5) + "..." +
+                              node.ownerAddr.Substring(stringCounted - 3, 3)+" created the "+node.nodeIndex+stndrdth(node.nodeIndex)+ " node on the "+node.nodeLayer+stndrdth(node.nodeLayer)+" layer of tree trunk.\n";
+            }
+            endIndex = Math.Max( GlobalVar._instance.downNodeDataList.Count - 5, 0);
+            for (int i = GlobalVar._instance.downNodeDataList.Count - 1; i >= endIndex; i--)
+            {
+                DownNodeData node = GlobalVar._instance.downNodeDataList[i];
+                int stringCounted = node.ownerAddr.Length;
+                finalString = finalString + node.ownerAddr.Substring(0, 5) + "..." +
+                              node.ownerAddr.Substring(stringCounted - 3, 3)+" created the "+node.nodeIndex+stndrdth(node.nodeIndex)+ " node on the "+node.nodeLayer+stndrdth(node.nodeLayer)+" layer of tree root.\n";
+            }
+        }
+
         //0xb3a...890 created the 4th node on the 4th layer of the upright tree.
         return finalString;
     }
@@ -162,25 +203,28 @@ public class HomePageSelectUI : MonoBehaviour
     }
     private void _checkYourNode()
     {
-        yourNode.Clear();
         foreach (NodeData node in GlobalVar._instance.nodeDataList)
         {
-            if (node.ownerAddr == GlobalVar._instance.thisUserAddr)
+            GlobalVar._instance.t.text += "(" + node.nodeLayer.ToString()+"," + node.nodeIndex + "):" + node.ownerAddr +"\n And my addr is:"+GlobalVar._instance.thisUserAddr;
+            if (node.ownerAddr.ToUpper() == GlobalVar._instance.thisUserAddr.ToUpper())
             {
                 yourNode.Add(node);
             }
         }
+        Debug.Log(yourNode.Count+"______your Node Count!" );
+        _initYourNodeUI();
     }
     private void _checkYourDownNode()
     {
-        yourDownNode.Clear();
         foreach (DownNodeData node in GlobalVar._instance.downNodeDataList)
         {
-            if (node.ownerAddr == GlobalVar._instance.thisUserAddr)
+            if (node.ownerAddr.ToUpper() == GlobalVar._instance.thisUserAddr.ToUpper())
             {
                 yourDownNode.Add(node);
             }
         }
+        Debug.Log(yourDownNode.Count+"______your downNode" );
+        _initYourDownNodeUI();
     }
 
     public void ZoomX_X(string name)
@@ -205,9 +249,14 @@ public class HomePageSelectUI : MonoBehaviour
         foreach (NodeData node in yourNode)
         {
             GameObject thisNode = Instantiate(yourNodePrefab, yourNodeInitPos);
+            print("init your node UI: "+node.nodeLayer+","+node.nodeIndex);
             if (node.isMajor == true)
             {
                 thisNode.transform.GetChild(0).GetComponent<Image>().sprite = yellowImage;
+            }
+            else
+            {
+                thisNode.transform.GetChild(0).GetComponent<Image>().sprite = blueImage;
             }
             thisNode.transform.localPosition = new Vector3(0, yPos, 0);
             thisNode.transform.localRotation = Quaternion.identity;
@@ -218,6 +267,7 @@ public class HomePageSelectUI : MonoBehaviour
             thisNode.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Node: "+layerNode[1];
             yPos -= 20f;
         }
+        _nodeFinish = true;
     }
     private void _initYourDownNodeUI()
     {
@@ -225,9 +275,14 @@ public class HomePageSelectUI : MonoBehaviour
         foreach (DownNodeData node in yourDownNode)
         {
             GameObject thisNode = Instantiate(yourDownNodePrefab, yourNodeInitPos);
+            print("init your down node UI: "+node.nodeLayer+","+node.nodeIndex);
             if (node.isMajor == true)
             {
                 thisNode.transform.GetChild(0).GetComponent<Image>().sprite = pinkImage;
+            }
+            else
+            {
+                thisNode.transform.GetChild(0).GetComponent<Image>().sprite = redImage;
             }
             thisNode.transform.localPosition = new Vector3(0, yPos, 0);
             thisNode.transform.localRotation = Quaternion.identity;
@@ -239,6 +294,7 @@ public class HomePageSelectUI : MonoBehaviour
             thisNode.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Node: "+layerNode[1];
             yPos -= 20f;
         }
+        _nodeFinish = true;
     }
     
     public void ChangeName()

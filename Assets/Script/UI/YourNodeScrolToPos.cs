@@ -10,6 +10,8 @@ public class YourNodeScrolToPos : MonoBehaviour
 
     private float targetXPosition = 0f;
     private int childCount;
+
+    public HomePageSelectUI hpUI;
     
 
     private void Awake()
@@ -17,12 +19,17 @@ public class YourNodeScrolToPos : MonoBehaviour
         childCount = transform.GetChild(0).childCount-1;
         scrollRect = GetComponent<ScrollRect>();
         UpdateScrollPosition();
+
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        childCount = transform.GetChild(0).childCount-1;
-        UpdateScrollPosition();
+        if (GlobalVar._instance.finalNodePrepared && hpUI._nodeFinish)
+        {
+            childCount = transform.GetChild(0).childCount-1;
+            UpdateScrollPosition();
+        }
+
     }
 
     private void UpdateScrollPosition()

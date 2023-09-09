@@ -11,9 +11,13 @@ public class UIPanalManager : MonoBehaviour
     public TextMeshProUGUI moneyTMP;
     public int money;
     public TowerBuilder tp;
+    public GameObject hintHint;
+    public GameObject hintPanal;
+    public bool isNew;
 
     public void ReStart()
     {
+        hintPanal.SetActive(false);
         AddPanal.SetActive(false);
         MergePanel.SetActive(false);
         money = GlobalVar._instance.chosenNodeData.money;
@@ -23,6 +27,7 @@ public class UIPanalManager : MonoBehaviour
     }
     private void Start()
     {
+        isNew = true;
         ReStart();
     }
 
@@ -80,6 +85,21 @@ public class UIPanalManager : MonoBehaviour
         tp.mergeFromPos = new List<int>();
         tp.mergeToPos = new List<int>();
         tp.mergeChosen = false;
+    }
+    public void hintHintFlicker()
+    {
+        hintHint.SetActive(false);
+    }
+    public void OpenHintPanal()
+    {
+        hintPanal.SetActive(true);
+        hintHint.SetActive(false);
+    }
+    public void CloseHintPanal()
+    {
+        hintPanal.SetActive(false);
+        //print(GlobalVar._instance.thisUserAddr);
+        isNew = false;
     }
     
 

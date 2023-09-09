@@ -21,6 +21,7 @@ public class TypeWriterDemo3 : MonoBehaviour
     
     private void Awake()
     {
+        Debug.Log("==========end scene reloaded!============");
         SoundManager._instance.StopMusicSound();
         isTyping = false;
         egReloader.endButton.interactable = false;

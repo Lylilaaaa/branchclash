@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections;
-
 
 
 public class ViewingDebuffProtect_Home : MonoBehaviour
@@ -17,6 +15,7 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
     public Slider proIron;
     public Slider proElec;
     public CursorOutlinesDown cursorOLDown;
+    public string[][] _mapStruct;
     
     public enum debuffSlidesType
     {
@@ -37,7 +36,14 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
     public Image[] debuffSliderImage;
 
     public float fillSpeedDebuff = 1f;
-    public float fillSpeedProtect = 1f;
+    public float fillSpeedProtect = 1f;   
+    public Dictionary<int,int> woodCount; //grade, count
+    public Dictionary<int,int> ironCount;
+    public Dictionary<int,int> elecCount;
+    public Dictionary<int,int> wproCount;
+    public Dictionary<int,int> iproCount;
+    public Dictionary<int,int> eproCount; 
+
     
     void Start()
     {
@@ -52,7 +58,7 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GlobalVar._instance.dataPrepared == true)
+        if (GlobalVar._instance.finalNodePrepared&&cursorOLDown.correspondMajorNodeData != null && cursorOLDown.majorDownNodeData!= null)
         {
             if (thisSlideType == debuffSlidesType.Current)
             {
@@ -63,31 +69,65 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
                 _debufflist = cursorOLDown.majorDownNodeData.debuffData;
             }
         }
-        if (cursorOLDown._canDisappear == true)
+
+        if (!cursorOLDown._canDisappear && !_counted && cursorOLDown.correspondMajorNodeData != null && cursorOLDown.majorDownNodeData!= null ) 
         {
-            _counted = false;
-        }
-        
-        if (CurNodeDataSummary._instance._initData == true && cursorOLDown._canDisappear ==false &&_counted == false)
-        {
-            //print("slides moving...");
             _counted = true;
             if (thisSlideType == debuffSlidesType.Current)
             {
                 CurNodeDataSummary._instance.curDebuffList = _debufflist; 
-                CurNodeDataSummary._instance.debuffList = _debufflist; 
+                Debug.Log("Cur curDebuffList is: "+CurNodeDataSummary._instance.curDebuffList[0]+","+CurNodeDataSummary._instance.curDebuffList[1]+","+CurNodeDataSummary._instance.curDebuffList[2]);
             }
             else
             {
                 CurNodeDataSummary._instance.majorDebuffList = _debufflist; 
+                Debug.Log("MajorDebuffList is: "+CurNodeDataSummary._instance.majorDebuffList[0]+","+CurNodeDataSummary._instance.majorDebuffList[1]+","+CurNodeDataSummary._instance.majorDebuffList[2]);
             }
+            _getMapmapList(cursorOLDown.correspondMajorNodeData.mapStructure);
+            (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) =  CurNodeDataSummary._instance._checkTypeIndex(_mapStruct);
+            int[] towerCount = new int[3];
+            int[] protectCount = new int[3];
+            foreach (var VARIABLE in woodCount.Keys)
+            {
+                towerCount[0] += woodCount[VARIABLE];
+            }
+            foreach (var VARIABLE in ironCount.Keys)
+            {
+                towerCount[1] += ironCount[VARIABLE];
+            }
+            foreach (var VARIABLE in elecCount.Keys)
+            {
+                towerCount[2] += elecCount[VARIABLE];
+            }
+            foreach (var VARIABLE in wproCount.Keys)
+            {
+                protectCount[0] +=wproCount[VARIABLE];
+            }
+            foreach (var VARIABLE in iproCount.Keys)
+            {
+                protectCount[1] += iproCount[VARIABLE];
+            }
+            foreach (var VARIABLE in eproCount.Keys)
+            {
+                protectCount[2] += eproCount[VARIABLE];
+            }
+            weaponTotalBlood = CurNodeDataSummary._instance.GetMainMaxWeaponLevelBlood(woodCount, ironCount, elecCount);
+            Debug.Log("weaponTotalBlood: "+weaponTotalBlood[0]+", "+weaponTotalBlood[1]+", "+weaponTotalBlood[2]);
 
-            weaponTotalBlood = CurNodeDataSummary._instance.GetMainMaxWeaponLevelBlood();
-            weaponTotalProtect = CurNodeDataSummary._instance.GetMainProtectBlood();
-            
-            CurNodeDataSummary._instance.weaponBloodList = weaponTotalBlood;
-            CurNodeDataSummary._instance.protectList = weaponTotalProtect;
-            
+            float[] debuffPresentage = new float[3];
+            for (int i = 0; i < 3; i++)
+            {
+                if (weaponTotalBlood[i] != 0)
+                {
+                    debuffPresentage[i] = (float)_debufflist[i] / (float)weaponTotalBlood[i];
+                }
+                else
+                {
+                    debuffPresentage[i] = 1;
+                } 
+            }
+            weaponTotalProtect =  CurNodeDataSummary._instance.GetMainProtectBlood(wproCount, iproCount, eproCount);
+            Debug.Log("weaponTotalProtect: "+weaponTotalProtect[0]+", "+weaponTotalProtect[1]+", "+weaponTotalProtect[2]);
             debuffWood.maxValue = 1;
             debuffIron.maxValue = 1;
             debuffElec.maxValue = 1;
@@ -104,7 +144,42 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
         }
     }
 
+    private void _getMapmapList(string mapmapString)
+    {
+        string totalString = mapmapString;
+        string[] rows = totalString.Split("/n");
+        string[][] stringList = new string[rows.Length][];
+        for (int i = 0; i < rows.Length; i++)
+        {
+            stringList[i] = rows[i].Split(',');
+        }
+        for (int i = 0; i < stringList.Length / 2; i++)
+        {
+            string[] temp = stringList[i];
+            stringList[i] = stringList[stringList.Length - 1 - i];
+            stringList[stringList.Length - 1 - i] = temp;
+        }
+        
+        for (int i = 0; i < stringList.Length; i++)
+        {
+            if (stringList[i] != null)
+            {
+                string[] row = stringList[i];
+                List<string> newRow = new List<string>();
 
+                for (int j = 0; j < row.Length; j++)
+                {
+                    if (row[j] != null&&row[j] != "")
+                    {
+                        newRow.Add(row[j]);
+                    }
+                }
+                // ????????
+                stringList[i] = newRow.ToArray();
+            }
+        }
+        _mapStruct = stringList;
+    }
 
     private void _doWithSlides(int index, Slider debufSlider, Slider protectSlider)
     {
@@ -125,7 +200,7 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
             }
             
             //print(CurNodeDataSummary._instance.debuffListData[index] );
-            if (_debufflist[index] != 0) //wood有血，有debuff
+            if (_debufflist[index] != 0) //wood???????debuff
             {
                 if (thisSlideType == debuffSlidesType.Current)
                 {
@@ -137,9 +212,9 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
                 }
                 StartCoroutine(FillProgressBar(debufSlider,temp,index));
             }
-            else //wood有血，没有debuff
+            else //wood????????debuff
             {
-                if (weaponTotalProtect[index] != 0) //wood有血，没有debuff，有protect
+                if (weaponTotalProtect[index] != 0) //wood????????debuff????protect
                 {
                     Color tempColor = debuffSliderImage[index].color;
                     tempColor.a = 0;
@@ -155,7 +230,7 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
                     }
                     //CurNodeDataSummary._instance.protecListData[index] = 1;
                 }
-                else //wood有血，没有debuff，没有protect
+                else //wood????????debuff?????protect
                 {
                     Color tempColor = debuffSliderImage[index].color;
                     tempColor.a = 1;
@@ -172,7 +247,7 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
                 }
             }
         }
-        else //没有血
+        else //????
         {
             if (thisSlideType == debuffSlidesType.Current)
             {
@@ -183,7 +258,7 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
                 CurNodeDataSummary._instance.majorDebuffListData[index] = 0; 
             }
             //CurNodeDataSummary._instance.debuffListData[index] = 0;
-            if (_debufflist[index] != 0) //没有血，有debuff
+            if (_debufflist[index] != 0) //????????debuff
             {
                 if (thisSlideType == debuffSlidesType.Current)
                 {
@@ -196,9 +271,9 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
                 //CurNodeDataSummary._instance.debuffListData[index] = 1;
                 StartCoroutine(FillProgressBar(debufSlider,1,index));
             }
-            else //没有血，没有debuff
+            else //?????????debuff
             {
-                if (weaponTotalProtect[index] != 0) //没有血，没有debuff，有protect
+                if (weaponTotalProtect[index] != 0) //?????????debuff????protect
                 {
                     Color tempColor = debuffSliderImage[index].color;
                     tempColor.a = 0;
@@ -244,7 +319,7 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
         {
             //print(slider.value);
             //print(slider.gameObject.transform.name+" value is: "+slider.value);
-            slider.value += fillSpeedDebuff * Time.deltaTime; // 增加Slider的值
+            slider.value += fillSpeedDebuff * Time.deltaTime; // ????Slider???
             
             yield return new WaitForSeconds(0.01f);
         }
@@ -277,7 +352,7 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
         {
             //print(slider.value);
             //print(slider.gameObject.transform.name+" value is: "+slider.value);
-            slider.value += fillSpeedProtect * Time.deltaTime; // 增加Slider的值
+            slider.value += fillSpeedProtect * Time.deltaTime; // ????Slider???
             
             yield return new WaitForSeconds(0.01f);
         }

@@ -3,6 +3,10 @@ mergeInto(LibraryManager.library, {
     window.web3gl.connect();
   },
 
+  ChangeNetwork: function (value) {
+    window.web3ChainId=value;
+  },
+
   ConnectAccount: function () {
     var bufferSize = lengthBytesUTF8(window.web3gl.connectAccount) + 1;
     var buffer = _malloc(bufferSize);

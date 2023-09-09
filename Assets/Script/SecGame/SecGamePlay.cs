@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class SecGamePlay : MonoBehaviour
 {
     [Header("=====AudioSetting=====")] 
     public AudioClip pushSound;
+
+    private bool hasPush;
     
 
     [Header("=====ObjectSetting=====")] 
@@ -17,12 +18,13 @@ public class SecGamePlay : MonoBehaviour
     void Awake()
     {
         SoundManager._instance.PlayMusicSound(SoundManager._instance.secGamePlayBackSound,true,0.5f);
+        hasPush = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !hasPush)
         {
             Vector3 mousePosition = Input.mousePosition;
             Ray ray = Camera.main.ScreenPointToRay(mousePosition);
@@ -38,7 +40,8 @@ public class SecGamePlay : MonoBehaviour
                     if (_collider.gameObject == collider.gameObject)
                     {
                         _pushDebuff(i);
-                        break;
+                        hasPush = true;
+                        return;
                     }
                 }
             }

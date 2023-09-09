@@ -514,7 +514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: fca6ad1789c23fa4784b66b115d0fd66, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9098039, g: 0.20784314, b: 0.18039216, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1899,7 +1899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: fca6ad1789c23fa4784b66b115d0fd66, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9098039, g: 0.20784314, b: 0.18039216, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3359,7 +3359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: fca6ad1789c23fa4784b66b115d0fd66, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9098039, g: 0.20784314, b: 0.18039216, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4522,6 +4522,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisNodeData: {fileID: 0}
+  corrDownNodeData: {fileID: 0}
+  _slidesParent: {fileID: 0}
+  _textViewingParent: {fileID: 0}
+  _bloodSlider: {fileID: 0}
+  _debuffSlider: []
+  _basicInfo: []
+  _debuffTower: []
+  _towerNum: []
+  _protectNum: []
+  _enterNextBut: {fileID: 0}
+  _hasInit: 0
 --- !u!1 &731813519119542016
 GameObject:
   m_ObjectHideFlags: 0
@@ -7456,9 +7467,9 @@ MonoBehaviour:
   mouseEnter: 0
   _canDisappear: 1
   cursorZoomIn: 0
+  olWithoutMouse: 0
   previewLevelInfoPenal: {fileID: 554392729410950536}
   cameraPos: {fileID: 724817218}
-  olWithoutMouse: 0
 --- !u!1 &4251796401771834396
 GameObject:
   m_ObjectHideFlags: 0

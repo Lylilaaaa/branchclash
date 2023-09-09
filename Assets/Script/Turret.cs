@@ -49,9 +49,13 @@ public class Turret : MonoBehaviour
 
     private void Update()
     {
+        //Debug.Log("weapon type: "+ gpCurSorOutline.weaponType);
+        //Debug.Log("init data: "+ CurNodeDataSummary._instance._initData);
         if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && dataInit == false &&
-            gpCurSorOutline.weaponType != "" && CurNodeDataSummary._instance._initData == true)
+            gpCurSorOutline.weaponType != "" && CurNodeDataSummary._instance._initData)
         {
+            
+            Debug.Log("Start to fire enmey");
             if (gpCurSorOutline.weaponType == "wood" || gpCurSorOutline.weaponType == "iron")
             {
                 if (!gpCurSorOutline.attackColliderCondition.activeSelf)
@@ -130,6 +134,7 @@ public class Turret : MonoBehaviour
     
     public void _onTriggerEnter(Transform addedTransform)
     {
+        Debug.Log("trigger enter!"+ addedTransform.name);
         if (!targetList.Contains(addedTransform))
         {
             targetList.Add(addedTransform);
@@ -137,6 +142,7 @@ public class Turret : MonoBehaviour
     }
     public void _onTriggerExit(Transform removeTransform)
     {
+        Debug.Log("trigger Exit!"+ removeTransform.name);
         if (targetList.Contains(removeTransform))
         {
             targetList.Remove(removeTransform);

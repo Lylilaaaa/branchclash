@@ -7,12 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class CursorOutlines : MonoBehaviour
 {
-    // private GameObject outlineGbj;
-    // private Renderer outline_render;
-    //
-    // public Material outlineMat_0;
-    // public Material outlineMat_1;
-
     [Header("=====Set by runtime=====")]
     public NodeData thisNodeData;
     public DownNodeData correspondMajorDownNodeData;
@@ -42,15 +36,16 @@ public class CursorOutlines : MonoBehaviour
     {
         //print("setdata!" + transform.name);
         string[] layerIndex = transform.name.Split('-');
-        if (layerIndex.Length == 2 )
+        if (layerIndex.Length == 2)
         {
             int layer =  int.Parse(layerIndex[0]);
             int index = int.Parse(layerIndex[1]);
-            if (layer == 0 && index == 0)
+            if (layer == 0 && index == 1)
             {
                 previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData = GlobalVar._instance.treeData.InitNodeData;
                 thisNodeData = GlobalVar._instance.treeData.InitNodeData;
                 correspondMajorDownNodeData = _checkUpNodeMain(layer);
+                previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().corrDownNodeData = correspondMajorDownNodeData;
             }
             else
             {
@@ -61,6 +56,7 @@ public class CursorOutlines : MonoBehaviour
                         previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().thisNodeData = nodeDataGlobal;
                         thisNodeData = nodeDataGlobal;
                         correspondMajorDownNodeData = _checkUpNodeMain(layer);
+                        previewLevelInfoPenal.GetComponent<LevelInfoDataViewing>().corrDownNodeData = correspondMajorDownNodeData;
                     }
                 }
             }
@@ -77,11 +73,10 @@ public class CursorOutlines : MonoBehaviour
         {
             _setThisData();
         }
-        
         ZoomCertainNode();
-        if (mouseEnter == true)
+        if (mouseEnter)
         {
-            if (Input.GetMouseButtonDown(0) && _canDisappear == true)
+            if (Input.GetMouseButtonDown(0) && _canDisappear)
             {
                 _canDisappear = false;
                 cursorZoomIn = true;
@@ -96,7 +91,7 @@ public class CursorOutlines : MonoBehaviour
                 }
             }
         }
-        if (cursorZoomIn == true)
+        if (cursorZoomIn)
         {
             cursorZoomIn = false;
             Camera.main.gameObject.GetComponent<CameraController>().LookUpNode(transform);
