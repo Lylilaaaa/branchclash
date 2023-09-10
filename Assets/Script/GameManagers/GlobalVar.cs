@@ -84,7 +84,6 @@ public class GlobalVar : MonoBehaviour
 
     [Header("--------GameObjSetting--------")]
     public GameObject loadingGameObj;
-
     public TextMeshProUGUI t;
 
     public enum GameState
@@ -169,6 +168,7 @@ public class GlobalVar : MonoBehaviour
         CurNodeDataSummary._instance.ReStart();
         
         dataPrepared = true;
+        loadingGameObj.SetActive(false);
     }
 
     private void Update()
@@ -411,7 +411,6 @@ public class GlobalVar : MonoBehaviour
         }
         return null;
     }
-
     public void UpLoadDataFromContract()
     {
         t.text += "\n checking new nodes from up and down contracts!";
@@ -421,8 +420,6 @@ public class GlobalVar : MonoBehaviour
         StartCoroutine(checkServeNum());
         StartCoroutine(waitToReStartTree());
     }
-    
-    
     IEnumerator checkServeNum()
     {
         t.text += "\n checking num...";
@@ -442,6 +439,7 @@ public class GlobalVar : MonoBehaviour
             upServePrepare = false;
             downServePrepare = true;
             StartCoroutine(confirmUpdate());
+           loadingGameObj.transform.GetChild(1).GetComponent<Slider>().maxValue =1f;
         }
         else if (ContractInteraction._instance.numOnContract-(totalNumOnServeUp) == 0 && ContractInteraction._instance.numOnContractSec-(totalNumOnServeDown) > 0)
         {
@@ -449,6 +447,7 @@ public class GlobalVar : MonoBehaviour
             upServePrepare = true;
             downServePrepare = false;
             StartCoroutine(confirmDowndate());
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().maxValue =1f;
         }
         else if (ContractInteraction._instance.numOnContract - (totalNumOnServeUp) > 0 &&
                  ContractInteraction._instance.numOnContractSec - (totalNumOnServeDown) > 0)
@@ -457,6 +456,7 @@ public class GlobalVar : MonoBehaviour
             upServePrepare = false;
             downServePrepare = false;
             StartCoroutine(confirmUpdate());
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().maxValue =2f;
         }
         else if (ContractInteraction._instance.numOnContract==(totalNumOnServeUp))
         {
@@ -465,43 +465,47 @@ public class GlobalVar : MonoBehaviour
             t.text += "\n" + "do not need to update the down and up nodes in serve!";
         }
     }
-
     IEnumerator confirmDowndate()
     {
         print("total num on serve down is: "+totalNumOnServeDown);
         needToCheckListSec = new int[ContractInteraction._instance.numOnContractSec - totalNumOnServeDown];
+        int needtoupdate = ContractInteraction._instance.numOnContractSec - (totalNumOnServeDown);
+        print("new node needed to be updated on serve down is: "+ needtoupdate);
         curUpdateIndexSec = 0;
         for (int i = 0; i < ContractInteraction._instance.numOnContractSec - (totalNumOnServeDown); i++)
         {
             needToCheckListSec[i] = i+(totalNumOnServeDown + 1 - 1-1);
-            t.text += "\n" + "start check downdate node index"+needToCheckListSec[i];
-            StartCoroutine(checkDowndateNodeIndex(needToCheckListSec[i]));
+            //t.text += "\n" + "start check downdate node index"+needToCheckListSec[i];
+            yield return StartCoroutine(checkDowndateNodeIndex(needToCheckListSec[i]));
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value =curUpdateIndexSec/(ContractInteraction._instance.numOnContractSec - (totalNumOnServeDown));
         }
-        while (curUpdateIndexSec != ContractInteraction._instance.numOnContractSec - (totalNumOnServeDown))
-        {
-            yield return null;
-        }
+        // while (curUpdateIndexSec != ContractInteraction._instance.numOnContractSec - (totalNumOnServeDown))
+        // {
+        //     yield return null;
+        // }
         t.text += "\n" + "finish down check!";
         StartCoroutine(insertToWebFromContractSec());
 
     }
-
     IEnumerator confirmUpdate()
     {   
         print("total num on serve up is: "+totalNumOnServeUp);
         needToCheckList = new int[ContractInteraction._instance.numOnContract-(totalNumOnServeUp)];
+        int needtoupdate = ContractInteraction._instance.numOnContract - (totalNumOnServeUp);
+        print("new node needed to be updated on serve up is: "+ needtoupdate);
         curUpdateIndex = 0;
         for (int i = 0; i < ContractInteraction._instance.numOnContract - (totalNumOnServeUp); i++)
         {
             needToCheckList[i] = i+(totalNumOnServeUp + 1 - 1-1);
             //t.text += "\n" + "start check update node index"+needToCheckList[i];
-            StartCoroutine(checkUpdateNodeIndex(needToCheckList[i]));
+            yield return StartCoroutine(checkUpdateNodeIndex(needToCheckList[i]));
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value =curUpdateIndex/(ContractInteraction._instance.numOnContract - (totalNumOnServeUp));
         }
 
-        while (curUpdateIndex != ContractInteraction._instance.numOnContract - (totalNumOnServeUp))
-        {
-            yield return null;
-        }
+        // while (curUpdateIndex != ContractInteraction._instance.numOnContract - (totalNumOnServeUp))
+        // {
+        //     yield return null;
+        // }
         t.text += "\n" + "finish check update up node!";
         StartCoroutine(insertToWebFromContract());
 
@@ -514,10 +518,12 @@ public class GlobalVar : MonoBehaviour
         TreeNodeDataInit._instance.insertCount = new List<int>();
         ContractInteraction._instance.newNodeInfoContract.Clear();
         int currentIndex = 0;
+        loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value =0;
         while (currentIndex < needToCheckList.Length)
         {
             yield return StartCoroutine(readLostNodeFromContract(needToCheckList[currentIndex]));
             currentIndex++;
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value +=(1/needToCheckList.Length);
         }
 
         StartCoroutine(waitTillInsertFinish());
@@ -546,11 +552,13 @@ public class GlobalVar : MonoBehaviour
         TreeNodeDataInit._instance.insertCountSec = new List<int>();
         ContractInteraction._instance.newNodeInfoContractSec.Clear();
         int currentIndex = 0;
+        loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value =0;
         t.text += "\n need to check list sec length is: " + needToCheckListSec.Length; //should be 2
         while (currentIndex < needToCheckListSec.Length)
         {
             yield return StartCoroutine(readLostNodeFromContractSec(needToCheckListSec[currentIndex]));
             currentIndex++;
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value +=(1/needToCheckListSec.Length);
         }
 
         StartCoroutine(waitTillInsertDownFinish());
@@ -761,6 +769,7 @@ public class GlobalVar : MonoBehaviour
         }
         //Ct.text += "\n" + "curUpdateIndex: "+curUpdateIndex;
         curUpdateIndex += 1;
+        
     }
     IEnumerator checkDowndateNodeIndex(int lostNodeIndex)
     {
@@ -776,6 +785,7 @@ public class GlobalVar : MonoBehaviour
     
     public void ReadData()
     {
+        loadingGameObj.SetActive(true);
         t.text += "start read data!";
         ReadFromWeb();
 
@@ -932,7 +942,7 @@ public class GlobalVar : MonoBehaviour
         finishUp = finishDown = 0;
         StartCoroutine(setNodeFromWeb());
         StartCoroutine(ReadUpNodeFromWeb());
-        StartCoroutine(ReadDownNodeFromWeb()) ;
+        
     }
     
     private IEnumerator ReadUpNodeFromWeb()
@@ -942,8 +952,10 @@ public class GlobalVar : MonoBehaviour
         while (currentIndex < upTreeNodeLayerIndex.Count/2)
         {
             yield return StartCoroutine(checkUpNode(upTreeNodeLayerIndex[currentIndex*2], upTreeNodeLayerIndex[currentIndex*2+1]));
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = (currentIndex/upTreeNodeLayerIndex.Count/2)/2;
             currentIndex++;
         }
+        StartCoroutine(ReadDownNodeFromWeb()) ;
     }
     private IEnumerator checkUpNode(int layer, int idx)
     {
@@ -964,6 +976,7 @@ public class GlobalVar : MonoBehaviour
         while (currentIndex < downTreeNodeLayerIndex.Count/2)
         {
             yield return (StartCoroutine(checkDownNode(downTreeNodeLayerIndex[currentIndex*2], downTreeNodeLayerIndex[currentIndex*2+1]) ));
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = 0.5f+(currentIndex/downTreeNodeLayerIndex.Count/2)/2;
             currentIndex++;
         }
     }

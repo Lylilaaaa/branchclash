@@ -5,7 +5,7 @@ using Web3Unity.Scripts.Library.Ethers.Providers;
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
-
+using UnityEngine.UI;
 
 
 /*
@@ -630,7 +630,7 @@ public class ContractInteraction : MonoBehaviour
         {
             
         });
-        
+        GlobalVar._instance.loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value =0.5f;
         numOnContract = int.Parse(calldata[0].ToString())+1 ; //add the 0,1 node
         finishNumOnServeUp = true;
         CheckServeSec();
@@ -691,7 +691,7 @@ public class ContractInteraction : MonoBehaviour
         {
             
         });
-        
+        GlobalVar._instance.loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value =1f;
         numOnContractSec = int.Parse(calldata[0].ToString())+1 ; //add the 0,1 node
         GlobalVar._instance.t.text += "\n down nodes on contract is: " + numOnContractSec;
         finishNumOnServeDown = true;

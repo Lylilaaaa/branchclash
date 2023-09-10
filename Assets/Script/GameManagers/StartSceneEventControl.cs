@@ -63,6 +63,7 @@ public class StartSceneEventControl : MonoBehaviour
             yield return null;
         };
         GlobalVar._instance.t.text = "\n this address user is: " + GlobalVar._instance.thisUserAddr +" Login Sussess! Please Wait....";
+        GlobalVar._instance.loadingGameObj.SetActive(true);
         ContractInteraction._instance.CheckDuty();
         StartCoroutine(_checkDuty());
     }
@@ -71,6 +72,7 @@ public class StartSceneEventControl : MonoBehaviour
     {
         while (ContractInteraction._instance.role==100)
         {
+            GlobalVar._instance.loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = 0.5f;
             yield return null;
         }
         
@@ -90,6 +92,7 @@ public class StartSceneEventControl : MonoBehaviour
             skipButton.gameObject.SetActive(true);
         }
         vp.gameObject.SetActive(true);
+        GlobalVar._instance.loadingGameObj.SetActive(false);
         //vp.clip = videoList[0];
         vp.url = Path.Combine(Application.streamingAssetsPath, "main.mp4");
         vp.Prepare();

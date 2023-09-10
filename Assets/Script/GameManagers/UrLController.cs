@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class UrLController : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class UrLController : MonoBehaviour
     private string _map = "00,H,00,00,00,00,00,00,00,00,00,00,00,00,00,00,R,00,/n,00,R,00,00,R,R,R,R,00,00,R,R,R,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,00,R,00,/n,00,R,R,R,R,00,00,R,R,R,R,00,00,R,R,R,R,00,/n,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,/";
     private string _info;
     private string _infoDown;
+
+    public GameObject loadingGameObj;
     private void Awake()
     {
         thisNetWorkChain = "opBNB";
@@ -99,9 +102,17 @@ public class UrLController : MonoBehaviour
         string result = www.text;
         InsertDownNode(0, 1, 0, _infoDown, "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12");
     }
-
+    public void ClearUpData()
+    {
+        StartCoroutine(clearUpData());
+    }
+    public void ClearDownData()
+    {
+        StartCoroutine(clearDownData());
+    }
     public void InsertUpNode(int layer, int idx, int father, string info, string creator, string debuff)
     {
+        //loadingGameObj.SetActive(true);
         StartCoroutine(insert(layer,idx,father,info,creator,debuff));
     }
     
@@ -109,35 +120,6 @@ public class UrLController : MonoBehaviour
     {
         StartCoroutine(insertSec(layer,idx,father,info,creator));
     }
-
-
-    public void InsertUpNodeTest()
-    {
-        StartCoroutine(insert(1,3,0,"text","lyy","123"));
-    }
-    public void InsertDownNodeTest()
-    {
-        StartCoroutine(insertSec(0,1,0,"text","lyy"));
-    }
-
-    public void ClearUpData()
-    {
-        StartCoroutine(clearUpData());
-    }
-    
-    public void ClearDownData()
-    {
-        StartCoroutine(clearDownData());
-    }
-    public void CheckUpNode11()
-    {
-        StartCoroutine(checkUpNode(0,1));
-    }
-    public void CheckDownNode11()
-    {
-        StartCoroutine(checkDownNode(0,1));
-    }
-
     public void CheckUpNode(int layer, int index)
     {
         StartCoroutine(checkUpNode(layer,index));
@@ -149,6 +131,7 @@ public class UrLController : MonoBehaviour
     
     public void CheckAllUpNode()
     {
+        loadingGameObj.SetActive(true);
         StartCoroutine(checkAllUpLayerIdx());
     }
     public void CheckAllDownNode()
@@ -233,7 +216,13 @@ public class UrLController : MonoBehaviour
         GlobalVar._instance.t.text += "\n checking all: "+url_checkAll;
         Debug.Log(url_checkAll);
         WWW www = new WWW(url_checkAll);
-        yield return www;
+        while (!www.isDone)
+        {
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = www.uploadProgress/2;
+            yield return null;
+        }
+        //yield return www;
+        loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = 0.5f;
         string result = www.text;
         Debug.Log(result);
         t.text += "\n"+result;
@@ -264,7 +253,15 @@ public class UrLController : MonoBehaviour
         t.text +="\n"+ url_checkAllSec;
         Debug.Log(url_checkAllSec);
         WWW www = new WWW(url_checkAllSec);
-        yield return www;
+        while (!www.isDone)
+        {
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = www.uploadProgress/2+0.5f;
+            Debug.Log("Upload Progress(checking all down nodes): " + www.uploadProgress/2+0.5f);
+            yield return null;
+        }
+        //yield return www;
+        loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = 1;
+        //loadingGameObj.SetActive(false);
         string result = www.text;
         Debug.Log(result);
         t.text +="\n"+ result;
@@ -272,44 +269,5 @@ public class UrLController : MonoBehaviour
        
         GlobalVar._instance.t.text += "\n finish check all down index from serve!";
     }
-    IEnumerator Post(string url, Dictionary<string, string> postData)
-    {
-        UnityWebRequest request = new UnityWebRequest(url, "POST");
-        request.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        string data = "";
-        foreach (KeyValuePair<string, string> pair in postData)
-        {
-            data += string.Format("{0}={1}&", pair.Key, pair.Value);
-        }
-        byte[] bytes = Encoding.UTF8.GetBytes(data);
-        request.uploadHandler = new UploadHandlerRaw(bytes);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        yield return request.SendWebRequest();
-        if (request.result == UnityWebRequest.Result.Success)
-        {
-            string response = request.downloadHandler.text;
-            Debug.Log(response);
-        }
-        else
-        {
-            Debug.LogError(request.error);
-        }
-    }
     
-    IEnumerator Get(string url)
-    {
-        using (UnityWebRequest request = UnityWebRequest.Get(url))
-        {
-            yield return request.SendWebRequest();
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                string response = request.downloadHandler.text;
-                Debug.Log(response);
-            }
-            else
-            {
-                Debug.LogError(request.error);
-            }
-        }
-    }
 }

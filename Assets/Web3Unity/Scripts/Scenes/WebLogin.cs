@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 #if UNITY_WEBGL
 public class WebLogin : MonoBehaviour
@@ -75,6 +76,7 @@ public class WebLogin : MonoBehaviour
 
     public void OnLogin()
     {
+        
         Debug.Log("Start login");
         Web3Connect();
         OnConnected();
@@ -89,6 +91,7 @@ public class WebLogin : MonoBehaviour
             account = ConnectAccount();
         };
         // save account for next scene
+        
         PlayerPrefs.SetString("Account", account);
         print(account);
         // reset login message
