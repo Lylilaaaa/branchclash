@@ -5,10 +5,10 @@ It includes Unity development, communication with smart contracts, communication
 You can use the file by running download and unpack it on Unity.
 
 
-The smart contract address for this project on the opBNB testnet is: 0x6e58412Ebd3C3339f072886b2b23b931AECdF010. 
+The smart contract address for this project on the opBNB testnet is: 0x6e58412Ebd3C3339f072886b2b23b931AECdF010, and for Polygon is: 0x5eAa378e4A096d0808eFCdeCd233b0010ecF33A1
 Additionally, you can play this project directly on the [www.branchclash.com](http://www.branchclash.com) website.
 
-Please note that we cannot change the netWork right now, since the database of different chain has not been prepared.
+Please note that you need to **set up your MetaMask and get some coin on opBNB test net/Polygon** before chosing your role!!
 ![头图](https://github.com/Lylilaaaa/BoW2/assets/93197170/9266e196-aa5c-4a66-9b4f-656f9cfd8a13)
 
 ![2 3](https://github.com/Lylilaaaa/branchclash/assets/93197170/efec9c86-0f15-4aca-bec4-422876251048)
