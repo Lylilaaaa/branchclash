@@ -84,10 +84,13 @@ public class GameplayCurSorOutline : MonoBehaviour
     
     private void OnMouseEnter()
     {
-        mouseEnter = true;
-        if (tb.mergeChosen == false)
+        if (GlobalVar._instance.gamePlaySelect)
         {
-            outlineGbj.SetActive(true);
+            mouseEnter = true;
+            if (tb.mergeChosen == false)
+            {
+                outlineGbj.SetActive(true);
+            }
         }
     }
     private void OnMouseExit()

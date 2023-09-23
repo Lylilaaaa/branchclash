@@ -57,7 +57,7 @@ public class WebLogin : MonoBehaviour
             PlayerPrefs.SetString("ChainID", "11155111");
             PlayerPrefs.SetString("Chain", "ethereum");
             PlayerPrefs.SetString("Network", "sepolia");
-            PlayerPrefs.SetString("RPC","https://rpc.sepolia.org");
+            PlayerPrefs.SetString("RPC","https://endpoints.omniatech.io/v1/eth/sepolia/public");
             
             Debug.Log("change to Sepolia");
         }

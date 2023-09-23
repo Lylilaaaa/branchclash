@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class LevelInfoDataViewing : MonoBehaviour
 {
@@ -81,6 +80,13 @@ public class LevelInfoDataViewing : MonoBehaviour
         if (thisNodeData != null && corrDownNodeData != null && _hasInit == false)
         {
             InitNeverChange();
+            Debug.Log("Init!!!!!");
+        }
+
+
+        if (corrDownNodeData == null)
+        {
+            corrDownNodeData = GlobalVar._instance.treeData.InitDownNodeData;
         }
     }
 
@@ -97,6 +103,7 @@ public class LevelInfoDataViewing : MonoBehaviour
         _getMapmapList(thisNodeData.mapStructure);
         Debug.Log(thisNodeData.mapStructure);
         (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) =  CurNodeDataSummary._instance._checkTypeIndex(_mapStruct);
+        //print(woodCount+ironCount+elecCount+wproCount+iproCount+eproCount);
         int[] towerCount = new int[3];
         int[] protectCount = new int[3];
         foreach (var VARIABLE in woodCount.Keys)
@@ -122,7 +129,9 @@ public class LevelInfoDataViewing : MonoBehaviour
         foreach (var VARIABLE in eproCount.Keys)
         {
             protectCount[2] += eproCount[VARIABLE];
+            print("epro: "+ protectCount[2]);
         }
+        
         //(int[] towerCount, int[] protectCount) = _checkTypeIndex();
         for (int i=0;i<3;i++)
         {
@@ -263,6 +272,38 @@ public class LevelInfoDataViewing : MonoBehaviour
                 }
                 // ????????
                 stringList[i] = newRow.ToArray();
+            }
+        }
+        for (int i = 0; i < stringList.Length; i++)
+        {
+            for (int j = 0; j < stringList[i].Length; j++)
+            {
+                //print(stringList[i][j]);
+                if (stringList[i][j].Length >= 5)
+                {
+                    //print("ij: "+stringList[i][j]);
+                    string mapType = stringList[i][j].Substring(0, 4);
+                    int towerGrade = int.Parse(stringList[i][j].Substring(4, stringList[i][j].Length - 4));
+                    if (mapType == "elec")
+                    {
+                        stringList[i][j + 1] = "eleC" + towerGrade;
+                    }
+                    else if (mapType == "prow")
+                    {
+                        //Debug.Log("prow HERE!!!!!!!");
+                        stringList[i][j] = "wpro"+towerGrade;
+                    }
+                    else if (mapType == "proi")
+                    {
+                        //Debug.Log("proi HERE!!!!!!!");
+                        stringList[i][j] = "ipro"+towerGrade;
+                    }
+                    else if (mapType == "proe")
+                    {
+                        //Debug.Log("proe HERE!!!!!!!");
+                        stringList[i][j] ="epro"+towerGrade;
+                    }
+                }
             }
         }
         _mapStruct = stringList;

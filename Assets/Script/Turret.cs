@@ -91,7 +91,7 @@ public class Turret : MonoBehaviour
 
         }
         
-        if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && dataInit == false && gpCurSorOutline.weaponType!="" && CurNodeDataSummary._instance._initData == true && gpCurSorOutline.attackColliderCondition.activeSelf)
+        if (GlobalVar.CurrentGameState == GlobalVar.GameState.GamePlay && !dataInit && gpCurSorOutline.weaponType!="" && CurNodeDataSummary._instance.gamePlayInitData && gpCurSorOutline.attackColliderCondition.activeSelf)
         {
             dataInit = true;
             _weaponType = gpCurSorOutline.weaponType;
@@ -102,17 +102,16 @@ public class Turret : MonoBehaviour
                     CurNodeDataSummary._instance.CheckAttackSpeedRangeFloat(_weaponType, _weaponGrade);
                 if (_weaponType == "wood")
                 {
-                    bulletAttack =  CurNodeDataSummary._instance.CheckAttackAfterDebuff(_attack,_checkDebuff(0),(int)_bulletPerSecond);
+                    bulletAttack =  CurNodeDataSummary._instance.CheckAttackAfterDebuff(_weaponType,_checkDebuff(0),(int)_weaponGrade,(float)_bulletPerSecond);
                 }
                 else if (_weaponType == "iron")
                 {
-                    bulletAttack =  CurNodeDataSummary._instance.CheckAttackAfterDebuff(_attack,_checkDebuff(1),(int)_bulletPerSecond);
+                    bulletAttack =  CurNodeDataSummary._instance.CheckAttackAfterDebuff(_weaponType,_checkDebuff(1),(int)_weaponGrade,(float)_bulletPerSecond);
                 }
                 else if (_weaponType == "elec")
                 {
-                    bulletAttack =  CurNodeDataSummary._instance.CheckAttackAfterDebuff(_attack,_checkDebuff(2),(int)_bulletPerSecond);
+                    bulletAttack =  CurNodeDataSummary._instance.CheckAttackAfterDebuff(_weaponType,_checkDebuff(2),(int)_weaponGrade,(float)_bulletPerSecond);
                 }
-
                 shootingRate = _bulletPerSecond;
             }
         }
@@ -122,6 +121,8 @@ public class Turret : MonoBehaviour
     {
         float totalDebuff = CurNodeDataSummary._instance.debuffList[weaponIndex] -
                             CurNodeDataSummary._instance.protectList[weaponIndex];
+        print("the debuff of weapon index "+weaponIndex+"is: "+CurNodeDataSummary._instance.debuffList[weaponIndex]);
+        print("the protect of weapon index "+weaponIndex+"is: "+CurNodeDataSummary._instance.protectList[weaponIndex]);
         if (totalDebuff > 0)
         {
             return ((int)totalDebuff);

@@ -64,10 +64,34 @@ public class UIGameStartWorld : MonoBehaviour
             yield return null;
         }
         GlobalVar._instance.nowNodeIndex = ContractInteraction._instance.nowNodeIndex;
+        StartCoroutine(checkOldNodeIndex());
+    }
+    IEnumerator checkOldNodeIndex()
+    {
+        ContractInteraction._instance.oldNodeIndex = "";
+        ContractInteraction._instance.CheckLevelOrGetName();
+        while (ContractInteraction._instance.oldNodeIndex == "")
+        {
+            yield return null;
+        }
+        GlobalVar._instance.oldNodeIndex = ContractInteraction._instance.oldNodeIndex;
+        StartCoroutine(checkOldBlood());
+    }
+
+    IEnumerator checkOldBlood()
+    {
+        string pureString = GlobalVar._instance.oldNodeIndex.Substring(1, GlobalVar._instance.oldNodeIndex.Length - 2);
+        string[]layerIndex =  pureString.Split(",");
+        GlobalVar._instance.oldNodeIndexBlood = String.Empty;
+        ContractInteraction._instance.check_blood_old( int.Parse(layerIndex[0]) , int.Parse(layerIndex[1]));
+        while (GlobalVar._instance.oldNodeIndexBlood == String.Empty)
+        {
+            yield return null;
+        }
         StartGameStart();
     }
-    
-    
+
+
     public void StartGameStart()
     {
         StartCoroutine(_gameStart());

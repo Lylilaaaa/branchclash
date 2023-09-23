@@ -137,6 +137,8 @@ public class CurNodeDataSummary : MonoBehaviour
                         GlobalVar._instance._getMapmapList();
                         _mapStruct = GlobalVar._instance.mapmapList;
                         (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) = _checkTypeIndex(_mapStruct);
+                        weaponBloodList = GetMainMaxWeaponLevelBlood(woodCount,ironCount,elecCount);
+                        protectList = GetMainProtectBlood(wproCount,iproCount,eproCount);
                         gamePlayInitData = true;
                         GetGamPlayNodeInfo();
                     }
@@ -298,6 +300,8 @@ public class CurNodeDataSummary : MonoBehaviour
         Dictionary<int, int> _eproCount = new Dictionary<int, int>();
         for (int i = 0; i < mapStruct.Length; i++)
         {
+            //print("row: "+i+" map: "+mapStruct[i]);
+            //string mapRow = "";
             for (int j = 0; j < mapStruct[i].Length; j++)
             {
                 if (mapStruct[i][j].Length >= 5)
@@ -362,6 +366,7 @@ public class CurNodeDataSummary : MonoBehaviour
                     }
                     else if (mapType == "epro")
                     {
+                        //Debug.Log("A EPRO!!!!!!!!!");
                         if (!_eproCount.ContainsKey(towerGrade))
                         {
                             _eproCount.Add(towerGrade, 1);
@@ -377,11 +382,19 @@ public class CurNodeDataSummary : MonoBehaviour
                     }
                     else
                     {
+                        Debug.Log(mapType + ": "+towerGrade);
                         Debug.LogError("incorrect Map String!!!");
                     }
+                    //mapRow += mapType+",";
                 }
             }
+            //Debug.Log(mapRow);
         }
+
+        // foreach (var VARIABLE in _eproCount)
+        // {
+        //     print(VARIABLE);
+        // }
         return (_woodCount, _ironCount, _elecCount, _wproCount, _iproCount, _eproCount);
     }
     
@@ -495,9 +508,22 @@ public class CurNodeDataSummary : MonoBehaviour
         return initDps;
     }
 
-    public float CheckAttackAfterDebuff(float weaponAttack, int weaponDebuff, int weaponBulletNumPerSec)
+    public float CheckAttackAfterDebuff(string weaponType, int weaponDebuff, int weaponGrade,float weaponBulletNumPerSec)
     {
-        float idealDps = weaponAttack * (float)weaponBulletNumPerSec;
+        float idealDps = 0;
+        if (weaponType == "wood")
+        {
+            idealDps = _calculateDPS(weaponGrade,_woodDpsRate,20);
+        }
+        else if(weaponType == "iron"){
+            idealDps = _calculateDPS(weaponGrade,_ironDpsRate,30);
+        }
+        else
+        {
+            idealDps = _calculateDPS(weaponGrade,_elecDpsRate,40);
+            print("the real dps of elec is: " + idealDps);
+            print("the real debuff of elec is: " + weaponDebuff);
+        }
         float realDps = 0;
         realDps = idealDps - (float)weaponDebuff;
         if (realDps <= 0)

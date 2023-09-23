@@ -35,6 +35,45 @@ public class UrLController : MonoBehaviour
     public GameObject loadingGameObj;
     private void Awake()
     {
+        // thisNetWorkChain = "Polygon";
+        // url_checkAll = "8.219.216.37/" + thisNetWorkChain + "/checkAll.php";
+        // url_insert = "8.219.216.37/" + thisNetWorkChain + "/insert.php";
+        // url_search ="8.219.216.37/" + thisNetWorkChain + "/search.php";
+        // url_clear = "8.219.216.37/" + thisNetWorkChain + "/clear.php";
+        // url_checkAllSec = "8.219.216.37/" + thisNetWorkChain + "/checkAllSec.php";
+        // url_insertSec =  "8.219.216.37/" + thisNetWorkChain + "/insertSec.php";
+        // url_searchSec = "8.219.216.37/" + thisNetWorkChain + "/searchSec.php";
+        // url_clearSec = "8.219.216.37/" + thisNetWorkChain + "/clearSec.php";
+        
+        _instance = this; 
+        _info = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-0-0-0-0-0-1-1-10000-10000-1500-"+_map+"-0,0,0";
+        _infoDown = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-0-0-0-0-0-1-1-0,0,0";
+        upTreeResult = "";
+        downTreeResult = "";
+        t.text = "";
+    }
+
+    public void ChangeServeDataSet(string chainNet)
+    {
+        if (chainNet == "Sepolia")
+        {
+            chainNet = "Polygon";
+        }
+        url_checkAll = "8.219.216.37/" + chainNet + "/checkAll.php";
+        url_insert = "8.219.216.37/" + chainNet + "/insert.php";
+        url_search ="8.219.216.37/" + chainNet + "/search.php";
+        url_clear = "8.219.216.37/" + chainNet + "/clear.php";
+        url_checkAllSec = "8.219.216.37/" + chainNet + "/checkAllSec.php";
+        url_insertSec =  "8.219.216.37/" + chainNet + "/insertSec.php";
+        url_searchSec = "8.219.216.37/" + chainNet + "/searchSec.php";
+        url_clearSec = "8.219.216.37/" + chainNet + "/clearSec.php";
+        Debug.Log("change URL to: "+chainNet);
+        Debug.Log("For instance, the checkAll link is: "+url_checkAll);
+    }
+
+    private void Start()
+    {
+        //default
         thisNetWorkChain = "opBNB";
         url_checkAll = "8.219.216.37/" + thisNetWorkChain + "/checkAll.php";
         url_insert = "8.219.216.37/" + thisNetWorkChain + "/insert.php";
@@ -47,27 +86,7 @@ public class UrLController : MonoBehaviour
         
         _instance = this; 
         _info = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-0-0-0-0-0-1-1-10000-10000-1500-"+_map+"-0,0,0";
-        _infoDown = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-0-0-0-0-0-1-1-1,0,0";
-        upTreeResult = "";
-        downTreeResult = "";
-        t.text = "";
-    }
-
-    private void Start()
-    {
-        thisNetWorkChain = "opBNB";
-        url_checkAll = "8.219.216.37/opBNB/checkAll.php";
-        url_insert = "8.219.216.37/opBNB/insert.php";
-        url_search ="8.219.216.37/opBNB/search.php";
-        url_clear = "8.219.216.37/opBNB/clear.php";
-        url_checkAllSec = "8.219.216.37/opBNB/checkAllSec.php";
-        url_insertSec =  "8.219.216.37/opBNB/insertSec.php";
-        url_searchSec = "8.219.216.37/opBNB/searchSec.php";
-        url_clearSec = "8.219.216.37/opBNB/clearSec.php";
-        
-        _instance = this; 
-        _info = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-0-0-0-0-0-1-1-10000-10000-1500-"+_map+"-0,0,0";
-        _infoDown = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-0-0-0-0-0-1-1-1,0,0";
+        _infoDown = "0xfd376a919b9a1280518e9a5e29e3c3637c9faa12-0-0-0-0-0-1-1-0,0,0";
         upTreeResult = "";
         downTreeResult = "";
         t.text = "";
@@ -256,7 +275,7 @@ public class UrLController : MonoBehaviour
         while (!www.isDone)
         {
             loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = www.uploadProgress/2+0.5f;
-            Debug.Log("Upload Progress(checking all down nodes): " + www.uploadProgress/2+0.5f);
+            //Debug.Log("Upload Progress(checking all down nodes): " + www.uploadProgress/2+0.5f);
             yield return null;
         }
         //yield return www;

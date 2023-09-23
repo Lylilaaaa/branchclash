@@ -20,6 +20,7 @@ public class GlobalVar : MonoBehaviour
     public int maxLevelTreeDown;
     public List<string> MajorNodeList = new List<string>();
     public List<string> MajorNodeListDown = new List<string>();
+    public List<string> deadNodeList = new List<string>();
     public List<NodeData> nodeDataList;
     public List<DownNodeData> downNodeDataList;
     public List<int> upTreeNodeLayerIndex;
@@ -59,6 +60,9 @@ public class GlobalVar : MonoBehaviour
     private int curUpdateIndexSec;
     public string nowNodeIndex;
     public string nowNodeIndexBlood;
+    public string oldNodeIndex;
+    public string oldNodeIndexBlood;
+    public bool gamePlaySelect;
 
     public bool buildOnce = false;
 
@@ -103,6 +107,7 @@ public class GlobalVar : MonoBehaviour
         dataPrepared = false;
         nodePrepared = false;
         finalNodePrepared = false;
+        gamePlaySelect = false;
         upServePrepare = downServePrepare = false;
         thisUserAddr = "";
         UrLController._instance.CheckAllDownNode();
@@ -164,6 +169,7 @@ public class GlobalVar : MonoBehaviour
     {
         _getMainNode();
         _getMainNodeDown();
+        _getDeadNode();
         TreeNodeDataInit._instance.ReStart();
         CurNodeDataSummary._instance.ReStart();
         
@@ -238,6 +244,7 @@ public class GlobalVar : MonoBehaviour
                 }
                 // 覆盖原始行
                 stringList[i] = newRow.ToArray();
+                //print(stringList[i]);
             }
         }
 
@@ -248,11 +255,27 @@ public class GlobalVar : MonoBehaviour
                 //print(stringList[i][j]);
                 if (stringList[i][j].Length >= 5)
                 {
+                    //print("ij: "+stringList[i][j]);
                     string mapType = stringList[i][j].Substring(0, 4);
                     int towerGrade = int.Parse(stringList[i][j].Substring(4, stringList[i][j].Length - 4));
                     if (mapType == "elec")
                     {
                         stringList[i][j + 1] = "eleC" + towerGrade;
+                    }
+                    else if (mapType == "prow")
+                    {
+                        //Debug.Log("prow HERE!!!!!!!");
+                        stringList[i][j] = "wpro"+towerGrade;
+                    }
+                    else if (mapType == "proi")
+                    {
+                        //Debug.Log("proi HERE!!!!!!!");
+                        stringList[i][j] = "ipro"+towerGrade;
+                    }
+                    else if (mapType == "proe")
+                    {
+                        //Debug.Log("proe HERE!!!!!!!");
+                        stringList[i][j] ="epro"+towerGrade;
                     }
                 }
             }
@@ -382,6 +405,20 @@ public class GlobalVar : MonoBehaviour
             }
         }
         
+    }
+
+    private void _getDeadNode()
+    {
+        deadNodeList = new List<string>();
+        foreach (NodeData VARIABLE in nodeDataList)
+        {
+            if (VARIABLE.curHealth <= 0)
+            {
+                string name = VARIABLE.name.Substring(1, VARIABLE.name.Length - 2);
+                string[] layerIndex = name.Split(",");
+                deadNodeList.Add(layerIndex[0]+"-"+layerIndex[1]);
+            }
+        }
     }
     public NodeData _findNodeData(string nodeName) //"1-2"
     {
@@ -834,10 +871,7 @@ public class GlobalVar : MonoBehaviour
         {
             //t.text+="\n"+_infoString;
             string[] nodeInfo = _infoString.Split("-");
-            // foreach (string _string in nodeInfo)
-            // {
-            //     print(_string);
-            // }
+            print( "reading nodes result: "+nodeInfo[0]+", "+ nodeInfo[5]+","+nodeInfo[6]+" map: "+nodeInfo[11]);
             NodeData newNodeData = new NodeData();
             newNodeData.ownerAddr = nodeInfo[0];
             newNodeData.setUpTime = nodeInfo[1];
@@ -961,11 +995,11 @@ public class GlobalVar : MonoBehaviour
     {
         string checkString;
         checkString = UrLController._instance.url_search + "?layer=" + layer.ToString() + "&idx=" + idx.ToString();
-        Debug.Log(checkString);
+        Debug.Log("checking node info of Reading Data: "+checkString);
         WWW www = new WWW(checkString);
         yield return www;
         string result = www.text;
-        Debug.Log(result);
+        Debug.Log("reading result: "+result);
         upStringResults.Add(result);
         finishUp++;
     }

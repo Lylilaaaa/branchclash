@@ -41,14 +41,17 @@ public class DropdownChooseChain : MonoBehaviour
         if (index == 0)
         {
             webLogin.ChooseToChangeLine("opBNB");
+            UrLController._instance.ChangeServeDataSet("opBNB");
         }
         else if(index == 1)
         {
             webLogin.ChooseToChangeLine("Polygon");
+            UrLController._instance.ChangeServeDataSet("Polygon");
         }
         else if(index == 2)
         {
             webLogin.ChooseToChangeLine("Sepolia");
+            UrLController._instance.ChangeServeDataSet("Sepolia");
         }
     }
 }

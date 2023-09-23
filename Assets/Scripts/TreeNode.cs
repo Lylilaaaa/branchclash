@@ -19,12 +19,14 @@ public class TreeNode : MonoBehaviour
     public int father;
 
     public bool isMajor = false;
+    public bool isDead = false;
     private GameObject line;
     private GameObject corner;
     private Transform fatherTransform;
     private TreeNode fatherNode;
     public Material yellowMat;
     public Material blueMat;
+    public Material deadMat;
     private List<GameObject> _matCore;
     private int generateTime=0;
 
@@ -50,9 +52,17 @@ public class TreeNode : MonoBehaviour
                 isMajor = true;
             }
         }
+
+        foreach (string deadName in GlobalVar._instance.deadNodeList)
+        {
+            if (transform.name == deadName)
+            {
+                isDead = true;
+            }
+        }
         
         FindObjectsWithTag(transform, "blueMat");
-        if (isMajor == true)
+        if (isMajor && !isDead)
         {
             foreach (GameObject child in _matCore)
             {
@@ -64,7 +74,7 @@ public class TreeNode : MonoBehaviour
                 }
             }
         }
-        else
+        else if(!isMajor && !isDead)
         {
             foreach (GameObject child in _matCore)
             {
@@ -73,6 +83,18 @@ public class TreeNode : MonoBehaviour
                 if (renderer != null && blueMat != null)
                 {
                     renderer.material = blueMat;
+                }
+            }
+        }
+        else
+        {
+            foreach (GameObject child in _matCore)
+            {
+                Renderer renderer = child.GetComponent<Renderer>();
+                
+                if (renderer != null && blueMat != null)
+                {
+                    renderer.material = deadMat;
                 }
             }
         }

@@ -55,6 +55,7 @@ public class ContractInteraction : MonoBehaviour
     public string endProcessSec;
     public string endProcess;
     public string nowNodeIndex;
+    public string oldNodeIndex;
     
     public TextMeshProUGUI t;
 
@@ -69,7 +70,7 @@ public class ContractInteraction : MonoBehaviour
         else if (netWorkName == "Sepolia")
         {
             address = "0x1dE07329ad5CcCCd8576C509DFa0EFd5D1f4AD20";
-            rpc = "https://rpc.sepolia.org";
+            rpc = "https://endpoints.omniatech.io/v1/eth/sepolia/public";
         }
         else if (netWorkName == "Polygon")
         {
@@ -314,6 +315,24 @@ public class ContractInteraction : MonoBehaviour
         });
         newNodeInfoContract["("+_layer+","+_idx+")"] += "-"+calldata[0].ToString();
         check_money(_layer,_idx);
+        
+
+        //t.text = calldata[0].ToString();
+    }
+    async public void check_blood_old(int _layer, int _idx)
+    {
+        int layer = _layer;
+        int idx = _idx;
+        string method = "level_blood";
+        var provider = new JsonRpcProvider(rpc);
+        var contract = new Contract(abi, address, provider);
+
+        var calldata = await contract.Call(method, new object[]
+        {
+            layer,
+            idx
+        });
+        GlobalVar._instance.oldNodeIndexBlood = calldata[0].ToString();
         
 
         //t.text = calldata[0].ToString();
@@ -727,7 +746,7 @@ public class ContractInteraction : MonoBehaviour
         //t.text = calldata[0].ToString();
     }
 
-    async public void CheckLevelOr()
+    async public void CheckLevelOr() //∞÷∞÷
     {
         string method = "check_level_or";
         var provider = new JsonRpcProvider(rpc);
@@ -740,8 +759,22 @@ public class ContractInteraction : MonoBehaviour
         endProcessSec = calldata[0].ToString();
         //t.text = calldata[0].ToString();
     }
+    async public void CheckLevelOrGetName() //∞÷∞÷
+    {
+        string method = "check_level_or";
+        var provider = new JsonRpcProvider(rpc);
+        var contract = new Contract(abi, address, provider);
 
-    async public void CheckLevelPr()
+        var calldata = await contract.Call(method, new object[]
+        {
+            account
+        });
+        oldNodeIndex = calldata[0].ToString();
+        Debug.Log("new node: "+oldNodeIndex);
+        //t.text = calldata[0].ToString();
+    }
+
+    async public void CheckLevelPr() //œ÷‘⁄
     {
         string method = "check_level_pr";
         var provider = new JsonRpcProvider(rpc);
@@ -751,7 +784,9 @@ public class ContractInteraction : MonoBehaviour
         {
             account
         });
+        
         nowNodeIndex = calldata[0].ToString();
+        Debug.Log("new node: "+nowNodeIndex);
         //t.text = calldata[0].ToString();
     }
 

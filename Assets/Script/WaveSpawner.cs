@@ -204,10 +204,13 @@ public class WaveSpawner : MonoBehaviour
             yield return null;
         }
         Debug.Log("the new blood is: "+GlobalVar._instance.nowNodeIndexBlood);
-        int lostBlood = GlobalVar._instance.chosenNodeData.curHealth - int.Parse(GlobalVar._instance.nowNodeIndexBlood);
+        Debug.Log("the old blood is: "+GlobalVar._instance.oldNodeIndexBlood);
+        int lostBlood = int.Parse(GlobalVar._instance.oldNodeIndexBlood) - int.Parse(GlobalVar._instance.nowNodeIndexBlood);
+        
         if (lostBlood > 0&& lostBlood< GlobalVar._instance.chosenNodeData.curHealth)
         {
             GlobalVar._instance.gameResult = 1;
+            CurNodeDataSummary._instance.homeDestroyData = lostBlood;
         }
         else if (lostBlood <= 0)
         {
@@ -215,6 +218,7 @@ public class WaveSpawner : MonoBehaviour
         }
         else
         {
+            CurNodeDataSummary._instance.homeDestroyData = GlobalVar._instance.chosenNodeData.curHealth;
             GlobalVar._instance.gameResult = 2;
         }
         GlobalVar._instance._loadNextScene("4_End");
