@@ -74,7 +74,7 @@ public class CameraController : MonoBehaviour
                 //Vector3 moveDirection = new Vector3(-mouseX, -mouseY, 0f) * moveSpeed * Time.deltaTime;
                 if (IsCollidingWithBoundary(newPosition))
                 {
-                    transform.localPosition = newPosition;
+                    transform.Translate(moveDirection, Space.Self);
                 }
                 
                 //transform.Translate(moveDirection, Space.Self);

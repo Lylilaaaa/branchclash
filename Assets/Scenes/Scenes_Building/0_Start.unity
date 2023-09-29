@@ -428,7 +428,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1377850444}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1045,7 +1045,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: opBNB(T)
+  m_text: Zero
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0c38d10b7cc00c742bb379f8e87efaf7, type: 2}
   m_sharedMaterial: {fileID: 3553368755267884775, guid: 0c38d10b7cc00c742bb379f8e87efaf7,
@@ -1216,7 +1216,7 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: opBNB(T)
+    - m_Text: Zero
       m_Image: {fileID: 0}
     - m_Text: Polygon
       m_Image: {fileID: 0}
@@ -1276,9 +1276,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   webLogin: {fileID: 359931270}
   chainName:
-  - opBNB(T)
+  - AltLayer
   - Polygon
-  - Sepolia
 --- !u!1 &338039639
 GameObject:
   m_ObjectHideFlags: 0
@@ -6776,7 +6775,7 @@ MonoBehaviour:
   nowNodeIndexBlood: 
   oldNodeIndex: 
   oldNodeIndexBlood: 
-  buildOnce: 0
+  gamePlaySelect: 0
   mapmapRow: 0
   mapmapCol: []
   indexMapMapCol: 0

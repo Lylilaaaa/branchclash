@@ -76,6 +76,11 @@ public class ContractInteraction : MonoBehaviour
         {
             address = "0x5eAa378e4A096d0808eFCdeCd233b0010ecF33A1";
             rpc = "https://polygon-rpc.com/";
+        }        
+        else if (netWorkName == "AltLayer")
+        {
+            address = "0xc246951f050F4c7Af698f21437EEC4E4f69F476e";
+            rpc = "https://zero.alt.technology/";
         }
     }
     
@@ -746,7 +751,7 @@ public class ContractInteraction : MonoBehaviour
         //t.text = calldata[0].ToString();
     }
 
-    async public void CheckLevelOr() //∞÷∞÷
+    async public void CheckLevelOr() //°„?°„?
     {
         string method = "check_level_or";
         var provider = new JsonRpcProvider(rpc);
@@ -759,7 +764,7 @@ public class ContractInteraction : MonoBehaviour
         endProcessSec = calldata[0].ToString();
         //t.text = calldata[0].ToString();
     }
-    async public void CheckLevelOrGetName() //∞÷∞÷
+    async public void CheckLevelOrGetName() //°„?°„?
     {
         string method = "check_level_or";
         var provider = new JsonRpcProvider(rpc);
@@ -774,7 +779,7 @@ public class ContractInteraction : MonoBehaviour
         //t.text = calldata[0].ToString();
     }
 
-    async public void CheckLevelPr() //œ÷‘⁄
+    async public void CheckLevelPr() //????
     {
         string method = "check_level_pr";
         var provider = new JsonRpcProvider(rpc);

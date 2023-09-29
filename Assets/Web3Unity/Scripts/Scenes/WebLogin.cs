@@ -28,12 +28,14 @@ public class WebLogin : MonoBehaviour
     void Start()
     {
         // loads the data saved from the editor config
-        projectConfigSO = (ProjectConfigScriptableObject)Resources.Load("ProjectConfigData", typeof(ScriptableObject));
+        ChangeNetwork(4000003);
         PlayerPrefs.SetString("ProjectID", projectConfigSO.ProjectID);
-        PlayerPrefs.SetString("ChainID", projectConfigSO.ChainID);
-        PlayerPrefs.SetString("Chain", projectConfigSO.Chain);
-        PlayerPrefs.SetString("Network", projectConfigSO.Network);
-        PlayerPrefs.SetString("RPC", projectConfigSO.RPC);
+        PlayerPrefs.SetString("ChainID", "4000003");
+        PlayerPrefs.SetString("Chain", "zero");
+        PlayerPrefs.SetString("Network", "mainnet");
+        PlayerPrefs.SetString("RPC","https://zero.alt.technology/");
+        Debug.Log("change to AltLayer");
+        ContractInteraction._instance.changeNetWork("AltLayer");
         
     }
 
@@ -71,6 +73,17 @@ public class WebLogin : MonoBehaviour
             PlayerPrefs.SetString("RPC","https://polygon-rpc.com/");
             Debug.Log("change to Polygon");
         }
+        else if (netWorkName == "AltLayer")
+        {
+            ChangeNetwork(4000003);
+            PlayerPrefs.SetString("ProjectID", projectConfigSO.ProjectID);
+            PlayerPrefs.SetString("ChainID", "4000003");
+            PlayerPrefs.SetString("Chain", "zero");
+            PlayerPrefs.SetString("Network", "mainnet");
+            PlayerPrefs.SetString("RPC","https://zero.alt.technology/");
+            Debug.Log("change to AltLayer");
+        }
+        
         ContractInteraction._instance.changeNetWork(netWorkName);
     }
 

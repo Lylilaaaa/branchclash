@@ -63,8 +63,7 @@ public class GlobalVar : MonoBehaviour
     public string oldNodeIndex;
     public string oldNodeIndexBlood;
     public bool gamePlaySelect;
-
-    public bool buildOnce = false;
+    
 
     [Header("--------Map--------")]
     public string[][] mapmapList;
@@ -154,7 +153,6 @@ public class GlobalVar : MonoBehaviour
         MajorNodeList = new List<string>();
         MajorNodeListDown = new List<string>();
         finalNodePrepared = false;
-        buildOnce = false;
         ReadData();
         while (!nodePrepared)
         {

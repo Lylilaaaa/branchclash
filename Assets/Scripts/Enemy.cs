@@ -8,7 +8,6 @@ public class Enemy : MonoBehaviour
     private int wavepointIndex = 0;
     public float disPerUnit = 5f;
     
-
     public float hitPoint = 500f;
     
 

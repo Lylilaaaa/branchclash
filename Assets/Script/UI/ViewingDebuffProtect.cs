@@ -30,6 +30,12 @@ public class ViewingDebuffProtect : MonoBehaviour
     
     public float fillSpeedDebuff = 1f;
     public float fillSpeedProtect = 1f;
+
+    public int[] currentProt;
+    public int[] previousProt;
+
+    public int[] curDebuff;
+    public int[] previousDebuff;
     
     void Awake()
     {
@@ -38,6 +44,8 @@ public class ViewingDebuffProtect : MonoBehaviour
         weaponTotalBlood = new int[3];
         weaponTotalProtect = new int[3];
         Debug.Log("HIIIIIIIIIIIIIIIII debuff is restart!!!!!!!!!!!!!!!!!!!!!!");
+        currentProt = previousProt = CurNodeDataSummary._instance.protectList;
+        curDebuff = previousDebuff = CurNodeDataSummary._instance.debuffList;
         //_wood[0].text = _debufflist[0]
     }
 
@@ -56,69 +64,93 @@ public class ViewingDebuffProtect : MonoBehaviour
     void Update()
     {
         _debufflist = CurNodeDataSummary._instance.debuffList;
-        if (_counted ==false && CurNodeDataSummary._instance._initData)
+        if (_counted == false && CurNodeDataSummary._instance._initData&&GlobalVar.CurrentGameState != GlobalVar.GameState.ChooseField)
         {
-            GlobalVar._instance.buildOnce = true;
-            _counted = true;
-            int[] towerCount = new int[3];
-            int[] protectCount = new int[3];
-            foreach (var VARIABLE in CurNodeDataSummary._instance.woodCount.Keys)
-            {
-                towerCount[0] += CurNodeDataSummary._instance.woodCount[VARIABLE];
-            }
-            foreach (var VARIABLE in CurNodeDataSummary._instance.ironCount.Keys)
-            {
-                towerCount[1] += CurNodeDataSummary._instance.ironCount[VARIABLE];
-            }
-            foreach (var VARIABLE in CurNodeDataSummary._instance.elecCount.Keys)
-            {
-                towerCount[2] += CurNodeDataSummary._instance.elecCount[VARIABLE];
-            }
-            foreach (var VARIABLE in CurNodeDataSummary._instance.wproCount.Keys)
-            {
-                protectCount[0] +=CurNodeDataSummary._instance.wproCount[VARIABLE];
-            }
-            foreach (var VARIABLE in CurNodeDataSummary._instance.iproCount.Keys)
-            {
-                protectCount[1] += CurNodeDataSummary._instance.iproCount[VARIABLE];
-            }
-            foreach (var VARIABLE in CurNodeDataSummary._instance.eproCount.Keys)
-            {
-                protectCount[2] += CurNodeDataSummary._instance.eproCount[VARIABLE];
-            }
-            weaponTotalBlood = CurNodeDataSummary._instance.GetMainMaxWeaponLevelBlood(CurNodeDataSummary._instance.woodCount, CurNodeDataSummary._instance.ironCount, CurNodeDataSummary._instance.elecCount);
-            Debug.Log("weaponTotalBlood: "+weaponTotalBlood[0]+", "+weaponTotalBlood[1]+", "+weaponTotalBlood[2] +"in exhibit");
-            float[] debuffPresentage = new float[3];
-            for (int i = 0; i < 3; i++)
-            {
-                if (weaponTotalBlood[i] != 0)
-                {
-                    debuffPresentage[i] = (float)_debufflist[i] / (float)weaponTotalBlood[i];
-                }
-                else
-                {
-                    debuffPresentage[i] = 1;
-                } 
-            }
-            weaponTotalProtect =  CurNodeDataSummary._instance.GetMainProtectBlood(CurNodeDataSummary._instance.wproCount, CurNodeDataSummary._instance.iproCount, CurNodeDataSummary._instance.eproCount);
-            Debug.Log("weaponTotalProtect: "+weaponTotalProtect[0]+", "+weaponTotalProtect[1]+", "+weaponTotalProtect[2]+"in exhibit");
-            
-            debuffWood.maxValue = 1;
-            debuffIron.maxValue = 1;
-            debuffElec.maxValue = 1;
-            
-            debuffWood.minValue = debuffIron.minValue = debuffElec.minValue = 0;
-            proWood.minValue = proIron.minValue = proElec.minValue = 0;
-            proWood.value = proIron.value = proElec.value =debuffWood.value = debuffIron.value = debuffElec.value = 0;
-            proWood.maxValue = 1;
-            proIron.maxValue = 1;
-            proElec.maxValue = 1;
-            _doWithSlides(0, debuffWood, proWood);
-            _doWithSlides(1,debuffIron,proIron);
-            _doWithSlides(2,debuffElec,proElec);
+            debuffProSlidesInitTrigger();
         }
+
+        if (_counted == false && CurNodeDataSummary._instance._initData && GlobalVar.CurrentGameState == GlobalVar.GameState.ChooseField)
+        {
+            debuffProSlidesInitTrigger();
+        }
+
+        if (GlobalVar.CurrentGameState == GlobalVar.GameState.ChooseField)
+        {
+            currentProt = CurNodeDataSummary._instance.protectList;
+            curDebuff = CurNodeDataSummary._instance.debuffList;
+            if (previousProt != currentProt || curDebuff!=previousDebuff)
+            {
+                print("update the protect and debuff list!");
+                debuffProSlidesInitTrigger();
+            }
+
+            previousDebuff = curDebuff;
+            previousProt = currentProt;
+        }
+        
     }
-    
+
+    private void debuffProSlidesInitTrigger()
+    {
+        _counted = true;
+        int[] towerCount = new int[3];
+        int[] protectCount = new int[3];
+        foreach (var VARIABLE in CurNodeDataSummary._instance.woodCount.Keys)
+        {
+            towerCount[0] += CurNodeDataSummary._instance.woodCount[VARIABLE];
+        }
+        foreach (var VARIABLE in CurNodeDataSummary._instance.ironCount.Keys)
+        {
+            towerCount[1] += CurNodeDataSummary._instance.ironCount[VARIABLE];
+        }
+        foreach (var VARIABLE in CurNodeDataSummary._instance.elecCount.Keys)
+        {
+            towerCount[2] += CurNodeDataSummary._instance.elecCount[VARIABLE];
+        }
+        foreach (var VARIABLE in CurNodeDataSummary._instance.wproCount.Keys)
+        {
+            protectCount[0] +=CurNodeDataSummary._instance.wproCount[VARIABLE];
+        }
+        foreach (var VARIABLE in CurNodeDataSummary._instance.iproCount.Keys)
+        {
+            protectCount[1] += CurNodeDataSummary._instance.iproCount[VARIABLE];
+        }
+        foreach (var VARIABLE in CurNodeDataSummary._instance.eproCount.Keys)
+        {
+            protectCount[2] += CurNodeDataSummary._instance.eproCount[VARIABLE];
+        }
+        weaponTotalBlood = CurNodeDataSummary._instance.GetMainMaxWeaponLevelBlood(CurNodeDataSummary._instance.woodCount, CurNodeDataSummary._instance.ironCount, CurNodeDataSummary._instance.elecCount);
+        Debug.Log("for debuff and protect slider: weaponTotalBlood: "+weaponTotalBlood[0]+", "+weaponTotalBlood[1]+", "+weaponTotalBlood[2] +"in exhibit");
+        float[] debuffPresentage = new float[3];
+        for (int i = 0; i < 3; i++)
+        {
+            if (weaponTotalBlood[i] != 0)
+            {
+                debuffPresentage[i] = (float)_debufflist[i] / (float)weaponTotalBlood[i];
+            }
+            else
+            {
+                debuffPresentage[i] = 1;
+            } 
+        }
+        weaponTotalProtect =  CurNodeDataSummary._instance.GetMainProtectBlood(CurNodeDataSummary._instance.wproCount, CurNodeDataSummary._instance.iproCount, CurNodeDataSummary._instance.eproCount);
+        Debug.Log("for debuff and protect slider: weaponTotalProtect: "+weaponTotalProtect[0]+", "+weaponTotalProtect[1]+", "+weaponTotalProtect[2]+"in exhibit");
+        
+        debuffWood.maxValue = 1;
+        debuffIron.maxValue = 1;
+        debuffElec.maxValue = 1;
+        
+        debuffWood.minValue = debuffIron.minValue = debuffElec.minValue = 0;
+        proWood.minValue = proIron.minValue = proElec.minValue = 0;
+        proWood.value = proIron.value = proElec.value =debuffWood.value = debuffIron.value = debuffElec.value = 0;
+        proWood.maxValue = 1;
+        proIron.maxValue = 1;
+        proElec.maxValue = 1;
+        _doWithSlides(0, debuffWood, proWood);
+        _doWithSlides(1,debuffIron,proIron);
+        _doWithSlides(2,debuffElec,proElec);
+        
+    }
 
     private void _doWithSlides(int index, Slider debufSlider, Slider protectSlider)
     {
@@ -133,9 +165,8 @@ public class ViewingDebuffProtect : MonoBehaviour
             //print(CurNodeDataSummary._instance.debuffListData[index] );
             if (_debufflist[index] != 0) //wood???????debuff
             {
-                print("weapon type"+index+": "+((float)(weaponTotalProtect[index] /(float) _debufflist[index])));
-                CurNodeDataSummary._instance.protecListData[index] =
-                    Mathf.Round(((float)weaponTotalProtect[index] /(float) _debufflist[index]) * 100) / 100;
+                print("for debuff and protect slider: weapon type"+index+", the Protect/Debuff is: "+((float)(weaponTotalProtect[index] /(float) _debufflist[index])));
+                CurNodeDataSummary._instance.protecListData[index] = Mathf.Round(((float)weaponTotalProtect[index] /(float) _debufflist[index]) * 100) / 100;
                 StartCoroutine(FillProgressBar(debufSlider,temp,index));
             }
             else //wood????????debuff
@@ -196,7 +227,7 @@ public class ViewingDebuffProtect : MonoBehaviour
         //print(slider.gameObject.transform.name+" target value is: "+targetValue);
         while (slider.value < targetValue)
         {
-            //print(slider.value);
+            print("for debuff and protect slider: for weapon "+index+" the debuff slider increasing: "+slider.value);
             //print(slider.gameObject.transform.name+" value is: "+slider.value);
             slider.value += fillSpeedDebuff * Time.deltaTime; // ????Slider???
             
@@ -214,6 +245,8 @@ public class ViewingDebuffProtect : MonoBehaviour
         }
         else if (index == 2)
         {
+            print("for debuff and protect slider, the curSummary data is: "+CurNodeDataSummary._instance.protecListData[3]);
+            print("for debuff and protect slider: "+Mathf.Round((float)weaponTotalProtect[2] /(float) _debufflist[2]* 100) / 100);
             StartCoroutine(FillProgressBar2(proElec,Mathf.Round((float)weaponTotalProtect[2] /(float) _debufflist[2]* 100) / 100));
         }
         
@@ -226,7 +259,7 @@ public class ViewingDebuffProtect : MonoBehaviour
         {
             targetValue = slider.maxValue;
         }
-        //print(slider.gameObject.transform.name+" target value is: "+targetValue);
+        print("for debuff and protect slider: "+ slider.gameObject.transform.name+" target value is: "+targetValue);
         while (slider.value < targetValue)
         {
             //print(slider.value);

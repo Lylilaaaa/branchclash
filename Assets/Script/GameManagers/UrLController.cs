@@ -55,10 +55,10 @@ public class UrLController : MonoBehaviour
 
     public void ChangeServeDataSet(string chainNet)
     {
-        if (chainNet == "Sepolia")
-        {
-            chainNet = "Polygon";
-        }
+        // if (chainNet == "Sepolia")
+        // {
+        //     chainNet = "Polygon";
+        // }
         url_checkAll = "8.219.216.37/" + chainNet + "/checkAll.php";
         url_insert = "8.219.216.37/" + chainNet + "/insert.php";
         url_search ="8.219.216.37/" + chainNet + "/search.php";
@@ -74,7 +74,7 @@ public class UrLController : MonoBehaviour
     private void Start()
     {
         //default
-        thisNetWorkChain = "opBNB";
+        thisNetWorkChain = "Sepolia";
         url_checkAll = "8.219.216.37/" + thisNetWorkChain + "/checkAll.php";
         url_insert = "8.219.216.37/" + thisNetWorkChain + "/insert.php";
         url_search ="8.219.216.37/" + thisNetWorkChain + "/search.php";

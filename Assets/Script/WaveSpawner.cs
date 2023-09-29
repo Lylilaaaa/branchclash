@@ -37,7 +37,7 @@ public class WaveSpawner : MonoBehaviour
         start = false;
         hasEnamy = false;
         hasSpawn = 0;
-        level = CurNodeDataSummary._instance.thisNodeData.nodeLayer;
+        level = CurNodeDataSummary._instance.thisNodeData.nodeLayer+1;
     }
 
     private void Update()

@@ -21,7 +21,7 @@ public class EnemyData : MonoBehaviour
     {
         //healthBar = transform.GetChild(0).GetChild(0).GetComponent<Slider>();
         //print(transform.GetChild(0).GetChild(0));
-        totalHealth = CurNodeDataSummary._instance.GetMonsterBlood(CurNodeDataSummary._instance.thisNodeData.nodeLayer);
+        totalHealth = CurNodeDataSummary._instance.GetMonsterBlood(CurNodeDataSummary._instance.thisNodeData.nodeLayer+1);
         healthBar.maxValue = totalHealth;
         MonsterHealth = healthBar.maxValue = totalHealth;
         isBody = false;

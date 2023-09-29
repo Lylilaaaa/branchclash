@@ -47,7 +47,7 @@ public class TreeNodeDataInit : MonoBehaviour
 
             foreach (NodeData _nodeData in previousNodeData)
             {
-                GlobalVar._instance.t.text += "\n In treeNodeDataInit, treeData.nodeDictionary is: "+_nodeData.nodeLayer.ToString() + ',' + _nodeData.nodeIndex.ToString();
+                print("\n In treeNodeDataInit, treeData.nodeDictionary is: "+_nodeData.nodeLayer.ToString() + ',' + _nodeData.nodeIndex.ToString());
                 if (!treeData.nodeDictionary.ContainsKey(_nodeData.nodeLayer.ToString() + ',' +
                                                          _nodeData.nodeIndex.ToString()))
                 {

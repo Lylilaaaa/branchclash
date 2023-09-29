@@ -27,19 +27,20 @@ public class Turret : MonoBehaviour
     [Header("========ReadData========")] 
     public GameplayCurSorOutline gpCurSorOutline;
     public bool dataInit;
-    public float totalAttack;
 
     private string _weaponType;
     private int _weaponGrade;
     private float _range;
     private float _attack;
     private float _bulletPerSecond;
+    private float maxTotalAttack;
+    private float recordTotalAttack;
     
     
     
     void Start()
     {
-        totalAttack = 0f;
+        recordTotalAttack = 0f;
         dataInit = false;
         targetList = new List<Transform>();
         gpCurSorOutline = transform.GetComponent<GameplayCurSorOutline>();
@@ -102,15 +103,18 @@ public class Turret : MonoBehaviour
                     CurNodeDataSummary._instance.CheckAttackSpeedRangeFloat(_weaponType, _weaponGrade);
                 if (_weaponType == "wood")
                 {
-                    bulletAttack =  CurNodeDataSummary._instance.CheckAttackAfterDebuff(_weaponType,_checkDebuff(0),(int)_weaponGrade,(float)_bulletPerSecond);
+                    (bulletAttack,maxTotalAttack) =  CurNodeDataSummary._instance.CheckAttackAfterDebuff(_weaponType,_checkDebuff(0),(int)_weaponGrade,(float)_bulletPerSecond,transform);
+                    print("the bullet attack of wood is: "+bulletAttack);
                 }
                 else if (_weaponType == "iron")
                 {
-                    bulletAttack =  CurNodeDataSummary._instance.CheckAttackAfterDebuff(_weaponType,_checkDebuff(1),(int)_weaponGrade,(float)_bulletPerSecond);
+                    (bulletAttack,maxTotalAttack) =  CurNodeDataSummary._instance.CheckAttackAfterDebuff(_weaponType,_checkDebuff(1),(int)_weaponGrade,(float)_bulletPerSecond,transform);
+                    print("the bullet attack of iron is: "+bulletAttack);
                 }
                 else if (_weaponType == "elec")
                 {
-                    bulletAttack =  CurNodeDataSummary._instance.CheckAttackAfterDebuff(_weaponType,_checkDebuff(2),(int)_weaponGrade,(float)_bulletPerSecond);
+                    (bulletAttack,maxTotalAttack) =  CurNodeDataSummary._instance.CheckAttackAfterDebuff(_weaponType,_checkDebuff(2),(int)_weaponGrade,(float)_bulletPerSecond,transform);
+                    print("the bullet attack of elec is: "+bulletAttack);
                 }
                 shootingRate = _bulletPerSecond;
             }
@@ -234,19 +238,32 @@ public class Turret : MonoBehaviour
 
     private void shoot()
     {
+        //600+150=750
+        //monster = 5*(70*3)=1050
+        // foreach (Transform fpt in firePoint)
+        // {
         SoundManager._instance.PlayEffectSound(effectSound);
-        Debug.Log(_weaponType.ToString() +_weaponGrade.ToString() +" SHOOT!"+bulletAttack.ToString());
-        foreach (Transform fpt in firePoint)
+        
+        GameObject BulletGo = (GameObject)Instantiate(bulletPrefab, firePoint[0].position, firePoint[0].rotation);
+        Bullet bullet = BulletGo.GetComponent<Bullet>();
+        if (bullet != null)
         {
-            GameObject BulletGo = (GameObject)Instantiate(bulletPrefab, fpt.position, fpt.rotation);
-            Bullet bullet = BulletGo.GetComponent<Bullet>();
-            if (bullet != null)
+            recordTotalAttack += bulletAttack;
+            //print("current attack blood of "+_weaponType+ " is: "+recordTotalAttack);
+            if (recordTotalAttack >= maxTotalAttack)
+            {
+                //print("this weapon exceed the max Attack on Contract!!!");
+                recordTotalAttack -= bulletAttack;
+                bullet.attackData = 0;
+            }
+            else
             {
                 bullet.attackData = bulletAttack;
-                bullet.seek(target);
-                totalAttack += bullet.attackData;
             }
+            Debug.Log(_weaponType.ToString() +_weaponGrade.ToString() +" SHOOT!"+bullet.attackData.ToString());
+            bullet.seek(target);
         }
+        // }
     }
     // private void OnDrawGizmosSelected()
     // {

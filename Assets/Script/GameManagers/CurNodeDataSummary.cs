@@ -117,7 +117,7 @@ public class CurNodeDataSummary : MonoBehaviour
                 (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) = _checkTypeIndex(_mapStruct);
             }
         }
-
+        //print("WARNING THE IPROCOUNT IS: "+CurNodeDataSummary._instance.iproCount[1]);
         //ENTER GAMEPLAY!!
         if (GlobalVar._instance.thisUserAddr != null)
         {
@@ -202,21 +202,24 @@ public class CurNodeDataSummary : MonoBehaviour
         {
             foreach (int grade in _wproCount.Keys)
             {
-                weaponTotalProtect[0] += _wproCount[grade]* _gradeToProtect(grade)*GlobalVar._instance.ProWood.baseProtect/2;
+                print("wpro grade: "+grade+" wpro num: "+_wproCount[grade]);
+                weaponTotalProtect[0] += _wproCount[grade]* _gradeToProtect(grade)*GlobalVar._instance.ProWood.baseProtect;
             }
         }
         if (_iproCount != null)
         {
             foreach (int grade in _iproCount.Keys)
             {
-                weaponTotalProtect[1] += _iproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProIron.baseProtect/2;
+                print("ipro grade: "+grade+" ipro num: "+_iproCount[grade]);
+                weaponTotalProtect[1] += _iproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProIron.baseProtect;
             }
         }
         if (_eproCount != null)
         {
             foreach (int grade in _eproCount.Keys)
             {
-                weaponTotalProtect[2] += _eproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProElec.baseProtect/2;
+                print("epro grade: "+grade+" epro num: "+_eproCount[grade]);
+                weaponTotalProtect[2] += _eproCount[grade] * _gradeToProtect(grade)*GlobalVar._instance.ProElec.baseProtect;
             }
         }
         return weaponTotalProtect;
@@ -292,6 +295,7 @@ public class CurNodeDataSummary : MonoBehaviour
     
     public (Dictionary<int, int>,Dictionary<int, int>,Dictionary<int, int>,Dictionary<int, int>,Dictionary<int, int>,Dictionary<int, int>) _checkTypeIndex(string[][] mapStruct)
     {
+        print("counting now!");
         Dictionary<int, int> _woodCount = new Dictionary<int, int>();
         Dictionary<int, int>_ironCount= new Dictionary<int, int>();
         Dictionary<int, int> _elecCount = new Dictionary<int, int>();
@@ -352,6 +356,7 @@ public class CurNodeDataSummary : MonoBehaviour
                         {
                             _wproCount[towerGrade] += 1;
                         }
+                        print("WARNING THE IPROCOUNT IS: "+CurNodeDataSummary._instance.iproCount[1]);
                     }
                     else if (mapType == "ipro")
                     {
@@ -508,22 +513,79 @@ public class CurNodeDataSummary : MonoBehaviour
         return initDps;
     }
 
-    public float CheckAttackAfterDebuff(string weaponType, int weaponDebuff, int weaponGrade,float weaponBulletNumPerSec)
+    public int[] _gamePlayGetRowCol(Transform turrentPos)
+    {
+        string rowColString = turrentPos.parent.name;
+        string rowString = rowColString.Substring(0, 1);
+        string colString = rowColString.Substring(1, 2);
+        int row, col = 0;
+        if (colString.Substring(0, 1) == "0")
+        {
+            col = int.Parse(colString.Substring(1, 1));
+        }
+        else
+        {
+            col = int.Parse(colString);
+        }
+
+        row = int.Parse(rowString);
+       print("the row for this turret is: "+row);
+       print("the col for this turret is: "+col);
+        return new[] { row, col };
+    }
+
+    public (int, int, int) ReCheckProtectData()
+    {
+        protectList = GetMainProtectBlood(wproCount, iproCount, eproCount);
+        print("just before game start, the protect list is: "+protectList[0]+" , "+protectList[1]+" , "+protectList[2]);
+        return (protectList[0],protectList[1],protectList[2]);
+    }
+
+    public (float,float) CheckAttackAfterDebuff(string weaponType, int weaponDebuff, int weaponGrade,float weaponBulletNumPerSec,Transform turretTransform)
     {
         float idealDps = 0;
+        float idealAttack=0;
+        float attackTime;
+        int[] rowCol = _gamePlayGetRowCol(turretTransform);
+        ReCheckProtectData();
         if (weaponType == "wood")
         {
             idealDps = _calculateDPS(weaponGrade,_woodDpsRate,20);
+            (idealAttack,attackTime) = _checkTotalWeaponAttack(_woodDpsRate, _rangeWood1, rowCol[0], rowCol[1], weaponGrade, 20,
+                weaponDebuff, 0,protectList[0]);
+            print("the real dps of wood is: " + idealDps);
+            print("the real debuff of wood is: " + weaponDebuff);
+            print("the real total attack of wood is: " + idealAttack);
         }
         else if(weaponType == "iron"){
             idealDps = _calculateDPS(weaponGrade,_ironDpsRate,30);
+            (idealAttack,attackTime) = _checkTotalWeaponAttack(_ironDpsRate, _rangeWood1, rowCol[0], rowCol[1], weaponGrade, 30,
+                weaponDebuff, 1,protectList[1]);
+            print("the real dps of iron is: " + idealDps);
+            print("the real debuff of iron is: " + weaponDebuff);
+            print("the real total attack of iron is: " + idealAttack);
         }
         else
         {
             idealDps = _calculateDPS(weaponGrade,_elecDpsRate,40);
+            if (weaponGrade >= 0 && weaponGrade < GlobalVar._instance.elecTowerData.gradeRange2)
+            {
+                (idealAttack,attackTime) = _checkTotalWeaponAttack(_elecDpsRate, _rangeElec1, rowCol[0], rowCol[1], weaponGrade, 40, weaponDebuff, 2,protectList[2]);
+            }
+            else if (weaponGrade >= GlobalVar._instance.elecTowerData.gradeRange2 &&
+                     weaponGrade < GlobalVar._instance.elecTowerData.gradeRange3)
+            {
+                (idealAttack,attackTime) = _checkTotalWeaponAttack(_elecDpsRate, _rangeElec2, rowCol[0], rowCol[1], weaponGrade, 40, weaponDebuff, 2,protectList[2]);
+            }
+            else
+            {
+                (idealAttack,attackTime) = _checkTotalWeaponAttack(_elecDpsRate, _rangeElec3, rowCol[0], rowCol[1], weaponGrade, 40, weaponDebuff, 2,protectList[2]);
+            }
             print("the real dps of elec is: " + idealDps);
             print("the real debuff of elec is: " + weaponDebuff);
+            print("the real total attack of elec is: " + idealAttack);
         }
+        
         float realDps = 0;
         realDps = idealDps - (float)weaponDebuff;
         if (realDps <= 0)
@@ -531,18 +593,21 @@ public class CurNodeDataSummary : MonoBehaviour
             realDps = 0;
         }
 
-        return (realDps) / (weaponBulletNumPerSec);
+        //return (realDps) / (weaponBulletNumPerSec);
+        return ((idealAttack / attackTime / weaponBulletNumPerSec),idealAttack);
     }
 
     public int GetMonsterNum(int layer)
     {
         int monNum = _monBasicNum +  layer;
+        //print("this level one monster num is: "+monNum);
         return monNum;
     }
 
     public int GetMonsterBlood(int layer)
     {
         int monBlood = _monBasicBlood + 70 * layer;
+        //print("this level one monster blood is: "+monBlood);
         return monBlood;
     }
 
@@ -551,11 +616,25 @@ public class CurNodeDataSummary : MonoBehaviour
         return _monInterval;
     }
     
-    public int _checkTotalWeaponAttack(int[] weaponDpsRate,int[] weaponRange,int row,int col,int grade,int initDps,int debuff)
+    public (float,float) _checkTotalWeaponAttack(int[] weaponDpsRate,int[] weaponRange,int row,int col,int grade,int initDps,int debuff,int weaponType,int weaponProtect)
     {
         int posIndex = row * 18 + col;
         int range = weaponRange[posIndex];
+        print("the range of weapon "+weaponType+" is: "+range);
+        print("the protect of weapon "+weaponType+" is: "+weaponProtect);
+        float time = 0;
         int dps = _calculateDPS(grade, weaponDpsRate, initDps);
+        if (weaponProtect >= debuff)
+        {
+            debuff = 0;
+        }
+        else
+        {
+            debuff -= weaponProtect;
+        }
+        
+        
+        
         if (dps >= debuff)
         {
             dps -= debuff;
@@ -564,11 +643,30 @@ public class CurNodeDataSummary : MonoBehaviour
         {
             dps = 0;
         }
-
-        int monNum = GetMonsterBlood(thisNodeData.nodeLayer+1);
-        int monInterval = GetMonsterInterval(thisNodeData.nodeLayer + 1);
-        int attack = dps * (range + (monNum - 1) * monInterval);
-        return attack;
+        print("the DPS after debuff and protect of weaponType "+weaponType+" is: "+dps);
+        
+        int monNum = GetMonsterNum(thisNodeData.nodeLayer+1);
+        int monInterval = GetMonsterInterval(thisNodeData.nodeLayer + 1); //3
+        float attack = 0;
+        if (weaponType == 0)
+        {
+            attack = dps * (range + (monNum - 1) * monInterval);
+            time = (range + (monNum - 1) * monInterval);
+            print("the total distance of wood is: "+ (range + (monNum - 1) * monInterval));//15=3+(3+2-1)*3
+        }
+        else if (weaponType == 1)
+        {
+            attack = dps * 10;
+            time = 53;
+        }
+        if (weaponType == 2)
+        {
+            attack = dps * (range/2 + (monNum - 1) * monInterval);
+            time = (range / 2 + (monNum - 1) * monInterval);
+        }
+        print("the attacking ideal time of weaponType "+weaponType+" is: "+time);
+        print("the total of weaponType "+weaponType+" is: "+attack);
+        return (attack,time); //53 time!!
     }
     public void reduceMoney(int moneyAmount)
     {

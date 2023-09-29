@@ -27,16 +27,21 @@ public class TreeNode : MonoBehaviour
     public Material yellowMat;
     public Material blueMat;
     public Material deadMat;
+    public Material currentMaterial;
     private List<GameObject> _matCore;
     private int generateTime=0;
+    
+    private bool isTransitioning = false;
+    
+    public float transitionDuration = 2.0f;
+    
+    private float transitionTimer = 0.0f;
 
-    // private void Start()
-    // {
-    //     ReStart();
-    // }
+    
 
     public void Start()
     {
+        currentMaterial = deadMat;
         //print("be restart!");
         _matCore = new List<GameObject>();
         if (layer != 0)
@@ -62,8 +67,10 @@ public class TreeNode : MonoBehaviour
         }
         
         FindObjectsWithTag(transform, "blueMat");
+        
         if (isMajor && !isDead)
         {
+            currentMaterial = yellowMat;
             foreach (GameObject child in _matCore)
             {
                 Renderer renderer = child.GetComponent<Renderer>();
@@ -71,11 +78,13 @@ public class TreeNode : MonoBehaviour
                 if (renderer != null && yellowMat != null)
                 {
                     renderer.material = yellowMat;
+                    
                 }
             }
         }
         else if(!isMajor && !isDead)
         {
+            currentMaterial = blueMat;
             foreach (GameObject child in _matCore)
             {
                 Renderer renderer = child.GetComponent<Renderer>();
@@ -88,6 +97,7 @@ public class TreeNode : MonoBehaviour
         }
         else
         {
+            currentMaterial = deadMat;
             foreach (GameObject child in _matCore)
             {
                 Renderer renderer = child.GetComponent<Renderer>();
@@ -109,6 +119,31 @@ public class TreeNode : MonoBehaviour
         {
             //print("destroy"+transform.name);
             Destroy(gameObject);
+        }
+        
+        // for performance!!!!!
+        if (Input.GetKeyDown(KeyCode.P) && (transform.name.Substring(0,1) == "4"||transform.name.Substring(0,1) == "5") && !isTransitioning)
+        {
+            print("is deading!!");
+            isTransitioning = true;
+        }
+        
+        if (isTransitioning)
+        {
+            foreach (GameObject child in _matCore)
+            {
+                Renderer renderer = child.GetComponent<Renderer>();
+                
+                if (renderer != null)
+                {
+                    if (transitionTimer < transitionDuration)
+                    {
+                        float t = Mathf.Clamp01(transitionTimer / transitionDuration);
+                        renderer.material.Lerp(currentMaterial, deadMat, t);
+                    }
+                }
+            }
+            transitionTimer += Time.deltaTime;
         }
     }
 

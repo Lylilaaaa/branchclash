@@ -7353,6 +7353,8 @@ MonoBehaviour:
   yellowMat: {fileID: 2100000, guid: bfe67f10fa2eb69449d7eebf6956dfff, type: 2}
   blueMat: {fileID: 2100000, guid: 9d1979d88a1a60f4ba8d5d6e4e2410d0, type: 2}
   deadMat: {fileID: 2100000, guid: bf3d6281148e19c4cad0e2ca675de9b0, type: 2}
+  currentMaterial: {fileID: 0}
+  transitionDuration: 3
 --- !u!120 &5388763511395387294
 LineRenderer:
   m_ObjectHideFlags: 0

@@ -184,6 +184,7 @@ public class FieldInit : MonoBehaviour
                     deletExcept("wpr"+wproType);    
                     selected = false;
                     towerType = "wpro"+wproType;
+                    
                 }
             }
             else
@@ -206,6 +207,7 @@ public class FieldInit : MonoBehaviour
                     deletExcept("ipr"+iproType);    
                     selected = false;
                     towerType = "ipro"+iproType;
+
                 }
             }
             else
@@ -227,12 +229,12 @@ public class FieldInit : MonoBehaviour
                     fieldSeleted.transform.name = transform.name+"epr"+eproType;
                     deletExcept("epr"+eproType);    
                     selected = false;
-                    towerType = "epro"+eproType;
+                    towerType = "epro"+eproType; 
                 }
             }
             else
             {
-                if (checkExsit("epr") == true )
+                if (checkExsit("epr") == true)
                 {
                     deletType("epr");
                 }

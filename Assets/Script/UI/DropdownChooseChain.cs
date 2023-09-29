@@ -36,22 +36,22 @@ public class DropdownChooseChain : MonoBehaviour
 
     public void ChoseCertainChain(int index)
     {
-        print(index);
+        print("chose netWork: "+index);
         dropD.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = chainName[index];
         if (index == 0)
         {
-            webLogin.ChooseToChangeLine("opBNB");
-            UrLController._instance.ChangeServeDataSet("opBNB");
+            webLogin.ChooseToChangeLine("AltLayer");
+            UrLController._instance.ChangeServeDataSet("Sepolia");
         }
         else if(index == 1)
         {
             webLogin.ChooseToChangeLine("Polygon");
             UrLController._instance.ChangeServeDataSet("Polygon");
         }
-        else if(index == 2)
-        {
-            webLogin.ChooseToChangeLine("Sepolia");
-            UrLController._instance.ChangeServeDataSet("Sepolia");
-        }
+        // else if(index == 2)
+        // {
+        //     webLogin.ChooseToChangeLine("AltLayer");
+        //     UrLController._instance.ChangeServeDataSet("Sepolia");
+        // }
     }
 }

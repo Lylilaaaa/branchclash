@@ -60,7 +60,6 @@ public class ExhibUIButton : MonoBehaviour
     
     public IEnumerator _exitThisNode()
     {
-        GlobalVar._instance.buildOnce = true;
         ContractInteraction._instance.InEdit(GlobalVar._instance.chosenNodeData.nodeLayer.ToString(),GlobalVar._instance.chosenNodeData.nodeIndex.ToString());
         while (!ContractInteraction._instance.finshiInEidt)
         {
