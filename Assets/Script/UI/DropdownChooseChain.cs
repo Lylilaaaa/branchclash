@@ -12,6 +12,7 @@ public class DropdownChooseChain : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        //UrLController._instance.ChangeServeDataSet("Polygon");
         dropD = GetComponent<TMP_Dropdown>();
         arrowRT = transform.GetChild(1).GetComponent<RectTransform>();
         Vector3 rota =  Vector3.zero;

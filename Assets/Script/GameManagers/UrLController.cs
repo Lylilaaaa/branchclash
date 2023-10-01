@@ -90,6 +90,7 @@ public class UrLController : MonoBehaviour
         upTreeResult = "";
         downTreeResult = "";
         t.text = "";
+        
     }
 
     public void initDataDown()

@@ -75,7 +75,7 @@ public class ContractInteraction : MonoBehaviour
         else if (netWorkName == "Polygon")
         {
             address = "0x5eAa378e4A096d0808eFCdeCd233b0010ecF33A1";
-            rpc = "https://polygon-rpc.com/";
+            rpc = "https://polygon.meowrpc.com";
         }        
         else if (netWorkName == "AltLayer")
         {

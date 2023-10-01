@@ -70,7 +70,7 @@ public class WebLogin : MonoBehaviour
             PlayerPrefs.SetString("ChainID", "137");
             PlayerPrefs.SetString("Chain", "polygon");
             PlayerPrefs.SetString("Network", "mainnet");
-            PlayerPrefs.SetString("RPC","https://polygon-rpc.com/");
+            PlayerPrefs.SetString("RPC","https://polygon.meowrpc.com");
             Debug.Log("change to Polygon");
         }
         else if (netWorkName == "AltLayer")
