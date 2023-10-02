@@ -162,15 +162,15 @@ public class TowerBuilder : MonoBehaviour
                 else if (setTowerType == "wpro")
                 {
                     fieldInit.wproType = 1;
-                    if (CurNodeDataSummary._instance.wproCount.ContainsKey(1))
+                    if (CurNodeDataSummary._instance.wproCount_gp.ContainsKey(1))
                     {
-                        CurNodeDataSummary._instance.wproCount[1] += 1;
-                        print("the initial wpro has been added up to "+CurNodeDataSummary._instance.wproCount[1]);
+                        CurNodeDataSummary._instance.wproCount_gp[1] += 1;
+                        print("the initial wpro has been added up to "+CurNodeDataSummary._instance.wproCount_gp[1]);
                     }
                     else
                     {
-                        CurNodeDataSummary._instance.wproCount.Add(1,1);
-                        print("the original new wpro has been set to "+1+": "+CurNodeDataSummary._instance.wproCount[1]);
+                        CurNodeDataSummary._instance.wproCount_gp.Add(1,1);
+                        print("the original new wpro has been set to "+1+": "+CurNodeDataSummary._instance.wproCount_gp[1]);
                     }
                     CurNodeDataSummary._instance.ReCheckProtectData();
                     //ContractInteraction._instance.EditAddTower();
@@ -178,16 +178,16 @@ public class TowerBuilder : MonoBehaviour
                 else if (setTowerType == "ipro")
                 {
                     fieldInit.iproType = 1;
-                    if (CurNodeDataSummary._instance.ironCount.ContainsKey(1))
+                    if (CurNodeDataSummary._instance.iproCount_gp.ContainsKey(1))
                     {
-                        print("the initial ipro is "+CurNodeDataSummary._instance.ironCount[1]);
-                        CurNodeDataSummary._instance.ironCount[1] += 1;
-                        print("the ipro has been added up to "+CurNodeDataSummary._instance.ironCount[1]);
+                        print("the initial ipro is "+CurNodeDataSummary._instance.iproCount_gp[1]);
+                        CurNodeDataSummary._instance.iproCount_gp[1] += 1;
+                        print("the ipro has been added up to "+CurNodeDataSummary._instance.iproCount_gp[1]);
                     }
                     else
                     {
-                        CurNodeDataSummary._instance.ironCount.Add(1,1);
-                        print("the original new ipro has been set to "+1+": "+CurNodeDataSummary._instance.ironCount[1]);
+                        CurNodeDataSummary._instance.iproCount_gp.Add(1,1);
+                        print("the original new ipro has been set to "+1+": "+CurNodeDataSummary._instance.iproCount_gp[1]);
                     }
 
                     CurNodeDataSummary._instance.ReCheckProtectData();
@@ -195,15 +195,15 @@ public class TowerBuilder : MonoBehaviour
                 else if (setTowerType == "epro")
                 {
                     fieldInit.eproType = 1;
-                    if (CurNodeDataSummary._instance.eproCount.ContainsKey(1))
+                    if (CurNodeDataSummary._instance.eproCount_gp.ContainsKey(1))
                     {
-                        CurNodeDataSummary._instance.eproCount[1] += 1;
-                        print("the initial epro has been added up to "+CurNodeDataSummary._instance.eproCount[1]);
+                        CurNodeDataSummary._instance.eproCount_gp[1] += 1;
+                        print("the initial epro has been added up to "+CurNodeDataSummary._instance.eproCount_gp[1]);
                     }
                     else
                     {
-                        CurNodeDataSummary._instance.eproCount.Add(1,1);
-                        print("the original new epro has been set to "+1+": "+CurNodeDataSummary._instance.eproCount[1]);
+                        CurNodeDataSummary._instance.eproCount_gp.Add(1,1);
+                        print("the original new epro has been set to "+1+": "+CurNodeDataSummary._instance.eproCount_gp[1]);
                     }
                     CurNodeDataSummary._instance.ReCheckProtectData();
                 }
@@ -339,17 +339,48 @@ public class TowerBuilder : MonoBehaviour
         {
             print("eleC cannot be merged to!!");
         }
+        
         else if (fi.wproType != 0)
         {
             fi.wproType += 1;
+            if (CurNodeDataSummary._instance.wproCount_gp.ContainsKey(fi.wproType))
+            {
+                CurNodeDataSummary._instance.wproCount_gp[fi.wproType] += 1;
+            }
+            else
+            {
+                CurNodeDataSummary._instance.wproCount_gp.Add(fi.wproType,1);
+            }
+            CurNodeDataSummary._instance.wproCount_gp[fi.wproType-1] -= 1;
+            CurNodeDataSummary._instance.ReCheckProtectData();
         }
         else if (fi.iproType != 0)
         {
             fi.iproType += 1;
+            if (CurNodeDataSummary._instance.iproCount_gp.ContainsKey(fi.iproType))
+            {
+                CurNodeDataSummary._instance.iproCount_gp[fi.iproType] += 1;
+            }
+            else
+            {
+                CurNodeDataSummary._instance.iproCount_gp.Add(fi.iproType,1);
+            }
+            CurNodeDataSummary._instance.iproCount_gp[fi.iproType-1] -= 1;
+            CurNodeDataSummary._instance.ReCheckProtectData();
         }
         else if (fi.eproType != 0)
         {
             fi.eproType += 1;
+            if (CurNodeDataSummary._instance.eproCount_gp.ContainsKey(fi.eproType))
+            {
+                CurNodeDataSummary._instance.eproCount_gp[fi.eproType] += 1;
+            }
+            else
+            {
+                CurNodeDataSummary._instance.eproCount_gp.Add(fi.eproType,1);
+            }
+            CurNodeDataSummary._instance.eproCount_gp[fi.eproType-1] -= 1;
+            CurNodeDataSummary._instance.ReCheckProtectData();
         }
     }
 

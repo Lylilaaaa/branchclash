@@ -160,6 +160,10 @@ public class ViewingDebuffProtect : MonoBehaviour
             // print(_debufflist[index].ToString()+weaponTotalBlood[index].ToString());
             //print(_debufflist[index] / (float)weaponTotalBlood[index]);
             float temp = Mathf.Round(((float)_debufflist[index] / (float)weaponTotalBlood[index])*100)/100;
+            if (temp > 1)
+            {
+                temp = 1;
+            }
             //print(temp);
             CurNodeDataSummary._instance.debuffListData[index] = temp;
             //print(CurNodeDataSummary._instance.debuffListData[index] );
@@ -171,52 +175,17 @@ public class ViewingDebuffProtect : MonoBehaviour
             }
             else //wood????????debuff
             {
-                if (weaponTotalProtect[index] != 0) //wood????????debuff????protect
-                {
-                    Color tempColor = debuffSliderImage[index].color;
-                    tempColor.a = 0;
-                    debufSlider.value = 1;
-                    StartCoroutine(FillProgressBar2(protectSlider,1f));
-                    CurNodeDataSummary._instance.protecListData[index] = 1;
-                }
-                else //wood????????debuff?????protect
-                {
-                    Color tempColor = debuffSliderImage[index].color;
-                    tempColor.a = 1;
-                    debufSlider.value = 0;
-                    protectSlider.value = 0;
-                    CurNodeDataSummary._instance.protecListData[index] = 0;
-                }
+                debufSlider.value = 0;
+                protectSlider.value = 0;
+                CurNodeDataSummary._instance.protecListData[index] = 0;
             }
         }
-        else //????
+        else //weaponTotalBlood[index] == 0
         {
             CurNodeDataSummary._instance.debuffListData[index] = 0;
-            if (_debufflist[index] != 0) //????????debuff
-            {
-                CurNodeDataSummary._instance.debuffListData[index] = 1;
-                StartCoroutine(FillProgressBar(debufSlider,1,index));
-            }
-            else //?????????debuff
-            {
-                if (weaponTotalProtect[index] != 0) //?????????debuff????protect
-                {
-                    Color tempColor = debuffSliderImage[index].color;
-                    tempColor.a = 0;
-                    debufSlider.value = 1;
-                    StartCoroutine(FillProgressBar2(protectSlider,1f));
-                    CurNodeDataSummary._instance.protecListData[index] = 1;
-                }
-                else
-                {
-                    Color tempColor = debuffSliderImage[index].color;
-                    tempColor.a = 1;
-                    debufSlider.value = 0;
-                    protectSlider.value = 0;
-                    CurNodeDataSummary._instance.protecListData[index] = 0;
-                }
-            }
-   
+            CurNodeDataSummary._instance.protecListData[index] = 0;
+            debufSlider.value = 0;
+            protectSlider.value = 0;
         }
     }
 
@@ -224,6 +193,10 @@ public class ViewingDebuffProtect : MonoBehaviour
     IEnumerator FillProgressBar(Slider slider,float targetValue,int index)
     {
         slider.value = 0;
+        if (targetValue > 1)
+        {
+            targetValue = 1;
+        }
         //print(slider.gameObject.transform.name+" target value is: "+targetValue);
         while (slider.value < targetValue)
         {
@@ -234,7 +207,7 @@ public class ViewingDebuffProtect : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
         
-        //Debug.Log("Progress bar filled!");
+        Debug.Log("Progress bar filled!");
         if (index == 0)
         {
             StartCoroutine(FillProgressBar2(proWood,Mathf.Round((float)weaponTotalProtect[0] /(float) _debufflist[0]* 100) / 100));

@@ -40,10 +40,12 @@ public class UIPanalManager : MonoBehaviour
                 //AddPanal.SetActive(false);
                 break;
             case GlobalVar.GameState.ChooseField:
+                GlobalVar._instance.gamePlaySelect = true;
                 AddPanal.SetActive(false);
                 MergePanel.SetActive(false);
                 break;
             case GlobalVar.GameState.AddTowerUI:
+                GlobalVar._instance.gamePlaySelect = false;
                 AddPanal.SetActive(true);
                 MergePanel.SetActive(false);
                 break;

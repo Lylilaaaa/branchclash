@@ -215,6 +215,14 @@ public class StartSceneEventControl : MonoBehaviour
     
     private void OnSkipButtonClick()
     {
+        if (_role == 0)
+        {
+            GlobalVar._instance._loadNextScene("1_0_HomePage");
+        }
+        else if (_role == 1)
+        {
+            GlobalVar._instance._loadNextScene("1_1_SecHomePage");
+        }
         long totalFrames = (long)vp.frameCount;
         long targetFrame = totalFrames - 100;
     

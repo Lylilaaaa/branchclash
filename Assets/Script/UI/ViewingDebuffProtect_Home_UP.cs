@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 
 
-public class ViewingDebuffProtect_Home : MonoBehaviour
+public class ViewingDebuffProtect_Home_UP : MonoBehaviour
 {
     public Slider debuffWood;
     public Slider debuffIron;
@@ -14,16 +14,12 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
     public Slider proWood;
     public Slider proIron;
     public Slider proElec;
-    public CursorOutlinesDown cursorOLDown;
+    public CursorOutlines cursorOL;
     public string[][] _mapStruct;
-    
-    public enum debuffSlidesType
-    {
-        Current,
-        Major
-    }
-    public debuffSlidesType thisSlideType;
-    
+
+    public TextMeshProUGUI[] debuffData;
+    public TextMeshProUGUI[] protectData;
+
 
     public int[] _debufflist;
 
@@ -32,11 +28,11 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
 
     public int[] weaponTotalBlood;
     public int[] weaponTotalProtect;
-
-    public Image[] debuffSliderImage;
-
+    
+    
+    
     public float fillSpeedDebuff = 1f;
-    public float fillSpeedProtect = 1f;   
+    public float fillSpeedProtect = 0.7f;   
     public Dictionary<int,int> woodCount; //grade, count
     public Dictionary<int,int> ironCount;
     public Dictionary<int,int> elecCount;
@@ -51,39 +47,17 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
         _counted = false;
         weaponTotalBlood = new int[3];
         weaponTotalProtect = new int[3];
-
-        //_wood[0].text = _debufflist[0]
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GlobalVar._instance.finalNodePrepared && cursorOLDown.correspondMajorNodeData != null && cursorOLDown.majorDownNodeData!= null)
-        {
-            if (thisSlideType == debuffSlidesType.Current)
-            {
-                _debufflist = cursorOLDown.thisDownNodeData.debuffData;
-            }
-            else
-            {
-                _debufflist = cursorOLDown.majorDownNodeData.debuffData;
-            }
-        }
-
-        if (!cursorOLDown._canDisappear && !_counted && cursorOLDown.correspondMajorNodeData != null && cursorOLDown.majorDownNodeData!= null ) 
+        if (GlobalVar._instance.finalNodePrepared && cursorOL.correspondMajorDownNodeData != null && cursorOL.thisNodeData != null &&  !_counted && !cursorOL._canDisappear)
         {
             _counted = true;
-            if (thisSlideType == debuffSlidesType.Current)
-            {
-                CurNodeDataSummary._instance.curDebuffList = _debufflist; 
-                Debug.Log("Cur curDebuffList is: "+CurNodeDataSummary._instance.curDebuffList[0]+","+CurNodeDataSummary._instance.curDebuffList[1]+","+CurNodeDataSummary._instance.curDebuffList[2]);
-            }
-            else
-            {
-                CurNodeDataSummary._instance.majorDebuffList = _debufflist; 
-                Debug.Log("MajorDebuffList is: "+CurNodeDataSummary._instance.majorDebuffList[0]+","+CurNodeDataSummary._instance.majorDebuffList[1]+","+CurNodeDataSummary._instance.majorDebuffList[2]);
-            }
-            _getMapmapList(cursorOLDown.correspondMajorNodeData.mapStructure);
+            _debufflist = cursorOL.correspondMajorDownNodeData.debuffData;
+            _getMapmapList(cursorOL.thisNodeData.mapStructure);
             (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) =  CurNodeDataSummary._instance._checkTypeIndex(_mapStruct);
             int[] towerCount = new int[3];
             int[] protectCount = new int[3];
@@ -111,9 +85,11 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
             {
                 protectCount[2] += eproCount[VARIABLE];
             }
+            
             weaponTotalBlood = CurNodeDataSummary._instance.GetMainMaxWeaponLevelBlood(woodCount, ironCount, elecCount);
-            Debug.Log("weaponTotalBlood: "+weaponTotalBlood[0]+", "+weaponTotalBlood[1]+", "+weaponTotalBlood[2]);
-
+            
+            Debug.Log("About UP debuff Protect UI: weaponTotalBlood: "+weaponTotalBlood[0]+", "+weaponTotalBlood[1]+", "+weaponTotalBlood[2]);
+    
             float[] debuffPresentage = new float[3];
             for (int i = 0; i < 3; i++)
             {
@@ -126,9 +102,10 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
                     debuffPresentage[i] = 0;
                 } 
             }
-            Debug.Log("debuffPresentage: "+debuffPresentage[0]+", "+debuffPresentage[1]+", "+debuffPresentage[2]);
+            Debug.Log("About UP debuff Protect UI: debuffPresentage: "+debuffPresentage[0]+", "+debuffPresentage[1]+", "+debuffPresentage[2]);
+            
             weaponTotalProtect =  CurNodeDataSummary._instance.GetMainProtectBlood(wproCount, iproCount, eproCount);
-            Debug.Log("weaponTotalProtect: "+weaponTotalProtect[0]+", "+weaponTotalProtect[1]+", "+weaponTotalProtect[2]);
+            Debug.Log("About UP debuff Protect UI: weaponTotalProtect: "+weaponTotalProtect[0]+", "+weaponTotalProtect[1]+", "+weaponTotalProtect[2]);
             debuffWood.maxValue = debuffIron.maxValue=debuffElec.maxValue = proWood.maxValue=proIron.maxValue =proElec.maxValue= 1;
             debuffWood.minValue = debuffIron.minValue = debuffElec.minValue =proWood.minValue = proIron.minValue = proElec.minValue= 0;
             proWood.value = proIron.value = proElec.value =debuffWood.value = debuffIron.value = debuffElec.value = 0;
@@ -211,56 +188,34 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
     {
         if (weaponTotalBlood[index] != 0)
         {
-            float temp = Mathf.Round(((float)_debufflist[index] / (float)weaponTotalBlood[index])*100)/100;
-            if (thisSlideType == debuffSlidesType.Current)
+            float temp = Mathf.Round(((float)_debufflist[index] / (float)weaponTotalBlood[index])*100);
+            if (temp >= 100)
             {
-                CurNodeDataSummary._instance.debuffListData[index] = temp; 
+                temp = 100;
             }
-            else
-            {
-                CurNodeDataSummary._instance.majorDebuffListData[index] = temp; 
-            }
-            
+            debuffData[index].text = "-"+ temp +"%";
+
             if (_debufflist[index] != 0) // weaponTotalBlood[index] != 0, _debufflist[index] != 0
             {
-                if (thisSlideType == debuffSlidesType.Current)
+                float temp_prot = Mathf.Round(((float)weaponTotalProtect[index] / (float)_debufflist[index]) * 100);
+                if (temp_prot >= 100)
                 {
-                    CurNodeDataSummary._instance.protecListData[index] = Mathf.Round(((float)weaponTotalProtect[index] /(float) _debufflist[index]) * 100) / 100;
+                    temp_prot = 100;
                 }
-                else
-                {
-                    CurNodeDataSummary._instance.majorProtecListData[index] = Mathf.Round(((float)weaponTotalProtect[index] /(float) _debufflist[index]) * 100) / 100;
-                }
-                StartCoroutine(FillProgressBar(debufSlider,temp,index));
+                protectData[index].text = "+"+temp_prot +"%";
+                StartCoroutine(FillProgressBar(debufSlider,temp/100,index));
             }
             else // weaponTotalBlood[index] != 0, _debufflist[index] == 0
             {
-                if (thisSlideType == debuffSlidesType.Current)
-                {
-                    CurNodeDataSummary._instance.debuffListData[index] = 0; 
-                    CurNodeDataSummary._instance.protecListData[index] = 0; 
-                }
-                else
-                {
-                    CurNodeDataSummary._instance.majorDebuffListData[index] = 0; 
-                    CurNodeDataSummary._instance.majorProtecListData[index] = 0; 
-                }
+                protectData[index].text = "+0%";
                 debufSlider.value = 0;
                 protectSlider.value = 0;
             }
         }
         else // weaponTotalBlood[index] == 0
         {
-            if (thisSlideType == debuffSlidesType.Current)
-            {
-                CurNodeDataSummary._instance.debuffListData[index] = 0; 
-                CurNodeDataSummary._instance.protecListData[index] = 0; 
-            }
-            else
-            {
-                CurNodeDataSummary._instance.majorDebuffListData[index] = 0; 
-                CurNodeDataSummary._instance.majorProtecListData[index] = 0; 
-            }
+            debuffData[index].text = "-0%";
+            protectData[index].text = "+0%";
             debufSlider.value = 0;
             protectSlider.value = 0;
         }
@@ -283,21 +238,22 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
         //Debug.Log("Progress bar filled!");
         if (index == 0)
         {
-            StartCoroutine(FillProgressBar2(proWood,Mathf.Round((float)weaponTotalProtect[0] /(float) _debufflist[0]* 100) / 100));
+            StartCoroutine(FillProgressBar2(proWood,(float)weaponTotalProtect[0] /(float) _debufflist[0]));
         }
         else if (index == 1)
         {
-            StartCoroutine(FillProgressBar2(proIron,Mathf.Round((float)weaponTotalProtect[1] /(float) _debufflist[1]* 100) / 100));
+            StartCoroutine(FillProgressBar2(proIron,(float)weaponTotalProtect[1] /(float) _debufflist[1]));
         }
         else if (index == 2)
         {
-            StartCoroutine(FillProgressBar2(proElec,Mathf.Round((float)weaponTotalProtect[2] /(float) _debufflist[2]* 100) / 100));
+            StartCoroutine(FillProgressBar2(proElec,(float)weaponTotalProtect[2] /(float) _debufflist[2]));
         }
         
     }
     IEnumerator FillProgressBar2(Slider slider,float targetValue)
     {
         slider.value = 0;
+        print("For Upper tree protect data: "+targetValue);
         
         if (targetValue >= slider.maxValue)
         {
@@ -310,6 +266,4 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
     }
-
-
 }

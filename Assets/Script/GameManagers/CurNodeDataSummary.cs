@@ -27,6 +27,10 @@ public class CurNodeDataSummary : MonoBehaviour
     public Dictionary<int,int> wproCount;
     public Dictionary<int,int> iproCount;
     public Dictionary<int,int> eproCount;
+    
+    public Dictionary<int,int> wproCount_gp;
+    public Dictionary<int,int> iproCount_gp;
+    public Dictionary<int,int> eproCount_gp;
     public List<int> DictionaryCount;
     public int[] debuffList;
     
@@ -127,6 +131,7 @@ public class CurNodeDataSummary : MonoBehaviour
                 {
                     if (!gamePlayInitData)
                     {
+                        
                         _countDicInit();
                         GlobalVar._instance.chosenDownNodeData = GlobalVar._instance._checkDownNodeMain(thisNodeData.nodeLayer + 1);
                         thisDownNodeData = GlobalVar._instance.chosenDownNodeData;
@@ -137,9 +142,13 @@ public class CurNodeDataSummary : MonoBehaviour
                         GlobalVar._instance._getMapmapList();
                         _mapStruct = GlobalVar._instance.mapmapList;
                         (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) = _checkTypeIndex(_mapStruct);
+                        wproCount_gp = wproCount;
+                        iproCount_gp = iproCount;
+                        eproCount_gp = eproCount;
                         weaponBloodList = GetMainMaxWeaponLevelBlood(woodCount,ironCount,elecCount);
                         protectList = GetMainProtectBlood(wproCount,iproCount,eproCount);
                         gamePlayInitData = true;
+                        
                         GetGamPlayNodeInfo();
                     }
                 }
@@ -295,7 +304,7 @@ public class CurNodeDataSummary : MonoBehaviour
     
     public (Dictionary<int, int>,Dictionary<int, int>,Dictionary<int, int>,Dictionary<int, int>,Dictionary<int, int>,Dictionary<int, int>) _checkTypeIndex(string[][] mapStruct)
     {
-        print("counting now!");
+        //print("counting now!");
         Dictionary<int, int> _woodCount = new Dictionary<int, int>();
         Dictionary<int, int>_ironCount= new Dictionary<int, int>();
         Dictionary<int, int> _elecCount = new Dictionary<int, int>();
@@ -536,7 +545,10 @@ public class CurNodeDataSummary : MonoBehaviour
 
     public (int, int, int) ReCheckProtectData()
     {
-        protectList = GetMainProtectBlood(wproCount, iproCount, eproCount);
+        protectList = GetMainProtectBlood(wproCount_gp, iproCount_gp, eproCount_gp);
+        wproCount = wproCount_gp;
+        iproCount = iproCount_gp;
+        eproCount = eproCount_gp;
         print("just before game start, the protect list is: "+protectList[0]+" , "+protectList[1]+" , "+protectList[2]);
         return (protectList[0],protectList[1],protectList[2]);
     }

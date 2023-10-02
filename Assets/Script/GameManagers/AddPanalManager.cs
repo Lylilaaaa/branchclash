@@ -106,6 +106,7 @@ public class AddPanalManager : MonoBehaviour
     {
         if (GlobalVar._instance.GetState() == GlobalVar.GameState.AddTowerUI)
         {
+            //transform.gameObject.SetActive(false);
             GlobalVar._instance.ChangeState("ChooseField");
         }
     }

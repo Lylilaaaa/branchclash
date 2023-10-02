@@ -865,11 +865,13 @@ public class GlobalVar : MonoBehaviour
     {
         nodeDataList = new List<NodeData>();
         downNodeDataList = new List<DownNodeData>();
+        int mark = 0;
         foreach (string _infoString in upStringResults)
         {
             //t.text+="\n"+_infoString;
             string[] nodeInfo = _infoString.Split("-");
             print( "reading nodes result: "+nodeInfo[0]+", "+ nodeInfo[5]+","+nodeInfo[6]+" map: "+nodeInfo[11]);
+            mark += 1;
             NodeData newNodeData = new NodeData();
             newNodeData.ownerAddr = nodeInfo[0];
             newNodeData.setUpTime = nodeInfo[1];
@@ -878,6 +880,7 @@ public class GlobalVar : MonoBehaviour
             newNodeData.childCount = int.Parse(nodeInfo[4]);
             newNodeData.nodeLayer = int.Parse(nodeInfo[5]);
             newNodeData.nodeIndex = int.Parse(nodeInfo[6]);
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = mark/upStringResults.Count;
             if (int.Parse(nodeInfo[7]) == 0)
             {
                 newNodeData.isMajor = false;
@@ -902,6 +905,7 @@ public class GlobalVar : MonoBehaviour
         foreach (string _infoString in downStringResults)
         {
             string[] nodeInfo = _infoString.Split("-");
+            mark += 1;
             DownNodeData newNodeData = new DownNodeData();
             newNodeData.ownerAddr = nodeInfo[0];
             newNodeData.setUpTime = nodeInfo[1];
@@ -910,6 +914,7 @@ public class GlobalVar : MonoBehaviour
             newNodeData.childCount = int.Parse(nodeInfo[4]);
             newNodeData.nodeLayer = int.Parse(nodeInfo[5]);
             newNodeData.nodeIndex = int.Parse(nodeInfo[6]);
+            loadingGameObj.transform.GetChild(1).GetComponent<Slider>().value = mark/upStringResults.Count;
             if (int.Parse(nodeInfo[7]) == 0)
             {
                 newNodeData.isMajor = false;

@@ -16,6 +16,9 @@ public class LevelDownInfoDataViewing : MonoBehaviour
     public TextMeshProUGUI curOwnerInfo;
     public TextMeshProUGUI majorOwnerInfo;
     public Button enterNextSceneButton;
+    public TextMeshProUGUI major_layerTMP;
+    public TextMeshProUGUI major_indexTMP;
+
     
 
     private bool _hasInit;
@@ -54,6 +57,8 @@ public class LevelDownInfoDataViewing : MonoBehaviour
         stringCounted = majorDownNodeData.ownerAddr.Length;
         majorOwnerInfo.text = majorDownNodeData.ownerAddr.Substring(0, 5) + "..." + majorDownNodeData.ownerAddr.Substring(stringCounted - 3, 3);
         //textViewingParent
+        major_layerTMP.text = "Layer: " + majorDownNodeData.nodeLayer;
+        major_indexTMP.text = "Index: " + majorDownNodeData.nodeIndex;
     }
     public void ClosePreViewingNode()
     {
