@@ -6849,8 +6849,8 @@ MonoBehaviour:
   _canDisappear: 1
   cursorZoomIn: 0
   previewLevelInfoPenal: {fileID: 5180049482109627834}
-  cameraPos: {fileID: 1094272001483283593}
   olWithoutMouse: 0
+  cameraPos: {fileID: 1094272001483283593}
 --- !u!1 &4251796401526907058
 GameObject:
   m_ObjectHideFlags: 0

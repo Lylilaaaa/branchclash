@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class BroadCastURL : MonoBehaviour
 {
-    public string NetworkURL;
+    public string TwitterURL;
 
     public string ZeroGasURL;
+    public TextMeshProUGUI zeroGasText; 
 
     public string ConfrimURL;
+    public TextMeshProUGUI confirmText; 
     
     // Start is called before the first frame update
     void Start()
@@ -24,11 +27,11 @@ public class BroadCastURL : MonoBehaviour
 
     public void SetNetWorkURL()
     {
-        if (string.IsNullOrEmpty(NetworkURL))
+        if (string.IsNullOrEmpty(TwitterURL))
         {
             return;
         }
-        Application.OpenURL(NetworkURL);
+        Application.OpenURL(TwitterURL);
     }
 
     public void SetZeroGasURL()
