@@ -28,9 +28,10 @@ public class ViewingDebuffProtect_Home_UP : MonoBehaviour
 
     public int[] weaponTotalBlood;
     public int[] weaponTotalProtect;
-    
-    
-    
+    private float[] _protectCopy;
+
+
+
     public float fillSpeedDebuff = 1f;
     public float fillSpeedProtect = 0.7f;   
     public Dictionary<int,int> woodCount; //grade, count
@@ -47,7 +48,8 @@ public class ViewingDebuffProtect_Home_UP : MonoBehaviour
         _counted = false;
         weaponTotalBlood = new int[3];
         weaponTotalProtect = new int[3];
-        
+        _protectCopy = new float[3];
+
     }
 
     // Update is called once per frame
@@ -57,6 +59,8 @@ public class ViewingDebuffProtect_Home_UP : MonoBehaviour
         {
             _counted = true;
             _debufflist = cursorOL.correspondMajorDownNodeData.debuffData;
+            CurNodeDataSummary._instance.debuffList = _debufflist;
+            print("About UP debuff Protect UI, the _debuffList data is: :" + _debufflist[0] + " , " + _debufflist[1] + " , " + _debufflist[2]);
             _getMapmapList(cursorOL.thisNodeData.mapStructure);
             (woodCount,ironCount,elecCount,wproCount,iproCount,eproCount) =  CurNodeDataSummary._instance._checkTypeIndex(_mapStruct);
             int[] towerCount = new int[3];
@@ -96,6 +100,10 @@ public class ViewingDebuffProtect_Home_UP : MonoBehaviour
                 if (weaponTotalBlood[i] != 0)
                 {
                     debuffPresentage[i] = (float)_debufflist[i] / (float)weaponTotalBlood[i];
+                    if (debuffPresentage[i] >= 1)
+                    {
+                        debuffPresentage[i] = 1;
+                    }
                 }
                 else
                 {
@@ -203,7 +211,8 @@ public class ViewingDebuffProtect_Home_UP : MonoBehaviour
                     temp_prot = 100;
                 }
                 protectData[index].text = "+"+temp_prot +"%";
-                StartCoroutine(FillProgressBar(debufSlider,temp/100,index));
+                _protectCopy[index] = temp_prot;
+                StartCoroutine(FillProgressBar(debufSlider,(float)temp/100,index));
             }
             else // weaponTotalBlood[index] != 0, _debufflist[index] == 0
             {
@@ -225,7 +234,7 @@ public class ViewingDebuffProtect_Home_UP : MonoBehaviour
     IEnumerator FillProgressBar(Slider slider,float targetValue,int index)
     {
         slider.value = 0;
-        //print(slider.gameObject.transform.name+" target value is: "+targetValue);
+        print(slider.gameObject.transform.name+"the debuff sliders (debuff/total blood) target value is: "+targetValue);
         while (slider.value < targetValue)
         {
             //print(slider.value);
@@ -238,15 +247,19 @@ public class ViewingDebuffProtect_Home_UP : MonoBehaviour
         //Debug.Log("Progress bar filled!");
         if (index == 0)
         {
-            StartCoroutine(FillProgressBar2(proWood,(float)weaponTotalProtect[0] /(float) _debufflist[0]));
+            
+            StartCoroutine(FillProgressBar2(proWood,_protectCopy[0]/100));
+            print("hey, the protextCopy0 is: "+_protectCopy[0]);
         }
         else if (index == 1)
         {
-            StartCoroutine(FillProgressBar2(proIron,(float)weaponTotalProtect[1] /(float) _debufflist[1]));
+            StartCoroutine(FillProgressBar2(proIron,_protectCopy[1]/100));
+            print("hey, the protextCopy1 is: "+_protectCopy[1]);
         }
         else if (index == 2)
         {
-            StartCoroutine(FillProgressBar2(proElec,(float)weaponTotalProtect[2] /(float) _debufflist[2]));
+            StartCoroutine(FillProgressBar2(proElec,_protectCopy[2]/100));
+            print("hey, the protextCopy2 is: "+_protectCopy[2]/100);
         }
         
     }
@@ -255,9 +268,9 @@ public class ViewingDebuffProtect_Home_UP : MonoBehaviour
         slider.value = 0;
         print("For Upper tree protect data: "+targetValue);
         
-        if (targetValue >= slider.maxValue)
+        if (targetValue >= 1)
         {
-            targetValue = slider.maxValue;
+            targetValue = 1;
         }
         while (slider.value < targetValue)
         {

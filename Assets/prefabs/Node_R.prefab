@@ -4872,6 +4872,30 @@ MonoBehaviour:
   proIron: {fileID: 4374482887844927123}
   proElec: {fileID: 8007790255301791523}
   cursorOLDown: {fileID: 4023684105339350367}
+  debuffData:
+  - {fileID: 2187487547414591240}
+  - {fileID: 3613596707166804021}
+  - {fileID: 940233439147967218}
+  protectData:
+  - {fileID: 294320999200913764}
+  - {fileID: 6136455946586901699}
+  - {fileID: 6656539982794241652}
+  debuffRealData:
+  - {fileID: 6857713402687680325}
+  - {fileID: 6807274602809853327}
+  - {fileID: 1300515616315947292}
+  M_debuffData:
+  - {fileID: 8076981619228200730}
+  - {fileID: 200659696258922405}
+  - {fileID: 3635975205507752784}
+  M_protectData:
+  - {fileID: 8690869246907582087}
+  - {fileID: 4904877222072514594}
+  - {fileID: 4797711623451478300}
+  M_debuffRealData:
+  - {fileID: 7089520953204338774}
+  - {fileID: 8619799528640047334}
+  - {fileID: 3079548151555804921}
   thisSlideType: 0
   _debufflist: 
   _counted: 0
@@ -10061,6 +10085,30 @@ MonoBehaviour:
   proIron: {fileID: 6990447426079937449}
   proElec: {fileID: 9055106826725627398}
   cursorOLDown: {fileID: 4023684105339350367}
+  debuffData:
+  - {fileID: 2187487547414591240}
+  - {fileID: 3613596707166804021}
+  - {fileID: 940233439147967218}
+  protectData:
+  - {fileID: 294320999200913764}
+  - {fileID: 6136455946586901699}
+  - {fileID: 6656539982794241652}
+  debuffRealData:
+  - {fileID: 6857713402687680325}
+  - {fileID: 6807274602809853327}
+  - {fileID: 1300515616315947292}
+  M_debuffData:
+  - {fileID: 8076981619228200730}
+  - {fileID: 200659696258922405}
+  - {fileID: 3635975205507752784}
+  M_protectData:
+  - {fileID: 8690869246907582087}
+  - {fileID: 4904877222072514594}
+  - {fileID: 4797711623451478300}
+  M_debuffRealData:
+  - {fileID: 7089520953204338774}
+  - {fileID: 8619799528640047334}
+  - {fileID: 3079548151555804921}
   thisSlideType: 1
   _debufflist: 
   _counted: 0

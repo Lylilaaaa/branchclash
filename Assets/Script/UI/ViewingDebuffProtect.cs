@@ -17,6 +17,7 @@ public class ViewingDebuffProtect : MonoBehaviour
     public Slider proElec;
 
     public int[] _debufflist;
+    private float[] _protectCopy;
 
 
     private bool _counted = false;
@@ -46,9 +47,9 @@ public class ViewingDebuffProtect : MonoBehaviour
         Debug.Log("HIIIIIIIIIIIIIIIII debuff is restart!!!!!!!!!!!!!!!!!!!!!!");
         currentProt = previousProt = CurNodeDataSummary._instance.protectList;
         curDebuff = previousDebuff = CurNodeDataSummary._instance.debuffList;
+        _protectCopy = new float[3];
         //_wood[0].text = _debufflist[0]
     }
-
     
     // public void GetChosenNodeInfo()
     // {
@@ -228,9 +229,9 @@ public class ViewingDebuffProtect : MonoBehaviour
     {
         slider.value = 0;
         
-        if (targetValue >= slider.maxValue)
+        if (targetValue >= 1)
         {
-            targetValue = slider.maxValue;
+            targetValue = 1;
         }
         print("for debuff and protect slider: "+ slider.gameObject.transform.name+" target value is: "+targetValue);
         while (slider.value < targetValue)

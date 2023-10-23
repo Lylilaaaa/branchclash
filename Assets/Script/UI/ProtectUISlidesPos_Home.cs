@@ -9,9 +9,9 @@ public class ProtectUISlidesPos_Home : MonoBehaviour
     public int weaponType;
     private Vector3 _debuffStartLocalPos;
     private Vector3 _debuffMidPtLocalPos;
-    private TextMeshProUGUI debuffData_Real;
-    private TextMeshProUGUI debuffData;
-    private TextMeshProUGUI protectData;
+    // private TextMeshProUGUI debuffData_Real;
+    // private TextMeshProUGUI debuffData;
+    // private TextMeshProUGUI protectData;
     public enum debuffSlidesType
     {
         Current,
@@ -21,21 +21,21 @@ public class ProtectUISlidesPos_Home : MonoBehaviour
 
     void Awake()
     {
-        debuffData = transform.parent.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>();
-        protectData = transform.parent.GetChild(3).gameObject.GetComponent<TextMeshProUGUI>();
+        //debuffData = transform.parent.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>();
+        //protectData = transform.parent.GetChild(3).gameObject.GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        debuffData_Real = transform.parent.GetChild(4).GetComponent<TextMeshProUGUI>();
+        //debuffData_Real = transform.parent.GetChild(4).GetComponent<TextMeshProUGUI>();
         if (thisSlideType == debuffSlidesType.Current)
         {
-            debuffData_Real.text = "-("+CurNodeDataSummary._instance.curDebuffList[weaponType].ToString()+")";
+            //debuffData_Real.text = "-("+CurNodeDataSummary._instance.curDebuffList[weaponType].ToString()+")";
         }
         else
         {
-            debuffData_Real.text = "-("+CurNodeDataSummary._instance.majorDebuffList[weaponType].ToString()+")";
+            //debuffData_Real.text = "-("+CurNodeDataSummary._instance.majorDebuffList[weaponType].ToString()+")";
         }
         
         
@@ -71,7 +71,7 @@ public class ProtectUISlidesPos_Home : MonoBehaviour
         {
             tempFloat = 1;
         }
-        debuffData.text = "-"+(tempFloat* 100).ToString() + "%";
+        //debuffData.text = "-"+(tempFloat* 100).ToString() + "%";
         //tempFloat = CurNodeDataSummary._instance.protecListData[weaponType];
         if (thisSlideType == debuffSlidesType.Current)
         {
@@ -85,6 +85,6 @@ public class ProtectUISlidesPos_Home : MonoBehaviour
         {
             tempFloat = 1;
         }
-        protectData.text = "+"+(tempFloat * 100).ToString() + "%";
+        //protectData.text = "+"+(tempFloat * 100).ToString() + "%";
     }
 }

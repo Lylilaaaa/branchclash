@@ -17,9 +17,9 @@ public class SecGamePlayInfoShowing : MonoBehaviour
     public int[] weaponTotalBlood;
     public int[] weaponTotalProtect;
     
-    public Image[] debuffSliderImage;
     public TextMeshProUGUI[] layerMainShowing;
     public TextMeshProUGUI[] protectShowing;
+    public TextMeshProUGUI[] debuffShowing;
     
     public float fillSpeedDebuff = 1f;
     public float fillSpeedProtect = 1f;
@@ -48,11 +48,7 @@ public class SecGamePlayInfoShowing : MonoBehaviour
             hintHint.SetActive(false);
         }
         
-        for(int i = 0;i<3;i++)
-        {
-            TextMeshProUGUI VARIABLE = layerMainShowing[i];
-            VARIABLE.text = (GlobalVar._instance.chosenDownNodeData.nodeLayer+1).ToString() + " layer main\nlevel "+weaponList[i];
-        }
+
     }
 
     // Update is called once per frame
@@ -61,6 +57,12 @@ public class SecGamePlayInfoShowing : MonoBehaviour
         if (dataFilled == false && CurNodeDataSummary._instance.gamePlayInitData)
         {
             Debug.Log("Start move the sliader on sec game play scene!");
+            
+            for(int i = 0;i<3;i++)
+            {
+                layerMainShowing[i].text = (CurNodeDataSummary._instance.thisNodeData.nodeLayer).ToString() + " layer main\nlevel "+weaponList[i];
+            }
+            
             dataFilled = true;
             
             _debufflist = CurNodeDataSummary._instance.debuffList;
@@ -71,6 +73,10 @@ public class SecGamePlayInfoShowing : MonoBehaviour
             protectShowing[0].text = "+" + weaponTotalProtect[0].ToString();
             protectShowing[1].text = "+" + weaponTotalProtect[1].ToString();
             protectShowing[2].text = "+" + weaponTotalProtect[2].ToString();
+
+            debuffShowing[0].text = "-(" + _debufflist[0].ToString()+")";
+            debuffShowing[1].text = "-(" + _debufflist[1].ToString()+")";
+            debuffShowing[2].text = "-(" + _debufflist[2].ToString()+")";
             
             debuffWood.maxValue = 1;
             debuffIron.maxValue = 1;
@@ -98,54 +104,24 @@ public class SecGamePlayInfoShowing : MonoBehaviour
             }
             else //wood有血，没有debuff
             {
-                if (weaponTotalProtect[index] != 0) //wood有血，没有debuff，有protect
-                {
-                    Color tempColor = debuffSliderImage[index].color;
-                    tempColor.a = 0;
-                    debufSlider.value = 1;
-                    StartCoroutine(FillProgressBar2(protectSlider,1f));
-                }
-                else //wood有血，没有debuff，没有protect
-                {
-                    Color tempColor = debuffSliderImage[index].color;
-                    tempColor.a = 1;
-                    debufSlider.value = 0;
-                    protectSlider.value = 0;
-                }
+                debufSlider.value = 0;
+                protectSlider.value = 0;
             }
         }
         else //没有血
         {
-            //CurNodeDataSummary._instance.debuffListData[index] = 0;
-            if (_debufflist[index] != 0) //没有血，有debuff
-            {
-                //CurNodeDataSummary._instance.debuffListData[index] = 1;
-                StartCoroutine(FillProgressBar(debufSlider,1,index));
-            }
-            else //没有血，没有debuff
-            {
-                if (weaponTotalProtect[index] != 0) //没有血，没有debuff，有protect
-                {
-                    Color tempColor = debuffSliderImage[index].color;
-                    tempColor.a = 0;
-                    debufSlider.value = 1;
-                    StartCoroutine(FillProgressBar2(protectSlider,1f));
-                }
-                else
-                {
-                    Color tempColor = debuffSliderImage[index].color;
-                    tempColor.a = 1;
-                    debufSlider.value = 0;
-                    protectSlider.value = 0;
-                }
-            }
-   
+            debufSlider.value = 0;
+            protectSlider.value = 0;
         }
     }
     
     IEnumerator FillProgressBar(Slider slider,float targetValue,int index)
     {
         Debug.Log("slder's target value is: "+targetValue);
+        if (targetValue >= 1)
+        {
+            targetValue = 1;
+        }
         //slider.value = 0;
         //print(slider.gameObject.transform.name+" target value is: "+targetValue);
         while (slider.value < targetValue)
@@ -240,6 +216,10 @@ public class SecGamePlayInfoShowing : MonoBehaviour
             proElec.value = 0;
             _doWithSlides(2,debuffElec,proElec);
         }
+        
+        debuffShowing[0].text = "-(" + _debufflist[0].ToString()+")";
+        debuffShowing[1].text = "-(" + _debufflist[1].ToString()+")";
+        debuffShowing[2].text = "-(" + _debufflist[2].ToString()+")";
         
     }
     public void hintHintFlicker()

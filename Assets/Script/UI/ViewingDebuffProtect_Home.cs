@@ -16,6 +16,15 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
     public Slider proElec;
     public CursorOutlinesDown cursorOLDown;
     public string[][] _mapStruct;
+    public TextMeshProUGUI[] debuffData;
+    public TextMeshProUGUI[] protectData;
+    public TextMeshProUGUI[] debuffRealData;
+    
+    public TextMeshProUGUI[] M_debuffData;
+    public TextMeshProUGUI[] M_protectData;
+    public TextMeshProUGUI[] M_debuffRealData;
+
+    private float[] _protectCopy;
     
     public enum debuffSlidesType
     {
@@ -51,6 +60,7 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
         _counted = false;
         weaponTotalBlood = new int[3];
         weaponTotalProtect = new int[3];
+        _protectCopy = new float[3];
 
         //_wood[0].text = _debufflist[0]
     }
@@ -58,20 +68,29 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GlobalVar._instance.finalNodePrepared && cursorOLDown.correspondMajorNodeData != null && cursorOLDown.majorDownNodeData!= null)
+        if (GlobalVar._instance.finalNodePrepared && cursorOLDown.correspondMajorNodeData != null && cursorOLDown.majorDownNodeData!= null && cursorOLDown.finishSetData)
         {
             if (thisSlideType == debuffSlidesType.Current)
             {
                 _debufflist = cursorOLDown.thisDownNodeData.debuffData;
+                debuffRealData[0].text = "-("+_debufflist[0].ToString()+")";
+                debuffRealData[1].text = "-("+_debufflist[1].ToString()+")";
+                debuffRealData[2].text = "-("+_debufflist[2].ToString()+")";
+                //print("debuff is: " + _debufflist[0] + _debufflist[1] + _debufflist[2] + "!!!!!!!!!!!!!!!");
             }
             else
             {
                 _debufflist = cursorOLDown.majorDownNodeData.debuffData;
+                M_debuffRealData[0].text = "-("+_debufflist[0].ToString()+")";
+                M_debuffRealData[1].text = "-("+_debufflist[1].ToString()+")";
+                M_debuffRealData[2].text = "-("+_debufflist[2].ToString()+")";
+                //print("major debuff is: " + _debufflist[0] + _debufflist[1] + _debufflist[2] + "!!!!!!!!!!!!!!!");
             }
         }
 
         if (!cursorOLDown._canDisappear && !_counted && cursorOLDown.correspondMajorNodeData != null && cursorOLDown.majorDownNodeData!= null ) 
         {
+            print("Corresponding major node is: ("+cursorOLDown.correspondMajorNodeData.nodeLayer+" , "+cursorOLDown.correspondMajorNodeData.nodeIndex+")");
             _counted = true;
             if (thisSlideType == debuffSlidesType.Current)
             {
@@ -120,6 +139,10 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
                 if (weaponTotalBlood[i] != 0)
                 {
                     debuffPresentage[i] = (float)_debufflist[i] / (float)weaponTotalBlood[i];
+                    if (debuffPresentage[i] >= 1)
+                    {
+                        debuffPresentage[i] = 1;
+                    }
                 }
                 else
                 {
@@ -212,12 +235,18 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
         if (weaponTotalBlood[index] != 0)
         {
             float temp = Mathf.Round(((float)_debufflist[index] / (float)weaponTotalBlood[index])*100)/100;
+            if (temp >= 1)
+            {
+                temp = 1;
+            }
             if (thisSlideType == debuffSlidesType.Current)
             {
+                debuffData[index].text = "-" + (temp * 100).ToString()+"%";
                 CurNodeDataSummary._instance.debuffListData[index] = temp; 
             }
             else
             {
+                M_debuffData[index].text = "-" + (temp * 100).ToString()+"%";
                 CurNodeDataSummary._instance.majorDebuffListData[index] = temp; 
             }
             
@@ -225,11 +254,15 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
             {
                 if (thisSlideType == debuffSlidesType.Current)
                 {
+                    _protectCopy[index] = Mathf.Round(((float)weaponTotalProtect[index] / (float)_debufflist[index]) * 100) / 100;
                     CurNodeDataSummary._instance.protecListData[index] = Mathf.Round(((float)weaponTotalProtect[index] /(float) _debufflist[index]) * 100) / 100;
+                    protectData[index].text = "+" + _protectCopy[index] * 100+"%";
                 }
                 else
                 {
+                    _protectCopy[index] = Mathf.Round(((float)weaponTotalProtect[index] / (float)_debufflist[index]) * 100) / 100;
                     CurNodeDataSummary._instance.majorProtecListData[index] = Mathf.Round(((float)weaponTotalProtect[index] /(float) _debufflist[index]) * 100) / 100;
+                    M_protectData[index].text = "+" + _protectCopy[index] * 100+"%";
                 }
                 StartCoroutine(FillProgressBar(debufSlider,temp,index));
             }
@@ -270,7 +303,11 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
     IEnumerator FillProgressBar(Slider slider,float targetValue,int index)
     {
         slider.value = 0;
-        //print(slider.gameObject.transform.name+" target value is: "+targetValue);
+        if (targetValue >= 1)
+        {
+            targetValue = 1;
+        }
+        print(slider.gameObject.transform.name+" target value is: "+targetValue);
         while (slider.value < targetValue)
         {
             //print(slider.value);
@@ -283,15 +320,15 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
         //Debug.Log("Progress bar filled!");
         if (index == 0)
         {
-            StartCoroutine(FillProgressBar2(proWood,Mathf.Round((float)weaponTotalProtect[0] /(float) _debufflist[0]* 100) / 100));
+            StartCoroutine(FillProgressBar2(proWood,_protectCopy[0]));
         }
         else if (index == 1)
         {
-            StartCoroutine(FillProgressBar2(proIron,Mathf.Round((float)weaponTotalProtect[1] /(float) _debufflist[1]* 100) / 100));
+            StartCoroutine(FillProgressBar2(proIron,_protectCopy[1]));
         }
         else if (index == 2)
         {
-            StartCoroutine(FillProgressBar2(proElec,Mathf.Round((float)weaponTotalProtect[2] /(float) _debufflist[2]* 100) / 100));
+            StartCoroutine(FillProgressBar2(proElec,_protectCopy[2]));
         }
         
     }
@@ -299,9 +336,9 @@ public class ViewingDebuffProtect_Home : MonoBehaviour
     {
         slider.value = 0;
         
-        if (targetValue >= slider.maxValue)
+        if (targetValue >= 1)
         {
-            targetValue = slider.maxValue;
+            targetValue = 1;
         }
         while (slider.value < targetValue)
         {

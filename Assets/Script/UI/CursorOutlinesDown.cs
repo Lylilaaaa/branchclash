@@ -11,6 +11,7 @@ public class CursorOutlinesDown : MonoBehaviour
     public DownNodeData thisDownNodeData;
     public DownNodeData majorDownNodeData;
     public NodeData correspondMajorNodeData;
+    public bool finishSetData;
     public bool mouseEnter;
     public bool _canDisappear = true;
     public bool cursorZoomIn=false;
@@ -27,6 +28,7 @@ public class CursorOutlinesDown : MonoBehaviour
         thisDownNodeData = null;
         majorDownNodeData = null;
         correspondMajorNodeData = null;
+        finishSetData = false;
         mouseEnter = false;
         _canDisappear = true;
         previewLevelInfoPenal.transform.GetChild(0).gameObject.SetActive(false);
@@ -72,6 +74,8 @@ public class CursorOutlinesDown : MonoBehaviour
         {
             print("wrong name!!!" + transform.name);
         }
+
+        finishSetData = true;
     }
 
     private void Update()
